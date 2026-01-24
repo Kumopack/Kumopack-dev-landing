@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import { useLanguage } from "@/context/LanguageContext";
 import { useState, useEffect, Suspense } from "react";
+import Image from "next/image";
 
 function LoginSelectionContent() {
     const searchParams = useSearchParams();
@@ -45,7 +46,13 @@ function LoginSelectionContent() {
         <main className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
             <Link href="/" className="absolute top-8 left-8 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl overflow-hidden shadow-soft">
-                    <img src="/logo/logo-icon.png" alt="Logo" className="w-full h-full object-cover" />
+                    <Image
+                        src="/logo/logo-icon.png"
+                        alt="Logo"
+                        width={40}
+                        height={40}
+                        className="w-full h-full object-cover"
+                    />
                 </div>
                 <span className="text-xl font-bold">Kumopack</span>
             </Link>

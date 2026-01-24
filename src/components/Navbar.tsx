@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Package, ChevronDown, BookOpen, Layers, Box, Shield, MessageCircle, Sparkles, GraduationCap } from "lucide-react";
 import { auth } from "@/lib/auth";
@@ -43,11 +44,13 @@ const Navbar = () => {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group shrink-0">
               <div className="h-10 w-auto group-hover:scale-105 transition-transform flex items-center">
-                <img
+                <Image
                   src="/logo/logo-icon.png"
                   alt="Kumopack Logo"
+                  width={40}
+                  height={40}
                   className="h-full w-auto object-contain"
-                  style={{ maxHeight: '100%', maxWidth: 'none' }}
+                  priority
                 />
               </div>
               <span className="text-xl font-bold text-foreground">Kumopack</span>
