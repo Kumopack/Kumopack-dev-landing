@@ -165,10 +165,6 @@ const Navbar = () => {
                 {t('nav.workshop')}
               </a>
 
-              {/* Blog direct link */}
-              <Link href="/blogs" className="px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200">
-                {t('nav.blog')}
-              </Link>
 
               {/* ETC Mega Menu Restored */}
               <div
