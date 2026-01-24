@@ -45,11 +45,11 @@ const Navbar = () => {
             <Link href="/" className="flex items-center gap-3 group shrink-0">
               <div className="h-10 w-auto group-hover:scale-105 transition-transform flex items-center">
                 <Image
-                  src="/logo/logo-icon.png"
-                  alt="Kumopack Logo"
+                  src="/Kumopack-dev-landing/logo/logo-icon.png"
+                  alt="Logo"
                   width={40}
                   height={40}
-                  className="h-full w-auto object-contain"
+                  className="w-full h-full object-cover"
                   priority
                 />
               </div>

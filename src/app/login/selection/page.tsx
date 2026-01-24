@@ -47,7 +47,7 @@ function LoginSelectionContent() {
             <Link href="/" className="absolute top-8 left-8 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl overflow-hidden shadow-soft">
                     <Image
-                        src="/logo/logo-icon.png"
+                        src="/Kumopack-dev-landing/logo/logo-icon.png"
                         alt="Logo"
                         width={40}
                         height={40}
