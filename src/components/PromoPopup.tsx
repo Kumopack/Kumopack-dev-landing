@@ -59,7 +59,7 @@ export const PromoPopup = () => {
 
                         <div className="aspect-video relative overflow-hidden">
                             <SafeImage
-                                src="https://images.unsplash.com/photo-1574182245530-967d9b3831af?auto=format&fit=crop&q=80&w=2070"
+                                src="/asset/promotion-cny.jpg"
                                 alt="Chinese New Year Promo"
                                 className="w-full h-full object-cover"
                             />
