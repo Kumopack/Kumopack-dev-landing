@@ -8,6 +8,7 @@ export interface LearningArticle {
     videoUrl?: string;
     date: string;
     content: string;
+    views: number;
 }
 
 export const learningArticles: LearningArticle[] = [
@@ -20,7 +21,8 @@ export const learningArticles: LearningArticle[] = [
         image: "https://images.unsplash.com/photo-1549463327-f0c39f1c4801?auto=format&fit=crop&q=80&w=2070",
         videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
         date: "Jan 15, 2024",
-        content: "Detailed guide about mailer boxes..."
+        content: "Detailed guide about mailer boxes...",
+        views: 1540
     },
     {
         id: "2",
@@ -31,7 +33,8 @@ export const learningArticles: LearningArticle[] = [
         image: "https://images.unsplash.com/photo-1595113316349-9fa4ee24ef84?auto=format&fit=crop&q=80&w=2070",
         videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
         date: "Jan 20, 2024",
-        content: "Detailed guide about sustainability..."
+        content: "Detailed guide about sustainability...",
+        views: 980
     },
     {
         id: "3",
@@ -41,7 +44,8 @@ export const learningArticles: LearningArticle[] = [
         audience: "supplier",
         image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=2070",
         date: "Jan 12, 2024",
-        content: "Detailed guide for suppliers..."
+        content: "Detailed guide for suppliers...",
+        views: 2100
     },
     {
         id: "4",
@@ -51,6 +55,7 @@ export const learningArticles: LearningArticle[] = [
         audience: "supplier",
         image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=2070",
         date: "Jan 18, 2024",
-        content: "Detailed guide about order management..."
+        content: "Detailed guide about order management...",
+        views: 750
     }
 ];

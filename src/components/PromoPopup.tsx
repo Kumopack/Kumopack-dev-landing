@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Megaphone } from "lucide-react";
+import { X, ExternalLink, Megaphone, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
+import { SafeImage } from "@/components/ui/safe-image";
 
 const POPUP_STORAGE_KEY = "kumopack_promo_closed_at";
 
@@ -57,36 +58,36 @@ export const PromoPopup = () => {
                         </button>
 
                         <div className="aspect-video relative overflow-hidden">
-                            <img
-                                src="https://images.unsplash.com/photo-1572333032329-a11f43ee36fd?auto=format&fit=crop&q=80&w=2070"
-                                alt="Promo"
+                            <SafeImage
+                                src="https://images.unsplash.com/photo-1574182245530-967d9b3831af?auto=format&fit=crop&q=80&w=2070"
+                                alt="Chinese New Year Promo"
                                 className="w-full h-full object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
                         </div>
 
                         <div className="p-10 -mt-20 relative z-10 space-y-6 text-center">
-                            <div className="w-20 h-20 rounded-3xl bg-primary flex items-center justify-center mx-auto shadow-glow">
-                                <Megaphone className="w-10 h-10 text-primary-foreground" />
+                            <div className="w-20 h-20 rounded-3xl bg-red-600 flex items-center justify-center mx-auto shadow-glow shadow-red-500/50">
+                                <Sparkles className="w-10 h-10 text-white" />
                             </div>
                             <div className="space-y-2">
                                 <h3 className="text-3xl font-extrabold tracking-tight">
-                                    {language === 'en' ? "Summer Packaging Sale!" : "โปรโมชั่นแพ็คเกจหน้าร้อน!"}
-                                    <span className="text-primary">{language === 'en' ? "" : " ลดพิเศษ!"}</span>
+                                    {language === 'en' ? "CNY Special Offer!" : "โปรโมชั่นฉลองตรุษจีน!"}
+                                    <span className="text-red-600">{language === 'en' ? " Red Packets" : " แจกอั่งเปา!"}</span>
                                 </h3>
                                 <p className="text-muted-foreground leading-relaxed">
                                     {language === 'en'
-                                        ? "Get up to 20% off on all eco-friendly mailer boxes this week. Exclusive for new partners."
-                                        : "รับส่วนลดสูงสุด 20% สำหรับกล่องพัสดุเป็นมิตรต่อสิ่งแวดล้อมสัปดาห์นี้ เฉพาะพาร์ทเนอร์ใหม่เท่านั้น"
+                                        ? "Register today and get a FREE 200 THB discount coupon. Exclusive for new members only!"
+                                        : "สมัครสมาชิกกับเราภายในวันนี้ รับคูปองส่วนลดฟรี 200 บาท สำหรับสมาชิกใหม่เท่านั้น!"
                                     }
                                 </p>
                             </div>
                             <div className="flex flex-col gap-3">
                                 <Button
                                     onClick={handleAction}
-                                    className="w-full py-8 rounded-2xl text-lg font-bold shadow-soft group"
+                                    className="w-full py-8 rounded-2xl text-lg font-bold shadow-soft group bg-red-600 hover:bg-red-700 text-white border-none"
                                 >
-                                    {language === 'en' ? "Claim Offer Now" : "รับข้อเสนอตอนนี้"}
+                                    {language === 'en' ? "Claim Your 200 THB Now" : "รับส่วนลด 200 บาทตอนนี้"}
                                     <ExternalLink className="ml-2 w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                                 </Button>
                                 <button

@@ -5,6 +5,8 @@ export interface Blog {
     image: string;
     date: string;
     slug: string;
+    category: string;
+    views: number;
 }
 
 export const blogs: Blog[] = [
@@ -14,7 +16,9 @@ export const blogs: Blog[] = [
         description: "Learn how to choose the right materials and finishes for your brand's unique packaging needs.",
         image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=2070",
         date: "Jan 15, 2024",
-        slug: "guide-to-custom-packaging"
+        slug: "guide-to-custom-packaging",
+        category: "Basics",
+        views: 1250
     },
     {
         id: "2",
@@ -22,7 +26,9 @@ export const blogs: Blog[] = [
         description: "Explore the latest sustainable packaging options that are both beautiful and kind to the planet.",
         image: "https://images.unsplash.com/photo-1591336395902-d2fb7706ee2d?auto=format&fit=crop&q=80&w=2070",
         date: "Jan 12, 2024",
-        slug: "eco-friendly-materials-2024"
+        slug: "eco-friendly-materials-2024",
+        category: "Sustainability",
+        views: 890
     },
     {
         id: "3",
@@ -30,6 +36,8 @@ export const blogs: Blog[] = [
         description: "Why the first physical touchpoint matters more than ever for direct-to-consumer brands.",
         image: "https://images.unsplash.com/photo-1512418490979-92798cec1380?auto=format&fit=crop&q=80&w=2070",
         date: "Jan 10, 2024",
-        slug: "unboxing-experiences"
+        slug: "unboxing-experiences",
+        category: "Marketing",
+        views: 2100
     }
 ];

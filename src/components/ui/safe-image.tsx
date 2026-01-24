@@ -12,6 +12,11 @@ export const SafeImage = ({ src, alt, fallbackSrc, className, ...props }: SafeIm
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const basePath = '/Kumopack-dev-landing';
+    const finalSrc = (typeof src === 'string' && src.startsWith('/') && !src.startsWith(basePath))
+        ? `${basePath}${src}`
+        : src;
+
     const defaultFallback = "https://images.unsplash.com/photo-1586769852044-692d6e3703a0?auto=format&fit=crop&q=80&w=1000";
 
     if (error || !src) {
@@ -31,7 +36,7 @@ export const SafeImage = ({ src, alt, fallbackSrc, className, ...props }: SafeIm
                 </div>
             )}
             <img
-                src={src}
+                src={finalSrc as string}
                 alt={alt}
                 className={`w-full h-full object-cover transition-opacity duration-300 ${loading ? 'opacity-0' : 'opacity-1'}`}
                 onLoad={() => setLoading(false)}

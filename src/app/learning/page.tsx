@@ -4,21 +4,25 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Search, ChevronRight, GraduationCap, ShoppingBag, Factory, Calendar, Clock } from "lucide-react";
+import { Search, ChevronRight, GraduationCap, Calendar, Clock, Eye } from "lucide-react";
 import Link from "next/link";
 import { learningArticles } from "@/data/learning";
 import { SafeImage } from "@/components/ui/safe-image";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function LearningPage() {
-    const [audience, setAudience] = useState<"buyer" | "supplier">("buyer");
     const [search, setSearch] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("All");
     const { t } = useLanguage();
 
-    const filteredArticles = learningArticles.filter(a =>
-        a.audience === audience &&
-        (a.title.toLowerCase().includes(search.toLowerCase()) || a.category.toLowerCase().includes(search.toLowerCase()))
-    );
+    const categories = ["All", ...Array.from(new Set(learningArticles.map(a => a.category)))];
+
+    const filteredArticles = learningArticles.filter(a => {
+        const matchesSearch = a.title.toLowerCase().includes(search.toLowerCase()) ||
+            a.category.toLowerCase().includes(search.toLowerCase());
+        const matchesCategory = selectedCategory === "All" || a.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+    });
 
     return (
         <main className="min-h-screen bg-background text-foreground">
@@ -32,25 +36,7 @@ export default function LearningPage() {
                         Learning <span className="text-primary">Center</span>
                     </h1>
 
-                    {/* Audience Toggle */}
-                    <div className="inline-flex p-1 bg-white/50 backdrop-blur-md rounded-2xl border border-border/50 mb-12">
-                        <button
-                            onClick={() => setAudience("buyer")}
-                            className={`flex items-center gap-2 px-6 py-2 rounded-xl transition-all ${audience === "buyer" ? "bg-white shadow-soft text-primary font-bold" : "text-muted-foreground hover:text-foreground"}`}
-                        >
-                            <ShoppingBag className="w-4 h-4" />
-                            For Buyers
-                        </button>
-                        <button
-                            onClick={() => setAudience("supplier")}
-                            className={`flex items-center gap-2 px-6 py-2 rounded-xl transition-all ${audience === "supplier" ? "bg-white shadow-soft text-primary font-bold" : "text-muted-foreground hover:text-foreground"}`}
-                        >
-                            <Factory className="w-4 h-4" />
-                            For Suppliers
-                        </button>
-                    </div>
-
-                    <div className="max-w-2xl mx-auto relative">
+                    <div className="max-w-2xl mx-auto relative mb-12">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
                         <input
                             type="text"
@@ -59,6 +45,19 @@ export default function LearningPage() {
                             onChange={(e) => setSearch(e.target.value)}
                             className="w-full bg-white border border-border/50 rounded-2xl px-12 py-4 shadow-soft focus:ring-2 focus:ring-primary/20 outline-none"
                         />
+                    </div>
+
+                    {/* Category Tabs */}
+                    <div className="flex flex-wrap justify-center gap-2">
+                        {categories.map((cat) => (
+                            <button
+                                key={cat}
+                                onClick={() => setSelectedCategory(cat)}
+                                className={`px-6 py-2 rounded-xl text-sm font-bold transition-all ${selectedCategory === cat ? "bg-primary text-primary-foreground shadow-glow" : "bg-white shadow-soft text-muted-foreground hover:bg-muted"}`}
+                            >
+                                {cat}
+                            </button>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -72,40 +71,43 @@ export default function LearningPage() {
                                 <motion.div
                                     key={article.id}
                                     layout
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.9 }}
-                                    transition={{ delay: idx * 0.1 }}
+                                    transition={{ delay: idx * 0.05 }}
                                     className="group bg-card rounded-[2rem] overflow-hidden border border-border/50 hover:shadow-float transition-all"
                                 >
                                     <div className="aspect-[16/10] relative overflow-hidden">
                                         <SafeImage src={article.image} alt={article.title} className="w-full h-full group-hover:scale-105 transition-transform duration-500" />
                                         <div className="absolute top-4 left-4">
-                                            <span className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm shadow-soft text-xs font-bold text-primary">
-                                                {article.category}
+                                            <span className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm shadow-soft text-[10px] font-bold text-primary">
+                                                {article.category.toUpperCase()}
                                             </span>
                                         </div>
                                     </div>
                                     <div className="p-8">
-                                        <div className="flex items-center gap-4 text-xs text-muted-foreground mb-4">
-                                            <div className="flex items-center gap-1">
-                                                <Calendar className="w-3 h-3" />
+                                        <div className="flex items-center justify-between text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-4">
+                                            <div className="flex items-center gap-2">
+                                                <Calendar className="w-3 h-3 text-primary" />
                                                 {article.date}
                                             </div>
-                                            <div className="flex items-center gap-1">
-                                                <Clock className="w-3 h-3" />
-                                                5 min read
+                                            <div className="flex items-center gap-2">
+                                                <Eye className="w-3 h-3 text-primary" />
+                                                {article.views.toLocaleString()} VIEWS
                                             </div>
                                         </div>
-                                        <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{article.title}</h3>
+                                        <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">{article.title}</h3>
                                         <p className="text-muted-foreground text-sm line-clamp-2 mb-6">{article.description}</p>
-                                        <Link
-                                            href={`/learning/${article.id}`}
-                                            className="text-primary font-bold text-sm flex items-center gap-1 group/link"
-                                        >
-                                            Read More
-                                            <ChevronRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
-                                        </Link>
+                                        <div className="flex items-center justify-between pt-4 border-t border-border/50">
+                                            <Link
+                                                href={`/learning/${article.id}`}
+                                                className="text-primary font-bold text-sm flex items-center gap-1 group/link"
+                                            >
+                                                Read More
+                                                <ChevronRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+                                            </Link>
+                                            <span className="text-[10px] font-bold text-muted-foreground/50">5 MIN READ</span>
+                                        </div>
                                     </div>
                                 </motion.div>
                             ))}
@@ -113,10 +115,10 @@ export default function LearningPage() {
                     </div>
 
                     {filteredArticles.length === 0 && (
-                        <div className="text-center py-24">
-                            <GraduationCap className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
+                        <div className="text-center py-24 bg-muted/20 rounded-[3rem] border border-dashed border-border">
+                            <GraduationCap className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-20" />
                             <h3 className="text-2xl font-bold text-muted-foreground">No resources found</h3>
-                            <p className="text-muted-foreground">Try adjusting your search or switching audiences.</p>
+                            <p className="text-muted-foreground mt-2">Try adjusting your search or filtering keywords.</p>
                         </div>
                     )}
                 </div>

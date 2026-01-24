@@ -89,6 +89,15 @@ const Navbar = () => {
                         <div className="text-xs text-muted-foreground">Compare factory prices</div>
                       </div>
                     </Link>
+                    <Link href="/learning" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-mint/20 transition-colors">
+                      <div className="w-8 h-8 rounded-xl bg-mint/30 flex items-center justify-center">
+                        <GraduationCap className="w-4 h-4 text-mint-foreground" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-foreground">{t('nav.learning')}</div>
+                        <div className="text-xs text-muted-foreground">Guides for buyers</div>
+                      </div>
+                    </Link>
                   </div>
                 )}
               </div>
@@ -123,92 +132,46 @@ const Navbar = () => {
                         <div className="text-xs text-muted-foreground">Manage your listings</div>
                       </div>
                     </Link>
+                    <Link href="/learning" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky/20 transition-colors">
+                      <div className="w-8 h-8 rounded-xl bg-sky/30 flex items-center justify-center">
+                        <GraduationCap className="w-4 h-4 text-sky-foreground" />
+                      </div>
+                      <div>
+                        <div className="font-medium text-foreground">{t('nav.learning')}</div>
+                        <div className="text-xs text-muted-foreground">Guides for suppliers</div>
+                      </div>
+                    </Link>
                   </div>
                 )}
               </div>
 
-              {/* Marketplace with Badge */}
+              {/* Marketplace Hidden by Comment */}
+              {/* 
               <Link href="/products" className="relative flex items-center gap-2 px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-coral/20 transition-all duration-200">
                 <span>{t('nav.marketplace')}</span>
                 <span className="px-2 py-0.5 text-[10px] font-semibold uppercase rounded-full bg-coral text-coral-foreground">
                   New
                 </span>
               </Link>
-
+              */}
 
               {/* Kumo's Workshop */}
-              <Link href="/about-us" className="px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-lavender transition-all duration-200">
+              <a
+                href="https://mockup.kumopack.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-lavender transition-all duration-200"
+              >
                 {t('nav.workshop')}
+              </a>
+
+              {/* Blog direct link */}
+              <Link href="/blogs" className="px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200">
+                {t('nav.blog')}
               </Link>
 
-              {/* ETC Mega Menu */}
-              <div
-                className="relative"
-                onMouseEnter={() => handleMouseEnter('etc')}
-                onMouseLeave={handleMouseLeave}
-              >
-                <button className="flex items-center gap-1 px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200">
-                  <span>{t('nav.etc')}</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'etc' ? 'rotate-180' : ''}`} />
-                </button>
-                {activeDropdown === 'etc' && (
-                  <div className="absolute top-full right-0 mt-2 w-[480px] rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float p-6 animate-fade-in">
-                    <div className="grid grid-cols-2 gap-4">
-                      <ETCCard
-                        icon={BookOpen}
-                        title={t('nav.blog')}
-                        description="Tips, trends, and packaging insights"
-                        color="mint"
-                        href="/blogs"
-                      />
-                      <ETCCard
-                        icon={GraduationCap}
-                        title={t('nav.learning')}
-                        description="Step-by-step guides for everyone"
-                        color="lavender"
-                        href="/learning"
-                      />
-                      <ETCCard
-                        icon={Layers}
-                        title={t('nav.materials')}
-                        description="Kraft paper, Corrugated, and Films"
-                        color="sky"
-                        href="/materials"
-                      />
-                      <ETCCard
-                        icon={Box}
-                        title={t('nav.products')}
-                        description="Deep dive into specifications"
-                        color="coral"
-                        href="/products"
-                      />
-                      <ETCCard
-                        icon={Shield}
-                        title={t('nav.policy')}
-                        description="Terms, shipping, and returns"
-                        color="lavender"
-                        href="/policy"
-                      />
-                      <div className="col-span-2 grid grid-cols-2 gap-4">
-                        <ETCCard
-                          icon={MessageCircle}
-                          title={t('nav.contact')}
-                          description="Get in touch with our team"
-                          color="purple"
-                          href="/contact"
-                        />
-                        <ETCCard
-                          icon={Sparkles}
-                          title={t('nav.events')}
-                          description="Exciting activities and rewards"
-                          color="coral"
-                          href="/events"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
+
+
             </div>
 
             {/* Mobile Menu Button */}

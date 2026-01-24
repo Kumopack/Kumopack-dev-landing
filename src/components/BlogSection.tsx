@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar } from 'lucide-react';
+import { ArrowRight, Calendar, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { blogs, Blog } from '@/data/blogs';
+import { SafeImage } from '@/components/ui/safe-image';
 
 const BlogSection = () => {
     return (
@@ -38,25 +39,31 @@ const BlogSection = () => {
                             className="group flex flex-col bg-card border border-border/50 rounded-3xl overflow-hidden hover:shadow-float transition-all duration-300"
                         >
                             <Link href={`/blogs/${blog.slug}`} className="flex flex-col h-full">
-                                <div className="relative aspect-video overflow-hidden">
-                                    <img
+                                <div className="relative aspect-square overflow-hidden">
+                                    <SafeImage
                                         src={blog.image}
                                         alt={blog.title}
                                         className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                                     />
                                     <div className="absolute top-4 left-4">
-                                        <div className="px-3 py-1 rounded-full bg-background/80 backdrop-blur-sm text-xs font-medium text-primary border border-primary/20">
-                                            Packaging
+                                        <div className="px-3 py-1 rounded-lg bg-white/90 backdrop-blur-sm text-[10px] font-bold text-primary shadow-soft">
+                                            {blog.category.toUpperCase()}
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="p-6 flex flex-col flex-1">
-                                    <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
-                                        <Calendar className="w-3 h-3" />
-                                        {blog.date}
+                                    <div className="flex items-center justify-between text-[10px] font-bold text-muted-foreground mb-3">
+                                        <div className="flex items-center gap-2">
+                                            <Calendar className="w-3 h-3 text-primary" />
+                                            {blog.date}
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <Eye className="w-3 h-3 text-primary" />
+                                            {blog.views}
+                                        </div>
                                     </div>
-                                    <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                                    <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
                                         {blog.title}
                                     </h3>
                                     <p className="text-muted-foreground text-sm line-clamp-3 mb-6">
