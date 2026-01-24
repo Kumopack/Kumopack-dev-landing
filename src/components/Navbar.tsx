@@ -170,8 +170,74 @@ const Navbar = () => {
                 {t('nav.blog')}
               </Link>
 
-
-
+              {/* ETC Mega Menu Restored */}
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter('etc')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button className="flex items-center gap-1 px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200">
+                  <span>{t('nav.etc')}</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeDropdown === 'etc' ? 'rotate-180' : ''}`} />
+                </button>
+                {activeDropdown === 'etc' && (
+                  <div className="absolute top-full right-0 mt-2 w-[480px] rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float p-6 animate-fade-in">
+                    <div className="grid grid-cols-2 gap-4">
+                      <ETCCard
+                        icon={BookOpen}
+                        title={t('nav.blog')}
+                        description="Tips, trends, and packaging insights"
+                        color="mint"
+                        href="/blogs"
+                      />
+                      <ETCCard
+                        icon={GraduationCap}
+                        title={t('nav.learning')}
+                        description="Step-by-step guides for everyone"
+                        color="lavender"
+                        href="/learning"
+                      />
+                      <ETCCard
+                        icon={Layers}
+                        title={t('nav.materials')}
+                        description="Kraft paper, Corrugated, and Films"
+                        color="sky"
+                        href="/materials"
+                      />
+                      <ETCCard
+                        icon={Box}
+                        title={t('nav.products')}
+                        description="Deep dive into specifications"
+                        color="coral"
+                        href="/products"
+                      />
+                      <ETCCard
+                        icon={Shield}
+                        title={t('nav.policy')}
+                        description="Terms, shipping, and returns"
+                        color="lavender"
+                        href="/policy"
+                      />
+                      <div className="col-span-2 grid grid-cols-2 gap-4">
+                        <ETCCard
+                          icon={MessageCircle}
+                          title={t('nav.contact')}
+                          description="Get in touch with our team"
+                          color="purple"
+                          href="/contact"
+                        />
+                        <ETCCard
+                          icon={Sparkles}
+                          title={t('nav.events')}
+                          description="Exciting activities and rewards"
+                          color="coral"
+                          href="/events"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Mobile Menu Button */}
