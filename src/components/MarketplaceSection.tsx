@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Package, Check } from "lucide-react";
-// Image import removed
+import { SafeImage } from "@/components/ui/safe-image";
 
 const benefits = [
   "No minimum orders",
@@ -19,7 +19,7 @@ const MarketplaceSection = () => {
           {/* Left Content - Image */}
           <div className="relative order-2 lg:order-1">
             <div className="relative rounded-3xl overflow-hidden shadow-float">
-              <img
+              <SafeImage
                 src="/asset/marketplace.jpg"
                 alt="Small business owner with Kumopack packaging"
                 className="w-full h-auto object-cover"

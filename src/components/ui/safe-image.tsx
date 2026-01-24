@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { ImageOff } from "lucide-react";
+import { getAssetPath } from "@/lib/utils";
 
 interface SafeImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     fallbackSrc?: string;
@@ -12,10 +13,7 @@ export const SafeImage = ({ src, alt, fallbackSrc, className, ...props }: SafeIm
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const basePath = '/Kumopack-dev-landing';
-    const finalSrc = (typeof src === 'string' && src.startsWith('/') && !src.startsWith(basePath))
-        ? `${basePath}${src}`
-        : src;
+    const finalSrc = getAssetPath(src as string);
 
     const defaultFallback = "https://images.unsplash.com/photo-1586769852044-692d6e3703a0?auto=format&fit=crop&q=80&w=1000";
 

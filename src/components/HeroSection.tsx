@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 import { ArrowRight, Factory, DollarSign, Truck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { getAssetPath } from "@/lib/utils";
 
 const HeroSection = () => {
   const { t } = useLanguage();
@@ -13,7 +14,7 @@ const HeroSection = () => {
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url("/asset/hero-bg.jpg")` }}
+        style={{ backgroundImage: `url("${getAssetPath("/asset/hero-bg.jpg")}")` }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/40 to-background" />
 

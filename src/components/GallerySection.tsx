@@ -1,8 +1,5 @@
 "use client";
-
-// Image import removed
-// Image import removed
-// Image import removed
+import { SafeImage } from "@/components/ui/safe-image";
 
 const galleryItems = [
   {
@@ -49,8 +46,8 @@ const GallerySection = () => {
               className="break-inside-avoid group relative overflow-hidden rounded-3xl bg-card shadow-soft hover:shadow-float transition-all duration-500"
             >
               <div className="aspect-auto">
-                <img
-                  src="/asset/gallery-3.jpg"
+                <SafeImage
+                  src={item.image}
                   alt={item.title}
                   className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700"
                 />

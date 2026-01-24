@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Package, ChevronDown, BookOpen, Layers, Box, Shield, MessageCircle, Sparkles, GraduationCap, Menu, X } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { useLanguage } from "@/context/LanguageContext";
-import { Globe } from "lucide-react";
+import { Globe, Search } from "lucide-react";
+import { getAssetPath } from "@/lib/utils";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -46,7 +47,7 @@ const Navbar = () => {
             <Link href="/" className="flex items-center gap-3 group shrink-0">
               <div className="h-10 w-auto group-hover:scale-105 transition-transform flex items-center">
                 <Image
-                  src="/Kumopack-dev-landing/logo/logo-icon.png"
+                  src={getAssetPath("/logo/logo-icon.png")}
                   alt="Kumopack Logo"
                   width={40}
                   height={40}

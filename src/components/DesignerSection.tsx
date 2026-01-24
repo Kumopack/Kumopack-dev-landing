@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Button } from "@/components/ui/button";
 import { Play, RotateCcw, Move3D } from "lucide-react";
+import { SafeImage } from "@/components/ui/safe-image";
 
 const DesignerSection = () => {
   return (
@@ -66,10 +67,10 @@ const DesignerSection = () => {
 
               {/* Box container */}
               <div className="relative z-10 flex items-center justify-center h-full">
-                <img
+                <SafeImage
                   src="/asset/3d-box.png"
                   alt="3D Box Preview"
-                  className="w-full h-auto max-w-md animate-float drop-shadow-2xl"
+                  className="w-full h-auto max-w-md animate-float drop-shadow-2xl translate-y-0"
                 />
               </div>
 

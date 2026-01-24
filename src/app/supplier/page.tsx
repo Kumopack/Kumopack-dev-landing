@@ -9,15 +9,10 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import SafeImage from "@/components/SafeImage";
 
+import { suppliers, Supplier } from "@/data/suppliers";
+
 export default function SupplierPage() {
     const { dict } = useLanguage();
-
-    const suppliers = [
-        { id: 1, name: "Premium Print Co.", rating: 4.9, location: "Bangkok", specialized: "Luxury Mailers", image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=2070" },
-        { id: 2, name: "EcoBox Industries", rating: 4.8, location: "Samut Prakan", specialized: "Recycled Board", image: "https://images.unsplash.com/photo-1590650516494-0c8e4a4dd67e?auto=format&fit=crop&q=80&w=2071" },
-        { id: 3, name: "Digital Pack Solutions", rating: 4.7, location: "Chonburi", specialized: "Fast Turnaround", image: "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=2074" },
-        { id: 4, name: "Creative Carton Ltd.", rating: 4.9, location: "Bangkok", specialized: "Display Cases", image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=2070" }
-    ];
 
     return (
         <main className="min-h-screen bg-background text-foreground">
