@@ -4,6 +4,11 @@ export interface SupplierFeature {
     icon: string;
 }
 
+export interface ProductCategory {
+    name: string;
+    items: string[];
+}
+
 export interface Supplier {
     id: string;
     name: string;
@@ -19,6 +24,7 @@ export interface Supplier {
     website: string;
     email: string;
     features: SupplierFeature[];
+    categories: ProductCategory[];
     gallery: string[];
     stats: {
         experience: string;
@@ -47,6 +53,11 @@ export const suppliers: Supplier[] = [
             { title: "High-End Offset", description: "8-color printing with specialized UV coating.", icon: "https://cdn-icons-png.flaticon.com/512/2972/2972179.png" },
             { title: "Eco-Friendly Materials", description: "FSC certified paper and soy-based inks.", icon: "https://cdn-icons-png.flaticon.com/512/1598/1598196.png" },
             { title: "Rapid Prototyping", description: "3D structural design and physical samples in 48 hours.", icon: "https://cdn-icons-png.flaticon.com/512/1055/1055666.png" }
+        ],
+        categories: [
+            { name: "Luxury Rigid Boxes", items: ["Magnetic Gift Boxes", "Drawer Boxes", "Shoulder & Neck Boxes"] },
+            { name: "Corrugated Solutions", items: ["E-commerce Mailers", "Subscription Boxes", "Heavy Duty Shippers"] },
+            { name: "Specialty Finishes", items: ["Foil Stamping", "Spot UV", "Soft Touch Lamination", "Embossing"] }
         ],
         gallery: [
             "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=800",
@@ -78,6 +89,10 @@ export const suppliers: Supplier[] = [
         features: [
             { title: "100% Recycled", description: "Made from post-consumer waste materials.", icon: "https://cdn-icons-png.flaticon.com/512/1598/1598196.png" },
             { title: "Carbon Neutral", description: "Production facility powered by renewable energy.", icon: "https://cdn-icons-png.flaticon.com/512/2910/2910317.png" }
+        ],
+        categories: [
+            { name: "Kraft Packaging", items: ["Brown Kraft Boxes", "White Kraft Boxes", "Divider Inserts"] },
+            { name: "Eco Mailers", items: ["Compostable Bags", "Recycled Paper Mailers"] }
         ],
         gallery: [
             "https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&q=80&w=800",
