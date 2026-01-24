@@ -51,7 +51,7 @@ function LoginSelectionContent() {
                         alt="Logo"
                         width={40}
                         height={40}
-                        className="w-full h-full object-cover"
+                        className="w-auto h-full object-contain"
                     />
                 </div>
                 <span className="text-xl font-bold">Kumopack</span>

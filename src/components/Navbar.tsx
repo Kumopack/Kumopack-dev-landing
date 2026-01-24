@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
-import { Package, ChevronDown, BookOpen, Layers, Box, Shield, MessageCircle, Sparkles, GraduationCap } from "lucide-react";
+import { Package, ChevronDown, BookOpen, Layers, Box, Shield, MessageCircle, Sparkles, GraduationCap, Menu, X } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { useLanguage } from "@/context/LanguageContext";
 import { Globe } from "lucide-react";
@@ -15,6 +15,7 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const { t, language, setLanguage } = useLanguage();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -46,10 +47,10 @@ const Navbar = () => {
               <div className="h-10 w-auto group-hover:scale-105 transition-transform flex items-center">
                 <Image
                   src="/Kumopack-dev-landing/logo/logo-icon.png"
-                  alt="Logo"
+                  alt="Kumopack Logo"
                   width={40}
                   height={40}
-                  className="w-full h-full object-cover"
+                  className="h-full w-auto object-contain"
                   priority
                 />
               </div>
@@ -210,8 +211,26 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex items-center gap-3">
+            {/* Mobile Menu Button */}
+            <div className="lg:hidden flex items-center gap-3">
+              <div className="flex p-1 bg-muted/30 rounded-xl">
+                <button
+                  onClick={() => setLanguage(language === 'th' ? 'en' : 'th')}
+                  className="px-3 py-1 text-xs font-bold text-primary"
+                >
+                  {language.toUpperCase()}
+                </button>
+              </div>
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="p-2 rounded-xl bg-muted/30 text-foreground"
+              >
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+
+            {/* CTA Buttons - Desktop */}
+            <div className="hidden lg:flex items-center gap-3">
               {/* Language Switcher */}
               <div className="hidden sm:flex p-1 bg-muted/30 rounded-xl mr-2">
                 <button
@@ -254,6 +273,35 @@ const Navbar = () => {
             </div>
           </div>
         </div>
+
+        {/* Mobile menu overlay */}
+        {isMenuOpen && (
+          <div className="lg:hidden mt-2 p-4 rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float animate-in slide-in-from-top-4 duration-300">
+            <div className="flex flex-col gap-2">
+              <Link href="/products" className="p-4 rounded-2xl hover:bg-muted transition-colors font-medium">
+                {t('nav.products')}
+              </Link>
+              <Link href="/supplier" className="p-4 rounded-2xl hover:bg-muted transition-colors font-medium">
+                {t('nav.forSupplier')}
+              </Link>
+              <Link href="/blogs" className="p-4 rounded-2xl hover:bg-muted transition-colors font-medium">
+                {t('nav.blog')}
+              </Link>
+              <Link href="/learning" className="p-4 rounded-2xl hover:bg-muted transition-colors font-medium">
+                {t('nav.learning')}
+              </Link>
+              <hr className="border-border/50 my-2" />
+              <div className="grid grid-cols-2 gap-3 p-2">
+                <Link href="/login/selection" className="w-full">
+                  <Button variant="ghost" className="w-full rounded-2xl">{t('common.signIn')}</Button>
+                </Link>
+                <Link href="/pricing" className="w-full">
+                  <Button variant="hero" className="w-full rounded-2xl">{t('common.getStarted')}</Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
