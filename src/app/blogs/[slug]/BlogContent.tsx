@@ -146,12 +146,13 @@ export default function BlogContent({ blog }: { blog: Article }) {
 
       <style jsx global>{`
         .blog-content {
-          font-size: 16px;
-          line-height: 1.8;
+          font-size: 1.125rem;
+          line-height: 1.9;
           color: hsl(var(--foreground) / 0.85);
+          letter-spacing: -0.01em;
         }
         .blog-content p {
-          margin-bottom: 1.5rem;
+          margin-bottom: 2rem;
         }
         .blog-content h1,
         .blog-content h2,
@@ -159,38 +160,71 @@ export default function BlogContent({ blog }: { blog: Article }) {
         .blog-content h4,
         .blog-content h5,
         .blog-content h6 {
-          font-weight: 800;
-          line-height: 1.3;
-          margin-bottom: 1.25rem;
-          scroll-margin-top: 100px;
+          font-weight: 900;
+          line-height: 1.2;
+          margin-bottom: 1.5rem;
+          scroll-margin-top: 120px;
+          color: hsl(var(--foreground));
+          letter-spacing: -0.03em;
         }
         .blog-content h1 {
-          font-size: 2.5rem;
+          font-size: 3rem;
         }
         .blog-content h2 {
-          font-size: 1.75rem;
-          margin-top: 3rem;
-          border-left: 4px solid #b15fce;
-          padding-left: 1.25rem;
-          color: hsl(var(--foreground));
+          font-size: 2.25rem;
+          margin-top: 4.5rem;
+          position: relative;
+        }
+        .blog-content h2::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: -0.5rem;
+          width: 3rem;
+          height: 4px;
+          background: hsl(var(--primary));
+          border-radius: 2px;
         }
         .blog-content h3 {
-          font-size: 1.5rem;
-          margin-top: 2.5rem;
-          border-left: 4px solid #db99f2;
-          padding-left: 1.1rem;
-          color: hsl(var(--foreground) / 0.9);
+          font-size: 1.75rem;
+          margin-top: 3.5rem;
         }
 
         .blog-content ul,
         .blog-content ol {
-          margin: 1.5rem 0 1.5rem 2rem;
+          margin: 2rem 0 2rem 1.5rem;
+          padding-left: 1rem;
+        }
+        .blog-content li {
+          margin-bottom: 0.75rem;
         }
         .blog-content ul {
-          list-style-type: disc;
+          list-style-type: none;
+        }
+        .blog-content ul li {
+          position: relative;
+        }
+        .blog-content ul li::before {
+          content: "•";
+          color: hsl(var(--primary));
+          font-weight: bold;
+          display: inline-block;
+          width: 1em;
+          margin-left: -1em;
         }
         .blog-content ol {
           list-style-type: decimal;
+        }
+
+        .blog-content blockquote {
+          margin: 3rem 0;
+          padding: 2rem 2.5rem;
+          border-left: 4px solid hsl(var(--primary));
+          background: hsl(var(--lavender) / 0.3);
+          border-radius: 0 2rem 2rem 0;
+          font-style: italic;
+          font-size: 1.25rem;
+          color: hsl(var(--foreground) / 0.7);
         }
 
         .blog-content .ql-align-center {
@@ -206,24 +240,27 @@ export default function BlogContent({ blog }: { blog: Article }) {
         .blog-content img {
           max-width: 100%;
           height: auto;
-          border-radius: 1.5rem;
-          margin: 2.5rem auto !important;
+          border-radius: 2.5rem;
+          margin: 4rem auto !important;
           display: block;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+          box-shadow: var(--shadow-float);
+          border: 1px solid hsla(var(--border) / 0.5);
         }
 
         @media (max-width: 768px) {
           .blog-content {
-            font-size: 15px;
+            font-size: 1rem;
           }
           .blog-content h1 {
-            font-size: 2rem;
+            font-size: 2.25rem;
           }
           .blog-content h2 {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
+            margin-top: 3.5rem;
           }
           .blog-content h3 {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
+            margin-top: 2.5rem;
           }
         }
 
@@ -241,27 +278,27 @@ export default function BlogContent({ blog }: { blog: Article }) {
           <div className="flex flex-col lg:flex-row gap-8 xl:gap-16">
             {/* LEFT SIDEBAR */}
             <aside className="lg:w-[320px] shrink-0">
-              <div className="lg:sticky lg:top-32 space-y-12">
+              <div className="lg:sticky lg:top-32 space-y-10">
                 <Link
                   href="/blogs"
-                  className="inline-flex items-center gap-3 hover:text-primary transition-all duration-300 font-black text-xs text-muted-foreground/50  group"
+                  className="inline-flex items-center gap-2.5 px-5 py-3 rounded-2xl bg-neutral-100/50 hover:bg-primary/10 hover:text-primary transition-all duration-300 font-bold text-xs text-muted-foreground group border border-transparent hover:border-primary/20"
                 >
                   <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                   {isTh ? "กลับไปที่หน้ารวม" : "Back to Blog"}
                 </Link>
 
                 {anchors.length > 0 && (
-                  <div className="space-y-6">
-                    <h3 className="text-[11px] font-black  text-foreground/30 flex items-center gap-3">
-                      <span className="w-5 h-[2.5px] bg-primary rounded-full" />
-                      {isTh ? "สารบัญข่าว" : "Guide Contents"}
+                  <div className="space-y-5">
+                    <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] flex items-center gap-3 px-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                      {isTh ? "สารบัญ" : "Contents"}
                     </h3>
-                    <nav className="flex flex-col gap-1">
+                    <nav className="flex flex-col gap-1.5">
                       {anchors.map((anchor) => (
                         <a
                           key={anchor.id}
                           href={`#${anchor.id}`}
-                          className="block py-2.5 px-4 rounded-xl text-[13px] font-bold text-foreground/50 hover:text-primary hover:bg-primary/5 transition-all truncate border border-transparent hover:border-primary/10"
+                          className="block py-3 px-5 rounded-2xl text-[13px] font-bold text-foreground/50 hover:text-primary hover:bg-primary/5 transition-all truncate border border-transparent hover:border-primary/10"
                         >
                           {anchor.text}
                         </a>
@@ -270,81 +307,87 @@ export default function BlogContent({ blog }: { blog: Article }) {
                   </div>
                 )}
 
-                <div className="p-8 pb-10 rounded-[2.5rem] bg-neutral-50/80 border border-neutral-200/50 shadow-sm relative overflow-hidden group">
-                  <h5 className="text-[10px] font-black  text-primary mb-5 flex items-center gap-2">
+                <div className="glass-premium p-8 rounded-[2.5rem] relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                    <Sparkles className="w-12 h-12 text-primary" />
+                  </div>
+                  <h5 className="text-[10px] font-black text-primary mb-4 flex items-center gap-2 uppercase tracking-widest">
                     <Sparkles className="w-3.5 h-3.5" />
                     Expert Insight
                   </h5>
-                  <p className="text-[13.5px] font-bold leading-relaxed text-foreground/70 mb-8">
+                  <p className="text-[14px] font-bold leading-relaxed text-foreground/70 mb-8">
                     {isTh
                       ? "ความรู้และเคล็ดลับจากผู้เชี่ยวชาญด้านแพ็คเกจจิ้งของ KUMOPACK"
                       : "Exclusive insights from KUMOPACK packaging experts."}
                   </p>
-                  <div className="flex items-center gap-4 pt-6 border-t border-neutral-200/60">
-                    <div className="w-11 h-11 rounded-2xl bg-primary/10 flex items-center justify-center font-black text-primary text-xs italic shadow-inner">
+                  <div className="flex items-center gap-4 pt-6 border-t border-neutral-200/40">
+                    <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center font-black text-white text-xs italic shadow-glow">
                       KP
                     </div>
                     <div>
-                      <div className="text-[12px] font-black text-foreground">
+                      <div className="text-[14px] font-black text-foreground">
                         KUMOPACK Team
                       </div>
-                      <div className="text-[10px] font-bold text-primary/50 uppercase tracking-widest">
+                      <div className="text-[10px] font-bold text-primary/60 uppercase tracking-widest">
                         Article Writer
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-2 pt-2">
+                <div className="flex gap-3">
                   <button
                     onClick={() => handleShare("facebook")}
-                    className="flex-1 h-12 rounded-2xl bg-neutral-100 hover:bg-primary/10 text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all border border-transparent hover:border-primary/20 text-foreground/60 hover:text-primary"
+                    className="flex-1 h-14 rounded-2xl bg-neutral-100/50 hover:bg-primary/10 text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all border border-transparent hover:border-primary/20 text-foreground/60 hover:text-primary group"
                   >
-                    <Share2 className="w-3.5 h-3.5" /> FB
+                    <Share2 className="w-4 h-4 group-hover:scale-110 transition-transform" />{" "}
+                    FB
                   </button>
                   <button
                     onClick={() => handleShare("line")}
-                    className="flex-1 h-12 rounded-2xl bg-neutral-100 hover:bg-primary/10 text-[10px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all border border-transparent hover:border-primary/20 text-foreground/60 hover:text-primary"
+                    className="flex-1 h-14 rounded-2xl bg-neutral-100/50 hover:bg-primary/10 text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all border border-transparent hover:border-primary/20 text-foreground/60 hover:text-primary group"
                   >
-                    <Sparkles className="w-3.5 h-3.5" /> Line
+                    <Sparkles className="w-4 h-4 group-hover:scale-110 transition-transform" />{" "}
+                    Line
                   </button>
                 </div>
               </div>
             </aside>
 
             {/* RIGHT MAIN CONTENT AREA */}
-            <div className="flex-1">
-              <header className="mb-8" id="post-header">
+            <div className="flex-1 max-w-[840px]">
+              <header className="mb-12" id="post-header">
                 {/* Language Fallback Tag */}
                 {isFallback && (
-                  <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-700 rounded-xl text-[11px] font-black uppercase tracking-widest mb-8 border border-amber-100 animate-pulse">
-                    <AlertCircle className="w-4 h-4" />
+                  <div className="flex items-center gap-3 px-5 py-3 bg-amber-50 text-amber-700 rounded-2xl text-[12px] font-black uppercase tracking-widest mb-10 border border-amber-100/50 animate-pulse">
+                    <AlertCircle className="w-5 h-5" />
                     {isTh
                       ? "ไม่รองรับภาษาที่เลือก จึงแสดงภาษาค่าเริ่มต้น"
                       : "Not supported in selected language, showing default language instead"}
                   </div>
                 )}
 
-                <h1 className="text-3xl md:text-5xl lg:text-[3.25rem] font-black leading-[1.15] tracking-tight text-foreground">
-                  {name}
-                </h1>
-
-                {/* Categories below title */}
-                <div className="flex flex-wrap gap-2 mb-0 mt-4">
+                <div className="flex flex-wrap gap-2 mb-6">
                   {(blog.categories || []).map((cat) => (
                     <Link
                       key={cat.id}
                       href={`/blogs?category=${cat.slug}`}
-                      className="px-6 py-2 rounded-xl text-sm font-bold transition-all bg-muted/50 text-muted-foreground hover:bg-primary hover:text-primary-foreground hover:shadow-glow"
+                      className="px-5 py-1.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all bg-primary/5 text-primary hover:bg-primary hover:text-white hover:shadow-glow"
                     >
                       {isTh ? cat.nameTh : cat.nameEn || cat.nameTh}
                     </Link>
                   ))}
                 </div>
 
-                <div className="flex flex-wrap items-center gap-10 text-[11px] font-black  text-muted-foreground/40 py-8 border-y border-neutral-100/80">
-                  <div className="flex items-center gap-3">
-                    <Calendar className="w-4 h-4 text-primary/40" />
+                <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-black leading-[1.1] tracking-tighter text-foreground mb-10">
+                  {name}
+                </h1>
+
+                <div className="flex flex-wrap items-center gap-8 text-[12px] font-bold text-muted-foreground/60 py-8 border-y border-neutral-100">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center">
+                      <Calendar className="w-4 h-4 text-primary" />
+                    </div>
                     {new Date(blog.publishedDate).toLocaleDateString(
                       isTh ? "th-TH" : "en-US",
                       {
@@ -354,26 +397,39 @@ export default function BlogContent({ blog }: { blog: Article }) {
                       },
                     )}
                   </div>
-                  <div className="flex items-center gap-3">
-                    <Eye className="w-4 h-4 text-primary/40" />
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center">
+                      <Eye className="w-4 h-4 text-primary" />
+                    </div>
                     {blog.totalView.toLocaleString()}{" "}
                     {isTh ? "การเข้าชม" : "Views"}
+                  </div>
+                  <div className="flex items-center gap-2.5 ml-auto">
+                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-green-700 font-black text-[10px] uppercase tracking-widest">
+                      <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse" />
+                      5 Min Read
+                    </div>
                   </div>
                 </div>
               </header>
 
-              <div className="relative w-full h-[420px] md:h-[520px] lg:h-[640px] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden mb-16 shadow-2xl bg-neutral-50 border border-neutral-100/50">
+              <div className="relative w-full aspect-[16/10] md:aspect-[16/9] lg:aspect-[16/10] rounded-[3rem] overflow-hidden mb-20 shadow-float border border-neutral-100/50 group">
                 <SafeImage
                   src={blogApi.getAssetPath(blog.featurePicturePath)}
                   alt={name}
                   fill={true}
-                  className="object-cover"
+                  className="object-cover group-hover:scale-105 transition-transform duration-1000"
                 />
               </div>
 
               {shortDescription && (
-                <div className="mb-14 text-xl md:text-2xl font-medium leading-[1.8] text-foreground/60 italic border-l-4 border-primary/20 pl-8 lg:pl-12">
-                  {shortDescription}
+                <div className="mb-20">
+                  <p className="text-2xl md:text-3xl font-bold leading-relaxed text-foreground/40 italic marker-primary pl-0">
+                    <span className="text-primary text-5xl font-serif mr-2 leading-none">
+                      “
+                    </span>
+                    {shortDescription}
+                  </p>
                 </div>
               )}
 
@@ -422,32 +478,32 @@ export default function BlogContent({ blog }: { blog: Article }) {
         </div>
 
         {/* KEEP LEARNING SECTION */}
-        <section className="mt-32 pt-8 border-t border-neutral-100 bg-neutral-50/30">
-          <div className="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-16 mb-16">
-            <div className="flex flex-col md:flex-row items-end justify-between gap-8">
+        <section className="mt-40 pt-20 border-t border-neutral-100 bg-neutral-50/50">
+          <div className="max-w-[1440px] mx-auto px-4 md:px-10 lg:px-16 mb-20">
+            <div className="flex flex-col md:flex-row items-end justify-between gap-10">
               <div className="space-y-4">
-                <h3 className="text-[12px] font-black  text-primary">
-                  {isTh ? "ยังมีความรู้อื่นๆ" : "Explore More"}
+                <h3 className="text-[13px] font-black text-primary uppercase tracking-[0.3em]">
+                  {isTh ? "ยังมีความรู้อื่นๆ" : "Next for You"}
                 </h3>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-foreground">
+                <h2 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-foreground leading-none">
                   {isTh ? "บทความ" : "Keep"}{" "}
                   <span className="text-primary italic">
-                    {isTh ? "น่าสนใจ" : "Learning"}
+                    {isTh ? "น่าสนใจ" : "Reading"}
                   </span>
                 </h2>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
                 <button
                   onClick={() => scroll("left")}
-                  className="w-14 h-14 rounded-full border border-neutral-200 bg-white shadow-sm flex items-center justify-center hover:bg-neutral-50 hover:border-primary/30 transition-all group"
+                  className="w-16 h-16 rounded-full border border-neutral-200 bg-white shadow-soft flex items-center justify-center hover:bg-primary hover:border-primary hover:text-white transition-all group"
                 >
-                  <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
+                  <ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
                 </button>
                 <button
                   onClick={() => scroll("right")}
-                  className="w-14 h-14 rounded-full border border-neutral-200 bg-white shadow-sm flex items-center justify-center hover:bg-neutral-50 hover:border-primary/30 transition-all group"
+                  className="w-16 h-16 rounded-full border border-neutral-200 bg-white shadow-soft flex items-center justify-center hover:bg-primary hover:border-primary hover:text-white transition-all group"
                 >
-                  <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
+                  <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </div>
@@ -455,7 +511,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
 
           <div
             ref={scrollRef}
-            className="flex gap-10 px-4 md:px-8 lg:px-16 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-20"
+            className="flex gap-10 px-4 md:px-8 lg:px-16 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-32"
           >
             {loadingRelated ? (
               <div className="w-full flex justify-center items-center py-40">
@@ -473,26 +529,26 @@ export default function BlogContent({ blog }: { blog: Article }) {
                   <Link
                     key={article.id}
                     href={`/blogs/${article.slug}`}
-                    className="group block min-w-[320px] md:min-w-[480px] snap-center"
+                    className="group block min-w-[340px] md:min-w-[540px] snap-center"
                   >
-                    <div className="aspect-square rounded-[3.5rem] overflow-hidden border border-neutral-200/60 relative bg-white shadow-sm group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-700">
+                    <div className="aspect-[4/5] rounded-[4rem] overflow-hidden border border-neutral-200/60 relative bg-white shadow-soft group-hover:shadow-glow group-hover:-translate-y-4 transition-all duration-700">
                       <SafeImage
                         src={blogApi.getAssetPath(article.featurePicturePath)}
                         alt={aName}
                         fill={true}
-                        className="object-cover group-hover:scale-110 transition-transform duration-[2000ms]"
+                        className="object-cover group-hover:scale-110 transition-transform duration-[2.5s]"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent p-10 md:p-14 flex flex-col justify-end">
-                        <div className="flex items-center gap-3 mb-5">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-12 md:p-16 flex flex-col justify-end">
+                        <div className="flex items-center gap-3 mb-6">
                           <span className="w-2.5 h-2.5 rounded-full bg-primary" />
-                          <span className="text-[11px] font-black  text-white/50">
-                            {isTh ? "อ่านต่อ" : "Insight"}
+                          <span className="text-[12px] font-black text-white/60 uppercase tracking-widest">
+                            {isTh ? "อ่านต่อ" : "Recommended"}
                           </span>
                         </div>
-                        <h4 className="font-black text-2xl md:text-3xl text-white leading-[1.2] line-clamp-2 mb-6 group-hover:text-primary transition-colors">
+                        <h4 className="font-black text-3xl md:text-4xl text-white leading-[1.1] line-clamp-2 mb-8 group-hover:text-primary transition-colors">
                           {aName}
                         </h4>
-                        <p className="text-[14px] text-white/40 font-medium line-clamp-2 leading-relaxed opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 text-white">
+                        <p className="text-[15px] text-white/50 font-medium line-clamp-2 leading-relaxed opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-6 group-hover:translate-y-0">
                           {aDesc}
                         </p>
                       </div>
