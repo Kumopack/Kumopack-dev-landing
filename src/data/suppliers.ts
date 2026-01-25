@@ -1,12 +1,20 @@
 export interface SupplierFeature {
+    id: string;
     title: string;
     description: string;
     icon: string;
 }
 
 export interface ProductCategory {
+    id: string;
     name: string;
-    items: string[];
+    description?: string;
+    image?: string;
+    items: {
+        id: string;
+        name: string;
+        image: string;
+    }[];
 }
 
 export interface Supplier {
@@ -23,6 +31,7 @@ export interface Supplier {
     description: string;
     website: string;
     email: string;
+    phone?: string;
     features: SupplierFeature[];
     categories: ProductCategory[];
     gallery: string[];
@@ -31,78 +40,145 @@ export interface Supplier {
         capacity: string;
         certifications: string;
         leadTime: string;
+        orderAmount: string;
     };
 }
 
+import { getStoragePath } from "@/lib/utils";
+
+export async function getSupplierData(slug: string): Promise<Supplier | null> {
+    try {
+        const response = await fetch(`https://api.kumopack.com/v1/supplier/${slug}`);
+
+        // Find mock fallback just in case
+        const fallback = suppliers.find(s => s.id === slug);
+
+        if (!response.ok) return fallback || null;
+        const data = await response.json();
+
+        if (!data || Object.keys(data).length === 0) return fallback || null;
+
+        return {
+            id: data.slug || String(data.id) || slug,
+            name: data.displayTitle || data.companyName || fallback?.name || "Unknown Supplier",
+            rating: data.review || fallback?.rating || 5,
+            reviewCount: data.reviewAmount || fallback?.reviewCount || 0,
+            location: data.companyAddress?.split(',').pop()?.trim() || fallback?.location || "Thailand",
+            address: data.companyAddress || fallback?.address || "",
+            specialized: data.supplierProductCategories?.[0]?.productLine?.nameEn || fallback?.specialized || "Packaging",
+            image: getStoragePath(data.companyCard) || fallback?.image || "",
+            logo: getStoragePath(data.companyLogo) || fallback?.logo || "",
+            tagline: data.tagline || fallback?.tagline || "Strength in Every Layer.",
+            description: data.businessDescription || data.cardDescription || fallback?.description || "",
+            website: data.website || fallback?.website || "",
+            email: data.email || fallback?.email || "",
+            phone: data.phone || fallback?.phone || "",
+            features: (data.supplierFeatures || []).length > 0
+                ? data.supplierFeatures.map((f: any) => ({
+                    id: String(f.id),
+                    title: f.taxonomy?.nameEn,
+                    description: f.taxonomy?.nameTh,
+                    icon: getStoragePath(f.taxonomy?.featurePicturePath)
+                }))
+                : (fallback?.features || []),
+            categories: (data.supplierProductCategories || []).length > 0
+                ? data.supplierProductCategories.map((cat: any) => ({
+                    id: String(cat.productLine?.id),
+                    name: cat.productLine?.nameEn,
+                    items: (data.supplierProducts || [])
+                        .filter((p: any) => String(p.categoryId) === String(cat.productLine?.id))
+                        .map((p: any) => ({
+                            id: String(p.product?.id),
+                            name: p.product?.nameEn || p.product?.nameTh,
+                            image: getStoragePath(p.product?.featurePicturePath)
+                        }))
+                })).filter((c: any) => c.items.length > 0)
+                : (fallback?.categories || []),
+            gallery: (data.galleryImages || []).length > 0
+                ? data.galleryImages.map((img: any) => getStoragePath(img.path))
+                : (fallback?.gallery || []),
+            stats: {
+                experience: data.createdAt ? `${new Date().getFullYear() - new Date(data.createdAt).getFullYear()}y` : (fallback?.stats.experience || "1y"),
+                capacity: data.minimumProductionQuantity || fallback?.stats.capacity || "N/A",
+                certifications: (data.supplierCertificates || []).length > 0
+                    ? data.supplierCertificates.map((c: any) => c.taxonomy?.shortName).join(", ")
+                    : (fallback?.stats.certifications || "ISO"),
+                leadTime: data.deliveryDateAmount ? `${data.deliveryDateAmount} days` : (fallback?.stats.leadTime || "7 days"),
+                orderAmount: String(data.orderAmount || fallback?.stats.orderAmount || 0)
+            }
+        };
+    } catch (error) {
+        // Return mock data if API is down
+        return suppliers.find(s => s.id === slug) || null;
+    }
+}
+
+
+export async function getSuppliersList(): Promise<Supplier[]> {
+    try {
+        const response = await fetch('https://api.kumopack.com/v1/supplier?limit=24');
+        if (!response.ok) return suppliers;
+        const data = await response.json();
+
+        if (!data?.data || !Array.isArray(data.data)) return suppliers;
+
+        return data.data.map((s: any) => ({
+            id: String(s.slug || s.id),
+            name: s.displayTitle || s.companyName,
+            rating: Number(s.review || 5),
+            reviewCount: Number(s.reviewAmount || 0),
+            location: s.companyAddress?.split(',').pop()?.trim() || "Thailand",
+            address: s.companyAddress || "",
+            specialized: s.supplierFeatures?.[0]?.taxonomy?.nameEn || "Packaging",
+            image: getStoragePath(s.companyPictureCover),
+            logo: getStoragePath(s.companyLogo),
+            tagline: s.tagline || "",
+            description: s.cardDescription || "",
+            website: s.website || "",
+            email: s.email || "",
+            features: [],
+            categories: [],
+            gallery: [],
+            stats: {
+                experience: "N/A",
+                capacity: "N/A",
+                certifications: "ISO",
+                leadTime: "N/A",
+                orderAmount: String(s.orderAmount || 0)
+            }
+        }));
+    } catch (error) {
+        return suppliers;
+    }
+}
+
+
 export const suppliers: Supplier[] = [
     {
-        id: "1",
-        name: "Premium Print Co.",
-        rating: 4.9,
-        reviewCount: 120,
+        id: "siampackaging",
+        name: "Siam Packaging",
+        rating: 5,
+        reviewCount: 54,
         location: "Bangkok",
-        address: "123 Rama IX Rd, Huai Khwang, Bangkok 10310",
-        specialized: "Luxury Mailers",
-        image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=2070",
-        logo: "https://images.unsplash.com/photo-1572044162444-ad60f128bde2?auto=format&fit=crop&q=80&w=200",
-        tagline: "Leading the way in sustainable luxury packaging.",
-        description: "With over 20 years of experience in high-end offset printing, Premium Print Co. specializes in luxury mailer boxes and specialty finishes for global brands. Our facility is equipped with state-of-the-art 8-color HEIDELBERG machines.",
-        website: "https://premiumprint.com",
-        email: "contact@premiumprint.com",
-        features: [
-            { title: "High-End Offset", description: "8-color printing with specialized UV coating.", icon: "https://cdn-icons-png.flaticon.com/512/2972/2972179.png" },
-            { title: "Eco-Friendly Materials", description: "FSC certified paper and soy-based inks.", icon: "https://cdn-icons-png.flaticon.com/512/1598/1598196.png" },
-            { title: "Rapid Prototyping", description: "3D structural design and physical samples in 48 hours.", icon: "https://cdn-icons-png.flaticon.com/512/1055/1055666.png" }
-        ],
-        categories: [
-            { name: "Luxury Rigid Boxes", items: ["Magnetic Gift Boxes", "Drawer Boxes", "Shoulder & Neck Boxes"] },
-            { name: "Corrugated Solutions", items: ["E-commerce Mailers", "Subscription Boxes", "Heavy Duty Shippers"] },
-            { name: "Specialty Finishes", items: ["Foil Stamping", "Spot UV", "Soft Touch Lamination", "Embossing"] }
-        ],
-        gallery: [
-            "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1591336395902-d2fb7706ee2d?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1512418490979-92798cec1380?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1549463327-f0c39f1c4801?auto=format&fit=crop&q=80&w=800"
-        ],
+        address: "674 On Nut 30, Suan Luang, Bangkok 10250",
+        specialized: "Corrugated Boxes",
+        image: "https://api.kumopack.com/v1/images/supplier/SA000004/1707639759503-280474020_5350219308368770_4275505670421887387_n.jpg",
+        logo: "https://api.kumopack.com/v1/images/supplier/SA000004/1751899692205-.png",
+        tagline: "Strength in Every Layer.",
+        description: "รับผลิตกล่องบรรจุภัณฑ์พิมพ์ลาย, กล่องกระดาษราคาถูก, กล่องส่งออกสภาพเเข็งเเรง",
+        website: "https://www.siampackaging.co.th",
+        email: "support@siampackaging.co.th",
+        features: [],
+        categories: [],
+        gallery: [],
         stats: {
-            experience: "20y",
-            capacity: "50k/day",
-            certifications: "ISO, FSC",
-            leadTime: "7 days"
-        }
-    },
-    {
-        id: "2",
-        name: "EcoBox Industries",
-        rating: 4.8,
-        reviewCount: 85,
-        location: "Samut Prakan",
-        address: "456 Industrial Ring Rd, Bang Phli, Samut Prakan 10540",
-        specialized: "Recycled Board",
-        image: "https://images.unsplash.com/photo-1590650516494-0c8e4a4dd67e?auto=format&fit=crop&q=80&w=2071",
-        logo: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&q=80&w=200",
-        tagline: "Eco-conscious packaging solutions for a better tomorrow.",
-        description: "EcoBox Industries is a pioneer in 100% recycled corrugated solutions. We help brands reduce their carbon footprint without compromising on structural integrity or design.",
-        website: "https://ecobox.co.th",
-        email: "hello@ecobox.co.th",
-        features: [
-            { title: "100% Recycled", description: "Made from post-consumer waste materials.", icon: "https://cdn-icons-png.flaticon.com/512/1598/1598196.png" },
-            { title: "Carbon Neutral", description: "Production facility powered by renewable energy.", icon: "https://cdn-icons-png.flaticon.com/512/2910/2910317.png" }
-        ],
-        categories: [
-            { name: "Kraft Packaging", items: ["Brown Kraft Boxes", "White Kraft Boxes", "Divider Inserts"] },
-            { name: "Eco Mailers", items: ["Compostable Bags", "Recycled Paper Mailers"] }
-        ],
-        gallery: [
-            "https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&q=80&w=800",
-            "https://images.unsplash.com/photo-1603598513554-469b8216e3c0?auto=format&fit=crop&q=80&w=800"
-        ],
-        stats: {
-            experience: "12y",
-            capacity: "100k/day",
-            certifications: "ISO 14001",
-            leadTime: "5 days"
+            experience: "1y",
+            capacity: "500,000 pcs",
+            certifications: "ISO, COA, SGS",
+            leadTime: "15 days",
+            orderAmount: "34"
         }
     }
 ];
+
+

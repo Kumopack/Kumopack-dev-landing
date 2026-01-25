@@ -7,12 +7,18 @@ import { Star, MapPin, ShieldCheck, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
-import SafeImage from "@/components/SafeImage";
+import { SafeImage } from "@/components/ui/safe-image";
 
-import { suppliers, Supplier } from "@/data/suppliers";
+import { getSuppliersList, Supplier } from "@/data/suppliers";
+import { useState, useEffect } from "react";
 
 export default function SupplierPage() {
     const { dict } = useLanguage();
+    const [supplierList, setSupplierList] = useState<Supplier[]>([]);
+
+    useEffect(() => {
+        getSuppliersList().then(setSupplierList);
+    }, []);
 
     return (
         <main className="min-h-screen bg-background text-foreground">
@@ -31,7 +37,7 @@ export default function SupplierPage() {
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-8">
-                        {suppliers.map((s, idx) => (
+                        {supplierList.map((s, idx) => (
                             <motion.div
                                 key={s.id}
                                 initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
@@ -82,9 +88,15 @@ export default function SupplierPage() {
                                 </div>
                             </motion.div>
                         ))}
+                        {supplierList.length === 0 && (
+                            <div className="col-span-full py-20 text-center">
+                                <p className="text-muted-foreground animate-pulse">Loading suppliers...</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>
+
 
             <Footer />
         </main>

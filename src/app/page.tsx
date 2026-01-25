@@ -19,12 +19,12 @@ export default function Home() {
       <Navbar />
       <PromoPopup />
       <HeroSection />
+      <GallerySection />
       <ValueProposition />
       <FeaturesSection />
       <DesignerSection />
       <MarketplaceSection />
       <CategoriesSection />
-      <GallerySection />
       <BlogSection />
       <LogoTicker />
       <Footer />

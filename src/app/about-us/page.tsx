@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Users, Target, Shield, Zap } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import SafeImage from "@/components/SafeImage";
+import { SafeImage } from "@/components/ui/safe-image";
 
 export default function AboutUsPage() {
     const { dict } = useLanguage();

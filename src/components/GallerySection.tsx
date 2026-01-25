@@ -2,24 +2,18 @@
 import { SafeImage } from "@/components/ui/safe-image";
 
 const galleryItems = [
-  {
-    image: "/asset/gallery-3.jpg",
-    title: "Custom Corrugated Boxes",
-    category: "Shipping",
-    size: "large",
-  },
-  {
-    image: "/asset/gallery-3.jpg",
-    title: "Branded Logo Tape",
-    category: "Accessories",
-    size: "medium",
-  },
-  {
-    image: "/asset/gallery-3.jpg",
-    title: "Premium Film Pouches",
-    category: "Flexible Packaging",
-    size: "medium",
-  },
+  { image: "/img/box/corrugated-mailer-box.jpg", title: "Corrugated Mailer Box", category: "Standard" },
+  { image: "/img/box/corrugated-pizza-box.jpg", title: "Corrugated Pizza Box", category: "Food" },
+  { image: "/img/box/die-cut-fruit-box.jpg", title: "Die-cut Fruit Box", category: "Agriculture" },
+  { image: "/img/box/document-box.jpg", title: "Document Box", category: "Office" },
+  { image: "/img/box/drawer-box.jpg", title: "Drawer Box", category: "Premium" },
+  { image: "/img/box/folding-carton-box.jpg", title: "Folding Carton Box", category: "Retail" },
+  { image: "/img/box/full-telescope-ftd.jpg", title: "Full Telescope (FTD)", category: "Industrial" },
+  { image: "/img/box/handle-box.jpg", title: "Handle Box", category: "Retail" },
+  { image: "/img/box/regular-slotted-container-rsc.jpg", title: "Regular Slotted Container (RSC)", category: "Shipping" },
+  { image: "/img/box/reverse-tuck-end-rte.jpg", title: "Reverse Tuck End (RTE)", category: "Cosmetics" },
+  { image: "/img/box/roll-end-tray.jpg", title: "Roll End Tray", category: "Display" },
+  { image: "/img/box/shoe-box.jpg", title: "Shoe Box", category: "Apparel" },
 ];
 
 const GallerySection = () => {
@@ -28,35 +22,42 @@ const GallerySection = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 animate-fade-up">
           <span className="inline-block px-4 py-2 rounded-full bg-lavender text-purple-soft text-sm font-medium mb-4">
-            Client Success
+            Product Gallery
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Beautiful packaging, delivered
+            Our Packaging Solutions
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            See how brands are elevating their unboxing experience with Kumopack
+            Discover our wide range of custom box types tailored for your business needs
           </p>
         </div>
 
-        {/* Masonry Grid */}
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        {/* Clean, Premium Product Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
           {galleryItems.map((item, index) => (
             <div
               key={index}
-              className="break-inside-avoid group relative overflow-hidden rounded-3xl bg-card shadow-soft hover:shadow-float transition-all duration-500"
+              className="group flex flex-col bg-white rounded-[2.5rem] p-4 shadow-soft hover:shadow-float transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-accent"
             >
-              <div className="aspect-auto">
+              {/* Image Container */}
+              <div className="aspect-square relative overflow-hidden rounded-[2rem] bg-accent/30 mb-6 w-full">
                 <SafeImage
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
 
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                <span className="text-xs font-medium text-primary-foreground/70 mb-1">{item.category}</span>
-                <h3 className="text-xl font-semibold text-primary-foreground">{item.title}</h3>
+              {/* Product Info Below Image */}
+              <div className="px-2 pb-2">
+                <span className="inline-block text-[10px] font-bold text-primary/60 uppercase tracking-[0.2em] mb-2">
+                  {item.category}
+                </span>
+                <h3 className="text-lg font-bold text-foreground leading-tight group-hover:text-primary transition-colors duration-300">
+                  {item.title}
+                </h3>
               </div>
             </div>
           ))}

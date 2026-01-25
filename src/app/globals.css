@@ -101,9 +101,10 @@
 
     --shadow-soft: 0 4px 20px -4px hsl(270 40% 70% / 0.15);
     --shadow-float: 0 8px 30px -8px hsl(270 40% 60% / 0.2);
-    --shadow-glow: 0 0 40px hsl(270 50% 70% / 0.3);
+    --shadow-glow: 0 0 50px -5px hsl(270 50% 70% / 0.4);
 
     --glass: 270 30% 98% / 0.7;
+    --glass-premium: 270 30% 98% / 0.4;
     --glass-border: 270 30% 90% / 0.5;
   }
 
@@ -196,11 +197,18 @@
 
 @layer components {
   .floating-card {
-    background-color: hsl(var(--card));
+    background-color: hsl(var(--card) / 0.8);
     border-radius: 1.5rem;
     box-shadow: var(--shadow-float);
     border: 1px solid hsla(var(--border) / 0.5);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(24px) saturate(180%);
+  }
+
+  .glass-premium {
+    background-color: hsla(var(--glass-premium));
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid hsla(var(--glass-border));
+    box-shadow: var(--shadow-soft);
   }
 
   .bento-card {

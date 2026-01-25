@@ -302,27 +302,66 @@ const Navbar = () => {
 
         {/* Mobile menu overlay */}
         {isMenuOpen && (
-          <div className="lg:hidden mt-2 p-4 rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float animate-in slide-in-from-top-4 duration-300">
-            <div className="flex flex-col gap-2">
-              <Link href="/products" className="p-4 rounded-2xl hover:bg-muted transition-colors font-medium">
+          <div className="lg:hidden mt-2 p-4 rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float animate-in slide-in-from-top-4 duration-300 overflow-y-auto max-h-[80vh]">
+            <div className="flex flex-col gap-1">
+              {/* Buyer Section */}
+              <div className="px-4 py-2 text-[9px] font-black text-primary tracking-widest uppercase opacity-70">For Buyer</div>
+              <Link href="/products" onClick={() => setIsMenuOpen(false)} className="p-3 rounded-2xl hover:bg-mint/10 transition-colors font-bold flex items-center gap-3 text-sm">
+                <div className="w-8 h-8 rounded-xl bg-mint/20 flex items-center justify-center">
+                  <Box className="w-4 h-4 text-mint-foreground" />
+                </div>
                 {t('nav.products')}
               </Link>
-              <Link href="/supplier" className="p-4 rounded-2xl hover:bg-muted transition-colors font-medium">
-                {t('nav.forSupplier')}
+              <Link href="/supplier" onClick={() => setIsMenuOpen(false)} className="p-3 rounded-2xl hover:bg-mint/10 transition-colors font-bold flex items-center gap-3 text-sm">
+                <div className="w-8 h-8 rounded-xl bg-mint/20 flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-mint-foreground" />
+                </div>
+                Get Quotes
               </Link>
-              <Link href="/blogs" className="p-4 rounded-2xl hover:bg-muted transition-colors font-medium">
+
+              {/* Supplier Section */}
+              <div className="px-4 py-2 mt-2 text-[9px] font-black text-primary tracking-widest uppercase opacity-70">For Supplier</div>
+              <Link href="/contact" onClick={() => setIsMenuOpen(false)} className="p-3 rounded-2xl hover:bg-sky/10 transition-colors font-bold flex items-center gap-3 text-sm">
+                <div className="w-8 h-8 rounded-xl bg-sky/20 flex items-center justify-center">
+                  <Package className="w-4 h-4 text-sky-foreground" />
+                </div>
+                Join Network
+              </Link>
+              <Link href="/supplier" onClick={() => setIsMenuOpen(false)} className="p-3 rounded-2xl hover:bg-sky/10 transition-colors font-bold flex items-center gap-3 text-sm">
+                <div className="w-8 h-8 rounded-xl bg-sky/20 flex items-center justify-center">
+                  <Layers className="w-4 h-4 text-sky-foreground" />
+                </div>
+                Supplier Portal
+              </Link>
+
+              {/* Resources Section */}
+              <div className="px-4 py-2 mt-2 text-[9px] font-black text-primary tracking-widest uppercase opacity-70">Resources</div>
+              <Link href="/blogs" onClick={() => setIsMenuOpen(false)} className="p-3 rounded-2xl hover:bg-purple/10 transition-colors font-bold flex items-center gap-3 text-sm">
+                <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <BookOpen className="w-4 h-4 text-primary" />
+                </div>
                 {t('nav.blog')}
               </Link>
-              <Link href="/learning" className="p-4 rounded-2xl hover:bg-muted transition-colors font-medium">
+              <Link href="/learning" onClick={() => setIsMenuOpen(false)} className="p-3 rounded-2xl hover:bg-purple/10 transition-colors font-bold flex items-center gap-3 text-sm">
+                <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <GraduationCap className="w-4 h-4 text-primary" />
+                </div>
                 {t('nav.learning')}
               </Link>
-              <hr className="border-border/50 my-2" />
+              <Link href="/materials" onClick={() => setIsMenuOpen(false)} className="p-3 rounded-2xl hover:bg-purple/10 transition-colors font-bold flex items-center gap-3 text-sm">
+                <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Layers className="w-4 h-4 text-primary" />
+                </div>
+                {t('nav.materials')}
+              </Link>
+
+              <hr className="border-border/50 my-4" />
               <div className="grid grid-cols-2 gap-3 p-2">
-                <Link href="/login/selection" className="w-full">
-                  <Button variant="ghost" className="w-full rounded-2xl">{t('common.signIn')}</Button>
+                <Link href="/login/selection" onClick={() => setIsMenuOpen(false)} className="w-full">
+                  <Button variant="ghost" className="w-full h-12 rounded-2xl font-bold">{t('common.signIn')}</Button>
                 </Link>
-                <Link href="/pricing" className="w-full">
-                  <Button variant="hero" className="w-full rounded-2xl">{t('common.getStarted')}</Button>
+                <Link href="/pricing" onClick={() => setIsMenuOpen(false)} className="w-full">
+                  <Button variant="hero" className="w-full h-12 rounded-2xl font-bold shadow-soft">{t('common.getStarted')}</Button>
                 </Link>
               </div>
             </div>

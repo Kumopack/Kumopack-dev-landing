@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ArrowLeft, Calendar, Clock, Share2, Play } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, Share2, Play, Sparkles } from "lucide-react";
 // Note: actual imports might differ, I'll copy from the original file
 import { learningArticles, LearningArticle } from "@/data/learning";
 import { SafeImage } from "@/components/ui/safe-image";
@@ -87,30 +87,56 @@ export default function LearningContent({ article }: { article: LearningArticle 
                             )}
                         </div>
 
-                        <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed space-y-6 pt-8">
-                            <p className="text-xl text-foreground font-medium">
+                        <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed space-y-8 pt-8">
+                            <p className="text-xl md:text-2xl text-foreground font-semibold leading-relaxed">
                                 {article.description}
                             </p>
-                            <p>
-                                Lorem ipsum dolor sit available, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                            </p>
-                            <h2 className="text-2xl font-bold text-foreground">Key Takeaways</h2>
-                            <ul className="list-disc pl-6 space-y-3 font-semibold text-foreground/80">
-                                <li>Understand the primary requirements for sustainable production.</li>
-                                <li>How to negotiate with factory partners effectively.</li>
-                                <li>The importance of high-fidelity 3D mockups.</li>
-                            </ul>
-                            <p>
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </p>
-                            <div className="bg-primary/5 p-8 rounded-[2rem] border border-primary/20 mt-12">
-                                <h3 className="text-xl font-bold text-primary mb-4">Want to learn more?</h3>
-                                <p className="text-sm mb-6">Our dedicated success managers are available for 1-on-1 strategy sessions for Premium and Pro members.</p>
-                                <Link href="/pricing">
-                                    <button className="bg-primary text-white px-6 py-3 rounded-xl font-bold hover:shadow-glow transition-all">
-                                        View Pricing Plans
-                                    </button>
-                                </Link>
+
+                            <div className="grid md:grid-cols-2 gap-12 mt-12">
+                                <div className="space-y-6">
+                                    <h2 className="text-3xl font-black text-foreground tracking-tight">
+                                        Understanding <span className="text-primary italic">Context</span>
+                                    </h2>
+                                    <p>
+                                        In the rapidly evolving landscape of sustainable packaging, staying ahead of the curve is no longer optional—it's a requirement for survival. This guide dives deep into the methodologies that top brands use to bridge the gap between design vision and factory-ready specifications.
+                                    </p>
+                                    <p>
+                                        Whether you are a startup looking to make your first batch or a seasoned enterprise scaling production, high-fidelity 3D mockups are the lynchpin of error-free manufacturing.
+                                    </p>
+                                </div>
+                                <div className="bg-muted/30 p-8 rounded-[2rem] border border-border/50">
+                                    <h3 className="text-xl font-bold text-foreground mb-6">Key Takeaways</h3>
+                                    <ul className="space-y-4">
+                                        {[
+                                            "Master the primary requirements for sustainable production.",
+                                            "Techniques for negotiating with global factory partners.",
+                                            "The role of 3D mockups in reducing prototyping costs.",
+                                            "Optimizing supply chain logic for just-in-time delivery."
+                                        ].map((item, i) => (
+                                            <li key={i} className="flex gap-4 items-start">
+                                                <div className="w-6 h-6 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-1">
+                                                    <span className="text-xs font-bold">{i + 1}</span>
+                                                </div>
+                                                <span className="text-foreground/80 font-medium">{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className="bg-primary/5 p-12 rounded-[3rem] border border-primary/20 mt-16 relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:rotate-12 transition-transform">
+                                    <Sparkles className="w-24 h-24" />
+                                </div>
+                                <div className="relative z-10 max-w-2xl">
+                                    <h3 className="text-2xl md:text-3xl font-black text-primary mb-4 tracking-tight">Elevate Your Knowledge</h3>
+                                    <p className="text-lg mb-8 text-foreground/70">Our dedicated success managers are available for 1-on-1 strategy sessions for Premium and Pro members to help you optimize your packaging strategy.</p>
+                                    <Link href="/pricing">
+                                        <button className="bg-primary text-white px-8 py-4 rounded-2xl font-bold hover:shadow-glow hover:scale-105 transition-all text-lg">
+                                            Explore Membership Plans
+                                        </button>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
 

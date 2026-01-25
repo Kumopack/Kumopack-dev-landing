@@ -57,7 +57,7 @@ export const PromoPopup = () => {
                             <X className="w-5 h-5" />
                         </button>
 
-                        <div className="aspect-video relative overflow-hidden">
+                        <div className="aspect-[4/5] relative overflow-hidden">
                             <SafeImage
                                 src="/asset/promotion-cny.jpg"
                                 alt="Chinese New Year Promo"

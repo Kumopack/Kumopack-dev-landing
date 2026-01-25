@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import { Link, Box } from "lucide-react";
 import NextLink from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
-import SafeImage from "@/components/SafeImage";
+import { SafeImage } from "@/components/ui/safe-image";
 
 export default function ProductsPage() {
     const { dict } = useLanguage();
