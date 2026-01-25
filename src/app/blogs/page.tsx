@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { SafeImage } from "@/components/ui/safe-image";
 import { blogApi, Article, Category } from "@/lib/blog-api";
 import { useLanguage } from "@/context/LanguageContext";
+import { getSafeSlug } from "@/lib/slug-utils";
 
 function BlogsContent() {
   const { language, setLanguage } = useLanguage();
@@ -258,7 +259,7 @@ function BlogsContent() {
                         className="group"
                       >
                         <Link
-                          href={`/blogs/${article.slug}`}
+                          href={`/blogs/${getSafeSlug(article.slug)}`}
                           className="flex flex-col h-full gap-8"
                         >
                           {/* 1:1 Aspect Ratio Image */}

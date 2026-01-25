@@ -2,7 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import Link from 'next/link';
+import Link from "next/link";
 import { ArrowRight, Factory, DollarSign, Truck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { getAssetPath } from "@/lib/utils";
@@ -41,7 +41,9 @@ const HeroSection = () => {
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 2, ease: "easeOut" }}
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url("${getAssetPath("/asset/hero-bg-premium.png")}")` }}
+        style={{
+          backgroundImage: `url("${getAssetPath("/asset/hero-bg-premium.jpg")}")`,
+        }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-background/20 to-background" />
 
@@ -59,34 +61,55 @@ const HeroSection = () => {
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-premium backdrop-blur-xl border border-white/30 shadow-glow"
             >
               <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse-soft" />
-              <span className="text-sm font-semibold text-foreground/90 tracking-wide uppercase">Trusted by 500+ global brands</span>
+              <span className="text-sm font-semibold text-foreground/90 tracking-wide uppercase">
+                Trusted by 500+ global brands
+              </span>
             </motion.div>
 
             <motion.h1
               variants={itemVariants}
               className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-[1.1] tracking-tighter"
             >
-              <span className="block">{t('home.heroTitle').split(' ').length > 2 ? t('home.heroTitle').split(' ').slice(0, 3).join(' ') : t('home.heroTitle')}</span>
-              <span className="text-primary italic">{t('home.heroTitle').split(' ').length > 2 ? t('home.heroTitle').split(' ').slice(3).join(' ') : ''}</span>
+              <span className="block">
+                {t("home.heroTitle").split(" ").length > 2
+                  ? t("home.heroTitle").split(" ").slice(0, 3).join(" ")
+                  : t("home.heroTitle")}
+              </span>
+              <span className="text-primary italic">
+                {t("home.heroTitle").split(" ").length > 2
+                  ? t("home.heroTitle").split(" ").slice(3).join(" ")
+                  : ""}
+              </span>
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
               className="text-2xl text-muted-foreground/80 max-w-xl leading-relaxed font-medium"
             >
-              {t('home.heroSubtitle')}
+              {t("home.heroSubtitle")}
             </motion.p>
 
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-6 pt-4">
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap gap-6 pt-4"
+            >
               <Link href="/pricing">
-                <Button variant="hero" size="xl" className="shadow-glow hover:scale-110 active:scale-95 transition-all duration-300 px-8 py-6 text-lg">
-                  {t('common.getStarted')}
+                <Button
+                  variant="hero"
+                  size="xl"
+                  className="shadow-glow hover:scale-110 active:scale-95 transition-all duration-300 px-8 py-6 text-lg"
+                >
+                  {t("common.getStarted")}
                   <ArrowRight className="w-6 h-6" />
                 </Button>
               </Link>
               <Link href="/pricing">
-                <Button variant="soft" size="xl" className="glass-premium hover:bg-white/20 transition-all duration-300 px-8 py-6 text-lg">
-                  {t('pricing.title')}
+                <Button
+                  variant="soft"
+                  size="xl"
+                  className="glass-premium hover:bg-white/20 transition-all duration-300 px-8 py-6 text-lg"
+                >
+                  {t("pricing.title")}
                 </Button>
               </Link>
             </motion.div>
@@ -103,22 +126,48 @@ const HeroSection = () => {
               <div className="flex items-center justify-between mb-10">
                 <div className="flex items-center gap-4">
                   <div className="w-4 h-4 rounded-full bg-primary animate-pulse-soft" />
-                  <span className="text-xs font-black tracking-[0.2em] uppercase text-muted-foreground/60">Live Sourcing Network</span>
+                  <span className="text-xs font-black tracking-[0.2em] uppercase text-muted-foreground/60">
+                    Live Sourcing Network
+                  </span>
                 </div>
-                <div className="px-3 py-1.5 rounded-lg bg-primary/20 text-[10px] font-black text-primary italic border border-primary/30 tracking-widest">REAL-TIME</div>
+                <div className="px-3 py-1.5 rounded-lg bg-primary/20 text-[10px] font-black text-primary italic border border-primary/30 tracking-widest">
+                  REAL-TIME
+                </div>
               </div>
 
               <div className="space-y-6">
                 {[
-                  { factory: "ShenZhen Pack Co.", price: "$0.42", time: "5-7 days", badge: "Popular", delay: 0.6 },
-                  { factory: "GuangZhou Premium", price: "$0.38", time: "7-10 days", badge: "Best Price", delay: 0.7 },
-                  { factory: "Dongguan Fast", price: "$0.45", time: "3-5 days", badge: "Fast", delay: 0.8 },
+                  {
+                    factory: "ShenZhen Pack Co.",
+                    price: "$0.42",
+                    time: "5-7 days",
+                    badge: "Popular",
+                    delay: 0.6,
+                  },
+                  {
+                    factory: "GuangZhou Premium",
+                    price: "$0.38",
+                    time: "7-10 days",
+                    badge: "Best Price",
+                    delay: 0.7,
+                  },
+                  {
+                    factory: "Dongguan Fast",
+                    price: "$0.45",
+                    time: "3-5 days",
+                    badge: "Fast",
+                    delay: 0.8,
+                  },
                 ].map((quote, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: 30 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: quote.delay, duration: 0.6, ease: "easeOut" }}
+                    transition={{
+                      delay: quote.delay,
+                      duration: 0.6,
+                      ease: "easeOut",
+                    }}
                     className="p-6 rounded-[2rem] bg-white/5 border border-white/10 hover:bg-white/15 hover:border-primary/40 transition-all duration-500 group/item cursor-pointer shadow-sm hover:shadow-glow"
                   >
                     <div className="flex items-center justify-between mb-4">
@@ -126,7 +175,9 @@ const HeroSection = () => {
                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover/item:bg-primary/20 transition-colors">
                           <Factory className="w-5 h-5 text-primary" />
                         </div>
-                        <span className="font-bold text-lg text-foreground group-hover/item:text-primary transition-colors">{quote.factory}</span>
+                        <span className="font-bold text-lg text-foreground group-hover/item:text-primary transition-colors">
+                          {quote.factory}
+                        </span>
                       </div>
                       <span className="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-primary/10 text-primary border border-primary/30">
                         {quote.badge}
@@ -137,7 +188,12 @@ const HeroSection = () => {
                         <div className="p-1.5 rounded-lg bg-white/5">
                           <DollarSign className="w-4 h-4 text-primary" />
                         </div>
-                        <span className="font-bold text-foreground text-xl">{quote.price}<span className="text-[12px] text-muted-foreground/60 ml-1">/unit</span></span>
+                        <span className="font-bold text-foreground text-xl">
+                          {quote.price}
+                          <span className="text-[12px] text-muted-foreground/60 ml-1">
+                            /unit
+                          </span>
+                        </span>
                       </div>
                       <div className="flex items-center gap-2 text-muted-foreground font-semibold">
                         <Truck className="w-5 h-5 text-lavender-deep" />

@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { getSafeSlug } from "@/lib/slug-utils";
 
 import { Metadata } from "next";
 
@@ -18,7 +19,16 @@ export async function generateMetadata({
   const { slug } = await params;
   // Decode slug to ensure we handle Thai characters correctly
   const decodedSlug = decodeURIComponent(slug);
-  const blog = await blogApi.getArticleBySlug(decodedSlug);
+
+  // For metadata, we need to find the blog. During build, slug might be the "safe" one.
+  let blog = await blogApi.getArticleBySlug(decodedSlug);
+
+  // If not found, it might be because the slug is a truncated safe slug
+  if (!blog) {
+    const response = await blogApi.getArticles(1, 100);
+    blog =
+      response.data.find((a) => getSafeSlug(a.slug) === decodedSlug) || null;
+  }
 
   if (!blog) {
     return {
@@ -76,7 +86,7 @@ export async function generateStaticParams() {
     const params = response.data
       .filter((article) => article.slug)
       .map((article) => ({
-        slug: String(article.slug),
+        slug: getSafeSlug(article.slug),
       }));
 
     return params;
@@ -102,7 +112,19 @@ export default async function BlogDetailPage({
   const decodedSlug = decodeURIComponent(slug);
 
   // Server-side fetch (runs at build time for 'export' output)
-  const blog = await blogApi.getArticleBySlug(decodedSlug);
+  let blog = await blogApi.getArticleBySlug(decodedSlug);
+
+  // If not found, it might be a safe slug
+  if (!blog) {
+    const response = await blogApi.getArticles(1, 100);
+    blog =
+      response.data.find((a) => getSafeSlug(a.slug) === decodedSlug) || null;
+
+    // If we found it, it probably needs a full fetch to get the description
+    if (blog) {
+      blog = await blogApi.getArticleBySlug(String(blog.slug));
+    }
+  }
 
   if (!blog) {
     return (
