@@ -23,9 +23,16 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     const [isHydrated, setIsHydrated] = useState(false);
 
     useEffect(() => {
+        // Source of truth priority: 1. URL (?lang=), 2. LocalStorage, 3. Default (th)
+        const params = new URLSearchParams(window.location.search);
+        const urlLang = params.get('lang') as Language;
         const savedLang = localStorage.getItem('kumopack_lang') as Language;
-        if (savedLang && (savedLang === 'th' || savedLang === 'en')) {
-            setLanguageState(savedLang);
+
+        const initialLang = (urlLang && ['th', 'en'].includes(urlLang)) ? urlLang :
+            (savedLang && ['th', 'en'].includes(savedLang)) ? savedLang : 'th';
+
+        if (initialLang !== language) {
+            setLanguageState(initialLang);
         }
         setIsHydrated(true);
     }, []);
@@ -36,6 +43,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const t = (key: string): string => {
+        if (!isHydrated) return ''; // Avoid mismatch until hydrated
         const keys = key.split('.');
         let result: any = translations[language];
 
@@ -50,15 +58,16 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
         return typeof result === 'string' ? result : key;
     };
 
-    // To prevent hydration mismatch, we can return the children with default language 
-    // but we must be careful with UI elements that change.
-    // However, the best practice for client-only changes like language based on localStorage
-    // is to wait for hydration or use cookies.
-    // For this mock, we'll just ensure components check for isHydrated if needed.
-
     return (
-        <LanguageContext.Provider value={{ language, setLanguage, t, dict: translations[language] }}>
-            {children}
+        <LanguageContext.Provider value={{
+            language,
+            setLanguage,
+            t,
+            dict: translations[language]
+        }}>
+            <div style={{ visibility: isHydrated ? 'visible' : 'hidden' }}>
+                {children}
+            </div>
         </LanguageContext.Provider>
     );
 };

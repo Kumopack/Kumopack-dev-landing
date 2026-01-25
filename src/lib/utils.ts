@@ -9,11 +9,9 @@ export function getAssetPath(path: string) {
     if (!path) return '';
     if (path.startsWith('http')) return path;
 
-    const basePath = '/Kumopack-dev-landing';
-    // Prepend basePath if it's an internal path and doesn't already have it
-    if (typeof path === 'string' && path.startsWith('/') && !path.startsWith(basePath)) {
-        return `${basePath}${path}`;
-    }
+    // Remove the prefixing logic for now to ensure local dev stability.
+    // If deployment requires a base path, it should ideally be handled via 
+    // Next.js basePath config in next.config.js rather than manual prefixing.
     return path;
 }
 
