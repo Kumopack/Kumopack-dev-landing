@@ -10,7 +10,7 @@ const DesignerSection = () => {
   return (
     <section
       id="designer"
-      className="py-32 relative overflow-hidden bg-white/30 backdrop-blur-3xl"
+      className="py-32 relative overflow-hidden bg-white/30 backdrop-blur-3xl scroll-mt-24"
     >
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full -z-10 animate-pulse-soft" />

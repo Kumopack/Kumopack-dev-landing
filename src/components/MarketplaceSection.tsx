@@ -14,7 +14,10 @@ const benefits = [
 
 const MarketplaceSection = () => {
   return (
-    <section id="marketplace" className="py-24 bg-white relative overflow-hidden">
+    <section
+      id="marketplace"
+      className="py-24 bg-white relative overflow-hidden scroll-mt-24"
+    >
       <div className="absolute inset-0 bg-accent/20" />
 
       <div className="container mx-auto px-6 relative z-10">
@@ -44,8 +47,12 @@ const MarketplaceSection = () => {
                   <ShoppingBag className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-lg font-bold text-foreground">10,000+ Products</p>
-                  <p className="text-sm text-muted-foreground">Premium readiness</p>
+                  <p className="text-lg font-bold text-foreground">
+                    10,000+ Products
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Premium readiness
+                  </p>
                 </div>
               </motion.div>
             </div>
@@ -72,8 +79,9 @@ const MarketplaceSection = () => {
             </h2>
 
             <p className="text-xl text-muted-foreground max-w-lg leading-relaxed">
-              Shop our retail marketplace for ready-to-use packaging. Perfect for small businesses
-              scaling up, startups, and anyone who demands quality without limits.
+              Shop our retail marketplace for ready-to-use packaging. Perfect
+              for small businesses scaling up, startups, and anyone who demands
+              quality without limits.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -88,7 +96,9 @@ const MarketplaceSection = () => {
                   <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                     <Check className="w-4 h-4 text-primary" />
                   </div>
-                  <span className="font-medium text-foreground text-sm">{benefit}</span>
+                  <span className="font-medium text-foreground text-sm">
+                    {benefit}
+                  </span>
                 </motion.div>
               ))}
             </div>

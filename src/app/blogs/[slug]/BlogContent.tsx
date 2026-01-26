@@ -168,6 +168,24 @@ export default function BlogContent({ blog }: { blog: Article }) {
           scroll-margin-top: 120px;
           color: hsl(var(--foreground));
           letter-spacing: -0.03em;
+          padding-left: 1rem;
+          margin-left: -1rem;
+        }
+
+        .header-accent-0 {
+          border-left: 6px solid #ffb7b2;
+        }
+        .header-accent-1 {
+          border-left: 6px solid #ffdac1;
+        }
+        .header-accent-2 {
+          border-left: 6px solid #e2f0cb;
+        }
+        .header-accent-3 {
+          border-left: 6px solid #b5ead7;
+        }
+        .header-accent-4 {
+          border-left: 6px solid #c7ceea;
         }
         .blog-content h1 {
           font-size: 3rem;
@@ -437,23 +455,50 @@ export default function BlogContent({ blog }: { blog: Article }) {
                 <div
                   className="rich-text leading-relaxed text-lg md:text-xl text-foreground/80 space-y-8"
                   dangerouslySetInnerHTML={{
-                    __html: (description || "")
-                      .replace(
-                        /<(h[1-6])>(.*?)<\/h[1-6]>/g,
-                        (match, tag, content, offset) => {
-                          const id = `section-${offset}`;
-                          return `<${tag} id="${id}" style="scroll-margin-top: 100px;">${content}</${tag}>`;
-                        },
-                      )
-                      .replace(/<img[^>]+src="([^">]+)"/g, (match, src) => {
-                        const decodedSrc = src
-                          .replace(/&quot;/g, "")
-                          .replace(/"/g, "");
-                        const finalSrc = decodedSrc.startsWith("data:")
-                          ? decodedSrc
-                          : blogApi.getAssetPath(decodedSrc);
-                        return `<img src="${finalSrc}" class="w-full rounded-[2rem] my-12 shadow-xl border border-neutral-100" />`;
-                      }),
+                    __html: (() => {
+                      let headerCount = 0;
+                      return (description || "")
+                        .replace(
+                          /<(h[1-6])(.*?)>(.*?)<\/h[1-6]>/g,
+                          (match, tag, attrs, content) => {
+                            const currentId = `section-${headerCount}`;
+                            const accentClass = `header-accent-${headerCount % 5}`;
+                            headerCount++;
+
+                            // Remove any existing id attribute to avoid duplication
+                            const cleanAttrs = attrs
+                              .replace(/\sid=".*?"/g, "")
+                              .replace(/\sid='.*?'/g, "");
+
+                            // Ensure there's a class attribute or add it
+                            let finalAttrs = cleanAttrs;
+                            if (finalAttrs.includes('class="')) {
+                              finalAttrs = finalAttrs.replace(
+                                'class="',
+                                `class="${accentClass} `,
+                              );
+                            } else if (finalAttrs.includes("class='")) {
+                              finalAttrs = finalAttrs.replace(
+                                "class='",
+                                `class='${accentClass} `,
+                              );
+                            } else {
+                              finalAttrs += ` class="${accentClass}"`;
+                            }
+
+                            return `<${tag}${finalAttrs} id="${currentId}" style="scroll-margin-top: 100px;">${content}</${tag}>`;
+                          },
+                        )
+                        .replace(/<img[^>]+src="([^">]+)"/g, (match, src) => {
+                          const decodedSrc = src
+                            .replace(/&quot;/g, "")
+                            .replace(/"/g, "");
+                          const finalSrc = decodedSrc.startsWith("data:")
+                            ? decodedSrc
+                            : blogApi.getAssetPath(decodedSrc);
+                          return `<img src="${finalSrc}" class="w-full rounded-[2rem] my-12 shadow-xl border border-neutral-100" />`;
+                        });
+                    })(),
                   }}
                 />
 

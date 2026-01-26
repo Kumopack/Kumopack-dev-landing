@@ -52,7 +52,7 @@ const CategoriesSection = () => {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
   return (
-    <section className="py-24">
+    <section id="categories" className="py-24 scroll-mt-24">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 animate-fade-up">
           <span className="inline-block px-4 py-2 rounded-full bg-lavender text-purple-soft text-sm font-medium mb-4">
@@ -78,14 +78,20 @@ const CategoriesSection = () => {
                 className={`
                   p-6 rounded-3xl border border-border/50 bg-card text-center
                   transition-all duration-500 hover:shadow-float hover:-translate-y-2
-                  ${activeCategory === index ? 'shadow-float -translate-y-2' : ''}
+                  ${activeCategory === index ? "shadow-float -translate-y-2" : ""}
                 `}
               >
-                <div className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br ${category.color} flex items-center justify-center mb-4`}>
+                <div
+                  className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br ${category.color} flex items-center justify-center mb-4`}
+                >
                   <category.icon className="w-8 h-8 text-foreground/70" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-1 text-sm">{category.name}</h3>
-                <p className="text-xs text-muted-foreground">{category.description}</p>
+                <h3 className="font-semibold text-foreground mb-1 text-sm">
+                  {category.name}
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  {category.description}
+                </p>
               </div>
 
               {/* Expanded specs panel */}
@@ -93,13 +99,18 @@ const CategoriesSection = () => {
                 className={`
                   absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 z-20
                   floating-card p-4 transition-all duration-300
-                  ${activeCategory === index ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'}
+                  ${activeCategory === index ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}
                 `}
               >
-                <p className="text-sm font-medium text-foreground mb-3">Printing & Specs</p>
+                <p className="text-sm font-medium text-foreground mb-3">
+                  Printing & Specs
+                </p>
                 <div className="space-y-2">
                   {category.specs.map((spec, specIndex) => (
-                    <div key={specIndex} className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div
+                      key={specIndex}
+                      className="flex items-center gap-2 text-sm text-muted-foreground"
+                    >
                       <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                       {spec}
                     </div>
