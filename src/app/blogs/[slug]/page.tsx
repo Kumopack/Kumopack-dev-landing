@@ -119,17 +119,9 @@ export async function generateStaticParams() {
 
     const params = response.data
       .filter((article) => article.slug)
-      .flatMap((article) => {
+      .map((article) => {
         const safeSlug = getSafeSlug(article.slug);
-        const encodedSlug = encodeURIComponent(safeSlug);
-
-        // Return both raw and encoded to be safe with different environments
-        // Next.js will de-duplicate these if they resolve to the same thing
-        const result = [{ slug: safeSlug }];
-        if (encodedSlug !== safeSlug) {
-          result.push({ slug: encodedSlug });
-        }
-        return result;
+        return { slug: safeSlug };
       });
 
     return params;
