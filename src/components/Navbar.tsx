@@ -216,20 +216,6 @@ const Navbar = () => {
               </Link>
               */}
 
-              <Link
-                href="/#how-it-works"
-                className="px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200"
-              >
-                {t("nav.howItWorks") || "How it Works"}
-              </Link>
-
-              <Link
-                href="/#features"
-                className="px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200"
-              >
-                {t("nav.features") || "Features"}
-              </Link>
-
               <a
                 href="https://mockup.kumopack.com"
                 target="_blank"
@@ -448,20 +434,6 @@ const Navbar = () => {
                 Supplier Portal
               </Link>
 
-              {/* Resources Section */}
-              <div className="px-4 py-2 mt-2 text-[9px] font-black text-primary tracking-widest uppercase opacity-70">
-                Resources
-              </div>
-              <Link
-                href="/blogs"
-                onClick={() => setIsMenuOpen(false)}
-                className="p-3 rounded-2xl hover:bg-purple/10 transition-colors font-bold flex items-center gap-3 text-sm"
-              >
-                <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <BookOpen className="w-4 h-4 text-primary" />
-                </div>
-                {t("nav.blog")}
-              </Link>
               <Link
                 href="/learning"
                 onClick={() => setIsMenuOpen(false)}

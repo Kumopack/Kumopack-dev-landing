@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'export',
-  // basePath: '/Kumopack-dev-landing',
-  // assetPrefix: '/Kumopack-dev-landing/',
+  basePath: process.env.NODE_ENV === 'production' ? '/Kumopack-dev-landing' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/Kumopack-dev-landing/' : '',
   images: {
     unoptimized: true,
     remotePatterns: [

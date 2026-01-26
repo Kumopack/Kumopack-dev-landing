@@ -98,11 +98,21 @@ export const blogApi = {
 
     getAssetPath(path: string): string {
         if (!path) return '';
-        if (path.startsWith('http') || path.startsWith('/') || path.startsWith('data:')) {
+        // If it's already an absolute URL or data URI, return as is
+        if (path.startsWith('http') || path.startsWith('data:')) {
             return path;
         }
 
+        // If it starts with / but is not followed by / (to avoid // protocol-relative)
+        // AND it's likely a local asset from the public folder
+        if (path.startsWith('/') && !path.startsWith('//') && !path.includes('articles')) {
+             // For public folder assets, let the local utility handle it (or Next.js)
+             return path; 
+        }
+
         const storageBase = 'https://api.kumopack.com/v1/images/';
-        return `${storageBase}${path}`;
+        // Remove leading slash if present to avoid double slashes with storageBase
+        const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+        return `${storageBase}${cleanPath}`;
     }
 };
