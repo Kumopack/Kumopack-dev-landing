@@ -3,6 +3,7 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ValueProposition from "@/components/ValueProposition";
+import HowItWorks from "@/components/HowItWorks";
 import FeaturesSection from "@/components/FeaturesSection";
 import DesignerSection from "@/components/DesignerSection";
 import MarketplaceSection from "@/components/MarketplaceSection";
@@ -21,6 +22,7 @@ export default function Home() {
       <HeroSection />
       <GallerySection />
       <ValueProposition />
+      <HowItWorks />
       <FeaturesSection />
       <DesignerSection />
       <MarketplaceSection />

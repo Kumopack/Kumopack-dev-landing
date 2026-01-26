@@ -1,14 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from 'next/link';
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Play, RotateCcw, Move3D } from "lucide-react";
 import { SafeImage } from "@/components/ui/safe-image";
 
 const DesignerSection = () => {
   return (
-    <section id="designer" className="py-32 relative overflow-hidden bg-white/30 backdrop-blur-3xl">
+    <section
+      id="designer"
+      className="py-32 relative overflow-hidden bg-white/30 backdrop-blur-3xl"
+    >
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full -z-10 animate-pulse-soft" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-lavender/20 blur-[150px] rounded-full -z-10" />
@@ -36,38 +39,56 @@ const DesignerSection = () => {
               <h2 className="text-5xl md:text-6xl font-black text-foreground leading-[1.1] tracking-tighter">
                 Your vision,
                 <br />
-                <span className="text-transparent bg-clip-text gradient-primary italic">perfectly realized.</span>
+                <span className="bg-gradient-to-r from-primary to-primary text-transparent bg-clip-text italic">
+                  perfectly realized.
+                </span>
               </h2>
 
               <p className="text-2xl text-muted-foreground/80 max-w-lg leading-relaxed font-medium">
-                Bring your packaging ideas to life with our effortless online designer.
-                Visualize every detail with photorealistic accuracy.
+                Bring your packaging ideas to life with our effortless online
+                designer. Visualize every detail with photorealistic accuracy.
               </p>
             </div>
 
             <div className="grid sm:grid-cols-2 gap-8 pt-4">
               {[
-                { icon: Move3D, title: "Real-time 3D", desc: "Rotate, zoom, and explore every angle" },
-                { icon: RotateCcw, title: "Instant Revisions", desc: "See changes update in photorealistic quality" },
+                {
+                  icon: Move3D,
+                  title: "Real-time 3D",
+                  desc: "Rotate, zoom, and explore every angle",
+                },
+                {
+                  icon: RotateCcw,
+                  title: "Instant Revisions",
+                  desc: "See changes update in photorealistic quality",
+                },
               ].map((item, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 + (i * 0.1) }}
+                  transition={{ delay: 0.4 + i * 0.1 }}
                   className="bento-card group hover:bg-white/80 transition-all duration-500"
                 >
                   <div className="w-16 h-16 rounded-2xl bg-white shadow-soft flex items-center justify-center group-hover:scale-110 group-hover:bg-primary/5 transition-all duration-500 mb-6">
                     <item.icon className="w-8 h-8 text-primary" />
                   </div>
-                  <h4 className="font-black text-xl text-foreground mb-2">{item.title}</h4>
-                  <p className="text-muted-foreground/80 leading-snug font-medium">{item.desc}</p>
+                  <h4 className="font-black text-xl text-foreground mb-2">
+                    {item.title}
+                  </h4>
+                  <p className="text-muted-foreground/80 leading-snug font-medium">
+                    {item.desc}
+                  </p>
                 </motion.div>
               ))}
             </div>
 
             <Link href="/printsystem" className="inline-block">
-              <Button variant="hero" size="xl" className="shadow-glow group px-10 py-8 text-xl">
+              <Button
+                variant="hero"
+                size="xl"
+                className="shadow-glow group px-10 py-8 text-xl"
+              >
                 <Play className="w-6 h-6 fill-current group-hover:scale-110 transition-transform mr-2" />
                 Launch 3D Designer
               </Button>
@@ -92,12 +113,12 @@ const DesignerSection = () => {
                 animate={{
                   y: [0, -20, 0],
                   rotateY: [0, 5, 0],
-                  rotateX: [0, 3, 0]
+                  rotateX: [0, 3, 0],
                 }}
                 transition={{
                   duration: 6,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: "easeInOut",
                 }}
                 whileHover={{ scale: 1.05 }}
                 className="relative z-10 w-full cursor-grab active:cursor-grabbing"

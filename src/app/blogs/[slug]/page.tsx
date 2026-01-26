@@ -5,29 +5,63 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
-import { getSafeSlug } from "@/lib/slug-utils";
+import { getSafeSlug, slugMatches } from "@/lib/slug-utils";
 
 import { Metadata } from "next";
 
 // NOTE: In Next.js with 'output: export', searchParams are NOT available to server-side generateMetadata
 // or the page component itself at build time. Multilingual SEO for query params must be handled on the client.
+// For static export, we must tell Next.js not to try and dynamic render any slug that wasn't
+// included in generateStaticParams.
+export const dynamicParams = false;
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  // Decode slug to ensure we handle Thai characters correctly
-  const decodedSlug = decodeURIComponent(slug);
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug);
+
+  // Log the incoming slug for debugging
+  console.log(`[generateMetadata] Incoming slug from Next.js: "${slug}"`);
+
+  // Decode slug and normalize to NFC for consistent matching
+  let decodedSlug = slug;
+  try {
+    let prev = "";
+    while (decodedSlug !== prev) {
+      prev = decodedSlug;
+      decodedSlug = decodeURIComponent(decodedSlug);
+    }
+  } catch (e) {
+    // Ignore
+  }
+  decodedSlug = decodedSlug.normalize("NFC");
+
+  console.log(`[generateMetadata] Decoded/Normalized slug: "${decodedSlug}"`);
 
   // For metadata, we need to find the blog. During build, slug might be the "safe" one.
+  // We check both the raw slug and the safe slug version using slugMatches.
   let blog = await blogApi.getArticleBySlug(decodedSlug);
 
   // If not found, it might be because the slug is a truncated safe slug
   if (!blog) {
+    console.log(
+      `[generateMetadata] Direct slug fetch for "${decodedSlug}" failed, searching articles...`,
+    );
     const response = await blogApi.getArticles(1, 100);
     blog =
-      response.data.find((a) => getSafeSlug(a.slug) === decodedSlug) || null;
+      response.data.find((a) => a.slug && slugMatches(a.slug, decodedSlug)) ||
+      null;
+
+    if (blog) {
+      console.log(`[generateMetadata] Found matching article: "${blog.slug}"`);
+    } else {
+      console.warn(
+        `[generateMetadata] No matching article found for "${decodedSlug}"`,
+      );
+    }
   }
 
   if (!blog) {
@@ -85,9 +119,18 @@ export async function generateStaticParams() {
 
     const params = response.data
       .filter((article) => article.slug)
-      .map((article) => ({
-        slug: getSafeSlug(article.slug),
-      }));
+      .flatMap((article) => {
+        const safeSlug = getSafeSlug(article.slug);
+        const encodedSlug = encodeURIComponent(safeSlug);
+
+        // Return both raw and encoded to be safe with different environments
+        // Next.js will de-duplicate these if they resolve to the same thing
+        const result = [{ slug: safeSlug }];
+        if (encodedSlug !== safeSlug) {
+          result.push({ slug: encodedSlug });
+        }
+        return result;
+      });
 
     return params;
   } catch (error) {
@@ -107,22 +150,49 @@ export default async function BlogDetailPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
-  // Decode slug to ensure we handle Thai characters correctly
-  const decodedSlug = decodeURIComponent(slug);
+  const { slug: rawSlug } = await params;
+  const slug = String(rawSlug);
+
+  console.log(`[BlogDetailPage] Incoming slug: "${slug}"`);
+
+  // Decode slug and normalize to NFC
+  let decodedSlug = slug;
+  try {
+    let prev = "";
+    while (decodedSlug !== prev) {
+      prev = decodedSlug;
+      decodedSlug = decodeURIComponent(decodedSlug);
+    }
+  } catch (e) {
+    // Ignore
+  }
+  decodedSlug = decodedSlug.normalize("NFC");
+
+  console.log(`[BlogDetailPage] Decoded/Normalized slug: "${decodedSlug}"`);
 
   // Server-side fetch (runs at build time for 'export' output)
   let blog = await blogApi.getArticleBySlug(decodedSlug);
 
   // If not found, it might be a safe slug
   if (!blog) {
+    console.log(
+      `[BlogDetailPage] Direct slug fetch for "${decodedSlug}" failed, searching articles...`,
+    );
     const response = await blogApi.getArticles(1, 100);
     blog =
-      response.data.find((a) => getSafeSlug(a.slug) === decodedSlug) || null;
+      response.data.find((a) => a.slug && slugMatches(a.slug, decodedSlug)) ||
+      null;
 
     // If we found it, it probably needs a full fetch to get the description
     if (blog) {
+      console.log(
+        `[BlogDetailPage] Found match: "${blog.slug}". Fetching full content...`,
+      );
       blog = await blogApi.getArticleBySlug(String(blog.slug));
+    } else {
+      console.warn(
+        `[BlogDetailPage] No blog article found matching "${decodedSlug}"`,
+      );
     }
   }
 

@@ -153,7 +153,8 @@ export default function BlogContent({ blog }: { blog: Article }) {
           letter-spacing: -0.01em;
         }
         .blog-content p {
-          margin-bottom: 2rem;
+          margin-bottom: 0px;
+          font-size: 18px;
         }
         .blog-content h1,
         .blog-content h2,
@@ -163,7 +164,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
         .blog-content h6 {
           font-weight: 900;
           line-height: 1.2;
-          margin-bottom: 1.5rem;
+          margin-bottom: 0px;
           scroll-margin-top: 120px;
           color: hsl(var(--foreground));
           letter-spacing: -0.03em;
@@ -193,11 +194,11 @@ export default function BlogContent({ blog }: { blog: Article }) {
 
         .blog-content ul,
         .blog-content ol {
-          margin: 2rem 0 2rem 1.5rem;
+          margin: 0 0 0 1.5rem;
           padding-left: 1rem;
         }
         .blog-content li {
-          margin-bottom: 0.75rem;
+          margin-bottom: 0;
         }
         .blog-content ul {
           list-style-type: none;
@@ -275,8 +276,8 @@ export default function BlogContent({ blog }: { blog: Article }) {
       `}</style>
 
       <article className="pt-32 pb-24">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex flex-col lg:flex-row gap-12 xl:gap-20 items-start">
+        <div className="max-w-7xl mx-auto px-2 md:px-4">
+          <div className="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
             {/* LEFT SIDEBAR - Becomes a top section on mobile, sticky sidebar on desktop */}
             <aside className="w-full lg:w-[280px] shrink-0 lg:sticky lg:top-32 space-y-12 order-2 lg:order-1">
               <Link
@@ -354,8 +355,8 @@ export default function BlogContent({ blog }: { blog: Article }) {
             </aside>
 
             {/* RIGHT MAIN CONTENT AREA */}
-            <div className="flex-1 w-full lg:max-w-[800px] order-1 lg:order-2">
-              <header className="mb-12" id="post-header">
+            <div className="flex-1 w-full lg:max-w-[1000px] order-1 lg:order-2">
+              <header className="mb-6" id="post-header">
                 {/* Language Fallback Tag */}
                 {isFallback && (
                   <div className="flex items-center gap-3 px-5 py-3 bg-amber-50 text-amber-700 rounded-2xl text-[12px] font-black uppercase tracking-widest mb-10 border border-amber-100/50 animate-pulse">
@@ -378,7 +379,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
                   ))}
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight text-foreground mb-12">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight text-foreground mb-4">
                   {name}
                 </h1>
 
@@ -458,7 +459,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
 
                 {conclusion && (
                   <div
-                    className="mt-20 p-8 md:p-12 rounded-[3.5rem] bg-gradient-to-br from-neutral-50 to-white border border-neutral-200/60 shadow-xl relative overflow-hidden"
+                    className="mt-8 p-4 md:p-8 rounded-[3.5rem] bg-gradient-to-br from-neutral-50 to-white border border-neutral-200/60 shadow-xl relative overflow-hidden"
                     id="post-conclusion"
                   >
                     <div className="absolute top-0 left-0 w-2 h-full bg-primary" />
@@ -467,7 +468,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
                       {isTh ? "บทสรุป" : "Summary"}
                     </h4>
                     <div
-                      className="rich-text font-medium text-base md:text-lg leading-relaxed text-foreground/70"
+                      className="mt-8 rich-text font-medium text-base md:text-[18px] leading-relaxed text-foreground/70"
                       dangerouslySetInnerHTML={{ __html: conclusion }}
                     />
                   </div>
@@ -478,11 +479,11 @@ export default function BlogContent({ blog }: { blog: Article }) {
         </div>
 
         {/* KEEP LEARNING SECTION */}
-        <section className="mt-40 pt-32 border-t border-neutral-100 bg-neutral-50/30 overflow-hidden">
+        <section className="mt-40 pt-16 border-t border-neutral-200 bg-neutral-50/30 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 md:px-8 mb-16">
             <div className="flex flex-col md:flex-row items-end justify-between gap-8">
               <div className="space-y-4">
-                <h3 className="text-[12px] font-black text-primary uppercase tracking-[0.3em]">
+                <h3 className="text-[12px] font-black text-primary uppercase tracking-[0.2em]">
                   {isTh ? "ยังมีความรู้อื่นๆ" : "Next for You"}
                 </h3>
                 <h2 className="text-4xl md:text-6xl font-black tracking-tighter text-foreground leading-none">

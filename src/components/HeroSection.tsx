@@ -35,17 +35,51 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-      {/* Background */}
+      {/* Parallax Background */}
       <motion.div
-        initial={{ scale: 1.2, opacity: 0 }}
+        initial={{ scale: 1.1, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 2, ease: "easeOut" }}
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        transition={{ duration: 1.5, ease: "easeOut" }}
         style={{
           backgroundImage: `url("${getAssetPath("/asset/hero-bg-premium.jpg")}")`,
         }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-background/20 to-background" />
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-75 ease-out scale-105"
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/40 to-background" />
+      </motion.div>
+
+      {/* Decorative Floating Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          animate={{
+            y: [0, -20, 0],
+            rotate: [0, 5, 0],
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[20%] right-[15%] w-12 h-12 bg-primary/20 backdrop-blur-3xl rounded-xl border border-white/20 transform -rotate-12 shadow-glow"
+        />
+        <motion.div
+          animate={{
+            y: [0, 30, 0],
+            rotate: [0, -8, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+          className="absolute bottom-[20%] left-[10%] w-16 h-16 bg-lavender/30 backdrop-blur-3xl rounded-2xl border border-white/20 transform rotate-6 shadow-glow"
+        />
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[30%] left-[20%] w-64 h-64 bg-primary/10 rounded-full blur-[100px] -z-10"
+        />
+      </div>
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -62,29 +96,25 @@ const HeroSection = () => {
             >
               <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse-soft" />
               <span className="text-sm font-semibold text-foreground/90 tracking-wide uppercase">
-                Trusted by 500+ global brands
+                {t("aboutUs.brandsTrusted") || "Trusted by 500+ global brands"}
               </span>
             </motion.div>
 
             <motion.h1
               variants={itemVariants}
-              className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-[1.1] tracking-tighter"
+              className="text-5xl md:text-6xl lg:text-7xl font-black text-foreground leading-[1.05] tracking-tighter"
             >
-              <span className="block">
-                {t("home.heroTitle").split(" ").length > 2
-                  ? t("home.heroTitle").split(" ").slice(0, 3).join(" ")
-                  : t("home.heroTitle")}
+              <span className="block drop-shadow-sm">
+                {t("home.heroTitleMain")}
               </span>
-              <span className="text-primary italic">
-                {t("home.heroTitle").split(" ").length > 2
-                  ? t("home.heroTitle").split(" ").slice(3).join(" ")
-                  : ""}
+              <span className="text-primary italic inline-block mt-2 drop-shadow-sm">
+                {t("home.heroTitleHighlight")}
               </span>
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="text-2xl text-muted-foreground/80 max-w-xl leading-relaxed font-medium"
+              className="text-xl md:text-2xl text-muted-foreground/90 max-w-xl leading-relaxed font-medium"
             >
               {t("home.heroSubtitle")}
             </motion.p>
@@ -97,17 +127,17 @@ const HeroSection = () => {
                 <Button
                   variant="hero"
                   size="xl"
-                  className="shadow-glow hover:scale-110 active:scale-95 transition-all duration-300 px-8 py-6 text-lg"
+                  className="shadow-glow hover:scale-105 active:scale-95 transition-all duration-300 px-10 py-7 text-lg rounded-2xl"
                 >
                   {t("common.getStarted")}
-                  <ArrowRight className="w-6 h-6" />
+                  <ArrowRight className="w-6 h-6 ml-2" />
                 </Button>
               </Link>
               <Link href="/pricing">
                 <Button
                   variant="soft"
                   size="xl"
-                  className="glass-premium hover:bg-white/20 transition-all duration-300 px-8 py-6 text-lg"
+                  className="glass-premium hover:bg-white/20 transition-all duration-300 px-10 py-7 text-lg rounded-2xl"
                 >
                   {t("pricing.title")}
                 </Button>
@@ -117,10 +147,10 @@ const HeroSection = () => {
 
           {/* Right Content - Floating Price Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, x: 100 }}
+            initial={{ opacity: 0, scale: 0.9, x: 50 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="relative lg:pl-16"
+            className="relative lg:pl-16 hidden lg:block"
           >
             <div className="floating-card p-10 max-w-lg mx-auto hover:shadow-glow transition-all duration-700 hover:-translate-y-4 group">
               <div className="flex items-center justify-between mb-10">

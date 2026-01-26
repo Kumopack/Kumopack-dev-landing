@@ -7,17 +7,30 @@
 export function getSafeSlug(slug: string): string {
   if (!slug) return "";
 
-  // Decode if it's encoded
-  const decoded = decodeURIComponent(slug);
+  // 1. Decode EVERYTHING first to get the clean original characters (like Thai chars)
+  let decoded = slug;
+  try {
+    let prev = "";
+    while (decoded !== prev) {
+      prev = decoded;
+      decoded = decodeURIComponent(decoded);
+    }
+  } catch (e) {
+    // Ignore decoding errors
+  }
   
-  // Use a safe limit. 255 bytes / 3 (max bytes per char) = 85 chars.
-  if (decoded.length <= 80) return decoded;
+  // 2. Normalize to NFC for consistent filesystem/routing
+  decoded = decoded.normalize("NFC");
+  
+  // 3. Handle truncation safely for Thai/Multi-byte characters
+  // A conservative safe limit for filenames. Thai characters use multiple bytes.
+  // Using 50 to match previous implementation's hash compatibility.
+  if (decoded.length <= 50) return decoded;
 
-  // Truncate and add a small hash or just truncate at a word boundary if possible
-  // For simplicity and predictability, we'll just truncate and add a hash of the original slug
-  const truncated = decoded.substring(0, 70);
-  const hash = simpleHash(decoded);
+  // Use Array.from or spread to be somewhat more aware of surrogate pairs
+  let truncated = [...decoded].slice(0, 50).join("");
   
+  const hash = simpleHash(decoded);
   return `${truncated}-${hash}`;
 }
 
@@ -35,8 +48,16 @@ function simpleHash(str: string): string {
  * Checks if a given slug matches a blog article, considering both original and safe versions.
  */
 export function slugMatches(articleSlug: string, targetSlug: string): boolean {
-  if (articleSlug === targetSlug) return true;
-  if (getSafeSlug(articleSlug) === targetSlug) return true;
-  if (articleSlug === decodeURIComponent(targetSlug)) return true;
+  if (!articleSlug || !targetSlug) return false;
+  
+  const normArticle = articleSlug.normalize("NFC");
+  const normTarget = targetSlug.normalize("NFC");
+  const decodedTarget = decodeURIComponent(normTarget).normalize("NFC");
+  
+  if (normArticle === normTarget) return true;
+  if (getSafeSlug(normArticle) === normTarget) return true;
+  if (normArticle === decodedTarget) return true;
+  if (getSafeSlug(normArticle) === decodedTarget) return true;
+  
   return false;
 }

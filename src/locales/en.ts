@@ -28,7 +28,8 @@ export const en = {
         events: "Kumo's Event",
     },
     home: {
-        heroTitle: "Build your brand with custom packaging",
+        heroTitleMain: "Build your brand with",
+        heroTitleHighlight: "custom packaging",
         heroSubtitle: "We connect you with the best factories to create unique packaging and sustainable materials.",
     },
     pricing: {
@@ -130,5 +131,17 @@ export const en = {
             community: "Community",
             communityDesc: "Supporting growth for buyers and suppliers.",
         }
+    },
+    howItWorks: {
+        title: "Streamlined from Idea to Unboxing",
+        subtitle: "We've simplified the complex world of packaging sourcing into four simple steps.",
+        step1Title: "Design Your Vision",
+        step1Desc: "Choose your box style and upload your artwork using our intuitive 3D editor.",
+        step2Title: "Get Instant Quotes",
+        step2Desc: "Receive competitive bids from our network of certified manufacturers in real-time.",
+        step3Title: "Order Samples",
+        step3Desc: "Test the quality with a physical sample before committing to a full production run.",
+        step4Title: "Scale Production",
+        step4Desc: "Once approved, your packaging goes into production and ships directly to your door.",
     }
 };

@@ -61,8 +61,13 @@ export const blogApi = {
 
     async getArticleBySlug(slug: string): Promise<Article | null> {
         try {
-            const res = await fetch(`${API_BASE_URL}/articles/${encodeURIComponent(slug)}`);
-            if (!res.ok) return null;
+            const url = `${API_BASE_URL}/articles/${encodeURIComponent(slug)}`;
+            console.log(`[blogApi] Fetching article from: ${url}`);
+            const res = await fetch(url);
+            if (!res.ok) {
+                console.warn(`[blogApi] Fetch failed for ${slug}: ${res.status}`);
+                return null;
+            }
             return await res.json();
         } catch (error) {
             console.error(`Error fetching article ${slug}:`, error);
