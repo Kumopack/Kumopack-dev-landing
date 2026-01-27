@@ -48,7 +48,6 @@ function LearningPageContent() {
     initialAudience,
   );
 
-  // 1. Sync Audience from URL
   useEffect(() => {
     const aud = searchParams.get("audience") as "buyer" | "supplier";
     if (aud && aud !== currentAudience) {
@@ -56,7 +55,6 @@ function LearningPageContent() {
     }
   }, [searchParams]);
 
-  // 2. Sync Context from URL on Mount
   useEffect(() => {
     const urlLang = searchParams.get("lang");
     if (
@@ -68,7 +66,6 @@ function LearningPageContent() {
     }
   }, []);
 
-  // 3. Sync URL from Context when language changes
   useEffect(() => {
     const urlLang = searchParams.get("lang");
     if (urlLang !== language) {
@@ -82,10 +79,6 @@ function LearningPageContent() {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        console.log(
-          `[LearningPage] Fetching data: audience=${currentAudience}, category=${selectedCategorySlug}, search=${search}`,
-        );
-
         let articlesRes;
         if (search) {
           articlesRes = await learningApi.searchArticles({
@@ -113,21 +106,18 @@ function LearningPageContent() {
           setTotalPages(articlesRes.pagination.totalPages);
         }
 
-        // 1. Fetch larger batch to derive categories & pinned article
         const allArticlesRes = await learningApi.getArticles({
           targetAudience: currentAudience,
           lang: language as "th" | "en",
           limit: 100,
         });
 
-        // 2. Identify Featured/Pinned Article (Priority: Pin 1 -> Any Pin -> First)
         const pinned =
           allArticlesRes.data.find((a) => a.isPinned && a.pinnedOrder === 1) ||
           allArticlesRes.data.find((a) => a.isPinned) ||
           allArticlesRes.data[0];
         setFeaturedArticle(pinned || null);
 
-        // 3. Derive Categories
         const derivedCategories = Array.from(
           new Map(
             allArticlesRes.data

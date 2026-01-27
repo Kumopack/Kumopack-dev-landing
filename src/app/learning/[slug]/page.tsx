@@ -23,10 +23,6 @@ export async function generateStaticParams() {
       ...(sitemapEn.articles || []),
     ];
 
-    console.log(
-      `[learning/generateStaticParams] Fetched ${apiArticles.length} articles (multilingual)`,
-    );
-
     // Collect all unique slugs, including hardcoded fallbacks
     const allSlugs = new Set([
       ...apiArticles.map((a) => a.slug).filter(Boolean),
@@ -53,9 +49,6 @@ export async function generateStaticParams() {
       new Map(params.map((p) => [p.slug, p])).values(),
     );
 
-    console.log(
-      `[learning/generateStaticParams] Returning ${uniqueParams.length} unique params`,
-    );
     return uniqueParams;
   } catch (error) {
     console.error("Error in generateStaticParams:", error);
@@ -81,10 +74,6 @@ export default async function LearningDetailPage({
   const language = "th";
   const slug = String(rawId);
 
-  console.log(
-    `[LearningDetailPage] Processing slug for static build: "${slug}"`,
-  );
-
   // Normalize slug
   let decodedSlug = slug;
   try {
@@ -106,9 +95,6 @@ export default async function LearningDetailPage({
 
     // 2. Fallback: Search in sitemaps (handles safe/hashed slugs)
     if (!article) {
-      console.log(
-        `[LearningDetailPage] Direct fetch failed for "${decodedSlug}", checking sitemaps...`,
-      );
       const [sitemapTh, sitemapEn] = await Promise.all([
         learningApi.getSitemap("th"),
         learningApi.getSitemap("en"),

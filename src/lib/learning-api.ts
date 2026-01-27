@@ -124,7 +124,6 @@ export const learningApi = {
             }
 
             const url = `${API_BASE_URL}/articles?${queryParams.toString()}`;
-            console.log(`[learningApi] fetching articles: ${url}`);
             
             const res = await fetch(url, { cache: 'no-store' });
             if (!res.ok) {
@@ -149,8 +148,6 @@ export const learningApi = {
             queryParams.append('lang', lang);
             
             const url = `${API_BASE_URL}/article?${queryParams.toString()}`;
-            console.log(`[learningApi] fetching article: ${url}`);
-
             const res = await fetch(url, { cache: 'no-store' });
             if (!res.ok) {
                 if (res.status === 404) return null;
@@ -318,7 +315,8 @@ export const learningApi = {
     },
 
     getAssetPath(path: string | null): string {
-        if (!path) return '/asset/3d-box.png';
+        const basePath = process.env.NODE_ENV === 'production' ? '/Kumopack-dev-landing' : '';
+        if (!path) return `${basePath}/asset/3d-box.png`;
         if (path.startsWith('http') || path.startsWith('data:')) {
             return path;
         }

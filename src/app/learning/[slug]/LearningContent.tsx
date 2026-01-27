@@ -14,6 +14,7 @@ import {
   Grid,
   BookOpen,
   AlertCircle,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -35,7 +36,9 @@ export default function LearningContent({
   isFallback?: boolean;
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [article, setArticle] = useState<LearningArticle>(initialArticle);
+  const [currentArticle, setCurrentArticle] =
+    useState<LearningArticle>(initialArticle);
+  const [isDynamicLoading, setIsDynamicLoading] = useState(false);
   const [relatedArticles, setRelatedArticles] = useState<LearningArticle[]>([]);
   const [audience, setAudience] = useState<"buyer" | "supplier">(
     initialAudience,
@@ -46,10 +49,8 @@ export default function LearningContent({
   const router = useRouter();
   const pathname = usePathname();
 
-  // Reference to avoid redundant fetches of the main article
   const lastArticleFetchRef = useRef<string | null>(null);
 
-  // 1. Sync Context from URL on Mount
   useEffect(() => {
     const urlLang = searchParams.get("lang");
     const urlAudience = searchParams.get("audience") as "buyer" | "supplier";
@@ -69,7 +70,6 @@ export default function LearningContent({
     }
   }, []);
 
-  // 2. Sync URL from Context when language changes
   useEffect(() => {
     const urlLang = searchParams.get("lang");
     if (urlLang !== language) {
@@ -79,8 +79,6 @@ export default function LearningContent({
     }
   }, [language, pathname, router, searchParams]);
 
-  // 3. Dynamic Article Fetching (Crucial for static export)
-  // If language or articleId in URL differs from the current article state, fetch the correct one.
   useEffect(() => {
     const urlLang = searchParams.get("lang") || language;
     const urlId = searchParams.get("articleId") || searchParams.get("id");
@@ -88,13 +86,14 @@ export default function LearningContent({
 
     if (lastArticleFetchRef.current === fetchKey) return;
 
-    // Only fetch if there's a mismatch (e.g., lang in URL is different from the current display article's lang)
+    // Only fetch if there's a mismatch
     const needsFetch =
-      (urlLang && article.lang !== urlLang) ||
-      (urlId && String(article.id) !== String(urlId));
+      (urlLang && !currentArticle.url.startsWith(`/${urlLang}/`)) ||
+      (urlId && String(currentArticle.id) !== String(urlId));
 
     if (needsFetch) {
       const fetchArticle = async () => {
+        setIsDynamicLoading(true);
         try {
           const freshArticle = await learningApi.getArticleBySlug(
             String(initialArticle.slug),
@@ -102,41 +101,31 @@ export default function LearningContent({
             urlId || undefined,
           );
           if (freshArticle) {
-            setArticle(freshArticle);
-            // Re-calculate fallback status
-            setIsFallback(freshArticle.lang !== urlLang);
+            setCurrentArticle(freshArticle);
+            setIsFallback(!freshArticle.url.startsWith(`/${urlLang}/`));
           }
         } catch (err) {
           console.error("[LearningContent] Dynamic fetch failed:", err);
         } finally {
+          setIsDynamicLoading(false);
           lastArticleFetchRef.current = fetchKey;
         }
       };
       fetchArticle();
     } else {
       lastArticleFetchRef.current = fetchKey;
+      setIsFallback(!currentArticle.url.startsWith(`/${urlLang}/`));
     }
-  }, [language, searchParams, initialArticle.slug, article.lang, article.id]);
+  }, [
+    language,
+    searchParams,
+    initialArticle.slug,
+    currentArticle.url,
+    currentArticle.id,
+  ]);
 
+  const article = currentArticle;
   const isTh = language === "th";
-
-  // Robust content extraction: prioritize showing something over nothing
-  const rawContents = [
-    article.excerpt,
-    article.meta?.description,
-    article.content,
-  ].filter(Boolean) as string[];
-
-  // Filter out strings that are just empty HTML tags like <p><br></p>
-  const cleanContents = rawContents.filter(
-    (str) => str.replace(/<[^>]*>/g, "").trim().length > 0,
-  );
-
-  const mainContentHtml = cleanContents.join(
-    '<div class="my-12 h-px bg-neutral-100/50 shadow-inner"></div>',
-  );
-
-  const hasAnyContent = cleanContents.length > 0;
 
   const lastFetchedRef = useRef<{ slug: string; lang: string } | null>(null);
 
@@ -162,6 +151,40 @@ export default function LearningContent({
     };
     fetchRelated();
   }, [article.slug, language]);
+
+  // While dynamic loading, show a premium spinner
+  if (isDynamicLoading) {
+    return (
+      <main className="min-h-screen bg-kumopack-base-white flex flex-col">
+        <Navbar />
+        <div className="flex-1 flex flex-col items-center justify-center gap-8">
+          <Loader2 className="w-16 h-16 text-primary animate-spin opacity-20" />
+          <p className="text-muted-foreground font-black uppercase tracking-[0.4em] text-[10px] animate-pulse">
+            Syncing Content...
+          </p>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
+
+  // Robust content extraction: prioritize showing something over nothing
+  const rawContents = [
+    article.excerpt,
+    article.meta?.description,
+    article.content,
+  ].filter(Boolean) as string[];
+
+  // Filter out strings that are just empty HTML tags like <p><br></p>
+  const cleanContents = rawContents.filter(
+    (str) => str.replace(/<[^>]*>/g, "").trim().length > 0,
+  );
+
+  const mainContentHtml = cleanContents.join(
+    '<div class="my-12 h-px bg-neutral-100/50 shadow-inner"></div>',
+  );
+
+  const hasAnyContent = cleanContents.length > 0;
 
   const handleShare = async () => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
