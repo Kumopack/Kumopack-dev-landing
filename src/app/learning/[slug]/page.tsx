@@ -69,31 +69,20 @@ export async function generateStaticParams() {
 
 export default async function LearningDetailPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{
-    audience?: string;
-    lang?: string;
-    articleId?: string;
-    id?: string;
-  }>;
 }) {
   const { slug: rawId } = await params;
-  const {
-    audience: audienceParam,
-    lang: langParam,
-    articleId,
-    id: queryId,
-  } = await searchParams;
 
+  // NOTE: For 'output: export', searchParams are NOT available on the server at build time.
+  // We use defaults for the static pre-rendering, and LearningContent (client component)
+  // will handle the actual language/audience sync from the URL after hydration.
+  const audience = "buyer";
+  const language = "th";
   const slug = String(rawId);
-  const audience = (audienceParam as "buyer" | "supplier") || "buyer";
-  const language = langParam || "th";
-  const targetId = articleId || queryId;
 
   console.log(
-    `[LearningDetailPage] Processing slug: "${slug}" with ID: "${targetId}"`,
+    `[LearningDetailPage] Processing slug for static build: "${slug}"`,
   );
 
   // Normalize slug
@@ -108,11 +97,11 @@ export default async function LearningDetailPage({
   decodedSlug = decodedSlug.normalize("NFC");
 
   try {
-    // 1. Primary Fetch: Try with ID first (most reliable) then fallback to Slug
+    // 1. Primary Fetch: Try with Slug (ID is not available at build time for static export)
     let article = await learningApi.getArticleBySlug(
       decodedSlug,
       language,
-      targetId,
+      undefined,
     );
 
     // 2. Fallback: Search in sitemaps (handles safe/hashed slugs)

@@ -26,33 +26,46 @@ import { getSafeSlug } from "@/lib/slug-utils";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 export default function LearningContent({
-  article,
-  audience = "buyer",
-  isFallback = false,
+  article: initialArticle,
+  audience: initialAudience = "buyer",
+  isFallback: initialFallback = false,
 }: {
   article: LearningArticle;
   audience?: "buyer" | "supplier";
   isFallback?: boolean;
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [article, setArticle] = useState<LearningArticle>(initialArticle);
   const [relatedArticles, setRelatedArticles] = useState<LearningArticle[]>([]);
+  const [audience, setAudience] = useState<"buyer" | "supplier">(
+    initialAudience,
+  );
+  const [isFallback, setIsFallback] = useState(initialFallback);
   const { language, setLanguage } = useLanguage();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
+  // Reference to avoid redundant fetches of the main article
+  const lastArticleFetchRef = useRef<string | null>(null);
+
   // 1. Sync Context from URL on Mount
   useEffect(() => {
     const urlLang = searchParams.get("lang");
+    const urlAudience = searchParams.get("audience") as "buyer" | "supplier";
+
     if (
       urlLang &&
       (urlLang === "th" || urlLang === "en") &&
       urlLang !== language
     ) {
-      console.log(
-        `[LearningContent] Initializing language from URL: ${urlLang}`,
-      );
       setLanguage(urlLang as "th" | "en");
+    }
+    if (
+      urlAudience &&
+      (urlAudience === "buyer" || urlAudience === "supplier")
+    ) {
+      setAudience(urlAudience);
     }
   }, []);
 
@@ -60,12 +73,50 @@ export default function LearningContent({
   useEffect(() => {
     const urlLang = searchParams.get("lang");
     if (urlLang !== language) {
-      console.log(`[LearningContent] Syncing URL to language: ${language}`);
       const params = new URLSearchParams(searchParams.toString());
       params.set("lang", language);
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }
   }, [language, pathname, router, searchParams]);
+
+  // 3. Dynamic Article Fetching (Crucial for static export)
+  // If language or articleId in URL differs from the current article state, fetch the correct one.
+  useEffect(() => {
+    const urlLang = searchParams.get("lang") || language;
+    const urlId = searchParams.get("articleId") || searchParams.get("id");
+    const fetchKey = `${initialArticle.slug}-${urlLang}-${urlId}`;
+
+    if (lastArticleFetchRef.current === fetchKey) return;
+
+    // Only fetch if there's a mismatch (e.g., lang in URL is different from the current display article's lang)
+    const needsFetch =
+      (urlLang && article.lang !== urlLang) ||
+      (urlId && String(article.id) !== String(urlId));
+
+    if (needsFetch) {
+      const fetchArticle = async () => {
+        try {
+          const freshArticle = await learningApi.getArticleBySlug(
+            String(initialArticle.slug),
+            urlLang as "th" | "en",
+            urlId || undefined,
+          );
+          if (freshArticle) {
+            setArticle(freshArticle);
+            // Re-calculate fallback status
+            setIsFallback(freshArticle.lang !== urlLang);
+          }
+        } catch (err) {
+          console.error("[LearningContent] Dynamic fetch failed:", err);
+        } finally {
+          lastArticleFetchRef.current = fetchKey;
+        }
+      };
+      fetchArticle();
+    } else {
+      lastArticleFetchRef.current = fetchKey;
+    }
+  }, [language, searchParams, initialArticle.slug, article.lang, article.id]);
 
   const isTh = language === "th";
 
