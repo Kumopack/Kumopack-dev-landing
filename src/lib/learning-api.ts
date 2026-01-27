@@ -44,12 +44,27 @@ export interface LearningArticle {
     views: number;
     viewCount: number;
     slug: string;
-    lang: 'th' | 'en';
+    lang?: 'th' | 'en';
     url: string;
     difficultyLevel?: 'beginner' | 'intermediate' | 'advanced';
     difficultyText?: string;
     readingTime?: number;
     readingTimeText?: string;
+    isPinned?: boolean;
+    pinnedOrder?: number | null;
+    featuredImageAlt?: string | null;
+    meta?: {
+        title?: string;
+        description?: string;
+        keywords?: string | null;
+    };
+    tutorial?: {
+        url?: string;
+        title?: string | null;
+    };
+    tutorialUrl?: string;
+    isFeatured?: boolean;
+    isPremium?: boolean;
 }
 
 export interface ArticlesResponse {
@@ -123,13 +138,16 @@ export const learningApi = {
         }
     },
 
-    async getArticleBySlug(slug: string, lang: string = 'th'): Promise<LearningArticle | null> {
+    async getArticleBySlug(slug: string, lang: string = 'th', id?: string | number): Promise<LearningArticle | null> {
         try {
             const queryParams = new URLSearchParams();
-            queryParams.append('slug', slug);
+            if (id) {
+                queryParams.append('id', String(id));
+            } else {
+                queryParams.append('slug', slug);
+            }
             queryParams.append('lang', lang);
             
-            // Reverting to /article?slug= because /articles/{slug} was 404-ing in tests
             const url = `${API_BASE_URL}/article?${queryParams.toString()}`;
             console.log(`[learningApi] fetching article: ${url}`);
 
@@ -141,7 +159,7 @@ export const learningApi = {
             }
             return await res.json();
         } catch (error) {
-            console.error(`Error fetching learning article ${slug}:`, error);
+            console.error(`Error fetching learning article ${id || slug}:`, error);
             return null;
         }
     },

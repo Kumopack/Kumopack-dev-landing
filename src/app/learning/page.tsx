@@ -23,11 +23,23 @@ import { learningApi, LearningArticle, Category } from "@/lib/learning-api";
 import { getSafeSlug } from "@/lib/slug-utils";
 
 function LearningPageContent() {
-  const { language } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const isTh = language === "th";
+
+  // State management
+  const [search, setSearch] = useState("");
+  const [selectedCategorySlug, setSelectedCategorySlug] = useState("all");
+  const [articles, setArticles] = useState<LearningArticle[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [featuredArticle, setFeaturedArticle] =
+    useState<LearningArticle | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 12;
 
   // Read initial audience from URL or default to buyer
   const initialAudience =
@@ -36,17 +48,7 @@ function LearningPageContent() {
     initialAudience,
   );
 
-  const [search, setSearch] = useState("");
-  const [selectedCategorySlug, setSelectedCategorySlug] = useState("all");
-  const [articles, setArticles] = useState<LearningArticle[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-
-  const limit = 12;
-
-  // Sync state with URL when it changes externally
+  // 1. Sync Audience from URL
   useEffect(() => {
     const aud = searchParams.get("audience") as "buyer" | "supplier";
     if (aud && aud !== currentAudience) {
@@ -54,11 +56,27 @@ function LearningPageContent() {
     }
   }, [searchParams]);
 
-  // Hero Segment Images (Based on targetAudience)
-  const heroImageUrl =
-    currentAudience === "supplier"
-      ? "/asset/marketplace-premium.png"
-      : "/asset/hero-bg-premium.jpg";
+  // 2. Sync Context from URL on Mount
+  useEffect(() => {
+    const urlLang = searchParams.get("lang");
+    if (
+      urlLang &&
+      (urlLang === "th" || urlLang === "en") &&
+      urlLang !== language
+    ) {
+      setLanguage(urlLang as "th" | "en");
+    }
+  }, []);
+
+  // 3. Sync URL from Context when language changes
+  useEffect(() => {
+    const urlLang = searchParams.get("lang");
+    if (urlLang !== language) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("lang", language);
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    }
+  }, [language, pathname, router, searchParams]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,7 +97,6 @@ function LearningPageContent() {
             page: currentPage,
             limit: limit,
           });
-          // searchArticles returns LearningArticle[], wrap it to match response structure
           const data = Array.isArray(articlesRes) ? articlesRes : [];
           setArticles(data);
           setTotalPages(1);
@@ -96,14 +113,21 @@ function LearningPageContent() {
           setTotalPages(articlesRes.pagination.totalPages);
         }
 
-        // FALLBACK: Since /categories endpoint is 500ing, derive categories from total articles
-        // We fetch a larger batch of articles once to get all possible categories for the tabs
+        // 1. Fetch larger batch to derive categories & pinned article
         const allArticlesRes = await learningApi.getArticles({
           targetAudience: currentAudience,
           lang: language as "th" | "en",
           limit: 100,
         });
 
+        // 2. Identify Featured/Pinned Article (Priority: Pin 1 -> Any Pin -> First)
+        const pinned =
+          allArticlesRes.data.find((a) => a.isPinned && a.pinnedOrder === 1) ||
+          allArticlesRes.data.find((a) => a.isPinned) ||
+          allArticlesRes.data[0];
+        setFeaturedArticle(pinned || null);
+
+        // 3. Derive Categories
         const derivedCategories = Array.from(
           new Map(
             allArticlesRes.data
@@ -134,12 +158,9 @@ function LearningPageContent() {
   }, [currentAudience, language, search, selectedCategorySlug, currentPage]);
 
   const handleAudienceChange = (newAudience: "buyer" | "supplier") => {
-    // Update local state first for immediate UI feedback
     setCurrentAudience(newAudience);
     setSelectedCategorySlug("all");
     setCurrentPage(1);
-
-    // Update URL to preserve state for navigation/back-button
     const params = new URLSearchParams(searchParams.toString());
     params.set("audience", newAudience);
     router.push(`${pathname}?${params.toString()}`);
@@ -233,11 +254,27 @@ function LearningPageContent() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="relative aspect-[4/3] rounded-[4rem] overflow-hidden shadow-2xl border-8 border-white group"
+              className="relative aspect-[4/3] rounded-[4rem] overflow-hidden shadow-2xl border-8 border-white group cursor-pointer"
+              onClick={() => {
+                if (featuredArticle) {
+                  router.push(
+                    `/learning/${getSafeSlug(featuredArticle.slug)}?audience=${currentAudience}&lang=${language}&articleId=${featuredArticle.id}`,
+                  );
+                }
+              }}
             >
               <SafeImage
-                src={heroImageUrl}
-                alt="Learning Center"
+                src={
+                  featuredArticle
+                    ? learningApi.getAssetPath(
+                        featuredArticle.featuredImagePath ||
+                          featuredArticle.thumbnailPath,
+                      )
+                    : currentAudience === "supplier"
+                      ? "/asset/marketplace-premium.png"
+                      : "/asset/hero-bg-premium.jpg"
+                }
+                alt={featuredArticle?.title || "Learning Center"}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-[3000ms]"
               />
@@ -245,12 +282,19 @@ function LearningPageContent() {
               <div className="absolute bottom-12 left-12 right-12 p-10 rounded-[2.5rem] bg-white/10 backdrop-blur-2xl border border-white/20">
                 <div className="flex items-center gap-4 text-white font-black text-xs uppercase tracking-widest mb-4">
                   <GraduationCap className="w-5 h-5 text-primary" />
-                  {isTh ? "ความรู้ใหม่ประจำวัน" : "Daily Insights"}
+                  {featuredArticle?.isPinned
+                    ? isTh
+                      ? "แนะนำสำหรับคุณ"
+                      : "Recommended for You"
+                    : isTh
+                      ? "ความรู้ใหม่ประจำวัน"
+                      : "Daily Insights"}
                 </div>
                 <div className="text-2xl font-black text-white leading-tight">
-                  {isTh
-                    ? "เทคนิคการลดต้นทุนบรรจุภัณฑ์"
-                    : "Modern Packaging Cost Optimization"}
+                  {featuredArticle?.title ||
+                    (isTh
+                      ? "เทคนิคการลดต้นทุนบรรจุภัณฑ์"
+                      : "Modern Packaging Cost Optimization")}
                 </div>
               </div>
             </motion.div>
@@ -295,75 +339,136 @@ function LearningPageContent() {
             <>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
                 <AnimatePresence mode="popLayout">
-                  {articles.map((article, index) => (
-                    <motion.article
-                      key={article.id}
-                      layout
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: (index % 4) * 0.1 }}
-                      className="group"
-                    >
-                      <Link
-                        href={`/learning/${getSafeSlug(article.slug)}?audience=${currentAudience}`}
-                        className="flex flex-col h-full gap-8"
+                  {articles.map((article, index) => {
+                    const displayTitle = article.meta?.title || article.title;
+                    const displayDescription =
+                      article.meta?.description || article.excerpt;
+
+                    return (
+                      <motion.article
+                        key={article.id}
+                        layout
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: (index % 4) * 0.1 }}
+                        className="group"
                       >
-                        <div className="relative aspect-[4/5] rounded-[3.5rem] overflow-hidden bg-white border border-neutral-100 shadow-sm group-hover:shadow-2xl group-hover:-translate-y-3 transition-all duration-700">
-                          <SafeImage
-                            src={learningApi.getAssetPath(
-                              article.thumbnailPath ||
-                                article.featuredImagePath,
+                        <Link
+                          href={`/learning/${getSafeSlug(article.slug)}?audience=${currentAudience}&lang=${language}&articleId=${article.id}`}
+                          className="flex flex-col h-full gap-6"
+                        >
+                          <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden bg-white border border-neutral-100 shadow-sm group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-700">
+                            <SafeImage
+                              src={learningApi.getAssetPath(
+                                article.thumbnailPath ||
+                                  article.featuredImagePath,
+                              )}
+                              alt={article.featuredImageAlt || article.title}
+                              fill
+                              className="object-cover group-hover:scale-110 transition-transform duration-[2000ms]"
+                            />
+
+                            {/* Pinned Indicator */}
+                            {article.isPinned && (
+                              <div className="absolute top-6 right-6 z-10">
+                                <span className="px-4 py-1.5 rounded-full bg-primary text-white text-[8px] font-black uppercase tracking-widest shadow-lg flex items-center gap-1.5">
+                                  <motion.div
+                                    animate={{ scale: [1, 1.2, 1] }}
+                                    transition={{
+                                      repeat: Infinity,
+                                      duration: 2,
+                                    }}
+                                    className="w-1.5 h-1.5 rounded-full bg-white shadow-sm"
+                                  />
+                                  Pinned {article.pinnedOrder === 1 && "#1"}
+                                </span>
+                              </div>
                             )}
-                            alt={article.title}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-[2000ms]"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-                          <div className="absolute top-8 left-8">
-                            <span className="px-5 py-2 rounded-2xl bg-white/95 backdrop-blur-xl text-[9px] font-black text-primary shadow-2xl uppercase tracking-widest">
-                              {article.category
-                                ? typeof article.category === "object"
-                                  ? article.category.name
-                                  : article.category
-                                : "Insight"}
-                            </span>
+                            <div className="absolute top-6 left-6 flex flex-col gap-2">
+                              <span className="px-4 py-1.5 rounded-xl bg-white/95 backdrop-blur-xl text-[8px] font-black text-primary shadow-2xl uppercase tracking-widest">
+                                {article.category
+                                  ? typeof article.category === "object"
+                                    ? article.category.name
+                                    : article.category
+                                  : "Insight"}
+                              </span>
+                              {article.difficultyText && (
+                                <span className="px-4 py-1.5 rounded-xl bg-black/80 backdrop-blur-xl text-[8px] font-black text-white shadow-2xl uppercase tracking-widest">
+                                  {article.difficultyText}
+                                </span>
+                              )}
+                            </div>
+
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 p-8 flex flex-col justify-end">
+                              <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em] text-white/80 mb-3">
+                                <Eye className="w-3 h-3 text-primary" />
+                                {(article.viewCount || 0).toLocaleString()}{" "}
+                                Views
+                              </div>
+                              <h2 className="text-lg font-black leading-tight text-white mb-4 line-clamp-3">
+                                {displayTitle}
+                              </h2>
+                              <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-primary">
+                                {isTh ? "อ่านเพิ่มเติม" : "Learn More"}
+                                <ArrowLeft className="w-3 h-3 rotate-180" />
+                              </div>
+                            </div>
                           </div>
 
-                          <div className="absolute bottom-8 left-8 right-8 text-white translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700">
-                            <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] mb-4">
-                              <Eye className="w-4 h-4 text-primary" />
-                              {(article.viewCount || 0).toLocaleString()} Views
+                          <div className="px-4 space-y-4">
+                            <div className="flex flex-wrap items-center gap-3 text-[9px] font-black uppercase tracking-widest text-muted-foreground/40">
+                              <Calendar className="w-3.5 h-3.5" />
+                              {article.publishedAt || (article as any).date
+                                ? new Date(
+                                    article.publishedAt ||
+                                      (article as any).date,
+                                  ).toLocaleDateString(
+                                    isTh ? "th-TH" : "en-US",
+                                    {
+                                      year: "numeric",
+                                      month: "short",
+                                      day: "numeric",
+                                    },
+                                  )
+                                : "Recent"}
+                              <span className="w-1 h-1 rounded-full bg-neutral-200" />
+                              <Clock className="w-3.5 h-3.5" />
+                              {article.readingTimeText || "5 min read"}
                             </div>
-                            <h2 className="text-xl font-black leading-tight mb-6">
-                              {article.title}
+
+                            <h2 className="text-xl font-black text-foreground leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                              {displayTitle}
                             </h2>
-                            <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-primary">
-                              {isTh ? "อ่านเพิ่มเติม" : "Learn More"}
-                              <ArrowLeft className="w-4 h-4 rotate-180" />
-                            </div>
-                          </div>
-                        </div>
 
-                        <div className="px-4 space-y-4 group-hover:opacity-40 transition-opacity">
-                          <div className="flex items-center gap-3 text-[9px] font-black uppercase tracking-widest text-muted-foreground/40">
-                            <Calendar className="w-4 h-4" />
-                            {article.publishedAt
-                              ? new Date(
-                                  article.publishedAt,
-                                ).toLocaleDateString()
-                              : "Recent"}
-                            <span className="w-1 h-1 rounded-full bg-neutral-200" />
-                            <Clock className="w-4 h-4" />
-                            {article.readingTimeText || "5 min read"}
+                            <div
+                              className="text-xs text-muted-foreground line-clamp-3 font-medium leading-relaxed"
+                              dangerouslySetInnerHTML={{
+                                __html: displayDescription,
+                              }}
+                            />
+
+                            {/* Tags */}
+                            {article.tags && article.tags.length > 0 && (
+                              <div className="flex flex-wrap gap-2 pt-2">
+                                {article.tags.slice(0, 3).map((tag) => (
+                                  <span
+                                    key={tag.id}
+                                    style={{
+                                      color: tag.color || "var(--primary)",
+                                    }}
+                                    className="text-[8px] font-black uppercase tracking-tighter"
+                                  >
+                                    #{tag.name}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
                           </div>
-                          <h2 className="text-2xl font-black text-foreground leading-tight line-clamp-2">
-                            {article.title}
-                          </h2>
-                        </div>
-                      </Link>
-                    </motion.article>
-                  ))}
+                        </Link>
+                      </motion.article>
+                    );
+                  })}
                 </AnimatePresence>
               </div>
 

@@ -72,17 +72,28 @@ export default async function LearningDetailPage({
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ audience?: string; lang?: string }>;
+  searchParams: Promise<{
+    audience?: string;
+    lang?: string;
+    articleId?: string;
+    id?: string;
+  }>;
 }) {
   const { slug: rawId } = await params;
-  const { audience: audienceParam, lang: langParam } = await searchParams;
+  const {
+    audience: audienceParam,
+    lang: langParam,
+    articleId,
+    id: queryId,
+  } = await searchParams;
 
   const slug = String(rawId);
   const audience = (audienceParam as "buyer" | "supplier") || "buyer";
   const language = langParam || "th";
+  const targetId = articleId || queryId;
 
   console.log(
-    `[LearningDetailPage] Processing slug: "${slug}" for audience: "${audience}"`,
+    `[LearningDetailPage] Processing slug: "${slug}" with ID: "${targetId}"`,
   );
 
   // Normalize slug
@@ -97,8 +108,12 @@ export default async function LearningDetailPage({
   decodedSlug = decodedSlug.normalize("NFC");
 
   try {
-    // 1. Primary Fetch: Try with the provided slug and language
-    let article = await learningApi.getArticleBySlug(decodedSlug, language);
+    // 1. Primary Fetch: Try with ID first (most reliable) then fallback to Slug
+    let article = await learningApi.getArticleBySlug(
+      decodedSlug,
+      language,
+      targetId,
+    );
 
     // 2. Fallback: Search in sitemaps (handles safe/hashed slugs)
     if (!article) {
@@ -152,7 +167,19 @@ export default async function LearningDetailPage({
       );
     }
 
-    return <LearningContent article={article} audience={audience} />;
+    // Detect fallback by checking if the article URL starts with the requested language code
+    // (e.g., if we asked for 'en' but got a '/th/' URL, it's a fallback)
+    const isFallback = Boolean(
+      article && !article.url.startsWith(`/${language}/`),
+    );
+
+    return (
+      <LearningContent
+        article={article}
+        audience={audience}
+        isFallback={isFallback}
+      />
+    );
   } catch (error) {
     console.error("Error in LearningDetailPage:", error);
     return (

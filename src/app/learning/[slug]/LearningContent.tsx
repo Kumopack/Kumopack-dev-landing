@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   ArrowLeft,
   Calendar,
@@ -13,6 +13,7 @@ import {
   Layout,
   Grid,
   BookOpen,
+  AlertCircle,
 } from "lucide-react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
@@ -21,26 +22,92 @@ import { LearningArticle, learningApi } from "@/lib/learning-api";
 import { SafeImage } from "@/components/ui/safe-image";
 import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/button";
+import { getSafeSlug } from "@/lib/slug-utils";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 export default function LearningContent({
   article,
   audience = "buyer",
+  isFallback = false,
 }: {
   article: LearningArticle;
   audience?: "buyer" | "supplier";
+  isFallback?: boolean;
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [relatedArticles, setRelatedArticles] = useState<LearningArticle[]>([]);
-  const { language } = useLanguage();
+  const { language, setLanguage } = useLanguage();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // 1. Sync Context from URL on Mount
+  useEffect(() => {
+    const urlLang = searchParams.get("lang");
+    if (
+      urlLang &&
+      (urlLang === "th" || urlLang === "en") &&
+      urlLang !== language
+    ) {
+      console.log(
+        `[LearningContent] Initializing language from URL: ${urlLang}`,
+      );
+      setLanguage(urlLang as "th" | "en");
+    }
+  }, []);
+
+  // 2. Sync URL from Context when language changes
+  useEffect(() => {
+    const urlLang = searchParams.get("lang");
+    if (urlLang !== language) {
+      console.log(`[LearningContent] Syncing URL to language: ${language}`);
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("lang", language);
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    }
+  }, [language, pathname, router, searchParams]);
+
   const isTh = language === "th";
 
+  // Robust content extraction: prioritize showing something over nothing
+  const rawContents = [
+    article.excerpt,
+    article.meta?.description,
+    article.content,
+  ].filter(Boolean) as string[];
+
+  // Filter out strings that are just empty HTML tags like <p><br></p>
+  const cleanContents = rawContents.filter(
+    (str) => str.replace(/<[^>]*>/g, "").trim().length > 0,
+  );
+
+  const mainContentHtml = cleanContents.join(
+    '<div class="my-12 h-px bg-neutral-100/50 shadow-inner"></div>',
+  );
+
+  const hasAnyContent = cleanContents.length > 0;
+
+  const lastFetchedRef = useRef<{ slug: string; lang: string } | null>(null);
+
   useEffect(() => {
+    if (
+      lastFetchedRef.current?.slug === article.slug &&
+      lastFetchedRef.current?.lang === language
+    ) {
+      return;
+    }
+
     const fetchRelated = async () => {
-      const related = await learningApi.getRelatedArticles(
-        article.slug,
-        language,
-      );
-      setRelatedArticles(related);
+      try {
+        const related = await learningApi.getRelatedArticles(
+          article.slug,
+          language,
+        );
+        setRelatedArticles(related);
+        lastFetchedRef.current = { slug: article.slug, lang: language };
+      } catch (err) {
+        console.error("Failed to fetch related articles:", err);
+      }
     };
     fetchRelated();
   }, [article.slug, language]);
@@ -48,7 +115,6 @@ export default function LearningContent({
   const handleShare = async () => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
       await navigator.clipboard.writeText(window.location.href);
-      // In a real app, we'd use a toast here
       alert(isTh ? "คัดลอกลิงก์แล้ว!" : "Link copied to clipboard!");
     }
   };
@@ -56,6 +122,17 @@ export default function LearningContent({
   return (
     <main className="min-h-screen bg-kumopack-base-white text-foreground">
       <Navbar />
+
+      <style jsx global>{`
+        @keyframes shimmer {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+      `}</style>
 
       {/* Background Accents */}
       <div className="fixed top-0 inset-x-0 h-screen pointer-events-none -z-10 overflow-hidden">
@@ -68,7 +145,7 @@ export default function LearningContent({
           {/* Breadcrumbs / Back button */}
           <div className="mb-12">
             <Link
-              href={`/learning?audience=${audience}`}
+              href={`/learning?audience=${audience}&lang=${language}`}
               className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white border border-neutral-100 shadow-soft text-xs font-black uppercase tracking-widest text-muted-foreground hover:text-primary hover:border-primary/20 transition-all group"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -97,7 +174,7 @@ export default function LearningContent({
                       src={learningApi.getAssetPath(
                         article.featuredImagePath || article.image,
                       )}
-                      alt={article.title}
+                      alt={article.featuredImageAlt || article.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[3000ms]"
                     />
                     {(article.videos?.length > 0 || article.videoUrl) && (
@@ -110,13 +187,19 @@ export default function LearningContent({
                         </button>
                       </div>
                     )}
-                    <div className="absolute top-8 left-8 z-20">
+                    <div className="absolute top-8 left-8 z-20 flex gap-2">
                       <span className="px-6 py-2.5 rounded-2xl bg-white/95 backdrop-blur-xl text-[10px] font-black text-primary shadow-2xl border border-primary/5 uppercase tracking-[0.2em]">
                         {article.category &&
                         typeof article.category === "object"
                           ? article.category.name
                           : article.category || "Insight"}
                       </span>
+                      {article.isPinned && article.pinnedOrder === 1 && (
+                        <span className="px-6 py-2.5 rounded-2xl bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] shadow-glow flex items-center gap-2">
+                          <Sparkles className="w-4 h-4" />
+                          Recommended
+                        </span>
+                      )}
                     </div>
                   </>
                 )}
@@ -124,14 +207,39 @@ export default function LearningContent({
 
               {/* Header Info */}
               <div className="space-y-6">
-                <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-foreground leading-[1.1]">
-                  {article.title}
-                </h1>
+                {isFallback && (
+                  <div className="flex items-center gap-3 px-6 py-4 bg-amber-50 text-amber-700 rounded-3xl text-[12px] font-black uppercase tracking-widest border border-amber-100/50 animate-pulse mb-8 overflow-hidden relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+                    <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                    {isTh
+                      ? "การแสดงผลนี้ใช้ภาษาเริ่มต้น เนื่องจากยังไม่รองรับภาษาที่คุณเลือก"
+                      : "Showing default language as the selected language is currently unavailable"}
+                  </div>
+                )}
+                <div className="flex items-center gap-4">
+                  <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-foreground leading-[1.1]">
+                    {article.meta?.title || article.title}
+                  </h1>
+                  {article.isPinned && article.pinnedOrder === 1 && (
+                    <div className="flex-shrink-0 hidden md:block">
+                      <span className="px-4 py-2 rounded-xl bg-primary text-white text-[10px] font-black uppercase tracking-widest shadow-glow flex items-center gap-2">
+                        <Sparkles className="w-4 h-4" />
+                        Featured #1
+                      </span>
+                    </div>
+                  )}
+                </div>
                 <div className="flex flex-wrap items-center gap-8 py-8 border-y border-neutral-100">
                   <div className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-muted-foreground/60">
                     <Calendar className="w-4 h-4 text-primary" />
-                    {article.publishedAt
-                      ? new Date(article.publishedAt).toLocaleDateString()
+                    {article.publishedAt || (article as any).date
+                      ? new Date(
+                          article.publishedAt || (article as any).date,
+                        ).toLocaleDateString(isTh ? "th-TH" : "en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
                       : "Recent"}
                   </div>
                   <div className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-muted-foreground/60">
@@ -141,7 +249,7 @@ export default function LearningContent({
                       article.views ||
                       0
                     ).toLocaleString()}{" "}
-                    Views
+                    {isTh ? "การเข้าชม" : "Views"}
                   </div>
                   <div className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-muted-foreground/60">
                     <Clock className="w-4 h-4 text-primary" />
@@ -158,31 +266,31 @@ export default function LearningContent({
               </div>
 
               {/* Main Content Body */}
-              <div className="prose prose-xl max-w-none prose-neutral prose-p:leading-relaxed prose-p:text-muted-foreground/80 prose-headings:font-black prose-headings:tracking-tighter">
-                {article.description && (
-                  <p className="text-2xl font-bold text-foreground leading-relaxed mb-12 border-l-4 border-primary pl-8 italic">
-                    {/* Render HTML if it contains tags, otherwise just text */}
-                    {article.description.includes("<") ? (
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: article.description,
-                        }}
-                      />
-                    ) : (
-                      article.description
-                    )}
-                  </p>
+              <div className="prose prose-xl max-w-none prose-neutral prose-p:leading-relaxed prose-p:text-muted-foreground/80 prose-headings:font-black prose-headings:tracking-tighter py-10">
+                {article.description &&
+                  !article.excerpt?.includes(article.description) && (
+                    <div
+                      className="text-2xl font-bold text-foreground leading-relaxed mb-12 border-l-4 border-primary pl-8 italic rich-text-area"
+                      dangerouslySetInnerHTML={{ __html: article.description }}
+                    />
+                  )}
+
+                {hasAnyContent ? (
+                  <div
+                    className="article-content rich-text-area"
+                    dangerouslySetInnerHTML={{
+                      __html: mainContentHtml,
+                    }}
+                  />
+                ) : (
+                  <div className="py-20 text-center border-2 border-dashed border-neutral-100 rounded-[3rem]">
+                    <p className="text-muted-foreground font-bold italic opacity-40">
+                      {isTh
+                        ? "ขออภัย ไม่พบเนื้อหาในส่วนนี้"
+                        : "No content available for this section."}
+                    </p>
+                  </div>
                 )}
-                <div
-                  className="article-content rich-text-area"
-                  dangerouslySetInnerHTML={{
-                    __html:
-                      article.content ||
-                      article.excerpt ||
-                      article.description ||
-                      "",
-                  }}
-                />
               </div>
 
               {/* Tags Section */}
@@ -233,24 +341,73 @@ export default function LearningContent({
                     </div>
                   </div>
 
-                  {/* Action Card */}
-                  <div className="p-8 rounded-[2rem] bg-gradient-to-br from-primary/5 to-mint/5 border border-primary/10 relative overflow-hidden group">
-                    <div className="relative z-10 space-y-4">
-                      <Sparkles className="w-8 h-8 text-primary opacity-50" />
-                      <h4 className="text-xl font-black text-foreground">
-                        Premium Strategy?
-                      </h4>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        Optimized your packaging strategy with our 1-on-1 expert
-                        sessions.
-                      </p>
-                      <Link href="/pricing" className="block pt-2">
-                        <button className="w-full py-4 rounded-xl bg-primary text-white font-black text-xs uppercase tracking-[0.2em] shadow-glow hover:scale-[1.02] transition-all">
-                          Explore Plans
-                        </button>
-                      </Link>
+                  <div className="space-y-6">
+                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">
+                      {isTh ? "เนื้อหาเพิ่มเติม" : "Additional Content"}
+                    </h3>
+                    <div className="text-sm text-muted-foreground leading-relaxed rich-text-area prose-sm prose-neutral">
+                      {article.content ? (
+                        <div
+                          dangerouslySetInnerHTML={{ __html: article.content }}
+                        />
+                      ) : (
+                        <p>
+                          {isTh
+                            ? "ไม่มีเนื้อหาเพิ่มเติม"
+                            : "No additional content"}
+                        </p>
+                      )}
                     </div>
                   </div>
+
+                  {/* Action Card - Only show if tutorial URL exists or for premium prompt */}
+                  {(article.tutorialUrl || article.tutorial?.url) && (
+                    <div className="p-8 rounded-[2rem] bg-gradient-to-br from-primary/5 to-mint/5 border border-primary/10 relative overflow-hidden group">
+                      <div className="relative z-10 space-y-4">
+                        <Sparkles className="w-8 h-8 text-primary opacity-50" />
+                        <h4 className="text-xl font-black text-foreground">
+                          {isTh ? "พร้อมเริ่มต้นทบทวน?" : "Ready to Start?"}
+                        </h4>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {isTh
+                            ? "เข้าสู่หน้าสำหรับการทดลองทำ หรือดูรายละเอียดเพิ่มเติมได้ทันที"
+                            : "Navigate directly to the tutorial or supplementary resources."}
+                        </p>
+                        <a
+                          href={article.tutorialUrl || article.tutorial?.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block pt-2"
+                        >
+                          <button className="w-full py-4 rounded-xl bg-primary text-white font-black text-xs uppercase tracking-[0.2em] shadow-glow hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
+                            {isTh ? "ลองทำเลย!" : "Get Started!"}
+                            <ArrowLeft className="w-4 h-4 rotate-180" />
+                          </button>
+                        </a>
+                      </div>
+                    </div>
+                  )}
+
+                  {!article.tutorialUrl && !article.tutorial?.url && (
+                    <div className="p-8 rounded-[2rem] bg-neutral-50 border border-neutral-100 relative overflow-hidden group">
+                      <div className="relative z-10 space-y-4">
+                        <BookOpen className="w-8 h-8 text-primary opacity-30" />
+                        <h4 className="text-xl font-black text-foreground">
+                          {isTh ? "ต้องการแผนกลยุทธ์?" : "Premium Strategy?"}
+                        </h4>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {isTh
+                            ? "ยกระดับธุรกิจของคุณด้วยคำแนะนำจากผู้เชี่ยวชาญแบบ 1-ต่อ-1"
+                            : "Optimize your packaging strategy with our 1-on-1 expert sessions."}
+                        </p>
+                        <Link href="/pricing" className="block pt-2">
+                          <button className="w-full py-4 rounded-xl bg-white border border-neutral-200 text-foreground font-black text-xs uppercase tracking-[0.2em] hover:bg-neutral-50 transition-all">
+                            {isTh ? "ดูแผนราคา" : "Explore Plans"}
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Short Related Articles Sidebar */}
@@ -263,7 +420,7 @@ export default function LearningContent({
                       {relatedArticles.slice(0, 3).map((rel) => (
                         <Link
                           key={rel.id}
-                          href={`/learning/${rel.slug}?audience=${audience}`}
+                          href={`/learning/${getSafeSlug(rel.slug)}?audience=${audience}&lang=${language}&articleId=${rel.id}`}
                           className="group flex gap-6 p-4 rounded-[2rem] hover:bg-white hover:shadow-soft transition-all"
                         >
                           <div className="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 border border-neutral-100 bg-neutral-50 shadow-inner">
@@ -304,7 +461,7 @@ export default function LearningContent({
                 {relatedArticles.slice(3, 7).map((rel) => (
                   <Link
                     key={rel.id}
-                    href={`/learning/${rel.slug}?audience=${audience}`}
+                    href={`/learning/${getSafeSlug(rel.slug)}?audience=${audience}&lang=${language}&articleId=${rel.id}`}
                     className="group block space-y-6"
                   >
                     <div className="aspect-square relative rounded-[2.5rem] overflow-hidden border border-neutral-100 bg-neutral-50 shadow-sm transition-all duration-700 group-hover:shadow-soft group-hover:-translate-y-2">
