@@ -121,7 +121,7 @@ const Navbar = () => {
                       </div>
                     </Link>
                     <Link
-                      href="/learning"
+                      href="/learning?audience=buyer"
                       className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-mint/20 transition-colors"
                     >
                       <div className="w-8 h-8 rounded-xl bg-mint/30 flex items-center justify-center">
@@ -187,7 +187,7 @@ const Navbar = () => {
                       </div>
                     </Link>
                     <Link
-                      href="/learning"
+                      href="/learning?audience=supplier"
                       className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky/20 transition-colors"
                     >
                       <div className="w-8 h-8 rounded-xl bg-sky/30 flex items-center justify-center">
@@ -435,7 +435,7 @@ const Navbar = () => {
               </Link>
 
               <Link
-                href="/learning"
+                href="/learning?audience=buyer"
                 onClick={() => setIsMenuOpen(false)}
                 className="p-3 rounded-2xl hover:bg-purple/10 transition-colors font-bold flex items-center gap-3 text-sm"
               >
