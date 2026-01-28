@@ -1,4 +1,4 @@
-import { learningApi } from "@/lib/learning-api";
+import { learningApi, LearningArticle } from "@/lib/learning-api";
 import LearningContent from "./LearningContent";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -122,28 +122,43 @@ export default async function LearningDetailPage({
       }
     }
 
+    // RESCUE STRATEGY: If still no article at build time, we DON'T show "Not Found" yet.
+    // Instead, we pass a "Shell" article to LearningContent.
+    // LearningContent (client-side) will see the articleId in the URL and fetch the REAL content.
     if (!article) {
+      const shellArticle: LearningArticle = {
+        id: -1,
+        slug: decodedSlug,
+        title: "Loading Content...",
+        description: "",
+        excerpt: "",
+        content: "",
+        category: "General",
+        tags: [],
+        audience: "buyer",
+        image: "",
+        featuredImagePath: null,
+        thumbnailPath: null,
+        videos: [],
+        date: new Date().toISOString(),
+        publishedAt: null,
+        views: 0,
+        viewCount: 0,
+        url: `/${language}/learning-center/article/${decodedSlug}`,
+        difficultyLevel: "beginner",
+        difficultyText: "Beginner",
+        meta: { title: "Loading...", description: "" },
+      };
+
       return (
-        <main className="min-h-screen bg-background text-foreground">
-          <Navbar />
-          <div className="container mx-auto max-w-6xl pt-40 px-4 text-center">
-            <h1 className="text-4xl font-black mb-4">Article Not Found</h1>
-            <p className="text-muted-foreground mb-8">
-              We couldn&apos;t find the article you&apos;re looking for.
-            </p>
-            <Link href={`/learning?audience=${audience}`}>
-              <Button variant="hero" className="rounded-2xl shadow-glow">
-                Back to Learning Center
-              </Button>
-            </Link>
-          </div>
-          <Footer />
-        </main>
+        <LearningContent
+          article={shellArticle}
+          audience={audience}
+          isFallback={false}
+        />
       );
     }
 
-    // Detect fallback by checking if the article URL starts with the requested language code
-    // (e.g., if we asked for 'en' but got a '/th/' URL, it's a fallback)
     const isFallback = Boolean(
       article && !article.url.startsWith(`/${language}/`),
     );
@@ -156,20 +171,36 @@ export default async function LearningDetailPage({
       />
     );
   } catch (error) {
-    console.error("Error in LearningDetailPage:", error);
+    // Return a shell even on error, to allow client-side rescue
+    const errorShell: LearningArticle = {
+      id: -1,
+      slug: String(rawId),
+      title: "Loading...",
+      description: "",
+      excerpt: "",
+      content: "",
+      category: "General",
+      tags: [],
+      audience: "buyer",
+      image: "",
+      featuredImagePath: null,
+      thumbnailPath: null,
+      videos: [],
+      date: new Date().toISOString(),
+      publishedAt: null,
+      views: 0,
+      viewCount: 0,
+      url: `/th/learning-center/article/${rawId}`,
+      difficultyLevel: "beginner",
+      difficultyText: "Beginner",
+      meta: { title: "Loading...", description: "" },
+    };
     return (
-      <main className="min-h-screen bg-background text-foreground">
-        <Navbar />
-        <div className="container mx-auto max-w-6xl pt-40 px-4 text-center">
-          <h1 className="text-4xl font-black mb-4">Something went wrong</h1>
-          <Link href={`/learning?audience=${audience}`}>
-            <Button variant="hero" className="rounded-2xl shadow-glow">
-              Back to Learning Center
-            </Button>
-          </Link>
-        </div>
-        <Footer />
-      </main>
+      <LearningContent
+        article={errorShell}
+        audience={"buyer"}
+        isFallback={false}
+      />
     );
   }
 }
