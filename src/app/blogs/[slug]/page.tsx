@@ -2,17 +2,11 @@ import { blogApi } from "@/lib/blog-api";
 import BlogContent from "./BlogContent";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { getSafeSlug, slugMatches } from "@/lib/slug-utils";
-
 import { Metadata } from "next";
+import { Suspense } from "react";
 
-// NOTE: In Next.js with 'output: export', searchParams are NOT available to server-side generateMetadata
-// or the page component itself at build time. Multilingual SEO for query params must be handled on the client.
-// For static export, we must tell Next.js not to try and dynamic render any slug that wasn't
-// included in generateStaticParams.
 export const dynamicParams = false;
 
 export async function generateMetadata({
@@ -23,7 +17,6 @@ export async function generateMetadata({
   const { slug: rawSlug } = await params;
   const slug = String(rawSlug);
 
-  // Decode slug and normalize to NFC for consistent matching
   let decodedSlug = slug;
   try {
     let prev = "";
@@ -31,16 +24,10 @@ export async function generateMetadata({
       prev = decodedSlug;
       decodedSlug = decodeURIComponent(decodedSlug);
     }
-  } catch (e) {
-    // Ignore
-  }
+  } catch (e) {}
   decodedSlug = decodedSlug.normalize("NFC");
 
-  // For metadata, we need to find the blog. During build, slug might be the "safe" one.
-  // We check both the raw slug and the safe slug version using slugMatches.
   let blog = await blogApi.getArticleBySlug(decodedSlug);
-
-  // If not found, it might be because the slug is a truncated safe slug
   if (!blog) {
     const response = await blogApi.getArticles(1, 100);
     blog =
@@ -48,40 +35,26 @@ export async function generateMetadata({
       null;
   }
 
-  if (!blog) {
-    return {
-      title: "Article Not Found | Kumopack",
-    };
-  }
+  if (!blog) return { title: "Article Not Found | Kumopack" };
 
-  // Static metadata uses Thai as default for SEO in static export without path-based routing
   const name = blog.nameTh;
-  const description = blog.shortDescriptionTh;
-
   const title = `${name} | Kumopack Blog`;
   const ogImage = blogApi.getAssetPath(blog.featurePicturePath);
 
   return {
     title,
-    description,
+    description: blog.shortDescriptionTh,
     openGraph: {
       title,
-      description,
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: name,
-        },
-      ],
+      description: blog.shortDescriptionTh,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: name }],
       type: "article",
       publishedTime: blog.publishedDate,
     },
     twitter: {
       card: "summary_large_image",
       title,
-      description,
+      description: blog.shortDescriptionTh,
       images: [ogImage],
     },
   };
@@ -90,33 +63,15 @@ export async function generateMetadata({
 export async function generateStaticParams() {
   try {
     const response = await blogApi.getArticles(1, 100);
-
-    if (!response.data || response.data.length === 0) {
-      console.warn(
-        "[generateStaticParams] No articles found via API. Using fallback 'mascot'.",
-      );
+    if (!response.data || response.data.length === 0)
       return [{ slug: "mascot" }];
-    }
-
-    const params = response.data
-      .filter((article) => article.slug)
-      .map((article) => {
-        const safeSlug = getSafeSlug(article.slug);
-        return { slug: safeSlug };
-      });
-
-    return params;
+    return response.data
+      .filter((a) => a.slug)
+      .map((a) => ({ slug: getSafeSlug(a.slug) }));
   } catch (error) {
-    console.error(
-      "[generateStaticParams] Error fetching articles. Using fallback 'mascot'. Error:",
-      error,
-    );
-    // Return at least one known slug to prevent 'missing param' error if API fails
     return [{ slug: "mascot" }];
   }
 }
-
-import { Suspense } from "react";
 
 export default async function BlogDetailPage({
   params,
@@ -126,7 +81,6 @@ export default async function BlogDetailPage({
   const { slug: rawSlug } = await params;
   const slug = String(rawSlug);
 
-  // Decode slug and normalize to NFC
   let decodedSlug = slug;
   try {
     let prev = "";
@@ -134,29 +88,23 @@ export default async function BlogDetailPage({
       prev = decodedSlug;
       decodedSlug = decodeURIComponent(decodedSlug);
     }
-  } catch (e) {
-    // Ignore
-  }
+  } catch (e) {}
   decodedSlug = decodedSlug.normalize("NFC");
 
-  // Server-side fetch (runs at build time for 'export' output)
-  let blog = await blogApi.getArticleBySlug(decodedSlug);
-
-  // If not found, it might be a safe slug
-  if (!blog) {
-    const response = await blogApi.getArticles(1, 100);
-    blog =
-      response.data.find((a) => a.slug && slugMatches(a.slug, decodedSlug)) ||
-      null;
-
-    if (blog) {
-      blog = await blogApi.getArticleBySlug(String(blog.slug));
+  let blog = null;
+  try {
+    blog = await blogApi.getArticleBySlug(decodedSlug);
+    if (!blog) {
+      const response = await blogApi.getArticles(1, 100);
+      blog =
+        response.data.find((a) => a.slug && slugMatches(a.slug, decodedSlug)) ||
+        null;
+      if (blog) blog = await blogApi.getArticleBySlug(String(blog.slug));
     }
-  }
+  } catch (error) {}
 
   if (!blog) {
-    // Rescue shell for blog too
-    const shellBlog = {
+    blog = {
       id: -1,
       slug: decodedSlug,
       nameTh: "Loading...",
@@ -168,18 +116,6 @@ export default async function BlogDetailPage({
       featurePicturePath: null,
       publishedDate: new Date().toISOString(),
     } as any;
-
-    return (
-      <Suspense
-        fallback={
-          <div className="min-h-screen flex items-center justify-center bg-kumopack-base-white">
-            <Loader2 className="w-10 h-10 text-primary animate-spin opacity-20" />
-          </div>
-        }
-      >
-        <BlogContent blog={shellBlog} />
-      </Suspense>
-    );
   }
 
   return (

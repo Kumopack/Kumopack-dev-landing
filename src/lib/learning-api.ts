@@ -125,7 +125,7 @@ export const learningApi = {
 
             const url = `${API_BASE_URL}/articles?${queryParams.toString()}`;
             
-            const res = await fetch(url, { cache: 'no-store' });
+            const res = await fetch(url);
             if (!res.ok) {
                 const errorText = await res.text();
                 throw new Error(`Failed to fetch learning articles: ${res.status} ${errorText}`);
@@ -148,7 +148,7 @@ export const learningApi = {
             queryParams.append('lang', lang);
             
             const url = `${API_BASE_URL}/article?${queryParams.toString()}`;
-            const res = await fetch(url, { cache: 'no-store' });
+            const res = await fetch(url);
             if (!res.ok) {
                 if (res.status === 404) return null;
                 const errorText = await res.text();
