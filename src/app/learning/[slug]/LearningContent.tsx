@@ -80,29 +80,47 @@ export default function LearningContent({
   }, [language, pathname, router, searchParams]);
 
   useEffect(() => {
-    const urlLang = searchParams.get("lang") || language;
+    const urlLang = (searchParams.get("lang") || language) as "th" | "en";
     const urlId = searchParams.get("articleId") || searchParams.get("id");
-    const fetchKey = `${initialArticle.slug}-${urlLang}-${urlId}`;
 
+    // Key used to avoid redundant fetches
+    const fetchKey = `${initialArticle.slug}-${urlLang}-${urlId || "no-id"}`;
     if (lastArticleFetchRef.current === fetchKey) return;
 
-    // Only fetch if there's a mismatch
-    const needsFetch =
-      (urlLang && !currentArticle.url.startsWith(`/${urlLang}/`)) ||
-      (urlId && String(currentArticle.id) !== String(urlId));
+    // We need to fetch if:
+    // 1. The ID in URL is different from current state (and we have a URL ID)
+    // 2. The language prefix in the current article URL doesn't match the requested lang
+    const idMismatch = urlId && String(currentArticle.id) !== String(urlId);
+    const langMismatch =
+      urlLang && !currentArticle.url.startsWith(`/${urlLang}/`);
+
+    const needsFetch = idMismatch || langMismatch;
 
     if (needsFetch) {
       const fetchArticle = async () => {
         setIsDynamicLoading(true);
         try {
+          // If we have a URL ID, use it. Otherwise use the original slug.
+          // Note: using initialArticle.slug as the base if ID isn't provided
           const freshArticle = await learningApi.getArticleBySlug(
             String(initialArticle.slug),
-            urlLang as "th" | "en",
+            urlLang,
             urlId || undefined,
           );
+
           if (freshArticle) {
             setCurrentArticle(freshArticle);
             setIsFallback(!freshArticle.url.startsWith(`/${urlLang}/`));
+          } else if (urlId) {
+            // If fetching by ID failed, try just by raw slug as a rescue
+            const rescued = await learningApi.getArticleBySlug(
+              String(initialArticle.slug),
+              urlLang,
+            );
+            if (rescued) {
+              setCurrentArticle(rescued);
+              setIsFallback(!rescued.url.startsWith(`/${urlLang}/`));
+            }
           }
         } catch (err) {
           console.error("[LearningContent] Dynamic fetch failed:", err);
