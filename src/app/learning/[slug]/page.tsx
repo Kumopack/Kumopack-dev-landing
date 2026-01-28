@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { learningApi, LearningArticle } from "@/lib/learning-api";
 import LearningContent from "./LearningContent";
 import Navbar from "@/components/Navbar";
@@ -151,11 +152,19 @@ export default async function LearningDetailPage({
       };
 
       return (
-        <LearningContent
-          article={shellArticle}
-          audience={audience}
-          isFallback={false}
-        />
+        <Suspense
+          fallback={
+            <div className="min-h-screen flex items-center justify-center bg-kumopack-base-white">
+              <Loader2 className="w-12 h-12 text-primary animate-spin opacity-20" />
+            </div>
+          }
+        >
+          <LearningContent
+            article={shellArticle}
+            audience={audience}
+            isFallback={false}
+          />
+        </Suspense>
       );
     }
 
@@ -164,11 +173,19 @@ export default async function LearningDetailPage({
     );
 
     return (
-      <LearningContent
-        article={article}
-        audience={audience}
-        isFallback={isFallback}
-      />
+      <Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center bg-kumopack-base-white">
+            <Loader2 className="w-12 h-12 text-primary animate-spin opacity-20" />
+          </div>
+        }
+      >
+        <LearningContent
+          article={article}
+          audience={audience}
+          isFallback={isFallback}
+        />
+      </Suspense>
     );
   } catch (error) {
     // Return a shell even on error, to allow client-side rescue
@@ -196,11 +213,19 @@ export default async function LearningDetailPage({
       meta: { title: "Loading...", description: "" },
     };
     return (
-      <LearningContent
-        article={errorShell}
-        audience={"buyer"}
-        isFallback={false}
-      />
+      <Suspense
+        fallback={
+          <div className="min-h-screen flex items-center justify-center bg-kumopack-base-white">
+            <Loader2 className="w-12 h-12 text-primary animate-spin opacity-20" />
+          </div>
+        }
+      >
+        <LearningContent
+          article={errorShell}
+          audience={"buyer"}
+          isFallback={false}
+        />
+      </Suspense>
     );
   }
 }

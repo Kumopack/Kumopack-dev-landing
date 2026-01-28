@@ -24,11 +24,10 @@ export function getSafeSlug(slug: string): string {
   
   // 3. Handle truncation safely for Thai/Multi-byte characters
   // A conservative safe limit for filenames. Thai characters use multiple bytes.
-  // Using 50 to match previous implementation's hash compatibility.
-  if (decoded.length <= 50) return decoded;
+  // Using 30 to be very safe with Thai characters (30 * 3 = 90 bytes)
+  if (decoded.length <= 30) return decoded;
 
-  // Use Array.from or spread to be somewhat more aware of surrogate pairs
-  let truncated = [...decoded].slice(0, 50).join("");
+  let truncated = [...decoded].slice(0, 30).join("");
   
   const hash = simpleHash(decoded);
   return `${truncated}-${hash}`;
