@@ -9,10 +9,8 @@ import {
   Sparkles,
   Eye,
   Clock,
-  Copy,
-  Layout,
-  Grid,
   BookOpen,
+  Layout,
   AlertCircle,
   Loader2,
 } from "lucide-react";
@@ -22,7 +20,6 @@ import Footer from "@/components/Footer";
 import { LearningArticle, learningApi } from "@/lib/learning-api";
 import { SafeImage } from "@/components/ui/safe-image";
 import { useLanguage } from "@/context/LanguageContext";
-import { Button } from "@/components/ui/button";
 import { getSafeSlug } from "@/lib/slug-utils";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
@@ -52,8 +49,8 @@ export default function LearningContent({
   const lastArticleFetchRef = useRef<string | null>(null);
 
   useEffect(() => {
-    const urlLang = searchParams.get("lang");
-    const urlAudience = searchParams.get("audience") as "buyer" | "supplier";
+    const urlLang = searchParams?.get("lang");
+    const urlAudience = searchParams?.get("audience") as "buyer" | "supplier";
 
     if (
       urlLang &&
@@ -71,37 +68,30 @@ export default function LearningContent({
   }, []);
 
   useEffect(() => {
-    const urlLang = searchParams.get("lang");
-    if (urlLang !== language) {
-      const params = new URLSearchParams(searchParams.toString());
+    const urlLang = searchParams?.get("lang");
+    if (urlLang !== undefined && urlLang !== null && urlLang !== language) {
+      const params = new URLSearchParams(searchParams?.toString() || "");
       params.set("lang", language);
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }
   }, [language, pathname, router, searchParams]);
 
   useEffect(() => {
-    const urlLang = (searchParams.get("lang") || language) as "th" | "en";
-    const urlId = searchParams.get("articleId") || searchParams.get("id");
-
-    // Key used to avoid redundant fetches
+    const urlLang = (searchParams?.get("lang") || language) as "th" | "en";
+    const urlId = searchParams?.get("articleId") || searchParams?.get("id");
     const fetchKey = `${initialArticle.slug}-${urlLang}-${urlId || "no-id"}`;
+
     if (lastArticleFetchRef.current === fetchKey) return;
 
-    // We need to fetch if:
-    // 1. The ID in URL is different from current state (and we have a URL ID)
-    // 2. The language prefix in the current article URL doesn't match the requested lang
     const idMismatch = urlId && String(currentArticle.id) !== String(urlId);
     const langMismatch =
       urlLang && !currentArticle.url.startsWith(`/${urlLang}/`);
-
     const needsFetch = idMismatch || langMismatch;
 
     if (needsFetch) {
       const fetchArticle = async () => {
         setIsDynamicLoading(true);
         try {
-          // If we have a URL ID, use it. Otherwise use the original slug.
-          // Note: using initialArticle.slug as the base if ID isn't provided
           const freshArticle = await learningApi.getArticleBySlug(
             String(initialArticle.slug),
             urlLang,
@@ -112,7 +102,6 @@ export default function LearningContent({
             setCurrentArticle(freshArticle);
             setIsFallback(!freshArticle.url.startsWith(`/${urlLang}/`));
           } else if (urlId) {
-            // If fetching by ID failed, try just by raw slug as a rescue
             const rescued = await learningApi.getArticleBySlug(
               String(initialArticle.slug),
               urlLang,
@@ -123,7 +112,7 @@ export default function LearningContent({
             }
           }
         } catch (err) {
-          console.error("[LearningContent] Dynamic fetch failed:", err);
+          console.error(err);
         } finally {
           setIsDynamicLoading(false);
           lastArticleFetchRef.current = fetchKey;
@@ -144,7 +133,6 @@ export default function LearningContent({
 
   const article = currentArticle;
   const isTh = language === "th";
-
   const lastFetchedRef = useRef<{ slug: string; lang: string } | null>(null);
 
   useEffect(() => {
@@ -164,13 +152,12 @@ export default function LearningContent({
         setRelatedArticles(related);
         lastFetchedRef.current = { slug: article.slug, lang: language };
       } catch (err) {
-        console.error("Failed to fetch related articles:", err);
+        console.error(err);
       }
     };
     fetchRelated();
   }, [article.slug, language]);
 
-  // While dynamic loading, show a premium spinner
   if (isDynamicLoading) {
     return (
       <main className="min-h-screen bg-kumopack-base-white flex flex-col">
@@ -186,14 +173,12 @@ export default function LearningContent({
     );
   }
 
-  // Robust content extraction: prioritize showing something over nothing
   const rawContents = [
     article.excerpt,
     article.meta?.description,
     article.content,
   ].filter(Boolean) as string[];
 
-  // Filter out strings that are just empty HTML tags like <p><br></p>
   const cleanContents = rawContents.filter(
     (str) => str.replace(/<[^>]*>/g, "").trim().length > 0,
   );
@@ -226,7 +211,6 @@ export default function LearningContent({
         }
       `}</style>
 
-      {/* Background Accents */}
       <div className="fixed top-0 inset-x-0 h-screen pointer-events-none -z-10 overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-mint/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
@@ -234,7 +218,6 @@ export default function LearningContent({
 
       <article className="pt-32 pb-24 px-4 md:px-10 lg:px-20">
         <div className="max-w-[1440px] mx-auto">
-          {/* Breadcrumbs / Back button */}
           <div className="mb-12">
             <Link
               href={`/learning?audience=${audience}&lang=${language}`}
@@ -246,9 +229,7 @@ export default function LearningContent({
           </div>
 
           <div className="grid lg:grid-cols-[1fr_400px] gap-12 lg:gap-20">
-            {/* Main Content Area */}
             <div className="space-y-10">
-              {/* Video / Featured Image Section */}
               <div className="relative aspect-video rounded-[3rem] overflow-hidden bg-black shadow-2xl border border-neutral-100 group">
                 {article.videos?.length > 0 && isPlaying ? (
                   <video
@@ -297,7 +278,6 @@ export default function LearningContent({
                 )}
               </div>
 
-              {/* Header Info */}
               <div className="space-y-6">
                 {isFallback && (
                   <div className="flex items-center gap-3 px-6 py-4 bg-amber-50 text-amber-700 rounded-3xl text-[12px] font-black uppercase tracking-widest border border-amber-100/50 animate-pulse mb-8 overflow-hidden relative">
@@ -324,9 +304,9 @@ export default function LearningContent({
                 <div className="flex flex-wrap items-center gap-8 py-8 border-y border-neutral-100">
                   <div className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-muted-foreground/60">
                     <Calendar className="w-4 h-4 text-primary" />
-                    {article.publishedAt || (article as any).date
+                    {article.publishedAt || article.date
                       ? new Date(
-                          article.publishedAt || (article as any).date,
+                          article.publishedAt || article.date,
                         ).toLocaleDateString(isTh ? "th-TH" : "en-US", {
                           year: "numeric",
                           month: "long",
@@ -357,7 +337,6 @@ export default function LearningContent({
                 </div>
               </div>
 
-              {/* Main Content Body */}
               <div className="prose prose-xl max-w-none prose-neutral prose-p:leading-relaxed prose-p:text-muted-foreground/80 prose-headings:font-black prose-headings:tracking-tighter py-10">
                 {article.description &&
                   !article.excerpt?.includes(article.description) && (
@@ -385,7 +364,6 @@ export default function LearningContent({
                 )}
               </div>
 
-              {/* Tags Section */}
               <div className="pt-20 border-t border-neutral-100">
                 <div className="flex flex-wrap gap-3">
                   {article.tags?.map((tag) => (
@@ -400,9 +378,7 @@ export default function LearningContent({
               </div>
             </div>
 
-            {/* Sidebar */}
             <aside className="space-y-12">
-              {/* Difficulty / Info Card */}
               <div className="sticky top-32 space-y-12">
                 <div className="p-10 rounded-[3rem] bg-white border border-neutral-100 shadow-float space-y-8">
                   <div className="space-y-6">
@@ -452,7 +428,6 @@ export default function LearningContent({
                     </div>
                   </div>
 
-                  {/* Action Card - Only show if tutorial URL exists or for premium prompt */}
                   {(article.tutorialUrl || article.tutorial?.url) && (
                     <div className="p-8 rounded-[2rem] bg-gradient-to-br from-primary/5 to-mint/5 border border-primary/10 relative overflow-hidden group">
                       <div className="relative z-10 space-y-4">
@@ -502,7 +477,6 @@ export default function LearningContent({
                   )}
                 </div>
 
-                {/* Short Related Articles Sidebar */}
                 {relatedArticles.length > 0 && (
                   <div className="space-y-8">
                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary px-4">
@@ -543,7 +517,6 @@ export default function LearningContent({
             </aside>
           </div>
 
-          {/* Footer Related Section (Full Grid) */}
           {relatedArticles.length > 3 && (
             <div className="pt-40 border-t border-neutral-100 mt-40">
               <h3 className="text-3xl font-black tracking-tighter mb-16 px-4">

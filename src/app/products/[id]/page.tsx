@@ -1,97 +1,438 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ArrowLeft, CheckCircle2, Ruler, Paintbrush, Cog } from "lucide-react";
+import { ArrowLeft, Ruler, Paintbrush, Box, Leaf, Award } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/context/LanguageContext";
+import { useParams, useRouter } from "next/navigation";
+import { useState, useEffect, use } from "react";
+import { Product, productApi } from "@/lib/product-api";
+import { SafeImage } from "@/components/ui/safe-image";
+import { motion } from "framer-motion";
 
-export async function generateStaticParams() {
-    return [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }];
-}
+export default function ProductDetailPage() {
+  const params = useParams();
+  const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
+  const { dict, language } = useLanguage();
 
-export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "materials" | "standards"
+  >("overview");
+  const router = useRouter();
 
+  const isTh = language === "th";
+
+  // Helper to access nested keys in dict safely
+  const t = (key: string) => {
+    const keys = key.split(".");
+    let current: any = dict;
+    for (const k of keys) {
+      if (current && current[k]) {
+        current = current[k];
+      } else {
+        return key; // Fallback to key if not found
+      }
+    }
+    return current;
+  };
+
+  // 1. Fetch Product Data
+  useEffect(() => {
+    const fetchProduct = async () => {
+      if (!id || id === "undefined") {
+        setLoading(false);
+        return;
+      }
+      setLoading(true);
+      try {
+        const decodedId = decodeURIComponent(id);
+        let foundProduct = await productApi.getProductBySlug(decodedId);
+
+        // Fallback: If not found by slug/id directly, try searching in all products
+        // This helps if the API strictly requires slugs but we only have an ID, or vice versa
+        if (!foundProduct) {
+          console.warn(
+            `Product not found by slug ${decodedId}, trying fallback search...`,
+          );
+          try {
+            const allProducts = await productApi.getAllProducts(1, 1000);
+            foundProduct =
+              allProducts.data.find(
+                (p) =>
+                  p.slug === decodedId ||
+                  p.nameEn === decodedId ||
+                  p.nameTh === decodedId,
+              ) || null;
+          } catch (fallbackError) {
+            console.error("Fallback search failed", fallbackError);
+          }
+        }
+
+        if (foundProduct) {
+          setProduct(foundProduct);
+        } else {
+          setProduct(null);
+        }
+      } catch (error) {
+        console.error("Failed to load product", error);
+        setProduct(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
+
+  // 2. Handle Language/Slug Switch (Visual URL update only - OPTIONAL)
+  useEffect(() => {
+    if (!product) return;
+
+    const updateUrlVisually = async () => {
+      try {
+        // If we want to show the slug in the URL without reloading:
+        const allProducts = await productApi.getAllProducts(1, 1000);
+        const matched = allProducts.data.find(
+          (p) => String(p.id) === String(product.id),
+        );
+
+        if (
+          matched &&
+          matched.slug &&
+          id &&
+          matched.slug !== decodeURIComponent(id)
+        ) {
+          // Use window.history.replaceState to change URL without triggering Next.js navigation/fetch
+          // This satisfies "Let URL be for display" while keeping logic on ID
+          window.history.replaceState(null, "", `/products/${matched.slug}`);
+        }
+      } catch (e) {
+        console.error("Failed to update URL visually", e);
+      }
+    };
+
+    updateUrlVisually();
+  }, [language, product, id]);
+
+  if (loading) {
     return (
-        <main className="min-h-screen bg-background text-foreground">
-            <Navbar />
-
-            <section className="pt-32 pb-24 px-4 md:px-8">
-                <div className="container mx-auto max-w-6xl">
-                    <Link href="/products" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-12">
-                        <ArrowLeft className="w-4 h-4" />
-                        Back to Products
-                    </Link>
-
-                    <div className="grid lg:grid-cols-2 gap-16 items-start">
-                        <div className="space-y-6">
-                            <div className="aspect-square rounded-3xl overflow-hidden border border-border/50 shadow-float bg-muted/20">
-                                <img
-                                    src="https://images.unsplash.com/photo-1549463327-f0c39f1c4801?auto=format&fit=crop&q=80&w=2070"
-                                    alt="Product detail"
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                            <div className="grid grid-cols-3 gap-4">
-                                {[1, 2, 3].map((i) => (
-                                    <div key={i} className="aspect-square rounded-2xl overflow-hidden border border-border/50">
-                                        <img src={`https://images.unsplash.com/photo-1512418490979-92798cec1380?auto=format&fit=crop&q=80&w=2070&v=${i}`} className="w-full h-full object-cover" />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="space-y-10">
-                            <div>
-                                <h1 className="text-4xl md:text-5xl font-bold mb-6">Mailer Box</h1>
-                                <p className="text-xl text-muted-foreground leading-relaxed">
-                                    The gold standard for e-commerce packaging. Stylish, strong, and customizable on every surface. Perfect for creating that unforgettable unboxing experience.
-                                </p>
-                            </div>
-
-                            <div className="grid sm:grid-cols-3 gap-6">
-                                <div className="p-6 rounded-2xl bg-card border border-border/50 text-center">
-                                    <Ruler className="w-8 h-8 text-primary mx-auto mb-4" />
-                                    <h4 className="font-bold">Scalable</h4>
-                                    <p className="text-xs text-muted-foreground">Any size</p>
-                                </div>
-                                <div className="p-6 rounded-2xl bg-card border border-border/50 text-center">
-                                    <Paintbrush className="w-8 h-8 text-primary mx-auto mb-4" />
-                                    <h4 className="font-bold">Art Ready</h4>
-                                    <p className="text-xs text-muted-foreground">Full color CMYK</p>
-                                </div>
-                                <div className="p-6 rounded-2xl bg-card border border-border/50 text-center">
-                                    <Cog className="w-8 h-8 text-primary mx-auto mb-4" />
-                                    <h4 className="font-bold">Durable</h4>
-                                    <p className="text-xs text-muted-foreground">Flute structure</p>
-                                </div>
-                            </div>
-
-                            <div className="space-y-4">
-                                <h3 className="text-xl font-bold">Standard Features</h3>
-                                <div className="grid grid-cols-2 gap-4">
-                                    {[
-                                        "No adhesive needed",
-                                        "Self-locking lid",
-                                        "Dust flaps",
-                                        "Recyclable materials",
-                                        "Inside printing options",
-                                        "Matte or Gloss finish"
-                                    ].map((feat, idx) => (
-                                        <div key={idx} className="flex gap-3 items-center text-muted-foreground">
-                                            <CheckCircle2 className="w-5 h-5 text-primary" />
-                                            <span>{feat}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <Button size="lg" className="w-full py-8 text-xl shadow-glow">Start Designing</Button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <Footer />
-        </main>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
     );
+  }
+
+  if (!product) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-background">
+        <h1 className="text-2xl font-bold">Product not found</h1>
+        <Link href="/products" className="text-primary hover:underline">
+          Back to Products
+        </Link>
+      </div>
+    );
+  }
+
+  const tabBtnClass = (tab: string) =>
+    `px-6 py-3 rounded-full text-sm font-bold transition-all ${activeTab === tab ? "bg-primary text-white shadow-lg" : "bg-muted/30 text-muted-foreground hover:bg-muted/50"}`;
+
+  // Main Image Logic
+  const mainImage =
+    product.featurePicturePath ||
+    (product.images && product.images[0]?.path) ||
+    "";
+
+  return (
+    <main className="min-h-screen bg-background text-foreground pb-20">
+      <Navbar />
+
+      <div className="pt-32 px-4 md:px-8 max-w-7xl mx-auto">
+        {/* Breadcrumb / Back */}
+        <div className="mb-8">
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            {t("products.backToProducts")}
+          </Link>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+          {/* Left: Image Gallery */}
+          <div className="space-y-6">
+            <div className="aspect-square relative rounded-[3rem] overflow-hidden bg-muted/20 border border-border/50 shadow-inner">
+              <SafeImage
+                src={
+                  mainImage
+                    ? productApi.getProductImage(mainImage)
+                    : "/placeholder-box.png"
+                }
+                alt={isTh ? product.nameTh : product.nameEn}
+                fill
+                className="object-cover"
+                priority
+              />
+              {/* Overlay Tags */}
+              <div className="absolute top-6 left-6 flex flex-wrap gap-2">
+                {product.productLine && (
+                  <span className="px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-sm text-xs font-bold shadow-sm text-primary">
+                    {isTh
+                      ? product.productLine.nameTh
+                      : product.productLine.nameEn}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Thumbnails (Only if images exist) */}
+            {product.images && product.images.length > 0 && (
+              <div className="grid grid-cols-4 gap-4">
+                {product.images.map((img, idx) => (
+                  <div
+                    key={idx}
+                    className="aspect-square relative rounded-2xl overflow-hidden bg-muted/20 border border-border/50 cursor-pointer hover:border-primary/50 transition-colors"
+                  >
+                    <SafeImage
+                      src={productApi.getProductImage(img.path)}
+                      alt={`Gallery ${idx}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Right: Product Info & Tabs */}
+          <div className="flex flex-col">
+            <div className="mb-8">
+              <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
+                {isTh ? product.nameTh : product.nameEn}
+              </h1>
+              <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <span className="flex items-center gap-1.5 bg-muted/30 px-3 py-1 rounded-lg">
+                  <Ruler className="w-4 h-4" />
+                  {product.code}
+                </span>
+              </div>
+            </div>
+
+            {/* TABS Navigation */}
+            <div className="flex flex-wrap gap-3 mb-8 border-b border-border/40 pb-6">
+              <button
+                onClick={() => setActiveTab("overview")}
+                className={tabBtnClass("overview")}
+              >
+                {isTh ? "ภาพรวม" : "Overview"}
+              </button>
+              <button
+                onClick={() => setActiveTab("materials")}
+                className={tabBtnClass("materials")}
+              >
+                {t("materials.title") || "Materials"}
+              </button>
+              <button
+                onClick={() => setActiveTab("standards")}
+                className={tabBtnClass("standards")}
+              >
+                {isTh ? "มาตรฐาน & ใบรับรอง" : "Standards & Certificates"}
+              </button>
+            </div>
+
+            {/* TABS Content */}
+            <div className="flex-1 min-h-[300px]">
+              {/* 1. OVERVIEW */}
+              {activeTab === "overview" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-6"
+                >
+                  <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground leading-relaxed">
+                    {product.longDescriptionEn ? (
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: product.longDescriptionEn,
+                        }}
+                      />
+                    ) : (
+                      <p>
+                        {product.description ||
+                          product.shortDescription ||
+                          product.shortDescriptionEn ||
+                          t("products.mailerBoxDesc")}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="mt-8 p-6 rounded-3xl bg-primary/5 border border-primary/10">
+                    <h3 className="font-bold text-primary mb-2 flex items-center gap-2">
+                      <Paintbrush className="w-5 h-5" />
+                      {isTh ? "พร้อมสั่งผลิต?" : "Ready to Customize?"}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {isTh
+                        ? "ติดต่อเราเพื่อรับใบเสนอราคาและคำปรึกษาฟรี"
+                        : "Contact us for a quote and free consultation on your custom packaging."}
+                    </p>
+                    <Button className="w-full rounded-xl font-bold translate-y-0 hover:-translate-y-1 transition-transform shadow-lg shadow-primary/20">
+                      {t("products.startDesigning")}
+                    </Button>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* 2. MATERIALS */}
+              {activeTab === "materials" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-6"
+                >
+                  <p className="text-muted-foreground">
+                    {isTh
+                      ? "วัสดุที่มีคุณภาพสูงที่เราคัดสรรมาเพื่อคุณ"
+                      : "High-quality materials selected for your packaging needs."}
+                  </p>
+                  {product.materials && product.materials.length > 0 ? (
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      {product.materials.map((m: any, idx: number) => (
+                        <div
+                          key={idx}
+                          className="flex items-start gap-4 p-4 rounded-2xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-soft transition-all"
+                        >
+                          <div className="w-12 h-12 rounded-xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center flex-shrink-0 text-orange-600">
+                            <Box className="w-6 h-6" />
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-foreground">
+                              {m.material
+                                ? isTh
+                                  ? m.material.nameTh
+                                  : m.material.nameEn
+                                : `Material ${m.materialId}`}
+                            </h4>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              Premium Grade
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-10 text-muted-foreground italic bg-muted/20 rounded-2xl">
+                      {isTh
+                        ? "ไม่มีข้อมูลวัสดุ"
+                        : "No material information available."}
+                    </div>
+                  )}
+                </motion.div>
+              )}
+
+              {/* 3. STANDARDS */}
+              {activeTab === "standards" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-8"
+                >
+                  {/* Sustainability Section */}
+                  <div>
+                    <h3 className="text-lg font-bold flex items-center gap-2 mb-4">
+                      <Leaf className="w-5 h-5 text-green-600" />
+                      {t("common.sustainability") || "Sustainability"}
+                    </h3>
+                    {product.sustainability &&
+                    product.sustainability.length > 0 ? (
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        {product.sustainability.map((s: any, idx: number) => (
+                          <div
+                            key={idx}
+                            className="flex items-center gap-4 p-4 rounded-2xl bg-green-50/50 dark:bg-green-900/10 border border-green-100 dark:border-green-900/30"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-white dark:bg-black/20 flex items-center justify-center shadow-sm p-1.5">
+                              {/* Use icon from API if available, else fallback */}
+                              {(s.sustainability as any)?.icon ? (
+                                <img
+                                  src={(s.sustainability as any).icon}
+                                  className="w-full h-full object-contain"
+                                  alt=""
+                                />
+                              ) : (
+                                <Leaf className="w-5 h-5 text-green-600" />
+                              )}
+                            </div>
+                            <span className="font-bold text-sm text-green-800 dark:text-green-300">
+                              {s.sustainability
+                                ? isTh
+                                  ? s.sustainability.nameTh
+                                  : s.sustainability.nameEn
+                                : `Sustainability ${s.sustainabilityId}`}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground italic">
+                        No specific sustainability tags.
+                      </p>
+                    )}
+                  </div>
+
+                  <hr className="border-border/50" />
+
+                  {/* Certificates Section */}
+                  <div>
+                    <h3 className="text-lg font-bold flex items-center gap-2 mb-4">
+                      <Award className="w-5 h-5 text-blue-600" />
+                      {t("common.certificates") || "Certificates"}
+                    </h3>
+                    {product.certificates && product.certificates.length > 0 ? (
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        {product.certificates.map((c: any, idx: number) => (
+                          <div
+                            key={idx}
+                            className="flex items-center gap-4 p-4 rounded-2xl bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-white dark:bg-black/20 flex items-center justify-center shadow-sm p-1.5">
+                              {(c.certificate as any)?.icon ? (
+                                <img
+                                  src={(c.certificate as any).icon}
+                                  className="w-full h-full object-contain"
+                                  alt=""
+                                />
+                              ) : (
+                                <Award className="w-5 h-5 text-blue-600" />
+                              )}
+                            </div>
+                            <span className="font-bold text-sm text-blue-800 dark:text-blue-300">
+                              {c.certificate
+                                ? isTh
+                                  ? c.certificate.nameTh
+                                  : c.certificate.nameEn
+                                : `Certificate ${c.certificateId}`}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground italic">
+                        No specific certificates displayed.
+                      </p>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </main>
+  );
 }

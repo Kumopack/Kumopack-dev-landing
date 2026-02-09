@@ -29,7 +29,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
 
   // Simplified URL sync to prevent flickering/loops
   useEffect(() => {
-    const urlLang = searchParams.get("lang");
+    const urlLang = searchParams?.get("lang");
     if (
       urlLang &&
       (urlLang === "th" || urlLang === "en") &&
@@ -40,7 +40,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
   }, [searchParams]);
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() || "");
     if (params.get("lang") !== language) {
       params.set("lang", language);
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });

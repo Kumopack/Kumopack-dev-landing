@@ -3,68 +3,187 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Link, Box } from "lucide-react";
+import { Box, Layers, ArrowUpRight } from "lucide-react";
 import NextLink from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { SafeImage } from "@/components/ui/safe-image";
+import { useEffect, useState } from "react";
+import { Product, ProductLine, productApi } from "@/lib/product-api";
 
 export default function ProductsPage() {
-    const { dict } = useLanguage();
+  const { dict, language } = useLanguage();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<ProductLine[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
-    const products = [
-        { id: 1, name: dict.products.mailerBox, image: "https://images.unsplash.com/photo-1549463327-f0c39f1c4801?auto=format&fit=crop&q=80&w=2070", desc: dict.products.mailerBoxDesc },
-        { id: 2, name: dict.products.productBox, image: "https://images.unsplash.com/photo-1589365278144-c9e705f843ba?auto=format&fit=crop&q=80&w=2070", desc: dict.products.productBoxDesc },
-        { id: 3, name: dict.products.shippingBox, image: "https://images.unsplash.com/photo-1595113316349-9fa4ee24ef84?auto=format&fit=crop&q=80&w=2070", desc: dict.products.shippingBoxDesc },
-        { id: 4, name: dict.products.tuckTopBox, image: "https://images.unsplash.com/photo-1512418490979-92798cec1380?auto=format&fit=crop&q=80&w=2070", desc: dict.products.tuckTopBoxDesc }
-    ];
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const [productsRes, categoriesRes] = await Promise.all([
+          productApi.getAllProducts(1, 100), // Get more products initially
+          productApi.getProductLines(),
+        ]);
+        setProducts(productsRes.data);
+        setCategories(categoriesRes);
+      } catch (error) {
+        console.error("Failed to load data", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    return (
-        <main className="min-h-screen bg-background text-foreground">
-            <Navbar />
+    fetchInitialData();
+  }, []);
 
-            <section className="pt-32 pb-24 px-4 md:px-8">
-                <div className="container mx-auto max-w-6xl">
-                    <h1 className="text-4xl md:text-6xl font-bold mb-6">{dict.products.title.split(' ')[0]} <span className="text-primary">{dict.products.title.split(' ')[1] || ""}</span></h1>
-                    <p className="text-xl text-muted-foreground mb-16 max-w-2xl text-left">
-                        {dict.products.subtitle}
-                    </p>
+  const handleCategoryClick = async (categoryId: number | null) => {
+    setSelectedCategory(categoryId);
+    setIsLoading(true);
+    try {
+      // If categoryId is null, fetch all products
+      const productsRes = await productApi.getAllProducts(
+        1,
+        100,
+        categoryId || undefined,
+      );
+      setProducts(productsRes.data);
+    } catch (error) {
+      console.error("Failed to fetch products by category", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {products.map((p, idx) => (
-                            <motion.div
-                                key={p.id}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: idx * 0.1 }}
-                                className="group relative bg-card rounded-3xl overflow-hidden border border-border/50 hover:shadow-float transition-all"
-                            >
-                                <div className="aspect-square relative overflow-hidden">
-                                    <SafeImage
-                                        src={p.image}
-                                        alt={p.name}
-                                        fill
-                                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                </div>
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold mb-2">{p.name}</h3>
-                                    <p className="text-sm text-muted-foreground mb-6">{p.desc}</p>
-                                    <NextLink
-                                        href={`/products/${p.id}`}
-                                        className="text-primary font-semibold text-sm flex items-center gap-2"
-                                    >
-                                        {dict.products.explore}
-                                        <Box className="w-4 h-4" />
-                                    </NextLink>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
+  const isTh = language === "th";
+
+  return (
+    <main className="min-h-screen bg-background text-foreground">
+      <Navbar />
+
+      <section className="pt-32 pb-24 px-4 md:px-8">
+        <div className="container mx-auto max-w-6xl">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            {dict.products.title} <span className="text-primary">Packages</span>
+          </h1>
+          <p className="text-xl text-muted-foreground mb-16 max-w-2xl text-left">
+            {dict.products.subtitle}
+          </p>
+
+          <div className="space-y-12">
+            {/* Categories / Product Lines */}
+            {categories.length > 0 && (
+              <div>
+                <h2 className="text-2xl font-bold mb-8 flex items-center gap-2">
+                  <Layers className="w-6 h-6 text-primary" />
+                  {dict.common.category || "Categories"}
+                </h2>
+                <div className="flex gap-4 overflow-x-auto pb-4 snap-x no-scrollbar">
+                  <button
+                    onClick={() => handleCategoryClick(null)}
+                    className={`min-w-[140px] p-4 rounded-2xl border transition-all text-center snap-start ${
+                      selectedCategory === null
+                        ? "bg-primary text-primary-foreground border-primary shadow-lg scale-105"
+                        : "bg-muted/30 border-border/50 hover:bg-muted/50 hover:border-primary/50"
+                    }`}
+                  >
+                    <h3 className="font-bold">{dict.common.all || "All"}</h3>
+                  </button>
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => handleCategoryClick(cat.id)}
+                      className={`min-w-[140px] p-4 rounded-2xl border transition-all text-center snap-start ${
+                        selectedCategory === cat.id
+                          ? "bg-primary text-primary-foreground border-primary shadow-lg scale-105"
+                          : "bg-muted/30 border-border/50 hover:bg-muted/50 hover:border-primary/50"
+                      }`}
+                    >
+                      <h3 className="font-bold whitespace-nowrap">
+                        {isTh ? cat.nameTh : cat.nameEn}
+                      </h3>
+                    </button>
+                  ))}
                 </div>
-            </section>
+              </div>
+            )}
+            {/* Products Grid */}
+            <div>
+              <h2 className="text-2xl font-bold mb-8 flex items-center gap-2">
+                <Box className="w-6 h-6 text-primary" />
+                {selectedCategory
+                  ? isTh
+                    ? categories.find((c) => c.id === selectedCategory)?.nameTh
+                    : categories.find((c) => c.id === selectedCategory)?.nameEn
+                  : dict.common.all || "All Products"}
+              </h2>
 
-            <Footer />
-        </main>
-    );
+              {isLoading ? (
+                <div className="flex justify-center py-20">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                </div>
+              ) : products.length === 0 ? (
+                <div className="text-center py-12 bg-muted/10 rounded-3xl border border-dashed border-border">
+                  <p className="text-muted-foreground">
+                    No products found for this category.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {products.map((p, idx) => (
+                    <motion.div
+                      key={p.id || idx}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.05 }}
+                      className="h-full"
+                    >
+                      <NextLink
+                        href={`/products/${p.slug}`}
+                        className="group relative bg-card rounded-3xl overflow-hidden border border-border/50 hover:border-primary/50 hover:shadow-glow transition-all duration-300 h-full flex flex-col block"
+                      >
+                        <div className="aspect-square relative overflow-hidden bg-muted/20">
+                          <SafeImage
+                            src={
+                              p.featurePicturePath
+                                ? productApi.getProductImage(
+                                    p.featurePicturePath,
+                                  )
+                                : "/placeholder-box.png"
+                            }
+                            alt={isTh ? p.nameTh : p.nameEn}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                          />
+                          {/* Gradient Overlay on Hover */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                          {/* Floating Action Button */}
+                          <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                            <div className="bg-background/90 p-2.5 rounded-full shadow-lg backdrop-blur-sm">
+                              <ArrowUpRight className="w-5 h-5 text-primary" />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="p-6 flex-1 flex flex-col">
+                          <h3 className="text-lg font-bold mb-3 line-clamp-2 group-hover:text-primary transition-colors">
+                            {isTh ? p.nameTh : p.nameEn}
+                          </h3>
+                          <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
+                            {p.shortDescription || p.description}
+                          </p>
+                        </div>
+                      </NextLink>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
+  );
 }
