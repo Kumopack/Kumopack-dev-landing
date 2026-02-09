@@ -70,7 +70,7 @@ export default async function SupplierDetailPage({
 export async function generateStaticParams() {
   try {
     const response = await fetch(
-      "https://api.kumopack.com/v1/supplier?limit=24",
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.kumopack.com/v1"}/supplier?limit=24`,
     );
     const data = await response.json();
     const apiSuppliers = data?.data || [];

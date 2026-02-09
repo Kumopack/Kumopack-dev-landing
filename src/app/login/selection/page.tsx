@@ -24,8 +24,9 @@ function LoginSelectionContent() {
   const handleSelect = (role: "buyer" | "supplier") => {
     const baseUrl =
       role === "buyer"
-        ? "https://buyer.kumopack.com"
-        : "https://supplier.kumopack.com";
+        ? process.env.NEXT_PUBLIC_BUYER_URL || "https://buyer.kumopack.com"
+        : process.env.NEXT_PUBLIC_SUPPLIER_URL ||
+          "https://supplier.kumopack.com";
     const params = new URLSearchParams();
     if (ref) params.append("ref", ref);
     if (code) params.append("code", code);

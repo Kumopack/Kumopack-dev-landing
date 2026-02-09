@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Package, ArrowRight, Mail, Phone, MapPin } from "lucide-react";
-import Link from 'next/link';
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 
 const Footer = () => {
@@ -49,10 +49,38 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">{dict.footer.products}</h4>
             <ul className="space-y-2 text-primary-foreground/60 text-sm">
-              <li><Link href="/products" className="hover:text-primary-foreground transition-colors">{dict.products.mailerBox}</Link></li>
-              <li><Link href="/products" className="hover:text-primary-foreground transition-colors">{dict.products.productBox}</Link></li>
-              <li><Link href="/products" className="hover:text-primary-foreground transition-colors">{dict.nav.materials}</Link></li>
-              <li><Link href="/products" className="hover:text-primary-foreground transition-colors">{dict.nav.marketplace}</Link></li>
+              <li>
+                <Link
+                  href="/products"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.products.mailerBox}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.products.productBox}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.materials}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/products"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.marketplace}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -60,10 +88,38 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">{dict.footer.company}</h4>
             <ul className="space-y-2 text-primary-foreground/60 text-sm">
-              <li><Link href="/about-us" className="hover:text-primary-foreground transition-colors">{dict.nav.contact}</Link></li>
-              <li><Link href="/supplier" className="hover:text-primary-foreground transition-colors">{dict.supplier.title}</Link></li>
-              <li><Link href="/materials" className="hover:text-primary-foreground transition-colors">{dict.nav.materials}</Link></li>
-              <li><Link href="/contact" className="hover:text-primary-foreground transition-colors">{dict.nav.blog}</Link></li>
+              <li>
+                <Link
+                  href="/about-us"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.contact}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/supplier"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.supplier.title}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/materials"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.materials}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.blog}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -73,7 +129,7 @@ const Footer = () => {
             <ul className="space-y-3 text-primary-foreground/60 text-sm">
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
-                hello@kumopack.com
+                {process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@kumopack.com"}
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4" />
@@ -91,8 +147,18 @@ const Footer = () => {
         <div className="mt-12 pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/50">
           <p>{dict.footer.allRightsReserved}</p>
           <div className="flex gap-6">
-            <Link href="/policy" className="hover:text-primary-foreground transition-colors">{dict.footer.privacyPolicy}</Link>
-            <Link href="/policy" className="hover:text-primary-foreground transition-colors">{dict.footer.termsOfService}</Link>
+            <Link
+              href="/policy"
+              className="hover:text-primary-foreground transition-colors"
+            >
+              {dict.footer.privacyPolicy}
+            </Link>
+            <Link
+              href="/policy"
+              className="hover:text-primary-foreground transition-colors"
+            >
+              {dict.footer.termsOfService}
+            </Link>
           </div>
         </div>
       </div>

@@ -217,7 +217,10 @@ const Navbar = () => {
               */}
 
               <a
-                href="https://mockup.kumopack.com"
+                href={
+                  process.env.NEXT_PUBLIC_MOCKUP_SITE_URL ||
+                  "https://mockup.kumopack.com"
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-lavender transition-all duration-200"

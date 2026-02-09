@@ -94,9 +94,9 @@ export function getBuyerAuth(): BuyerAuthInfo {
  * Constants for redirection and APIs
  */
 export const BUYER_URLS = {
-    BASE: 'https://buyer.kumopack.com',
-    AUTH: 'https://buyer.kumopack.com/auth',
-    FAVORITE: 'https://buyer.kumopack.com/favorite',
-    CREATE_PRODUCTION: 'https://buyer.kumopack.com/production/create?step=product-line',
-    ADD_FAVORITE_API: 'https://api.kumopack.com/v1/buyer/favorite/add'
+    BASE: process.env.NEXT_PUBLIC_BUYER_URL || 'https://buyer.kumopack.com',
+    AUTH: process.env.NEXT_PUBLIC_BUYER_SIGNIN_URL || 'https://buyer.kumopack.com/auth',
+    FAVORITE: (process.env.NEXT_PUBLIC_BUYER_URL || 'https://buyer.kumopack.com') + '/favorite',
+    CREATE_PRODUCTION: (process.env.NEXT_PUBLIC_BUYER_URL || 'https://buyer.kumopack.com') + '/production/create?step=product-line',
+    ADD_FAVORITE_API: (process.env.NEXT_PUBLIC_API_ENDPOINT || 'https://api.kumopack.com/v1') + '/buyer/favorite/add'
 };

@@ -36,7 +36,7 @@ function BlogsContent() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
-  const selectedCategory = searchParams.get("category") || "All";
+  const selectedCategory = searchParams?.get("category") || "All";
   const limit = 12;
 
   useEffect(() => {
@@ -65,7 +65,7 @@ function BlogsContent() {
 
   // URL Sync for Language
   useEffect(() => {
-    const urlLang = searchParams.get("lang");
+    const urlLang = searchParams?.get("lang");
     if (
       urlLang &&
       (urlLang === "th" || urlLang === "en") &&
@@ -76,7 +76,7 @@ function BlogsContent() {
   }, [searchParams]);
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString());
     if (params.get("lang") !== language) {
       params.set("lang", language);
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });
@@ -84,7 +84,7 @@ function BlogsContent() {
   }, [language, pathname, router]);
 
   const handleCategoryChange = (slug: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString());
     if (slug === "All") {
       params.delete("category");
     } else {

@@ -48,7 +48,7 @@ import { getStoragePath } from "@/lib/utils";
 
 export async function getSupplierData(slug: string): Promise<Supplier | null> {
     try {
-        const response = await fetch(`https://api.kumopack.com/v1/supplier/${slug}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.kumopack.com/v1"}/supplier/${slug}`);
 
         // Find mock fallback just in case
         const fallback = suppliers.find(s => s.id === slug);
@@ -116,7 +116,7 @@ export async function getSupplierData(slug: string): Promise<Supplier | null> {
 
 export async function getSuppliersList(): Promise<Supplier[]> {
     try {
-        const response = await fetch('https://api.kumopack.com/v1/supplier?limit=24');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.kumopack.com/v1"}/supplier?limit=24`);
         if (!response.ok) return suppliers;
         const data = await response.json();
 
@@ -162,8 +162,8 @@ export const suppliers: Supplier[] = [
         location: "Bangkok",
         address: "674 On Nut 30, Suan Luang, Bangkok 10250",
         specialized: "Corrugated Boxes",
-        image: "https://api.kumopack.com/v1/images/supplier/SA000004/1707639759503-280474020_5350219308368770_4275505670421887387_n.jpg",
-        logo: "https://api.kumopack.com/v1/images/supplier/SA000004/1751899692205-.png",
+        image: `${process.env.NEXT_PUBLIC_IMAGE_URL || "https://api.kumopack.com/v1/images"}/supplier/SA000004/1707639759503-280474020_5350219308368770_4275505670421887387_n.jpg`,
+        logo: `${process.env.NEXT_PUBLIC_IMAGE_URL || "https://api.kumopack.com/v1/images"}/supplier/SA000004/1751899692205-.png`,
         tagline: "Strength in Every Layer.",
         description: "รับผลิตกล่องบรรจุภัณฑ์พิมพ์ลาย, กล่องกระดาษราคาถูก, กล่องส่งออกสภาพเเข็งเเรง",
         website: "https://www.siampackaging.co.th",

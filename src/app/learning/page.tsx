@@ -43,20 +43,20 @@ function LearningPageContent() {
 
   // Read initial audience from URL or default to buyer
   const initialAudience =
-    (searchParams.get("audience") as "buyer" | "supplier") || "buyer";
+    (searchParams?.get("audience") as "buyer" | "supplier") || "buyer";
   const [currentAudience, setCurrentAudience] = useState<"buyer" | "supplier">(
     initialAudience,
   );
 
   useEffect(() => {
-    const aud = searchParams.get("audience") as "buyer" | "supplier";
+    const aud = searchParams?.get("audience") as "buyer" | "supplier";
     if (aud && aud !== currentAudience) {
       setCurrentAudience(aud);
     }
   }, [searchParams]);
 
   useEffect(() => {
-    const urlLang = searchParams.get("lang");
+    const urlLang = searchParams?.get("lang");
     if (
       urlLang &&
       (urlLang === "th" || urlLang === "en") &&
@@ -67,9 +67,9 @@ function LearningPageContent() {
   }, []);
 
   useEffect(() => {
-    const urlLang = searchParams.get("lang");
+    const urlLang = searchParams?.get("lang");
     if (urlLang !== language) {
-      const params = new URLSearchParams(searchParams.toString());
+      const params = new URLSearchParams(searchParams?.toString());
       params.set("lang", language);
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }
@@ -151,7 +151,7 @@ function LearningPageContent() {
     setCurrentAudience(newAudience);
     setSelectedCategorySlug("all");
     setCurrentPage(1);
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString());
     params.set("audience", newAudience);
     router.push(`${pathname}?${params.toString()}`);
   };
@@ -227,12 +227,15 @@ function LearningPageContent() {
 
               <div className="pt-4">
                 <button
-                  onClick={() =>
-                    window.open(
-                      `https://${currentAudience}.kumopack.com/auth`,
-                      "_blank",
-                    )
-                  }
+                  onClick={() => {
+                    const baseUrl =
+                      currentAudience === "buyer"
+                        ? process.env.NEXT_PUBLIC_BUYER_URL ||
+                          "https://buyer.kumopack.com"
+                        : process.env.NEXT_PUBLIC_SUPPLIER_URL ||
+                          "https://supplier.kumopack.com";
+                    window.open(`${baseUrl}/auth`, "_blank");
+                  }}
                   className="px-10 py-5 rounded-[2rem] bg-foreground text-background font-black text-xs uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-95 transition-all shadow-xl"
                 >
                   {isTh ? "เริ่มต้นใช้งานฟรี" : "Get Started Free"}

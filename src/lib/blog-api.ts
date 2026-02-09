@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://api.kumopack.com/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT || 'https://api.kumopack.com/v1';
 
 export interface Category {
     id: string | number;
@@ -110,7 +110,7 @@ export const blogApi = {
              return path; 
         }
 
-        const storageBase = 'https://api.kumopack.com/v1/images/';
+        const storageBase = (process.env.NEXT_PUBLIC_IMAGE_URL || 'https://api.kumopack.com/v1/images') + '/';
         // Remove leading slash if present to avoid double slashes with storageBase
         const cleanPath = path.startsWith('/') ? path.slice(1) : path;
         return `${storageBase}${cleanPath}`;

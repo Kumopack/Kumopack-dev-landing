@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://api.kumopack.com/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT || 'https://api.kumopack.com/v1';
 
 export interface Article {
     id: string | number;

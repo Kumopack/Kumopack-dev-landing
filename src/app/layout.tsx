@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Kumopack | The Absolute Packaging Solutions",
     description: "Design and order custom packaging that elevates your brand.",
-    url: "https://kumopack.com",
+    url: process.env.NEXT_PUBLIC_MAIN_SITE_URL || "https://kumopack.com",
     siteName: "Kumopack",
     locale: "en_US",
     type: "website",
