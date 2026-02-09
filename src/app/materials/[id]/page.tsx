@@ -1,72 +1,251 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext";
+import { useParams, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Material, materialApi, productApi } from "@/lib/product-api";
+import { SustainabilityIcon } from "@/components/SustainabilityIcon";
+import { SafeImage } from "@/components/ui/safe-image";
+import { motion } from "framer-motion";
 
-export async function generateStaticParams() {
-    return [{ id: "1" }, { id: "2" }, { id: "3" }, { id: "4" }];
-}
+export default function MaterialDetailPage() {
+  const params = useParams();
+  const rawId = params?.id;
+  const id = Array.isArray(rawId) ? rawId[0] : rawId;
+  const { dict, language } = useLanguage();
 
-export default async function MaterialDetailPage({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
+  const [material, setMaterial] = useState<Material | null>(null);
+  const [loading, setLoading] = useState(true);
 
+  const isTh = language === "th";
+
+  // Helper to access nested keys
+  const t = (key: string) => {
+    const keys = key.split(".");
+    let current: any = dict;
+    for (const k of keys) {
+      if (current && current[k]) {
+        current = current[k];
+      } else {
+        return key;
+      }
+    }
+    return current;
+  };
+
+  useEffect(() => {
+    if (!id || id === "undefined") {
+      setLoading(false);
+      return;
+    }
+
+    const fetchMaterial = async () => {
+      setLoading(true);
+      try {
+        const decodedId = decodeURIComponent(id);
+
+        // 1. Try direct slug fetch
+        let foundMaterial = await materialApi.getMaterialBySlug(decodedId);
+
+        // 2. Fallback: Search in all materials
+        if (!foundMaterial) {
+          console.warn(
+            `Material not found by slug '${decodedId}', trying fallback...`,
+          );
+          try {
+            const allMaterials = await materialApi.getAllMaterials(1, 1000);
+            foundMaterial =
+              allMaterials.data.find(
+                (m) =>
+                  m.slug === decodedId ||
+                  m.nameEn === decodedId ||
+                  m.nameTh === decodedId,
+              ) || null;
+          } catch (err) {
+            console.error("Fallback search failed", err);
+          }
+        }
+
+        if (foundMaterial) {
+          setMaterial(foundMaterial);
+        } else {
+          setMaterial(null);
+        }
+      } catch (error) {
+        console.error("Failed to load material", error);
+        setMaterial(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMaterial();
+  }, [id]);
+
+  // Visual URL Update
+  useEffect(() => {
+    if (!material || !material.slug) return;
+
+    const expectedPath = `/materials/${material.slug}`;
+    const expectedQuery = `?lang=${language}`;
+    const currentPath = window.location.pathname;
+    const currentSearch = window.location.search;
+
+    const isPathMismatch =
+      decodeURIComponent(currentPath) !== decodeURIComponent(expectedPath);
+    const isQueryMismatch = currentSearch !== expectedQuery;
+
+    if (isPathMismatch || isQueryMismatch) {
+      window.history.replaceState(null, "", `${expectedPath}${expectedQuery}`);
+    }
+  }, [material, language]);
+
+  if (loading) {
     return (
-        <main className="min-h-screen bg-background text-foreground">
-            <Navbar />
-
-            <section className="pt-32 pb-24 px-4 md:px-8">
-                <div className="container mx-auto max-w-5xl">
-                    <Link href="/materials" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-12">
-                        <ArrowLeft className="w-4 h-4" />
-                        Back to Materials
-                    </Link>
-
-                    <div className="grid lg:grid-cols-2 gap-16">
-                        <div className="aspect-square rounded-3xl overflow-hidden border border-border/50 shadow-float">
-                            <img
-                                src="https://images.unsplash.com/photo-1589365278144-c9e705f843ba?auto=format&fit=crop&q=80&w=2070"
-                                alt="Material detail"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                        <div className="space-y-8">
-                            <div>
-                                <h1 className="text-4xl font-bold mb-4">Kraft Paper</h1>
-                                <p className="text-xl text-muted-foreground leading-relaxed">
-                                    Our premium Kraft paper is sourced from sustainable forests, offering a natural feel and excellent durability for all your packaging needs.
-                                </p>
-                            </div>
-
-                            <div className="space-y-4">
-                                <h3 className="text-xl font-bold">Key Specifications</h3>
-                                <ul className="space-y-3">
-                                    {[
-                                        "Available in 150 - 350 GSM",
-                                        "100% Recyclable & Biodegradable",
-                                        "Excellent printability for minimal designs",
-                                        "High tensile strength for heavy items",
-                                        "Neutral pH, acid-free options"
-                                    ].map((spec, idx) => (
-                                        <li key={idx} className="flex gap-3 items-center text-muted-foreground">
-                                            <CheckCircle2 className="w-5 h-5 text-primary" />
-                                            {spec}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <div className="bg-primary/5 p-8 rounded-3xl border border-primary/20">
-                                <div className="font-bold text-lg mb-2 text-primary">Sustainability Score: 9.5/10</div>
-                                <p className="text-sm text-muted-foreground">
-                                    This material is one of our most sustainable options, requiring 40% less energy to produce than traditional bleached paper.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <Footer />
-        </main>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
     );
+  }
+
+  if (!material) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-background">
+        <h1 className="text-2xl font-bold">Material not found</h1>
+        <Link href="/materials" className="text-primary hover:underline">
+          Back to Materials
+        </Link>
+      </div>
+    );
+  }
+
+  // Determine description logic (fallback to English if Thai missing, or generic text)
+  const description = isTh
+    ? material.description || material.shortDescription || material.nameTh
+    : material.description || material.shortDescription || material.nameEn;
+
+  return (
+    <main className="min-h-screen bg-background text-foreground pb-20">
+      <Navbar />
+
+      <section className="pt-32 px-4 md:px-8 max-w-7xl mx-auto">
+        <div className="mb-12">
+          <Link
+            href={`/materials?lang=${language}`}
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            {t("materials.back") || "Back to Materials"}
+          </Link>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+          {/* Image Section */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="aspect-square relative rounded-[3rem] overflow-hidden bg-muted/20 border border-border/50 shadow-float"
+          >
+            <SafeImage
+              src={materialApi.getMaterialImage(
+                material.featurePicturePath || "",
+              )}
+              alt={isTh ? material.nameTh : material.nameEn}
+              fill
+              className="object-cover"
+              priority
+            />
+          </motion.div>
+
+          {/* Content Section */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="space-y-10"
+          >
+            <div>
+              <h1 className="text-3xl md:text-5xl font-black mb-6 leading-tight">
+                {isTh ? material.nameTh : material.nameEn}
+              </h1>
+              <div className="prose prose-lg dark:prose-invert text-muted-foreground leading-relaxed">
+                {/<[a-z][\s\S]*>/i.test(description || "") ? (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: description || "" }}
+                  />
+                ) : (
+                  <p>{description}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Sustainability Section */}
+            {material.sustainability && material.sustainability.length > 0 && (
+              <div>
+                <h3 className="font-bold text-xl mb-4 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-green-500 rounded-full"></span>
+                  {isTh ? "ความยั่งยืน" : "Sustainability"}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {material.sustainability.map((item: any, idx: number) => (
+                    <SustainabilityIcon key={idx} item={item} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Related Products Section */}
+            {material.products && material.products.length > 0 && (
+              <div>
+                <h3 className="font-bold text-xl mb-4 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-primary rounded-full"></span>
+                  {isTh
+                    ? "สินค้าที่ใช้วัสดุนี้"
+                    : "Products using this material"}
+                </h3>
+
+                <div className="relative group/carousel">
+                  {/* Scrollable Container */}
+                  <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted/30 hover:scrollbar-thumb-muted/60">
+                    {material.products.map((item: any, idx: number) => {
+                      const p = item.product;
+                      if (!p) return null;
+                      return (
+                        <Link
+                          key={idx}
+                          href={`/products/${p.slug}?lang=${language}`}
+                          className="snap-start min-w-[160px] w-[160px] flex-shrink-0 group block p-3 rounded-2xl bg-card border border-border/50 hover:border-primary/50 hover:shadow-lg transition-all"
+                        >
+                          <div className="aspect-square relative rounded-xl overflow-hidden bg-muted mb-3 border border-border/20">
+                            <SafeImage
+                              src={productApi.getProductImage(
+                                p.featurePicturePath,
+                              )}
+                              alt={isTh ? p.nameTh : p.nameEn}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                          </div>
+                          <h4 className="font-bold text-sm group-hover:text-primary transition-colors line-clamp-1">
+                            {isTh ? p.nameTh : p.nameEn}
+                          </h4>
+                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                            {p.code}
+                          </p>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </div>
+      </section>
+      <Footer />
+    </main>
+  );
 }

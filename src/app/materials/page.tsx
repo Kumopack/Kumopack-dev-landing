@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link, Layers } from "lucide-react";
+import { MinimalTabs } from "@/components/ui/minimal-tabs";
 import NextLink from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { SafeImage } from "@/components/ui/safe-image";
@@ -40,6 +41,26 @@ export default function MaterialsPage() {
     fetchData();
   }, []);
 
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+
+  const handleCategoryClick = async (categoryId: number | null) => {
+    setSelectedCategory(categoryId);
+    setIsLoading(true);
+    try {
+      // Pass categoryId to the API
+      const res = await materialApi.getAllMaterials(
+        1,
+        100,
+        categoryId || undefined,
+      );
+      setMaterials(res.data);
+    } catch (error) {
+      console.error("Failed to filter materials", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const isTh = language === "th";
 
   return (
@@ -55,6 +76,31 @@ export default function MaterialsPage() {
             {dict.materials.subtitle}
           </p>
 
+          {/* Categories Filter */}
+          {categories.length > 0 && (
+            <div className="mb-12">
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                <Layers className="w-5 h-5 text-primary" />
+                {dict.common.category || "Categories"}
+              </h2>
+              <div className="overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0">
+                <MinimalTabs
+                  tabs={[
+                    { id: "all", label: dict.common.all || "All" },
+                    ...categories.map((cat) => ({
+                      id: cat.id.toString(),
+                      label: isTh ? cat.nameTh : cat.nameEn,
+                    })),
+                  ]}
+                  activeTab={selectedCategory?.toString() || "all"}
+                  onChange={(id) => {
+                    handleCategoryClick(id === "all" ? null : Number(id));
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
           {isLoading ? (
             <div className="flex justify-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
@@ -65,7 +111,11 @@ export default function MaterialsPage() {
               <div>
                 {materials.length === 0 ? (
                   <div className="text-center py-12 bg-muted/10 rounded-3xl border border-dashed border-border">
-                    <p className="text-muted-foreground">No materials found.</p>
+                    <p className="text-muted-foreground">
+                      {isTh
+                        ? "ไม่พบวัสดุในหมวดหมู่นี้"
+                        : "No materials found in this category."}
+                    </p>
                   </div>
                 ) : (
                   <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -96,7 +146,7 @@ export default function MaterialsPage() {
                             {m.shortDescription || m.description}
                           </p>
                           <NextLink
-                            href={`/materials/${m.slug || m.id}`}
+                            href={`/materials/${m.slug || m.id}?lang=${language}`}
                             className="text-primary font-semibold text-sm flex items-center gap-2"
                           >
                             {dict.materials.details}

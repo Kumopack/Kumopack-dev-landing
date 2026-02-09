@@ -11,6 +11,7 @@ export interface Product {
     description?: string;
     shortDescription?: string;
     shortDescriptionEn?: string;
+    longDescription?: string;
     longDescriptionEn?: string;
     featurePicturePath?: string;
     images?: { id: number; path: string }[];
@@ -146,6 +147,23 @@ export interface Material {
     description?: string; // or shortDescription
     featurePicturePath?: string;
     sortOrder?: number;
+    sustainability?: {
+        materialId: number;
+        sustainabilityId: string;
+        sustainability?: {
+            id: string;
+            nameTh: string;
+            nameEn: string;
+            descriptionTh?: string;
+            descriptionEn?: string;
+            colorLabel?: string;
+        };
+    }[];
+    products?: {
+        productId: number;
+        materialId: number;
+        product?: Product;
+    }[];
 }
 
 export interface MaterialsResponse {
@@ -156,9 +174,14 @@ export interface MaterialsResponse {
 }
 
 export const materialApi = {
-    async getAllMaterials(page = 1, limit = 100): Promise<MaterialsResponse> {
+    async getAllMaterials(page = 1, limit = 100, productLineId?: number): Promise<MaterialsResponse> {
         try {
-            const res = await fetch(`${API_BASE_URL}/product/materials?page=${page}&limit=${limit}`, {
+            let url = `${API_BASE_URL}/product/materials?page=${page}&limit=${limit}`;
+            if (productLineId) {
+                url += `&productLine=${productLineId}`;
+            }
+
+            const res = await fetch(url, {
                 next: { revalidate: 60 },
                 headers: { 'Accept': 'application/json' }
             });

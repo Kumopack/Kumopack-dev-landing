@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Box, Layers, ArrowUpRight } from "lucide-react";
+import { MinimalTabs } from "@/components/ui/minimal-tabs";
 import NextLink from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { SafeImage } from "@/components/ui/safe-image";
@@ -72,37 +73,25 @@ export default function ProductsPage() {
           <div className="space-y-12">
             {/* Categories / Product Lines */}
             {categories.length > 0 && (
-              <div>
-                <h2 className="text-2xl font-bold mb-8 flex items-center gap-2">
+              <div className="mb-12">
+                <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                   <Layers className="w-6 h-6 text-primary" />
                   {dict.common.category || "Categories"}
                 </h2>
-                <div className="flex gap-4 overflow-x-auto pb-4 snap-x no-scrollbar">
-                  <button
-                    onClick={() => handleCategoryClick(null)}
-                    className={`min-w-[140px] p-4 rounded-2xl border transition-all text-center snap-start ${
-                      selectedCategory === null
-                        ? "bg-primary text-primary-foreground border-primary shadow-lg scale-105"
-                        : "bg-muted/30 border-border/50 hover:bg-muted/50 hover:border-primary/50"
-                    }`}
-                  >
-                    <h3 className="font-bold">{dict.common.all || "All"}</h3>
-                  </button>
-                  {categories.map((cat) => (
-                    <button
-                      key={cat.id}
-                      onClick={() => handleCategoryClick(cat.id)}
-                      className={`min-w-[140px] p-4 rounded-2xl border transition-all text-center snap-start ${
-                        selectedCategory === cat.id
-                          ? "bg-primary text-primary-foreground border-primary shadow-lg scale-105"
-                          : "bg-muted/30 border-border/50 hover:bg-muted/50 hover:border-primary/50"
-                      }`}
-                    >
-                      <h3 className="font-bold whitespace-nowrap">
-                        {isTh ? cat.nameTh : cat.nameEn}
-                      </h3>
-                    </button>
-                  ))}
+                <div className="overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0">
+                  <MinimalTabs
+                    tabs={[
+                      { id: "all", label: dict.common.all || "All" },
+                      ...categories.map((cat) => ({
+                        id: cat.id.toString(),
+                        label: isTh ? cat.nameTh : cat.nameEn,
+                      })),
+                    ]}
+                    activeTab={selectedCategory?.toString() || "all"}
+                    onChange={(id) => {
+                      handleCategoryClick(id === "all" ? null : Number(id));
+                    }}
+                  />
                 </div>
               </div>
             )}

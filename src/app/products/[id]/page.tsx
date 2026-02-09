@@ -2,7 +2,16 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ArrowLeft, Ruler, Paintbrush, Box, Leaf, Award } from "lucide-react";
+import {
+  ArrowLeft,
+  Ruler,
+  Paintbrush,
+  Box,
+  Leaf,
+  Award,
+  BookOpen,
+} from "lucide-react";
+import { MinimalTabs } from "@/components/ui/minimal-tabs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
@@ -10,6 +19,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect, use } from "react";
 import { Product, productApi } from "@/lib/product-api";
 import { SafeImage } from "@/components/ui/safe-image";
+import { SustainabilityIcon } from "@/components/SustainabilityIcon";
 import { motion } from "framer-motion";
 
 export default function ProductDetailPage() {
@@ -87,35 +97,28 @@ export default function ProductDetailPage() {
     fetchProduct();
   }, [id]);
 
-  // 2. Handle Language/Slug Switch (Visual URL update only - OPTIONAL)
+  // 2. Handle Language/Slug Switch (Visual URL update)
   useEffect(() => {
-    if (!product) return;
+    if (!product || !product.slug) return;
 
-    const updateUrlVisually = async () => {
-      try {
-        // If we want to show the slug in the URL without reloading:
-        const allProducts = await productApi.getAllProducts(1, 1000);
-        const matched = allProducts.data.find(
-          (p) => String(p.id) === String(product.id),
-        );
+    // Construct the expected URL parts
+    const expectedPath = `/products/${product.slug}`;
+    const expectedQuery = `?lang=${language}`;
 
-        if (
-          matched &&
-          matched.slug &&
-          id &&
-          matched.slug !== decodeURIComponent(id)
-        ) {
-          // Use window.history.replaceState to change URL without triggering Next.js navigation/fetch
-          // This satisfies "Let URL be for display" while keeping logic on ID
-          window.history.replaceState(null, "", `/products/${matched.slug}`);
-        }
-      } catch (e) {
-        console.error("Failed to update URL visually", e);
-      }
-    };
+    // Get current state
+    const currentPath = window.location.pathname;
+    const currentSearch = window.location.search;
 
-    updateUrlVisually();
-  }, [language, product, id]);
+    // Check if update is needed (compare decoded paths to handle Thai characters)
+    const isPathMismatch =
+      decodeURIComponent(currentPath) !== decodeURIComponent(expectedPath);
+    const isQueryMismatch = currentSearch !== expectedQuery;
+
+    if (isPathMismatch || isQueryMismatch) {
+      // Update URL without reloading
+      window.history.replaceState(null, "", `${expectedPath}${expectedQuery}`);
+    }
+  }, [product, language]);
 
   if (loading) {
     return (
@@ -145,6 +148,10 @@ export default function ProductDetailPage() {
     (product.images && product.images[0]?.path) ||
     "";
 
+  const descriptionHtml = isTh
+    ? product.longDescription
+    : product.longDescriptionEn;
+
   return (
     <main className="min-h-screen bg-background text-foreground pb-20">
       <Navbar />
@@ -153,7 +160,7 @@ export default function ProductDetailPage() {
         {/* Breadcrumb / Back */}
         <div className="mb-8">
           <Link
-            href="/products"
+            href={`/products?lang=${language}`}
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -224,24 +231,29 @@ export default function ProductDetailPage() {
 
             {/* TABS Navigation */}
             <div className="flex flex-wrap gap-3 mb-8 border-b border-border/40 pb-6">
-              <button
-                onClick={() => setActiveTab("overview")}
-                className={tabBtnClass("overview")}
-              >
-                {isTh ? "ภาพรวม" : "Overview"}
-              </button>
-              <button
-                onClick={() => setActiveTab("materials")}
-                className={tabBtnClass("materials")}
-              >
-                {t("materials.title") || "Materials"}
-              </button>
-              <button
-                onClick={() => setActiveTab("standards")}
-                className={tabBtnClass("standards")}
-              >
-                {isTh ? "มาตรฐาน & ใบรับรอง" : "Standards & Certificates"}
-              </button>
+              <MinimalTabs
+                tabs={[
+                  {
+                    id: "overview",
+                    label: isTh ? "ภาพรวม" : "Overview",
+                    icon: <BookOpen className="w-4 h-4" />,
+                  },
+                  {
+                    id: "materials",
+                    label: t("materials.title") || "Materials",
+                    icon: <Box className="w-4 h-4" />,
+                  },
+                  {
+                    id: "standards",
+                    label: isTh
+                      ? "มาตรฐาน & ใบรับรอง"
+                      : "Standards & Certificates",
+                    icon: <Award className="w-4 h-4" />,
+                  },
+                ]}
+                activeTab={activeTab}
+                onChange={(id) => setActiveTab(id as any)}
+              />
             </div>
 
             {/* TABS Content */}
@@ -254,10 +266,10 @@ export default function ProductDetailPage() {
                   className="space-y-6"
                 >
                   <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground leading-relaxed">
-                    {product.longDescriptionEn ? (
+                    {descriptionHtml ? (
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: product.longDescriptionEn,
+                          __html: descriptionHtml,
                         }}
                       />
                     ) : (
@@ -349,37 +361,16 @@ export default function ProductDetailPage() {
                     </h3>
                     {product.sustainability &&
                     product.sustainability.length > 0 ? (
-                      <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="flex flex-wrap gap-2">
                         {product.sustainability.map((s: any, idx: number) => (
-                          <div
-                            key={idx}
-                            className="flex items-center gap-4 p-4 rounded-2xl bg-green-50/50 dark:bg-green-900/10 border border-green-100 dark:border-green-900/30"
-                          >
-                            <div className="w-10 h-10 rounded-full bg-white dark:bg-black/20 flex items-center justify-center shadow-sm p-1.5">
-                              {/* Use icon from API if available, else fallback */}
-                              {(s.sustainability as any)?.icon ? (
-                                <img
-                                  src={(s.sustainability as any).icon}
-                                  className="w-full h-full object-contain"
-                                  alt=""
-                                />
-                              ) : (
-                                <Leaf className="w-5 h-5 text-green-600" />
-                              )}
-                            </div>
-                            <span className="font-bold text-sm text-green-800 dark:text-green-300">
-                              {s.sustainability
-                                ? isTh
-                                  ? s.sustainability.nameTh
-                                  : s.sustainability.nameEn
-                                : `Sustainability ${s.sustainabilityId}`}
-                            </span>
-                          </div>
+                          <SustainabilityIcon key={idx} item={s} />
                         ))}
                       </div>
                     ) : (
                       <p className="text-sm text-muted-foreground italic">
-                        No specific sustainability tags.
+                        {isTh
+                          ? "ไม่มีข้อมูลความยั่งยืนสำหรับสินค้านี้"
+                          : "No specific sustainability information available."}
                       </p>
                     )}
                   </div>

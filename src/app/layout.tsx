@@ -17,8 +17,16 @@ const notoEn = Noto_Sans({
 
 export const metadata: Metadata = {
   title: "Kumopack | The Absolute Packaging Solutions",
-  description: "Design and order custom packaging that elevates your brand. Get instant quotes from top-tier factories. Compare, choose, and create—all in one place.",
-  keywords: ["packaging", "custom boxes", "sourcing", "factory", "b2b", "printing"],
+  description:
+    "Design and order custom packaging that elevates your brand. Get instant quotes from top-tier factories. Compare, choose, and create—all in one place.",
+  keywords: [
+    "packaging",
+    "custom boxes",
+    "sourcing",
+    "factory",
+    "b2b",
+    "printing",
+  ],
   openGraph: {
     title: "Kumopack | The Absolute Packaging Solutions",
     description: "Design and order custom packaging that elevates your brand.",
@@ -35,14 +43,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${notoTh.variable} ${notoEn.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${notoTh.variable} ${notoEn.variable}`}
+      suppressHydrationWarning
+    >
       <body
-        className="antialiased font-sans"
+        className="antialiased font-sans overflow-x-hidden"
         suppressHydrationWarning
       >
-        <LanguageProvider>
-          {children}
-        </LanguageProvider>
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );
