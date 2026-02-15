@@ -36,6 +36,34 @@ export const th = {
     },
     pricing: {
         title: "ราคา",
+        hero: {
+            title: "เลือกแผนที่เหมาะกับธุรกิจของคุณ",
+            subtitle: "แผนราคาที่ยืดหยุ่นและเติบโตไปพร้อมกับคุณ",
+        },
+        badge: {
+            buyer: "สำหรับผู้ซื้อ",
+            supplier: "สำหรับผู้ผลิต",
+        },
+        toggle: {
+            monthly: "รายเดือน",
+            annual: "รายปี",
+            savings: "ประหยัด 10%",
+        },
+        recommended: "แนะนำ",
+        getStarted: "เริ่มต้นใช้งาน",
+        getStartedFree: "เริ่มต้นใช้งานฟรี",
+        perMonth: "/เดือน",
+        perYear: "/ปี",
+        savePercent: "ประหยัด {percent}%",
+        features: {
+            title: "เปรียบเทียบแผน",
+            header: "คุณสมบัติ",
+            categories: {
+                overview: "ภาพรวม",
+                work: "การทำงาน",
+                reporting: "การรายงาน",
+            }
+        },
         simple: "ราคาทั่วไป",
         industrial: "ราคาโรงงาน",
         forBuyers: "สำหรับผู้ซื้อ",

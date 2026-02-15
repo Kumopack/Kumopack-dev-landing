@@ -25,8 +25,8 @@ export const auth = {
         const token = auth.getToken();
         if (!token) return false;
 
-        // Mock validation: check if token is "not expired"
-        // In this mock, we just check if it exists
+        
+        
         return !!token;
     },
 

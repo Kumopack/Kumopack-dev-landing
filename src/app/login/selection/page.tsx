@@ -35,17 +35,23 @@ function LoginSelectionContent() {
       ? `${baseUrl}/auth?${params.toString()}`
       : `${baseUrl}/auth`;
 
-    console.log(`Redirecting to: ${finalUrl}`);
+    // Set cookies based on role
+    if (role === "buyer") {
+      document.cookie =
+        "kumopack-buyer-access-token=mock_buyer_token; path=/; max-age=86400";
+      document.cookie = "kumopack-supplier-access-token=; path=/; max-age=0"; // Clear other
+    } else {
+      document.cookie =
+        "kumopack-supplier-access-token=mock_supplier_token; path=/; max-age=86400";
+      document.cookie = "kumopack-buyer-access-token=; path=/; max-age=0"; // Clear other
+    }
 
-    // Mock token for testing "Enter App" button in Navbar
-    auth.setToken("mock_token_123");
-
-    // In a real app, we would redirect:
+    // In a real app, we would redirect to the auth URL.
+    // For this demo/test, we redirect back to pricing or home
     // window.location.href = finalUrl;
-    alert(
-      `Redirecting to ${role} portal: ${finalUrl}\n(Mock token set for Navbar testing)`,
-    );
-    window.location.href = "/";
+
+    console.log(`Mock login as ${role} successful. Cookies set.`);
+    window.location.href = "/pricing?type=" + role;
   };
 
   if (!isMounted) return null;

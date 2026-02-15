@@ -21,7 +21,7 @@ export const PromoPopup = () => {
     const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
     if (!lastClosedAt || now - parseInt(lastClosedAt) > TWENTY_FOUR_HOURS) {
-      const timer = setTimeout(() => setIsOpen(true), 1500); // Show after 1.5s
+      const timer = setTimeout(() => setIsOpen(true), 1500);
       return () => clearTimeout(timer);
     }
   }, []);
@@ -51,59 +51,65 @@ export const PromoPopup = () => {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="relative w-full max-w-lg bg-card rounded-[2.5rem] overflow-hidden shadow-glow border border-border/50"
+            className="relative w-full max-w-md bg-card rounded-[2rem] overflow-hidden shadow-2xl border border-white/20 flex flex-col max-h-[85vh]"
           >
             <button
               onClick={handleClose}
-              className="absolute top-6 right-6 z-10 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center hover:bg-white/40 transition-colors"
+              className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-black/40 transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
 
-            <div className="aspect-[4/5] relative overflow-hidden">
-              <SafeImage
-                src="/asset/promotion-cny.jpg"
-                alt="Chinese New Year Promo"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent" />
-            </div>
-
-            <div className="p-10 -mt-20 relative z-10 space-y-6 text-center">
-              <div className="w-20 h-20 rounded-3xl bg-red-600 flex items-center justify-center mx-auto shadow-glow shadow-red-500/50">
-                <Sparkles className="w-10 h-10 text-white" />
+            {/* Scrollable Content Container */}
+            <div className="overflow-y-auto flex-1 overscroll-contain">
+              <div className="relative w-full">
+                <SafeImage
+                  src="/asset/promotion-cny.jpg"
+                  alt="Promo"
+                  className="w-full h-auto max-h-[45vh] object-cover"
+                />
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-card to-transparent" />
               </div>
-              <div className="space-y-2">
-                <h3 className="text-3xl font-extrabold tracking-tight">
+
+              <div className="p-6 pt-0 relative z-10 text-center -mt-6">
+                <div className="w-16 h-16 rounded-2xl bg-red-600 flex items-center justify-center mx-auto shadow-lg shadow-red-500/30 mb-4">
+                  <Sparkles className="w-8 h-8 text-white" />
+                </div>
+
+                <h3 className="text-2xl font-bold mb-2 leading-tight">
                   {language === "en"
                     ? "CNY Special Offer!"
                     : "โปรโมชั่นฉลองตรุษจีน!"}
-                  <span className="text-red-600">
-                    {language === "en" ? " Red Packets" : " แจกอั่งเปา!"}
+                  <span className="text-red-600 block mt-1">
+                    {language === "en" ? "Red Packets" : "แจกอั่งเปา!"}
                   </span>
                 </h3>
-                <p className="text-muted-foreground leading-relaxed">
+
+                <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                   {language === "en"
                     ? "Register today and get a FREE 200 THB discount coupon. Exclusive for new members only!"
                     : "สมัครสมาชิกกับเราภายในวันนี้ รับคูปองส่วนลดฟรี 200 บาท สำหรับสมาชิกใหม่เท่านั้น!"}
                 </p>
-              </div>
-              <div className="flex flex-col gap-3">
-                <Button
-                  onClick={handleAction}
-                  className="w-full py-8 rounded-2xl text-lg font-bold shadow-soft group bg-red-600 hover:bg-red-700 text-white border-none"
-                >
-                  {language === "en"
-                    ? "Claim Your 200 THB Now"
-                    : "รับส่วนลด 200 บาทตอนนี้"}
-                  <ExternalLink className="ml-2 w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </Button>
-                <button
-                  onClick={handleClose}
-                  className="text-sm font-bold text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {language === "en" ? "Maybe later" : "ไว้คราวหน้า"}
-                </button>
+
+                <div className="flex flex-col gap-3">
+                  <Button
+                    onClick={handleAction}
+                    className="w-full py-6 rounded-xl text-base font-bold shadow-md bg-red-600 hover:bg-red-700 text-white border-none"
+                  >
+                    <span>
+                      {language === "en"
+                        ? "Claim Your 200 THB Now"
+                        : "รับส่วนลด 200 บาทตอนนี้"}
+                    </span>
+                    <ExternalLink className="ml-2 w-4 h-4" />
+                  </Button>
+                  <button
+                    onClick={handleClose}
+                    className="text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors py-2"
+                  >
+                    {language === "en" ? "Maybe later" : "ไว้คราวหน้า"}
+                  </button>
+                </div>
               </div>
             </div>
           </motion.div>

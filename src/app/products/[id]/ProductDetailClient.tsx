@@ -43,7 +43,6 @@ export default function ProductDetailClient({
 
   const isTh = language === "th";
 
-  // Helper to access nested keys in dict safely
   const t = (key: string) => {
     const keys = key.split(".");
     let current: any = dict;
@@ -51,13 +50,12 @@ export default function ProductDetailClient({
       if (current && current[k]) {
         current = current[k];
       } else {
-        return key; // Fallback to key if not found
+        return key;
       }
     }
     return current;
   };
 
-  // 1. Fetch Product Data
   useEffect(() => {
     const fetchProduct = async () => {
       if (!id || id === "undefined") {
@@ -69,8 +67,6 @@ export default function ProductDetailClient({
         const decodedId = decodeURIComponent(id);
         let foundProduct = await productApi.getProductBySlug(decodedId);
 
-        // Fallback: If not found by slug/id directly, try searching in all products
-        // This helps if the API strictly requires slugs but we only have an ID, or vice versa
         if (!foundProduct) {
           console.warn(
             `Product not found by slug ${decodedId}, trying fallback search...`,
@@ -104,25 +100,20 @@ export default function ProductDetailClient({
     fetchProduct();
   }, [id]);
 
-  // 2. Handle Language/Slug Switch (Visual URL update)
   useEffect(() => {
     if (!product || !product.slug) return;
 
-    // Construct the expected URL parts
     const expectedPath = `/products/${product.slug}`;
     const expectedQuery = `?lang=${language}`;
 
-    // Get current state
     const currentPath = window.location.pathname;
     const currentSearch = window.location.search;
 
-    // Check if update is needed (compare decoded paths to handle Thai characters)
     const isPathMismatch =
       decodeURIComponent(currentPath) !== decodeURIComponent(expectedPath);
     const isQueryMismatch = currentSearch !== expectedQuery;
 
     if (isPathMismatch || isQueryMismatch) {
-      // Update URL without reloading
       window.history.replaceState(null, "", `${expectedPath}${expectedQuery}`);
     }
   }, [product, language]);
@@ -149,7 +140,6 @@ export default function ProductDetailClient({
   const tabBtnClass = (tab: string) =>
     `px-6 py-3 rounded-full text-sm font-bold transition-all ${activeTab === tab ? "bg-primary text-white shadow-lg" : "bg-muted/30 text-muted-foreground hover:bg-muted/50"}`;
 
-  // Main Image Logic
   const mainImage =
     product.featurePicturePath ||
     (product.images && product.images[0]?.path) ||

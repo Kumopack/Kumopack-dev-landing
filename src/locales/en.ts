@@ -36,6 +36,34 @@ export const en = {
     },
     pricing: {
         title: "Pricing",
+        hero: {
+            title: "Choose the right plan for your business",
+            subtitle: "Flexible plans that grow with you",
+        },
+        badge: {
+            buyer: "BUYER",
+            supplier: "SUPPLIER",
+        },
+        toggle: {
+            monthly: "Monthly",
+            annual: "Annual",
+            savings: "Save 10%",
+        },
+        recommended: "RECOMMENDED",
+        getStarted: "Get Started",
+        getStartedFree: "Get Started Free",
+        perMonth: "/mo",
+        perYear: "/yr",
+        savePercent: "Save {percent}%",
+        features: {
+            title: "Compare Plans",
+            header: "Features",
+            categories: {
+                overview: "Overview",
+                work: "Work",
+                reporting: "Reporting",
+            }
+        },
         simple: "Simple",
         industrial: "Industrial",
         forBuyers: "For Buyers",

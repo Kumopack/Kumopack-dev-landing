@@ -136,6 +136,24 @@ const Navbar = () => {
                         </div>
                       </div>
                     </Link>
+                    <Link
+                      href="/pricing?type=buyer"
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-mint/20 transition-colors"
+                    >
+                      <div className="w-8 h-8 rounded-xl bg-mint/30 flex items-center justify-center">
+                        <div className="font-bold text-mint-foreground text-xs">
+                          ฿
+                        </div>
+                      </div>
+                      <div>
+                        <div className="font-medium text-foreground">
+                          {t("pricing.title")}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          Check pricing plans
+                        </div>
+                      </div>
+                    </Link>
                   </div>
                 )}
               </div>
@@ -199,6 +217,24 @@ const Navbar = () => {
                         </div>
                         <div className="text-xs text-muted-foreground">
                           Guides for suppliers
+                        </div>
+                      </div>
+                    </Link>
+                    <Link
+                      href="/pricing?type=supplier"
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky/20 transition-colors"
+                    >
+                      <div className="w-8 h-8 rounded-xl bg-sky/30 flex items-center justify-center">
+                        <div className="font-bold text-sky-foreground text-xs">
+                          ฿
+                        </div>
+                      </div>
+                      <div>
+                        <div className="font-medium text-foreground">
+                          {t("pricing.title")}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          Check pricing plans
                         </div>
                       </div>
                     </Link>
