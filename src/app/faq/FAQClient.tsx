@@ -19,6 +19,7 @@ import {
 import { faqSections } from "./faqData";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageHeader from "@/components/PageHeader";
 
 export default function FAQPage() {
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
@@ -48,62 +49,32 @@ export default function FAQPage() {
       <Navbar />
 
       <main className="min-h-screen bg-[#fafafa] selection:bg-primary/20">
-        {/* Background Decorative Elements */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-          <div className="absolute top-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-primary/5 rounded-full blur-[120px] opacity-60 animate-pulse" />
-          <div className="absolute bottom-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-lavender/10 rounded-full blur-[100px] opacity-70" />
-        </div>
+        <PageHeader
+          badgeTh="Knowledge Base"
+          badgeEn="Knowledge Base"
+          titleTh="เราพร้อมตอบทุกข้อสงสัยของคุณ"
+          titleEn="We're Here to Help"
+          descriptionTh="ศูนย์รวมข้อมูลและคำแนะนำที่ครอบคลุมที่สุด เพื่อยกระดับธุรกิจบรรจุภัณฑ์ของคุณให้ก้าวไกลกว่าใคร"
+          descriptionEn="The most comprehensive information and guidance center to elevate your packaging business."
+          className="pb-0"
+        />
 
-        {/* Hero Section */}
-        <header className="relative pt-44 pb-24 z-10">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-center max-w-4xl mx-auto"
-            >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-8"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                Knowledge Base
-              </motion.div>
-
-              <h1 className="text-6xl md:text-7xl font-black text-foreground mb-8 tracking-tight leading-[1.1]">
-                เราพร้อมตอบทุก
-                <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-lavender to-primary ">
-                  ข้อสงสัยของคุณ
-                </span>
-              </h1>
-
-              <p className="text-xl text-muted-foreground/80 mb-12 max-w-2xl mx-auto font-medium leading-relaxed">
-                ศูนย์รวมข้อมูลและคำแนะนำที่ครอบคลุมที่สุด
-                <br />
-                เพื่อยกระดับธุรกิจบรรจุภัณฑ์ของคุณให้ก้าวไกลกว่าใคร
-              </p>
-
-              {/* Glassmorphism Search Box */}
-              <div className="relative max-w-2xl mx-auto group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-lavender/20 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                <div className="relative bg-white/70 backdrop-blur-xl border border-white/40 rounded-[2.5rem] p-1.5 shadow-2xl flex items-center h-[72px]">
-                  <Search className="absolute left-7 w-5 h-5 text-muted-foreground transition-colors group-focus-within:text-primary" />
-                  <input
-                    type="search"
-                    placeholder="พิมพ์คำถามที่คุณต้องการค้นหา..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-transparent pl-16 pr-8 h-full rounded-[2rem] focus:outline-none text-lg placeholder:text-muted-foreground/50 transition-all"
-                  />
-                </div>
-              </div>
-            </motion.div>
+        {/* Search Bar Section */}
+        <section className="relative z-10 px-6 pb-12">
+          <div className="max-w-2xl mx-auto group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-lavender/20 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+            <div className="relative bg-white/70 backdrop-blur-xl border border-white/40 rounded-2xl p-1.5 shadow-xl flex items-center h-[64px]">
+              <Search className="absolute left-6 w-5 h-5 text-muted-foreground transition-colors group-focus-within:text-primary" />
+              <input
+                type="search"
+                placeholder="พิมพ์คำถามที่คุณต้องการค้นหา..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-transparent pl-14 pr-8 h-full rounded-xl focus:outline-none text-base placeholder:text-muted-foreground/50 transition-all font-medium"
+              />
+            </div>
           </div>
-        </header>
+        </section>
 
         {/* Elegant Tab Switcher */}
         <section className="sticky top-24 z-30 max-w-7xl mx-auto px-6 mb-20">
