@@ -1,4 +1,5 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT || 'https://api.kumopack.com/v1';
+const API_PRODUCTION_URL = 'https://api.kumopack.com/v1';
 
 export interface Category {
     id: string | number;
@@ -36,10 +37,54 @@ export interface ArticlesResponse {
     pageSize: number;
 }
 
+const TIMEOUT_MS = 3000; // 3s for fast failover
+
+async function fetchWithTimeout(url: string, options: RequestInit = {}): Promise<Response> {
+    const fetchWithSignal = async (targetUrl: string, signal: AbortSignal) => {
+        return fetch(targetUrl, { ...options, signal });
+    };
+
+    const runFetch = async (targetUrl: string) => {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), TIMEOUT_MS);
+        try {
+            const response = await fetchWithSignal(targetUrl, controller.signal);
+            clearTimeout(id);
+            return response;
+        } catch (error: any) {
+            clearTimeout(id);
+            throw error;
+        }
+    };
+
+    try {
+        return await runFetch(url);
+    } catch (error: any) {
+        const isLocal = url.includes('localhost') || url.includes('127.0.0.1');
+        // Browser connection refusal usually throws a TypeError with "Failed to fetch"
+        const isConnectionError = 
+            error?.cause?.code === 'ECONNREFUSED' || 
+            error?.name === 'AbortError' || 
+            error?.message?.includes('Timeout') || 
+            error?.message?.includes('Failed to fetch') ||
+            error instanceof TypeError;
+        
+        if (isLocal && isConnectionError && API_BASE_URL !== API_PRODUCTION_URL) {
+            console.warn(`[blogApi] Client-side Failover to Production: ${url.replace(API_BASE_URL, API_PRODUCTION_URL)}`);
+            try {
+                return await runFetch(url.replace(API_BASE_URL, API_PRODUCTION_URL));
+            } catch (prodError) {
+                throw prodError;
+            }
+        }
+        throw error;
+    }
+}
+
 export const blogApi = {
     async getCategories(): Promise<Category[]> {
         try {
-            const res = await fetch(`${API_BASE_URL}/articles/category`);
+            const res = await fetchWithTimeout(`${API_BASE_URL}/articles/category`);
             if (!res.ok) throw new Error('Failed to fetch categories');
             return await res.json();
         } catch (error) {
@@ -48,9 +93,13 @@ export const blogApi = {
         }
     },
 
-    async getArticles(page = 1, limit = 12): Promise<ArticlesResponse> {
+    async getArticles(page = 1, limit = 12, category?: string): Promise<ArticlesResponse> {
         try {
-            const res = await fetch(`${API_BASE_URL}/articles?page=${page}&limit=${limit}`);
+            let url = `${API_BASE_URL}/articles?page=${page}&limit=${limit}`;
+            if (category && category !== 'All') {
+                url += `&category[]=${encodeURIComponent(category)}`;
+            }
+            const res = await fetchWithTimeout(url);
             if (!res.ok) throw new Error('Failed to fetch articles');
             return await res.json();
         } catch (error) {
@@ -62,12 +111,8 @@ export const blogApi = {
     async getArticleBySlug(slug: string): Promise<Article | null> {
         try {
             const url = `${API_BASE_URL}/articles/${encodeURIComponent(slug)}`;
-            console.log(`[blogApi] Fetching article from: ${url}`);
-            const res = await fetch(url);
-            if (!res.ok) {
-                console.warn(`[blogApi] Fetch failed for ${slug}: ${res.status}`);
-                return null;
-            }
+            const res = await fetchWithTimeout(url);
+            if (!res.ok) return null;
             return await res.json();
         } catch (error) {
             console.error(`Error fetching article ${slug}:`, error);
@@ -77,7 +122,7 @@ export const blogApi = {
 
     async getRelatedArticles(slug: string): Promise<Article[]> {
         try {
-            const res = await fetch(`${API_BASE_URL}/articles/${slug}/related`);
+            const res = await fetchWithTimeout(`${API_BASE_URL}/articles/${encodeURIComponent(slug)}/related`);
             if (!res.ok) return [];
             return await res.json();
         } catch (error) {
@@ -88,7 +133,7 @@ export const blogApi = {
 
     async incrementView(slug: string): Promise<void> {
         try {
-            await fetch(`${API_BASE_URL}/articles/${slug}/increment-view`, {
+            await fetchWithTimeout(`${API_BASE_URL}/articles/${encodeURIComponent(slug)}/increment-view`, {
                 method: 'POST',
             });
         } catch (error) {

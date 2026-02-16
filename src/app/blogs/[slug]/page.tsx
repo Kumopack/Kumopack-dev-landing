@@ -7,7 +7,26 @@ import { getSafeSlug, slugMatches } from "@/lib/slug-utils";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
-export const dynamicParams = false;
+// Allow any slug to be attempted (SSR), essential for dynamic blogs and new content
+export const dynamicParams = true;
+
+// Limit static generation in dev to speed up Fast Refresh
+export async function generateStaticParams() {
+  if (process.env.NODE_ENV === "development") {
+    return [];
+  }
+
+  try {
+    const response = await blogApi.getArticles(1, 20); // Limit to recent 20 for build speed
+    if (!response.data || response.data.length === 0) return [];
+
+    return response.data
+      .filter((a) => a.slug)
+      .map((a) => ({ slug: getSafeSlug(a.slug) }));
+  } catch (error) {
+    return [];
+  }
+}
 
 export async function generateMetadata({
   params,
@@ -58,19 +77,6 @@ export async function generateMetadata({
       images: [ogImage],
     },
   };
-}
-
-export async function generateStaticParams() {
-  try {
-    const response = await blogApi.getArticles(1, 100);
-    if (!response.data || response.data.length === 0)
-      return [{ slug: "mascot" }];
-    return response.data
-      .filter((a) => a.slug)
-      .map((a) => ({ slug: getSafeSlug(a.slug) }));
-  } catch (error) {
-    return [{ slug: "mascot" }];
-  }
 }
 
 export default async function BlogDetailPage({

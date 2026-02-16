@@ -136,7 +136,7 @@ export default function MaterialDetailClient({
     : material.description || material.shortDescription || material.nameEn;
 
   return (
-    <main className="min-h-screen bg-background text-foreground pb-20">
+    <main className="min-h-screen bg-background text-foreground">
       <Navbar />
 
       <section className="pt-32 px-4 md:px-8 max-w-7xl mx-auto">

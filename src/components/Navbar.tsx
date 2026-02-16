@@ -275,7 +275,7 @@ const Navbar = () => {
                         title={t("nav.blog")}
                         description="Tips, trends, and packaging insights"
                         color="mint"
-                        href="/#blogs"
+                        href="/blogs"
                       />
                       <ETCCard
                         icon={GraduationCap}

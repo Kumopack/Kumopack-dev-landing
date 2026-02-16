@@ -8,13 +8,13 @@ import { useLanguage } from "@/context/LanguageContext";
 const Footer = () => {
   const { dict } = useLanguage();
   return (
-    <footer className="py-16 bg-foreground text-primary-foreground">
+    <footer className="mt-16 py-8 bg-foreground text-primary-foreground">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16 pb-16 border-b border-primary-foreground/10">
+        <div className="text-center mb-4 pb-4 border-b border-primary-foreground/10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             {dict.footer.ctaTitle}
           </h2>
-          <p className="text-primary-foreground/70 text-lg mb-8 max-w-xl mx-auto">
+          <p className="text-primary-foreground/70 text-lg mb-8 max-w-2xl mx-auto">
             {dict.footer.ctaSubtitle}
           </p>
           <Link href="/pricing">
@@ -137,7 +137,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/50">
+        <div className="mt-4 pt-4 border-t border-primary-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/50">
           <p>{dict.footer.allRightsReserved}</p>
           <div className="flex gap-6">
             <Link

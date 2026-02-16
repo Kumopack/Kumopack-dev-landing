@@ -56,15 +56,24 @@ export default function BlogContent({ blog }: { blog: Article }) {
   const isFallback = !isTh && !hasEnVersion;
 
   const name = isTh ? blog.nameTh : blog.nameEn || blog.nameTh;
-  const description = isTh
-    ? blog.descriptionTh
-    : blog.descriptionEn || blog.descriptionTh;
+  const description =
+    (isTh
+      ? blog.descriptionTh || (blog as any).contentTh
+      : blog.descriptionEn ||
+        (blog as any).contentEn ||
+        blog.descriptionTh ||
+        (blog as any).contentTh) || "";
+
   const shortDescription = isTh
     ? blog.shortDescriptionTh
     : blog.shortDescriptionEn || blog.shortDescriptionTh;
+
   const conclusion = isTh
-    ? blog.conclusionTh
-    : blog.conclusionEn || blog.conclusionTh;
+    ? blog.conclusionTh || (blog as any).conclusionTh
+    : blog.conclusionEn ||
+      (blog as any).conclusionEn ||
+      blog.conclusionTh ||
+      (blog as any).conclusionTh;
 
   useEffect(() => {
     const fetchRelated = async () => {
@@ -292,13 +301,33 @@ export default function BlogContent({ blog }: { blog: Article }) {
         }
 
         .blog-content img {
-          max-width: 100%;
+          max-width: 95%;
           height: auto;
-          border-radius: 2.5rem;
-          margin: 4rem auto !important;
           display: block;
-          box-shadow: var(--shadow-float);
-          border: 1px solid hsla(var(--border) / 0.5);
+          margin: 0.5rem auto !important;
+          border-radius: 1.5rem;
+          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+          border: 1px solid rgba(229, 231, 235, 0.5);
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: zoom-in;
+        }
+
+        .blog-content img:hover {
+          transform: scale(1.02);
+          box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (min-width: 768px) {
+          .blog-content img {
+            max-width: 100%;
+            margin: 0 auto !important;
+            border-radius: 1.5rem;
+          }
+        }
+
+        /* Spacing adjustment for content paragraphs that just wrap an image */
+        .blog-content p:has(img) {
+          margin-bottom: 0px !important;
         }
 
         @media (max-width: 768px) {
@@ -328,7 +357,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
       `}</style>
 
       <article className="pt-32 pb-24">
-        <div className="max-w-7xl mx-auto px-2 md:px-4">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
             <aside className="w-full lg:w-[280px] shrink-0 lg:sticky lg:top-32 space-y-12 order-2 lg:order-1">
               <Link
@@ -363,11 +392,11 @@ export default function BlogContent({ blog }: { blog: Article }) {
                 <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform duration-700">
                   <Sparkles className="w-12 h-12 text-primary" />
                 </div>
-                <h5 className="text-[10px] font-black text-primary mb-4 flex items-center gap-2 uppercase tracking-widest">
+                <h5 className="text-[14px] font-black text-primary mb-4 flex items-center gap-2 uppercase tracking-widest">
                   <Sparkles className="w-3.5 h-3.5" />
                   Expert Insight
                 </h5>
-                <p className="text-[14px] font-bold leading-relaxed text-foreground/70 mb-8">
+                <p className="text-[16px] font-bold leading-relaxed text-foreground/70 mb-8">
                   {isTh
                     ? "ความรู้และเคล็ดลับจากผู้เชี่ยวชาญด้านแพ็คเกจจิ้งของ KUMOPACK"
                     : "Exclusive insights from KUMOPACK packaging experts."}
@@ -377,10 +406,10 @@ export default function BlogContent({ blog }: { blog: Article }) {
                     KP
                   </div>
                   <div>
-                    <div className="text-[14px] font-black text-foreground">
+                    <div className="text-[16px] font-black text-foreground">
                       KUMOPACK Team
                     </div>
-                    <div className="text-[10px] font-bold text-primary/60 uppercase tracking-widest">
+                    <div className="text-[14px] font-bold text-primary/60 uppercase tracking-widest">
                       Article Writer
                     </div>
                   </div>
@@ -421,18 +450,21 @@ export default function BlogContent({ blog }: { blog: Article }) {
                     <Link
                       key={cat.id}
                       href={`/blogs?category=${cat.slug}`}
-                      className="px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-all bg-primary/5 text-primary hover:bg-primary hover:text-white hover:shadow-glow"
+                      className="px-5 py-2 rounded-full text-[14px] font-black uppercase tracking-widest transition-all bg-primary/5 text-primary hover:bg-primary hover:text-white hover:shadow-glow"
                     >
                       {isTh ? cat.nameTh : cat.nameEn || cat.nameTh}
                     </Link>
                   ))}
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight text-foreground mb-4">
+                <h1
+                  className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight mb-4"
+                  style={{ color: "#b5a4d4" }}
+                >
                   {name}
                 </h1>
 
-                <div className="flex flex-wrap items-center gap-6 text-[12px] font-bold text-muted-foreground/60 py-8 border-y border-neutral-100">
+                <div className="flex flex-wrap items-center gap-6 text-[12px] font-bold text-muted-foreground/60 py-2 border-y border-neutral-100">
                   <div className="flex items-center gap-2.5">
                     <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center">
                       <Calendar className="w-4 h-4 text-primary" />
@@ -454,7 +486,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
                     {isTh ? "การเข้าชม" : "Views"}
                   </div>
                   <div className="hidden sm:flex items-center gap-2.5 ml-auto">
-                    <div className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-green-50 text-green-700 font-black text-[10px] uppercase tracking-widest border border-green-100">
+                    <div className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-green-50 text-green-700 font-black text-[14px] uppercase tracking-widest border border-green-100">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                       5 Min Read
                     </div>
@@ -472,13 +504,16 @@ export default function BlogContent({ blog }: { blog: Article }) {
               </div>
 
               {shortDescription && (
-                <div className="mb-16 relative">
-                  <div className="absolute -left-6 top-0 text-primary/10 text-[120px] font-serif leading-none select-none">
+                <div className="mb-8 relative px-2 md:px-4 py-2 md:py-4 bg-neutral-50/50 rounded-3xl border border-neutral-100">
+                  <div className="absolute -top-6 left-6 text-primary/20 text-[60px] md:text-[80px] font-serif leading-none select-none">
                     “
                   </div>
-                  <p className="text-xl md:text-2xl font-bold leading-relaxed text-foreground/60 italic pl-4 relative z-10">
+                  <p className="text-xl md:text-2xl font-bold leading-relaxed text-foreground/70 italic text-center relative z-10 px-4">
                     {shortDescription}
                   </p>
+                  <div className="absolute -bottom-0 right-6 text-primary/20 text-[60px] md:text-[80px] font-serif leading-none select-none rotate-180">
+                    “
+                  </div>
                 </div>
               )}
 
@@ -490,8 +525,13 @@ export default function BlogContent({ blog }: { blog: Article }) {
                       let headerCount = 0;
                       return (description || "")
                         .replace(
-                          /<(h[1-6])(.*?)>(.*?)<\/h[1-6]>/g,
-                          (match, tag, attrs, content) => {
+                          /<(h[1-6])(.*?)>([\s\S]*?)<\/h[1-6]>/g,
+                          (
+                            _match: string,
+                            tag: string,
+                            attrs: string,
+                            content: string,
+                          ) => {
                             const currentId = `section-${headerCount}`;
                             headerCount++;
 
@@ -502,26 +542,39 @@ export default function BlogContent({ blog }: { blog: Article }) {
                             return `<${tag}${cleanAttrs} id="${currentId}" style="scroll-margin-top: 100px;">${content}</${tag}>`;
                           },
                         )
-                        .replace(/<img[^>]+src="([^">]+)"/g, (match, src) => {
-                          const decodedSrc = src
-                            .replace(/&quot;/g, "")
-                            .replace(/"/g, "");
-                          const finalSrc = decodedSrc.startsWith("data:")
-                            ? decodedSrc
-                            : blogApi.getAssetPath(decodedSrc);
-                          return `<img src="${finalSrc}" class="w-full rounded-[2rem] my-12 shadow-xl border border-neutral-100" />`;
-                        });
+                        .replace(
+                          /<p>\s*<img[^>]+src="([^">]+)"[^>]*>\s*<\/p>|<img[^>]+src="([^">]+)"[^>]*>/g,
+                          (
+                            _match: string,
+                            pSrc: string,
+                            imgOnlySrc: string,
+                          ) => {
+                            const src = pSrc || imgOnlySrc;
+                            const decodedSrc = src
+                              .replace(/&quot;/g, "")
+                              .replace(/"/g, "");
+                            const finalSrc = decodedSrc.startsWith("data:")
+                              ? decodedSrc
+                              : blogApi.getAssetPath(decodedSrc);
+
+                            // Move logic to CSS class for a cleaner HTML output as requested
+                            return `<img src="${finalSrc}" alt="Article Illustration" />`;
+                          },
+                        );
                     })(),
                   }}
                 />
 
                 {conclusion && (
                   <div
-                    className="mt-8 p-4 md:p-8 rounded-[3.5rem] bg-gradient-to-br from-neutral-50 to-white border border-neutral-200/60 shadow-xl relative overflow-hidden"
                     id="post-conclusion"
+                    className="mt-16 p-8 md:p-12 rounded-lg bg-[#b5a4d4]/5 border border-[#b5a4d4]/10 relative group transition-colors hover:bg-white hover:border-primary/10"
                   >
-                    <div className="absolute top-0 left-0 w-2 h-full bg-primary" />
-                    <h4 className="text-primary font-black text-2xl md:text-3xl mb-8 flex items-center gap-4">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-[#b5a4d4] transition-all duration-700"></div>
+                    <h4
+                      className="font-black text-2xl md:text-3xl mb-8 flex items-center gap-4"
+                      style={{ color: "#b5a4d4" }}
+                    >
                       <Sparkles className="w-8 h-8 opacity-50" />
                       {isTh ? "บทสรุป" : "Summary"}
                     </h4>
@@ -536,8 +589,8 @@ export default function BlogContent({ blog }: { blog: Article }) {
           </div>
         </div>
 
-        <section className="mt-40 pt-16 border-t border-neutral-200 bg-neutral-50/30 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 md:px-8 mb-16">
+        <section className="mt-24 pt-16 border-t border-neutral-200 bg-neutral-50/30 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-2 md:px-8 mb-16">
             <div className="flex flex-col md:flex-row items-end justify-between gap-8">
               <div className="space-y-4">
                 <h3 className="text-[12px] font-black text-primary uppercase tracking-[0.2em]">
@@ -569,7 +622,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
 
           <div
             ref={scrollRef}
-            className="flex gap-8 px-4 md:px-8 lg:px-16 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-32"
+            className="flex gap-8 px-2 md:px-4 lg:px-16 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-0"
           >
             {loadingRelated ? (
               <div className="w-full flex justify-center items-center py-40">
@@ -587,28 +640,25 @@ export default function BlogContent({ blog }: { blog: Article }) {
                   <Link
                     key={article.id}
                     href={`/blogs/${getSafeSlug(article.slug)}`}
-                    className="group block min-w-[300px] md:min-w-[450px] snap-center"
+                    className="group block min-w-[220px] md:min-w-[280px] snap-center"
                   >
-                    <div className="aspect-[10/12] rounded-[3rem] overflow-hidden border border-neutral-200/60 relative bg-white shadow-soft group-hover:shadow-glow group-hover:-translate-y-3 transition-all duration-700">
+                    <div className="aspect-[4/5] rounded-[1.5rem] overflow-hidden border border-neutral-200/60 relative bg-white shadow-sm hover:shadow-md transition-all duration-500">
                       <SafeImage
                         src={blogApi.getAssetPath(article.featurePicturePath)}
                         alt={aName}
                         fill={true}
-                        className="object-cover group-hover:scale-110 transition-transform duration-[2s]"
+                        className="object-cover group-hover:scale-105 transition-transform duration-[1.5s]"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent p-10 flex flex-col justify-end">
-                        <div className="flex items-center gap-2.5 mb-4">
-                          <span className="w-2 h-2 rounded-full bg-primary" />
-                          <span className="text-[10px] font-black text-white/60 uppercase tracking-widest">
-                            {isTh ? "อ่านต่อ" : "Read More"}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent p-5 flex flex-col justify-end">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                          <span className="text-[9px] font-bold text-white/80 uppercase tracking-widest">
+                            {isTh ? "อ่านต่อ" : "Read"}
                           </span>
                         </div>
-                        <h4 className="font-black text-2xl md:text-3xl text-white leading-[1.1] line-clamp-2 mb-6 group-hover:text-primary transition-colors">
+                        <h4 className="font-bold text-lg md:text-xl text-white leading-tight line-clamp-2 mb-1 group-hover:text-primary transition-colors">
                           {aName}
                         </h4>
-                        <p className="text-[14px] text-white/50 font-medium line-clamp-2 leading-relaxed opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                          {aDesc}
-                        </p>
                       </div>
                     </div>
                   </Link>
