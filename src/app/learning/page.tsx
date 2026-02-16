@@ -172,7 +172,6 @@ function LearningPageContent() {
     <main className="min-h-screen bg-kumopack-base-white text-foreground overflow-x-hidden">
       <Navbar />
 
-      {/* Header Section with Audience Context */}
       <section className="relative pt-32 pb-20 px-4 overflow-hidden">
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 -z-10" />
 
@@ -295,7 +294,6 @@ function LearningPageContent() {
         </div>
       </section>
 
-      {/* Sticky Category Navbar */}
       <section className="sticky top-24 z-30 bg-kumopack-base-white/90 backdrop-blur-xl border-y border-neutral-100">
         <div className="max-w-[1440px] mx-auto px-4">
           <div className="flex items-center justify-center py-4 overflow-x-auto no-scrollbar gap-2">
@@ -318,7 +316,6 @@ function LearningPageContent() {
         </div>
       </section>
 
-      {/* Grid Section */}
       <section className="py-24 px-4 md:px-10 lg:px-20 bg-neutral-50/50">
         <div className="max-w-[1440px] mx-auto">
           {isLoading ? (
@@ -361,7 +358,6 @@ function LearningPageContent() {
                               className="object-cover group-hover:scale-110 transition-transform duration-[2000ms]"
                             />
 
-                            {/* Pinned Indicator */}
                             {article.isPinned && (
                               <div className="absolute top-6 right-6 z-10">
                                 <span className="px-4 py-1.5 rounded-full bg-primary text-white text-[8px] font-black uppercase tracking-widest shadow-lg flex items-center gap-1.5">
@@ -441,7 +437,6 @@ function LearningPageContent() {
                               }}
                             />
 
-                            {/* Tags */}
                             {article.tags && article.tags.length > 0 && (
                               <div className="flex flex-wrap gap-2 pt-2">
                                 {article.tags.slice(0, 3).map((tag) => (
@@ -465,7 +460,6 @@ function LearningPageContent() {
                 </AnimatePresence>
               </div>
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="mt-32 flex justify-center items-center gap-10">
                   <button

@@ -59,7 +59,6 @@ export default function FAQPage() {
           className="pb-0"
         />
 
-        {/* Search Bar Section */}
         <section className="relative z-10 px-6 pb-12">
           <div className="max-w-2xl mx-auto group">
             <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-lavender/20 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
@@ -76,7 +75,6 @@ export default function FAQPage() {
           </div>
         </section>
 
-        {/* Elegant Tab Switcher */}
         <section className="sticky top-24 z-30 max-w-7xl mx-auto px-6 mb-20">
           <div className="flex justify-center">
             <div className="relative bg-white/40 backdrop-blur-md border border-white/50 p-1.5 rounded-3xl shadow-lg flex gap-1">
@@ -114,7 +112,6 @@ export default function FAQPage() {
           </div>
         </section>
 
-        {/* FAQ Area */}
         <section className="max-w-4xl mx-auto px-6 pb-32 relative z-10">
           <AnimatePresence mode="wait">
             <motion.div
@@ -222,10 +219,8 @@ export default function FAQPage() {
           </AnimatePresence>
         </section>
 
-        {/* Premium Support CTA */}
         <section className="max-w-7xl mx-auto px-6 pb-40">
           <div className="relative rounded-[3rem] bg-[#1a1a1a] p-16 overflow-hidden">
-            {/* Dark Mode Glowing Elements */}
             <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-lavender/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
 

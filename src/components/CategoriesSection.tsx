@@ -94,7 +94,6 @@ const CategoriesSection = () => {
                 </p>
               </div>
 
-              {/* Expanded specs panel */}
               <div
                 className={`
                   absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 z-20

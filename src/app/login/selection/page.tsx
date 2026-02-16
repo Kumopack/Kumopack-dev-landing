@@ -83,7 +83,6 @@ function LoginSelectionContent() {
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Buyer Option */}
           <motion.div
             whileHover={{ y: -10 }}
             className="bg-card p-10 rounded-[2.5rem] border border-border/50 shadow-float cursor-pointer group flex flex-col items-center"
@@ -102,7 +101,6 @@ function LoginSelectionContent() {
             </Button>
           </motion.div>
 
-          {/* Supplier Option */}
           <motion.div
             whileHover={{ y: -10 }}
             className="bg-card p-10 rounded-[2.5rem] border border-border/50 shadow-float cursor-pointer group flex flex-col items-center"

@@ -12,13 +12,11 @@ const DesignerSection = () => {
       id="designer"
       className="py-32 relative overflow-hidden bg-white/30 backdrop-blur-3xl scroll-mt-24"
     >
-      {/* Background decoration */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[120px] rounded-full -z-10 animate-pulse-soft" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-lavender/20 blur-[150px] rounded-full -z-10" />
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
-          {/* Left Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -95,7 +93,6 @@ const DesignerSection = () => {
             </Link>
           </motion.div>
 
-          {/* Right Content - 3D Box Visual */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, rotateY: -20 }}
             whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -104,11 +101,9 @@ const DesignerSection = () => {
             className="relative"
           >
             <div className="relative aspect-square max-w-2xl mx-auto flex items-center justify-center">
-              {/* Complex Glow effects */}
               <div className="absolute inset-0 rounded-full bg-primary/20 blur-[120px] scale-90 animate-pulse-soft" />
               <div className="absolute inset-0 rounded-full bg-lavender/30 blur-[80px] scale-75 -z-10" />
 
-              {/* Box container */}
               <motion.div
                 animate={{
                   y: [0, -20, 0],
@@ -132,7 +127,6 @@ const DesignerSection = () => {
                 />
               </motion.div>
 
-              {/* Control panel - Premium Overlay */}
               <motion.div
                 initial={{ opacity: 0, y: 50, scale: 0.9 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}

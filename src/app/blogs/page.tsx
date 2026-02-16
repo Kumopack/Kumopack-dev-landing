@@ -228,7 +228,6 @@ function BlogsContent() {
                           href={`/blogs/${getSafeSlug(article.slug)}`}
                           className="flex flex-col h-full gap-6 md:gap-8"
                         >
-                          {/* 1:1 Aspect Ratio Image - SHARP CORNERS */}
                           <div className="relative aspect-square rounded-none overflow-hidden border border-neutral-100 bg-neutral-50 shadow-sm transition-all duration-700 md:group-hover:shadow-[0_40px_80px_-20px_rgba(177,95,206,0.15)] md:group-hover:-translate-y-4">
                             <SafeImage
                               src={blogApi.getAssetPath(
@@ -238,7 +237,7 @@ function BlogsContent() {
                               fill={true}
                               className="object-cover group-hover:scale-110 transition-transform duration-[2000ms] ease-out shadow-inner"
                             />
-                            {/* Subtle Glare/Shine Effect */}
+
                             <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
                             <div className="absolute top-6 left-6 md:top-8 md:left-8 flex flex-wrap gap-2">
@@ -252,7 +251,6 @@ function BlogsContent() {
                               ))}
                             </div>
 
-                            {/* View Count Overlay */}
                             <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 flex items-center gap-2 px-4 py-2 bg-black/40 backdrop-blur-md rounded-none text-xs font-black tracking-widest opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
                               <Eye className="w-3.5 h-3.5 text-primary" />
                               {article.totalView.toLocaleString()}

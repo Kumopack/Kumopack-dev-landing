@@ -154,7 +154,6 @@ export default function ProductDetailClient({
       <Navbar />
 
       <div className="pt-32 px-4 md:px-8 max-w-7xl mx-auto">
-        {/* Breadcrumb / Back */}
         <div className="mb-8">
           <Link
             href={`/products?lang=${language}`}
@@ -166,7 +165,6 @@ export default function ProductDetailClient({
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* Left: Image Gallery */}
           <div className="space-y-6">
             <div className="aspect-square relative rounded-[3rem] overflow-hidden bg-muted/20 border border-border/50 shadow-inner">
               <SafeImage
@@ -180,7 +178,7 @@ export default function ProductDetailClient({
                 className="object-cover"
                 priority
               />
-              {/* Overlay Tags */}
+
               <div className="absolute top-6 left-6 flex flex-wrap gap-2">
                 {product.productLine && (
                   <span className="px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-sm text-xs font-bold shadow-sm text-primary">
@@ -192,7 +190,6 @@ export default function ProductDetailClient({
               </div>
             </div>
 
-            {/* Thumbnails (Only if images exist) */}
             {product.images && product.images.length > 0 && (
               <div className="grid grid-cols-4 gap-4">
                 {product.images.map((img, idx) => (
@@ -212,7 +209,6 @@ export default function ProductDetailClient({
             )}
           </div>
 
-          {/* Right: Product Info & Tabs */}
           <div className="flex flex-col">
             <div className="mb-8">
               <h1 className="text-3xl md:text-5xl font-black mb-4 leading-tight">
@@ -226,7 +222,6 @@ export default function ProductDetailClient({
               </div>
             </div>
 
-            {/* TABS Navigation */}
             <div className="flex flex-wrap gap-3 mb-8 border-b border-border/40 pb-6">
               <MinimalTabs
                 tabs={[
@@ -253,9 +248,7 @@ export default function ProductDetailClient({
               />
             </div>
 
-            {/* TABS Content */}
             <div className="flex-1 min-h-[300px]">
-              {/* 1. OVERVIEW */}
               {activeTab === "overview" && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -296,7 +289,6 @@ export default function ProductDetailClient({
                 </motion.div>
               )}
 
-              {/* 2. MATERIALS */}
               {activeTab === "materials" && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
@@ -343,14 +335,12 @@ export default function ProductDetailClient({
                 </motion.div>
               )}
 
-              {/* 3. STANDARDS */}
               {activeTab === "standards" && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-8"
                 >
-                  {/* Sustainability Section */}
                   <div>
                     <h3 className="text-lg font-bold flex items-center gap-2 mb-4">
                       <Leaf className="w-5 h-5 text-green-600" />
@@ -374,7 +364,6 @@ export default function ProductDetailClient({
 
                   <hr className="border-border/50" />
 
-                  {/* Certificates Section */}
                   <div>
                     <h3 className="text-lg font-bold flex items-center gap-2 mb-4">
                       <Award className="w-5 h-5 text-blue-600" />

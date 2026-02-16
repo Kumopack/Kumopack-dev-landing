@@ -73,14 +73,12 @@ const GallerySection = () => {
           </p>
         </div>
 
-        {/* Clean, Premium Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
           {galleryItems.map((item, index) => (
             <div
               key={index}
               className="group flex flex-col bg-white rounded-[2.5rem] p-4 shadow-soft hover:shadow-float transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-accent"
             >
-              {/* Image Container */}
               <div className="aspect-square relative overflow-hidden rounded-[2rem] bg-accent/30 mb-6 w-full">
                 <SafeImage
                   src={item.image}
@@ -91,7 +89,6 @@ const GallerySection = () => {
                 />
               </div>
 
-              {/* Product Info Below Image */}
               <div className="px-2 pb-2">
                 <span className="inline-block text-[10px] font-bold text-primary/60 uppercase tracking-[0.2em] mb-2">
                   {item.category}
@@ -104,7 +101,6 @@ const GallerySection = () => {
           ))}
         </div>
 
-        {/* Stats row */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             { value: "500+", label: "Happy Brands" },

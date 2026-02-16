@@ -22,7 +22,6 @@ const MarketplaceSection = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left Content - Image */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -36,7 +35,7 @@ const MarketplaceSection = () => {
                 alt="Small business owner with Kumopack packaging"
                 className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              {/* Overlay badge */}
+
               <motion.div
                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -57,11 +56,9 @@ const MarketplaceSection = () => {
               </motion.div>
             </div>
 
-            {/* Decorative element */}
             <div className="absolute -bottom-12 -right-12 w-64 h-64 rounded-full bg-primary/10 blur-[100px] -z-10" />
           </motion.div>
 
-          {/* Right Content */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}

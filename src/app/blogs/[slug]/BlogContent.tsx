@@ -330,7 +330,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
       <article className="pt-32 pb-24">
         <div className="max-w-7xl mx-auto px-2 md:px-4">
           <div className="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
-            {/* LEFT SIDEBAR - Becomes a top section on mobile, sticky sidebar on desktop */}
             <aside className="w-full lg:w-[280px] shrink-0 lg:sticky lg:top-32 space-y-12 order-2 lg:order-1">
               <Link
                 href="/blogs"
@@ -406,10 +405,8 @@ export default function BlogContent({ blog }: { blog: Article }) {
               </div>
             </aside>
 
-            {/* RIGHT MAIN CONTENT AREA */}
             <div className="flex-1 w-full lg:max-w-[1000px] order-1 lg:order-2">
               <header className="mb-6" id="post-header">
-                {/* Language Fallback Tag */}
                 {isFallback && (
                   <div className="flex items-center gap-3 px-5 py-3 bg-amber-50 text-amber-700 rounded-2xl text-[12px] font-black uppercase tracking-widest mb-10 border border-amber-100/50 animate-pulse">
                     <AlertCircle className="w-5 h-5" />
@@ -539,7 +536,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
           </div>
         </div>
 
-        {/* KEEP LEARNING SECTION */}
         <section className="mt-40 pt-16 border-t border-neutral-200 bg-neutral-50/30 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 md:px-8 mb-16">
             <div className="flex flex-col md:flex-row items-end justify-between gap-8">

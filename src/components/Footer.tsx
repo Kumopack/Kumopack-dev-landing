@@ -10,7 +10,6 @@ const Footer = () => {
   return (
     <footer className="py-16 bg-foreground text-primary-foreground">
       <div className="container mx-auto px-6">
-        {/* CTA Section */}
         <div className="text-center mb-16 pb-16 border-b border-primary-foreground/10">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             {dict.footer.ctaTitle}
@@ -30,9 +29,7 @@ const Footer = () => {
           </Link>
         </div>
 
-        {/* Footer Grid */}
         <div className="grid md:grid-cols-4 gap-12">
-          {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-2xl bg-primary-foreground/10 flex items-center justify-center">
@@ -45,7 +42,6 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Products */}
           <div>
             <h4 className="font-semibold mb-4">{dict.footer.products}</h4>
             <ul className="space-y-2 text-primary-foreground/60 text-sm">
@@ -84,7 +80,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Company */}
           <div>
             <h4 className="font-semibold mb-4">{dict.footer.company}</h4>
             <ul className="space-y-2 text-primary-foreground/60 text-sm">
@@ -123,7 +118,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
             <h4 className="font-semibold mb-4">{dict.footer.contact}</h4>
             <ul className="space-y-3 text-primary-foreground/60 text-sm">
@@ -143,7 +137,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-primary-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/50">
           <p>{dict.footer.allRightsReserved}</p>
           <div className="flex gap-6">

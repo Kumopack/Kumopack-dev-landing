@@ -10,7 +10,6 @@ const ValueProposition = () => {
     >
       <div className="container mx-auto max-w-6xl">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* Left Column - YouTube Video */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -30,7 +29,6 @@ const ValueProposition = () => {
             <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-2xl -z-10" />
           </motion.div>
 
-          {/* Right Column - Value Proposition & Stats */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -52,7 +50,6 @@ const ValueProposition = () => {
               </p>
             </div>
 
-            {/* Statistics Grid */}
             <div className="grid grid-cols-2 gap-4 md:gap-6">
               {[
                 { value: "400+", label: "Successful Projects" },

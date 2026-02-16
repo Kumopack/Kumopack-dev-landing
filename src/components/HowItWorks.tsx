@@ -51,7 +51,6 @@ const HowItWorks = () => {
       id="how-it-works"
       className="py-24 bg-background relative overflow-hidden scroll-mt-24"
     >
-      {/* Decorative background blur */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] -z-10" />
 
       <div className="container mx-auto px-6">
@@ -108,7 +107,6 @@ const HowItWorks = () => {
                   : step.defaultDesc}
               </p>
 
-              {/* Connecting arrow for desktop */}
               {index < steps.length - 1 && (
                 <div className="hidden lg:block absolute top-1/2 -right-4 translate-x-full -translate-y-1/2 text-muted/30">
                   <svg

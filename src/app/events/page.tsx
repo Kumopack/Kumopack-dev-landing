@@ -52,7 +52,6 @@ export default function EventsPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      {/* Hero Section */}
       <section className="pt-40 pb-20 px-4 md:px-8">
         <div className="container mx-auto max-w-6xl text-center">
           <motion.div
@@ -72,7 +71,6 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* Events Grid */}
       <section className="py-20 px-4 md:px-8">
         <div className="container mx-auto max-w-6xl">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -145,7 +143,6 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* Special Section */}
       <section className="py-24 px-4 md:px-8">
         <div className="container mx-auto max-w-6xl">
           <div className="bg-lavender rounded-[4rem] p-12 md:p-20 relative overflow-hidden">
@@ -195,7 +192,7 @@ export default function EventsPage() {
                 </div>
               </div>
             </div>
-            {/* Decorative blobs */}
+
             <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-coral/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
           </div>

@@ -47,7 +47,6 @@ export default async function SupplierDetailPage({
           <SupplierHero supplier={supplier} />
 
           <div className="grid lg:grid-cols-12 gap-12 mt-12 md:mt-32">
-            {/* Main Content Area */}
             <div className="lg:col-span-8 space-y-24">
               <SupplierOverview supplier={supplier} />
               <SupplierStats stats={supplier.stats} />
@@ -56,7 +55,6 @@ export default async function SupplierDetailPage({
               <SupplierGallery gallery={supplier.gallery} />
             </div>
 
-            {/* Sticky Action Center */}
             <SupplierActionCenter supplier={supplier} />
           </div>
         </div>

@@ -35,7 +35,6 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-      {/* Parallax Background */}
       <motion.div
         initial={{ scale: 1.1, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -48,7 +47,6 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/40 to-background" />
       </motion.div>
 
-      {/* Decorative Floating Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div
           animate={{
@@ -83,7 +81,6 @@ const HeroSection = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -145,7 +142,6 @@ const HeroSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Content - Floating Price Card */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, x: 50 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -235,7 +231,6 @@ const HeroSection = () => {
               </div>
             </div>
 
-            {/* Decorative elements */}
             <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-primary/30 blur-[120px] -z-10 animate-pulse-soft" />
             <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-lavender/40 blur-[150px] -z-10" />
           </motion.div>

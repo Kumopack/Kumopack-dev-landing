@@ -60,7 +60,6 @@ export const PromoPopup = () => {
               <X className="w-4 h-4" />
             </button>
 
-            {/* Scrollable Content Container */}
             <div className="overflow-y-auto flex-1 overscroll-contain">
               <div className="relative w-full">
                 <SafeImage

@@ -151,7 +151,6 @@ export default function MaterialDetailClient({
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* Image Section */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -168,7 +167,6 @@ export default function MaterialDetailClient({
             />
           </motion.div>
 
-          {/* Content Section */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -189,7 +187,6 @@ export default function MaterialDetailClient({
               </div>
             </div>
 
-            {/* Sustainability Section */}
             {material.sustainability && material.sustainability.length > 0 && (
               <div>
                 <h3 className="font-bold text-xl mb-4 flex items-center gap-2">
@@ -204,7 +201,6 @@ export default function MaterialDetailClient({
               </div>
             )}
 
-            {/* Related Products Section */}
             {material.products && material.products.length > 0 && (
               <div>
                 <h3 className="font-bold text-xl mb-4 flex items-center gap-2">
@@ -215,7 +211,6 @@ export default function MaterialDetailClient({
                 </h3>
 
                 <div className="relative group/carousel">
-                  {/* Scrollable Container */}
                   <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted/30 hover:scrollbar-thumb-muted/60">
                     {material.products.map((item: any, idx: number) => {
                       const p = item.product;

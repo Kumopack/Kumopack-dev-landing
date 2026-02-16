@@ -71,7 +71,6 @@ export default function ProductsPage() {
           </p>
 
           <div className="space-y-12">
-            {/* Categories / Product Lines */}
             {categories.length > 0 && (
               <div className="mb-12">
                 <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
@@ -95,7 +94,7 @@ export default function ProductsPage() {
                 </div>
               </div>
             )}
-            {/* Products Grid */}
+
             <div>
               <h2 className="text-2xl font-bold mb-8 flex items-center gap-2">
                 <Box className="w-6 h-6 text-primary" />
@@ -144,10 +143,9 @@ export default function ProductsPage() {
                             fill
                             className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                           />
-                          {/* Gradient Overlay on Hover */}
+
                           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                          {/* Floating Action Button */}
                           <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
                             <div className="bg-background/90 p-2.5 rounded-full shadow-lg backdrop-blur-sm">
                               <ArrowUpRight className="w-5 h-5 text-primary" />

@@ -76,7 +76,6 @@ export default function MaterialsPage() {
             {dict.materials.subtitle}
           </p>
 
-          {/* Categories Filter */}
           {categories.length > 0 && (
             <div className="mb-12">
               <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
@@ -107,7 +106,6 @@ export default function MaterialsPage() {
             </div>
           ) : (
             <div className="space-y-20">
-              {/* Materials Grid */}
               <div>
                 {materials.length === 0 ? (
                   <div className="text-center py-12 bg-muted/10 rounded-3xl border border-dashed border-border">

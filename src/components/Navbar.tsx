@@ -55,7 +55,6 @@ const Navbar = () => {
       <div className="mx-4 mt-4">
         <div className="container mx-auto px-6 py-3 rounded-3xl bg-[hsl(var(--glass))] backdrop-blur-xl border border-[hsl(var(--glass-border))] shadow-float">
           <div className="flex items-center justify-between">
-            {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group shrink-0">
               <div className="h-10 w-auto group-hover:scale-105 transition-transform flex items-center">
                 <Image
@@ -69,9 +68,7 @@ const Navbar = () => {
               </div>
             </Link>
 
-            {/* Navigation Items */}
             <div className="hidden lg:flex items-center gap-1">
-              {/* For Buyer Dropdown */}
               <div
                 className="relative"
                 onMouseEnter={() => handleMouseEnter("buyer")}
@@ -155,7 +152,6 @@ const Navbar = () => {
                 )}
               </div>
 
-              {/* For Supplier Dropdown */}
               <div
                 className="relative"
                 onMouseEnter={() => handleMouseEnter("supplier")}
@@ -239,7 +235,6 @@ const Navbar = () => {
                 )}
               </div>
 
-              {/* Marketplace Hidden by Comment */}
               {/* 
               <Link href="/products" className="relative flex items-center gap-2 px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-coral/20 transition-all duration-200">
                 <span>{t('nav.marketplace')}</span>
@@ -261,7 +256,6 @@ const Navbar = () => {
                 {t("nav.workshop")}
               </a>
 
-              {/* ETC Mega Menu Restored */}
               <div
                 className="relative"
                 onMouseEnter={() => handleMouseEnter("etc")}
@@ -340,7 +334,6 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Mobile Menu Button */}
             <div className="lg:hidden flex items-center gap-3">
               <div className="flex p-1 bg-muted/30 rounded-xl">
                 <button
@@ -362,9 +355,7 @@ const Navbar = () => {
               </button>
             </div>
 
-            {/* CTA Buttons - Desktop */}
             <div className="hidden lg:flex items-center gap-3">
-              {/* Language Switcher */}
               <div className="hidden sm:flex p-1 bg-muted/30 rounded-xl mr-2">
                 <button
                   onClick={() => setLanguage("th")}
@@ -423,11 +414,9 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile menu overlay */}
         {isMenuOpen && (
           <div className="lg:hidden mt-2 p-4 rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float animate-in slide-in-from-top-4 duration-300 overflow-y-auto max-h-[80vh]">
             <div className="flex flex-col gap-1">
-              {/* Buyer Section */}
               <div className="px-4 py-2 text-[9px] font-black text-primary tracking-widest uppercase opacity-70">
                 For Buyer
               </div>
@@ -452,7 +441,6 @@ const Navbar = () => {
                 Get Quotes
               </Link>
 
-              {/* Supplier Section */}
               <div className="px-4 py-2 mt-2 text-[9px] font-black text-primary tracking-widest uppercase opacity-70">
                 For Supplier
               </div>
