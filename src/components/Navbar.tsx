@@ -67,9 +67,6 @@ const Navbar = () => {
                   priority
                 />
               </div>
-              <span className="text-xl font-bold text-foreground">
-                Kumopack
-              </span>
             </Link>
 
             {/* Navigation Items */}
@@ -313,6 +310,13 @@ const Navbar = () => {
                         description="Terms, shipping, and returns"
                         color="lavender"
                         href="/policy"
+                      />
+                      <ETCCard
+                        icon={Package}
+                        title="FAQ"
+                        description="คำถามที่พบบ่อย"
+                        color="mint"
+                        href="/faq"
                       />
                       <div className="col-span-2 grid grid-cols-2 gap-4">
                         <ETCCard

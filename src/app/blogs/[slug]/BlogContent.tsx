@@ -70,7 +70,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
     const fetchRelated = async () => {
       setLoadingRelated(true);
       try {
-        const response = await blogApi.getArticles(1, 20);
+        const response = await blogApi.getArticles(1, 10);
         setRelated(response.data.filter((a) => a.id !== blog.id));
       } catch (err) {
         console.error("Error fetching related articles", err);
@@ -166,26 +166,8 @@ export default function BlogContent({ blog }: { blog: Article }) {
           line-height: 1.2;
           margin-bottom: 0px;
           scroll-margin-top: 120px;
-          color: hsl(var(--foreground));
+          color: #b5a4d4;
           letter-spacing: -0.03em;
-          padding-left: 1rem;
-          margin-left: -1rem;
-        }
-
-        .header-accent-0 {
-          border-left: 6px solid #ffb7b2;
-        }
-        .header-accent-1 {
-          border-left: 6px solid #ffdac1;
-        }
-        .header-accent-2 {
-          border-left: 6px solid #e2f0cb;
-        }
-        .header-accent-3 {
-          border-left: 6px solid #b5ead7;
-        }
-        .header-accent-4 {
-          border-left: 6px solid #c7ceea;
         }
         .blog-content h1 {
           font-size: 3rem;
@@ -193,17 +175,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
         .blog-content h2 {
           font-size: 2.25rem;
           margin-top: 4.5rem;
-          position: relative;
-        }
-        .blog-content h2::after {
-          content: "";
-          position: absolute;
-          left: 0;
-          bottom: -0.5rem;
-          width: 3rem;
-          height: 4px;
-          background: hsl(var(--primary));
-          border-radius: 2px;
         }
         .blog-content h3 {
           font-size: 1.75rem;
@@ -255,6 +226,69 @@ export default function BlogContent({ blog }: { blog: Article }) {
         }
         .blog-content .ql-align-justify {
           text-align: justify;
+        }
+
+        /* Text Formatting */
+        .blog-content strong,
+        .blog-content b {
+          font-weight: 700;
+        }
+        .blog-content em,
+        .blog-content i {
+          font-style: italic;
+        }
+        .blog-content u {
+          text-decoration: underline;
+        }
+        .blog-content s {
+          text-decoration: line-through;
+        }
+
+        /* Font Sizes */
+        .blog-content .ql-size-small {
+          font-size: 0.75em;
+        }
+        .blog-content .ql-size-large {
+          font-size: 1.5em;
+        }
+        .blog-content .ql-size-huge {
+          font-size: 2.5em;
+        }
+
+        /* Code Block */
+        .blog-content pre,
+        .blog-content code {
+          background: hsl(var(--muted));
+          padding: 0.2em 0.4em;
+          border-radius: 0.5rem;
+          font-family: "Courier New", monospace;
+          font-size: 0.9em;
+        }
+        .blog-content pre {
+          padding: 1.5rem;
+          overflow-x: auto;
+          margin: 2rem 0;
+        }
+
+        /* Subscript & Superscript */
+        .blog-content sub {
+          vertical-align: sub;
+          font-size: 0.75em;
+        }
+        .blog-content sup {
+          vertical-align: super;
+          font-size: 0.75em;
+        }
+
+        /* Video */
+        .blog-content iframe,
+        .blog-content video {
+          max-width: 100%;
+          height: auto;
+          border-radius: 2.5rem;
+          margin: 4rem auto !important;
+          display: block;
+          box-shadow: var(--shadow-float);
         }
 
         .blog-content img {
@@ -419,7 +453,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
                     <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center">
                       <Eye className="w-4 h-4 text-primary" />
                     </div>
-                    {blog.totalView.toLocaleString()}{" "}
+                    {(blog.totalView || 0).toLocaleString()}{" "}
                     {isTh ? "การเข้าชม" : "Views"}
                   </div>
                   <div className="hidden sm:flex items-center gap-2.5 ml-auto">
@@ -462,31 +496,13 @@ export default function BlogContent({ blog }: { blog: Article }) {
                           /<(h[1-6])(.*?)>(.*?)<\/h[1-6]>/g,
                           (match, tag, attrs, content) => {
                             const currentId = `section-${headerCount}`;
-                            const accentClass = `header-accent-${headerCount % 5}`;
                             headerCount++;
 
-                            // Remove any existing id attribute to avoid duplication
                             const cleanAttrs = attrs
                               .replace(/\sid=".*?"/g, "")
                               .replace(/\sid='.*?'/g, "");
 
-                            // Ensure there's a class attribute or add it
-                            let finalAttrs = cleanAttrs;
-                            if (finalAttrs.includes('class="')) {
-                              finalAttrs = finalAttrs.replace(
-                                'class="',
-                                `class="${accentClass} `,
-                              );
-                            } else if (finalAttrs.includes("class='")) {
-                              finalAttrs = finalAttrs.replace(
-                                "class='",
-                                `class='${accentClass} `,
-                              );
-                            } else {
-                              finalAttrs += ` class="${accentClass}"`;
-                            }
-
-                            return `<${tag}${finalAttrs} id="${currentId}" style="scroll-margin-top: 100px;">${content}</${tag}>`;
+                            return `<${tag}${cleanAttrs} id="${currentId}" style="scroll-margin-top: 100px;">${content}</${tag}>`;
                           },
                         )
                         .replace(/<img[^>]+src="([^">]+)"/g, (match, src) => {
