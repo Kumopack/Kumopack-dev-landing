@@ -115,8 +115,18 @@ export async function getSupplierData(slug: string): Promise<Supplier | null> {
 
 
 export async function getSuppliersList(): Promise<Supplier[]> {
+    const primaryUrl = `${process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.kumopack.com/v1"}/supplier?limit=24`;
+    const productionUrl = "https://api.kumopack.com/v1/supplier?limit=24";
+
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.kumopack.com/v1"}/supplier?limit=24`);
+        let response = await fetch(primaryUrl);
+        
+        // Failover to production if local/primary fails (e.g. 500 Error due to schema mismatch)
+        if (!response.ok && primaryUrl !== productionUrl) {
+            console.warn(`[SupplierAPI] Primary API failed (${response.status}), failing over to Production...`);
+            response = await fetch(productionUrl);
+        }
+
         if (!response.ok) return suppliers;
         const data = await response.json();
 
@@ -148,6 +158,45 @@ export async function getSuppliersList(): Promise<Supplier[]> {
             }
         }));
     } catch (error) {
+        console.error("[SupplierAPI] Error fetching suppliers:", error);
+        // Try production one last time if the error was network-related on primary
+        if (primaryUrl !== productionUrl) {
+            try {
+                const prodResponse = await fetch(productionUrl);
+                if (prodResponse.ok) {
+                    const data = await prodResponse.json();
+                    if (data?.data && Array.isArray(data.data)) {
+                         return data.data.map((s: any) => ({
+                            id: String(s.slug || s.id),
+                            name: s.displayTitle || s.companyName,
+                            rating: Number(s.review || 5),
+                            reviewCount: Number(s.reviewAmount || 0),
+                            location: s.companyAddress?.split(',').pop()?.trim() || "Thailand",
+                            address: s.companyAddress || "",
+                            specialized: s.supplierFeatures?.[0]?.taxonomy?.nameEn || "Packaging",
+                            image: getStoragePath(s.companyPictureCover),
+                            logo: getStoragePath(s.companyLogo),
+                            tagline: s.tagline || "",
+                            description: s.cardDescription || "",
+                            website: s.website || "",
+                            email: s.email || "",
+                            features: [],
+                            categories: [],
+                            gallery: [],
+                            stats: {
+                                experience: "N/A",
+                                capacity: "N/A",
+                                certifications: "ISO",
+                                leadTime: "N/A",
+                                orderAmount: String(s.orderAmount || 0)
+                            }
+                        }));
+                    }
+                }
+            } catch (prodError) {
+                console.error("[SupplierAPI] Production failover also failed:", prodError);
+            }
+        }
         return suppliers;
     }
 }

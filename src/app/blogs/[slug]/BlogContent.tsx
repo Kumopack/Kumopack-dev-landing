@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
   AlertCircle,
+  User,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -402,12 +403,24 @@ export default function BlogContent({ blog }: { blog: Article }) {
                     : "Exclusive insights from KUMOPACK packaging experts."}
                 </p>
                 <div className="flex items-center gap-4 pt-6 border-t border-neutral-200/40">
-                  <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center font-black text-white text-xs italic shadow-glow">
-                    KP
+                  <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center font-black text-white text-xs italic shadow-glow overflow-hidden">
+                    {blog.createdBy?.pictureProfilePath ? (
+                      <SafeImage
+                        src={blogApi.getAssetPath(
+                          blog.createdBy.pictureProfilePath,
+                        )}
+                        alt={blog.createdBy.name}
+                        width={48}
+                        height={48}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      "KP"
+                    )}
                   </div>
                   <div>
                     <div className="text-[16px] font-black text-foreground">
-                      KUMOPACK Team
+                      {blog.createdBy?.name || "KUMOPACK Team"}
                     </div>
                     <div className="text-[14px] font-bold text-primary/60 uppercase tracking-widest">
                       Article Writer
@@ -445,18 +458,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
                   </div>
                 )}
 
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {(blog.categories || []).map((cat) => (
-                    <Link
-                      key={cat.id}
-                      href={`/blogs?category=${cat.slug}`}
-                      className="px-5 py-2 rounded-full text-[14px] font-black uppercase tracking-widest transition-all bg-primary/5 text-primary hover:bg-primary hover:text-white hover:shadow-glow"
-                    >
-                      {isTh ? cat.nameTh : cat.nameEn || cat.nameTh}
-                    </Link>
-                  ))}
-                </div>
-
                 <h1
                   className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight mb-4"
                   style={{ color: "#b5a4d4" }}
@@ -465,6 +466,24 @@ export default function BlogContent({ blog }: { blog: Article }) {
                 </h1>
 
                 <div className="flex flex-wrap items-center gap-6 text-[12px] font-bold text-muted-foreground/60 py-2 border-y border-neutral-100">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center overflow-hidden">
+                      {blog.createdBy?.pictureProfilePath ? (
+                        <SafeImage
+                          src={blogApi.getAssetPath(
+                            blog.createdBy.pictureProfilePath,
+                          )}
+                          alt={blog.createdBy.name}
+                          width={36}
+                          height={36}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <User className="w-4 h-4 text-primary" />
+                      )}
+                    </div>
+                    {blog.createdBy?.name || "KUMOPACK Team"}
+                  </div>
                   <div className="flex items-center gap-2.5">
                     <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center">
                       <Calendar className="w-4 h-4 text-primary" />
@@ -584,6 +603,24 @@ export default function BlogContent({ blog }: { blog: Article }) {
                     />
                   </div>
                 )}
+
+                {blog.keywords && blog.keywords.length > 0 && (
+                  <div className="mt-12 pt-8 border-t border-dashed border-neutral-200">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-sm font-bold text-muted-foreground mr-2">
+                        Tags:
+                      </span>
+                      {blog.keywords.map((kw) => (
+                        <div
+                          key={kw.id}
+                          className="px-3 py-1.5 rounded-lg bg-neutral-100/80 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary transition-colors cursor-default"
+                        >
+                          #{kw.keyword}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </section>
             </div>
           </div>
@@ -642,7 +679,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
                     href={`/blogs/${getSafeSlug(article.slug)}`}
                     className="group block min-w-[220px] md:min-w-[280px] snap-center"
                   >
-                    <div className="aspect-[4/5] rounded-[1.5rem] overflow-hidden border border-neutral-200/60 relative bg-white shadow-sm hover:shadow-md transition-all duration-500">
+                    <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-neutral-200/60 relative bg-white shadow-sm hover:shadow-md transition-all duration-500">
                       <SafeImage
                         src={blogApi.getAssetPath(article.featurePicturePath)}
                         alt={aName}
@@ -656,9 +693,15 @@ export default function BlogContent({ blog }: { blog: Article }) {
                             {isTh ? "อ่านต่อ" : "Read"}
                           </span>
                         </div>
-                        <h4 className="font-bold text-lg md:text-xl text-white leading-tight line-clamp-2 mb-1 group-hover:text-primary transition-colors">
+                        <h4 className="font-bold text-lg md:text-xl text-white leading-tight line-clamp-2 mb-2 group-hover:text-primary transition-colors">
                           {aName}
                         </h4>
+                        <div className="text-[10px] font-medium text-white/60 flex items-center gap-2 mt-2">
+                          <span className="w-5 h-[1px] bg-white/40" />
+                          {article.createdBy?.name ||
+                            article.author ||
+                            "KUMOPACK Team"}
+                        </div>
                       </div>
                     </div>
                   </Link>

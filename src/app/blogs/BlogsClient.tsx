@@ -5,13 +5,12 @@ import Link from "next/link";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowLeft,
-  Calendar,
   Search,
-  Eye,
   ChevronLeft,
   ChevronRight,
   Loader2,
+  LayoutGrid,
+  List,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -20,6 +19,7 @@ import { SafeImage } from "@/components/ui/safe-image";
 import { blogApi, Article, Category } from "@/lib/blog-api";
 import { useLanguage } from "@/context/LanguageContext";
 import { getSafeSlug } from "@/lib/slug-utils";
+import BlogCard from "@/components/BlogCard";
 
 interface BlogsClientProps {
   initialArticles: Article[];
@@ -44,6 +44,7 @@ export default function BlogsClient({
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(initialTotalItems);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const selectedCategory = searchParams?.get("category") || "All";
   const limit = 6;
@@ -218,90 +219,50 @@ export default function BlogsClient({
             </div>
           ) : (
             <>
-              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-8 lg:gap-16">
+              <div className="flex justify-between items-center mb-8">
+                <p className="text-sm font-bold text-muted-foreground/60 uppercase tracking-widest">
+                  Showing {filteredArticles.length} Stories
+                </p>
+                <div className="flex items-center gap-2 bg-neutral-100 p-1 rounded-lg">
+                  <button
+                    onClick={() => setViewMode("grid")}
+                    className={`p-2 rounded-md transition-all ${
+                      viewMode === "grid"
+                        ? "bg-white text-primary shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <LayoutGrid className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode("list")}
+                    className={`p-2 rounded-md transition-all ${
+                      viewMode === "list"
+                        ? "bg-white text-primary shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <List className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              <div
+                className={`grid gap-6 md:gap-8 ${
+                  viewMode === "grid"
+                    ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                    : "grid-cols-1 md:grid-cols-2"
+                }`}
+              >
                 <AnimatePresence mode="popLayout">
-                  {filteredArticles.map((article, index) => {
-                    const name = isTh
-                      ? article.nameTh
-                      : article.nameEn || article.nameTh;
-                    const desc = isTh
-                      ? article.shortDescriptionTh
-                      : article.shortDescriptionEn ||
-                        article.shortDescriptionTh;
-
-                    return (
-                      <motion.article
-                        key={article.id}
-                        layout
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.95 }}
-                        transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
-                        className="group"
-                      >
-                        <Link
-                          href={`/blogs/${getSafeSlug(article.slug)}`}
-                          className="flex flex-col h-full gap-6 md:gap-8"
-                        >
-                          <div className="relative aspect-square rounded-none overflow-hidden border border-neutral-100 bg-neutral-50 shadow-sm transition-all duration-700 md:group-hover:shadow-[0_40px_80px_-20px_rgba(177,95,206,0.15)] md:group-hover:-translate-y-4">
-                            <SafeImage
-                              src={blogApi.getAssetPath(
-                                article.featurePicturePath,
-                              )}
-                              alt={name}
-                              fill={true}
-                              className="object-cover group-hover:scale-110 transition-transform duration-[2000ms] ease-out shadow-inner"
-                            />
-
-                            <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
-                            <div className="absolute top-6 left-6 md:top-8 md:left-8 flex flex-wrap gap-2">
-                              {article.categories.slice(0, 1).map((cat) => (
-                                <span
-                                  key={cat.id}
-                                  className="px-4 py-1.5 md:px-5 md:py-2 rounded-none bg-white/95 backdrop-blur-md text-xs font-black text-primary shadow-xl border border-primary/5 uppercase tracking-widest"
-                                >
-                                  {isTh ? cat.nameTh : cat.nameEn || cat.nameTh}
-                                </span>
-                              ))}
-                            </div>
-
-                            <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 flex items-center gap-2 px-4 py-2 bg-black/40 backdrop-blur-md rounded-none text-xs font-black tracking-widest opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
-                              <Eye className="w-3.5 h-3.5 text-primary" />
-                              {article.totalView.toLocaleString()}
-                            </div>
-                          </div>
-
-                          <div className="px-2 md:px-4 space-y-3 md:space-y-4">
-                            <div className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-muted-foreground/40">
-                              <Calendar className="w-4 h-4 text-primary/30" />
-                              {new Date(
-                                article.publishedDate,
-                              ).toLocaleDateString(isTh ? "th-TH" : "en-US", {
-                                month: "long",
-                                day: "numeric",
-                                year: "numeric",
-                              })}
-                            </div>
-                            <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-foreground group-hover:text-primary transition-colors duration-500 leading-tight line-clamp-2">
-                              {name}
-                            </h2>
-                            <p className="text-muted-foreground/60 text-sm md:text-base font-medium line-clamp-3 leading-relaxed">
-                              {desc}
-                            </p>
-                            <div className="pt-4 md:pt-6 border-t border-neutral-100 group-hover:border-primary/20 transition-colors duration-500">
-                              <div className="flex items-center gap-4 text-xs font-black uppercase tracking-[0.2em] text-primary group-hover:gap-6 transition-all duration-500">
-                                {isTh
-                                  ? "อ่านรายละเอียดเพิ่มเติม"
-                                  : "Learn More Story"}
-                                <ArrowLeft className="w-4 h-4 rotate-180" />
-                              </div>
-                            </div>
-                          </div>
-                        </Link>
-                      </motion.article>
-                    );
-                  })}
+                  {filteredArticles.map((article, index) => (
+                    <BlogCard
+                      key={article.id}
+                      blog={article}
+                      index={index}
+                      layout={viewMode}
+                    />
+                  ))}
                 </AnimatePresence>
               </div>
 

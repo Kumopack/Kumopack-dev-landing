@@ -21,6 +21,7 @@ import { auth } from "@/lib/auth";
 import { useLanguage } from "@/context/LanguageContext";
 import { Globe, Search } from "lucide-react";
 import { getAssetPath } from "@/lib/utils";
+import { getSafeSlug } from "@/lib/slug-utils";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -84,6 +85,7 @@ const Navbar = () => {
                   <div className="absolute top-full left-0 mt-2 w-56 rounded-2xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float p-2 animate-fade-in">
                     <Link
                       href="/products"
+                      prefetch={false}
                       className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-mint/20 transition-colors"
                     >
                       <div className="w-8 h-8 rounded-xl bg-mint/30 flex items-center justify-center">
@@ -100,6 +102,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       href="/supplier"
+                      prefetch={false}
                       className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-mint/20 transition-colors"
                     >
                       <div className="w-8 h-8 rounded-xl bg-mint/30 flex items-center justify-center">
@@ -116,6 +119,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       href="/learning?audience=buyer"
+                      prefetch={false}
                       className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-mint/20 transition-colors"
                     >
                       <div className="w-8 h-8 rounded-xl bg-mint/30 flex items-center justify-center">
@@ -132,6 +136,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       href="/pricing?type=buyer"
+                      prefetch={false}
                       className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-mint/20 transition-colors"
                     >
                       <div className="w-8 h-8 rounded-xl bg-mint/30 flex items-center justify-center">
@@ -167,6 +172,7 @@ const Navbar = () => {
                   <div className="absolute top-full left-0 mt-2 w-56 rounded-2xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float p-2 animate-fade-in">
                     <Link
                       href="/contact"
+                      prefetch={false}
                       className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky/20 transition-colors"
                     >
                       <div className="w-8 h-8 rounded-xl bg-sky/30 flex items-center justify-center">
@@ -183,6 +189,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       href="/supplier"
+                      prefetch={false}
                       className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky/20 transition-colors"
                     >
                       <div className="w-8 h-8 rounded-xl bg-sky/30 flex items-center justify-center">
@@ -199,6 +206,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       href="/learning?audience=supplier"
+                      prefetch={false}
                       className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky/20 transition-colors"
                     >
                       <div className="w-8 h-8 rounded-xl bg-sky/30 flex items-center justify-center">
@@ -215,6 +223,7 @@ const Navbar = () => {
                     </Link>
                     <Link
                       href="/pricing?type=supplier"
+                      prefetch={false}
                       className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky/20 transition-colors"
                     >
                       <div className="w-8 h-8 rounded-xl bg-sky/30 flex items-center justify-center">
