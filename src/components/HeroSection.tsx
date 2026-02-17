@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowRight, Factory, DollarSign, Truck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { getAssetPath } from "@/lib/utils";
+import { SafeImage } from "@/components/ui/safe-image";
 
 const HeroSection = () => {
   const { t } = useLanguage();
@@ -39,11 +40,15 @@ const HeroSection = () => {
         initial={{ scale: 1.1, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
-        style={{
-          backgroundImage: `url("${getAssetPath("/asset/hero-bg-premium.jpg")}")`,
-        }}
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-75 ease-out scale-105"
+        className="absolute inset-0 transition-transform duration-75 ease-out scale-105"
       >
+        <SafeImage
+          src="/asset/hero-bg-premium.jpg"
+          alt="Kumopack Hero Background"
+          fill
+          priority
+          className="object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/40 to-background" />
       </motion.div>
 

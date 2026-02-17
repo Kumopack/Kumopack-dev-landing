@@ -172,41 +172,40 @@ function LearningPageContent() {
     <main className="min-h-screen bg-kumopack-base-white text-foreground overflow-x-hidden">
       <Navbar />
 
-      <section className="relative pt-32 pb-20 px-4 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 -z-10" />
+      <section className="relative pt-32 pb-16 px-4 overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 -z-10" />
 
-        <div className="max-w-[1440px] mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="space-y-10"
+              className="space-y-8"
             >
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => handleAudienceChange("buyer")}
-                  className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${currentAudience === "buyer" ? "bg-primary text-white shadow-glow" : "bg-white border border-neutral-100 text-muted-foreground hover:border-primary/20"}`}
+                  className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${currentAudience === "buyer" ? "bg-primary text-white shadow-md" : "bg-white border border-neutral-200 text-muted-foreground hover:border-primary/30"}`}
                 >
                   {isTh ? "สำหรับผู้ซื้อ (Buyer)" : "For Buyers"}
                 </button>
                 <button
                   onClick={() => handleAudienceChange("supplier")}
-                  className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${currentAudience === "supplier" ? "bg-primary text-white shadow-glow" : "bg-white border border-neutral-100 text-muted-foreground hover:border-primary/20"}`}
+                  className={`px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${currentAudience === "supplier" ? "bg-primary text-white shadow-md" : "bg-white border border-neutral-200 text-muted-foreground hover:border-primary/30"}`}
                 >
                   {isTh ? "สำหรับผู้ผลิต (Supplier)" : "For Suppliers"}
                 </button>
               </div>
 
-              <div className="space-y-6">
-                <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9]">
+              <div className="space-y-4">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-foreground">
                   {isTh ? "ศูนย์การ" : "Learning"}
-                  <br />
-                  <span className="text-primary italic">
+                  <span className="text-primary italic inline-block ml-2">
                     {isTh ? "เรียนรู้" : "Center"}
                   </span>
                 </h1>
-                <p className="text-xl text-muted-foreground font-medium max-w-lg leading-relaxed">
+                <p className="text-lg text-muted-foreground font-medium max-w-md leading-relaxed">
                   {isTh
                     ? `คู่มือและข้อมูลเชิงลึกสำหรับ${currentAudience === "buyer" ? "ผู้ซื้อ" : "ผู้ผลิต"} เพื่อยกระดับธุรกิจบรรจุภัณฑ์ของคุณ`
                     : `In-depth guides and insights for ${currentAudience}s to elevate your packaging business.`}
@@ -214,17 +213,17 @@ function LearningPageContent() {
               </div>
 
               <div className="relative max-w-md group">
-                <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-foreground/30 w-5 h-5 group-focus-within:text-primary transition-all" />
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-muted-foreground/40 w-5 h-5 group-focus-within:text-primary transition-all" />
                 <input
                   type="text"
                   placeholder={isTh ? "ค้นหาบทความ..." : "Search articles..."}
                   value={search}
                   onChange={handleSearchChange}
-                  className="w-full bg-white border border-neutral-100 rounded-[2rem] px-16 py-5 font-bold focus:ring-4 focus:ring-primary/5 focus:border-primary/20 outline-none transition-all shadow-soft"
+                  className="w-full bg-white border border-neutral-200 rounded-2xl px-12 py-4 text-base font-medium focus:ring-4 focus:ring-primary/5 focus:border-primary/30 outline-none transition-all shadow-sm"
                 />
               </div>
 
-              <div className="pt-4">
+              <div className="pt-2">
                 <button
                   onClick={() => {
                     const baseUrl =
@@ -235,7 +234,7 @@ function LearningPageContent() {
                           "https://supplier.kumopack.com";
                     window.open(`${baseUrl}/auth`, "_blank");
                   }}
-                  className="px-10 py-5 rounded-[2rem] bg-foreground text-background font-black text-xs uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-95 transition-all shadow-xl"
+                  className="px-8 py-4 rounded-xl bg-foreground text-background font-bold text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-lg"
                 >
                   {isTh ? "เริ่มต้นใช้งานฟรี" : "Get Started Free"}
                 </button>
@@ -243,10 +242,10 @@ function LearningPageContent() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="relative aspect-[4/3] rounded-[4rem] overflow-hidden shadow-2xl border-8 border-white group cursor-pointer"
+              className="relative aspect-video rounded-[2rem] overflow-hidden shadow-xl border-4 border-white group cursor-pointer"
               onClick={() => {
                 if (featuredArticle) {
                   router.push(
@@ -270,23 +269,28 @@ function LearningPageContent() {
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-[3000ms]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-60" />
-              <div className="absolute bottom-12 left-12 right-12 p-10 rounded-[2.5rem] bg-white/10 backdrop-blur-2xl border border-white/20">
-                <div className="flex items-center gap-4 text-white font-black text-xs uppercase tracking-widest mb-4">
-                  <GraduationCap className="w-5 h-5 text-primary" />
-                  {featuredArticle?.isPinned
-                    ? isTh
-                      ? "แนะนำสำหรับคุณ"
-                      : "Recommended for You"
-                    : isTh
-                      ? "ความรู้ใหม่ประจำวัน"
-                      : "Daily Insights"}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
+              <div className="absolute bottom-0 left-0 right-0 p-8">
+                <div className="flex items-center gap-3 text-white font-bold text-[10px] uppercase tracking-wider mb-2">
+                  <span className="px-2 py-1 rounded bg-primary/90 text-white">
+                    {featuredArticle?.isPinned
+                      ? isTh
+                        ? "แนะนำ"
+                        : "Featured"
+                      : isTh
+                        ? "ล่าสุด"
+                        : "Latest"}
+                  </span>
                 </div>
-                <div className="text-2xl font-black text-white leading-tight">
+                <div className="text-xl md:text-2xl font-bold text-white leading-tight mb-2">
                   {featuredArticle?.title ||
                     (isTh
                       ? "เทคนิคการลดต้นทุนบรรจุภัณฑ์"
                       : "Modern Packaging Cost Optimization")}
+                </div>
+                <div className="inline-flex items-center gap-2 text-white/90 text-xs font-bold group-hover:text-primary transition-colors">
+                  {isTh ? "อ่านต่อ" : "Read More"}{" "}
+                  <ArrowLeft className="w-3 h-3 rotate-180" />
                 </div>
               </div>
             </motion.div>
@@ -294,12 +298,12 @@ function LearningPageContent() {
         </div>
       </section>
 
-      <section className="sticky top-24 z-30 bg-kumopack-base-white/90 backdrop-blur-xl border-y border-neutral-100">
-        <div className="max-w-[1440px] mx-auto px-4">
-          <div className="flex items-center justify-center py-4 overflow-x-auto no-scrollbar gap-2">
+      <section className="sticky top-20 z-30 bg-kumopack-base-white/95 backdrop-blur-sm border-b border-neutral-100">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex items-center justify-start md:justify-center py-4 overflow-x-auto no-scrollbar gap-2">
             <button
               onClick={() => handleCategoryChange("all")}
-              className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${selectedCategorySlug === "all" ? "bg-primary text-white shadow-glow" : "hover:bg-neutral-50 text-muted-foreground"}`}
+              className={`px-5 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap border ${selectedCategorySlug === "all" ? "bg-primary text-white border-primary shadow-sm" : "bg-white border-neutral-200 text-muted-foreground hover:border-primary/30 hover:text-foreground"}`}
             >
               {isTh ? "ทั้งหมด" : "All"}
             </button>
@@ -307,7 +311,7 @@ function LearningPageContent() {
               <button
                 key={cat.id}
                 onClick={() => handleCategoryChange(cat.slug)}
-                className={`px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${selectedCategorySlug === cat.slug ? "bg-primary text-white shadow-glow" : "hover:bg-neutral-50 text-muted-foreground"}`}
+                className={`px-5 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap border ${selectedCategorySlug === cat.slug ? "bg-primary text-white border-primary shadow-sm" : "bg-white border-neutral-200 text-muted-foreground hover:border-primary/30 hover:text-foreground"}`}
               >
                 {cat.name}
               </button>
@@ -316,38 +320,41 @@ function LearningPageContent() {
         </div>
       </section>
 
-      <section className="py-24 px-4 md:px-10 lg:px-20 bg-neutral-50/50">
-        <div className="max-w-[1440px] mx-auto">
+      <section className="py-16 px-4 bg-neutral-50/50">
+        <div className="max-w-6xl mx-auto">
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-60 gap-8">
-              <Loader2 className="w-16 h-16 text-primary animate-spin opacity-20" />
-              <p className="text-muted-foreground font-black uppercase tracking-[0.4em] text-[10px] animate-pulse">
+            <div className="flex flex-col items-center justify-center py-40 gap-6">
+              <Loader2 className="w-10 h-10 text-primary animate-spin opacity-30" />
+              <p className="text-muted-foreground font-bold uppercase tracking-widest text-xs animate-pulse">
                 Fetching Knowledge...
               </p>
             </div>
           ) : (
             <>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
                 <AnimatePresence mode="popLayout">
                   {articles.map((article, index) => {
                     const displayTitle = article.meta?.title || article.title;
                     const displayDescription =
-                      article.meta?.description || article.excerpt;
+                      article.meta?.content || article.content || "";
 
                     return (
                       <motion.article
                         key={article.id}
                         layout
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: (index % 4) * 0.1 }}
-                        className="group"
+                        transition={{
+                          duration: 0.5,
+                          delay: (index % 4) * 0.05,
+                        }}
+                        className="group flex flex-col h-full bg-white rounded-2xl overflow-hidden border border-neutral-100 shadow-sm hover:shadow-lg transition-all duration-300"
                       >
                         <Link
                           href={`/learning/${getSafeSlug(article.slug)}?audience=${currentAudience}&lang=${language}&articleId=${article.id}`}
-                          className="flex flex-col h-full gap-6"
+                          className="flex flex-col h-full"
                         >
-                          <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden bg-white border border-neutral-100 shadow-sm group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-700">
+                          <div className="relative aspect-[4/3] bg-neutral-100 overflow-hidden">
                             <SafeImage
                               src={learningApi.getAssetPath(
                                 article.thumbnailPath ||
@@ -355,58 +362,28 @@ function LearningPageContent() {
                               )}
                               alt={article.featuredImageAlt || article.title}
                               fill
-                              className="object-cover group-hover:scale-110 transition-transform duration-[2000ms]"
+                              className="object-cover group-hover:scale-105 transition-transform duration-700"
                             />
 
                             {article.isPinned && (
-                              <div className="absolute top-6 right-6 z-10">
-                                <span className="px-4 py-1.5 rounded-full bg-primary text-white text-[8px] font-black uppercase tracking-widest shadow-lg flex items-center gap-1.5">
-                                  <motion.div
-                                    animate={{ scale: [1, 1.2, 1] }}
-                                    transition={{
-                                      repeat: Infinity,
-                                      duration: 2,
-                                    }}
-                                    className="w-1.5 h-1.5 rounded-full bg-white shadow-sm"
-                                  />
-                                  Pinned {article.pinnedOrder === 1 && "#1"}
-                                </span>
+                              <div className="absolute top-3 right-3 z-10">
+                                <span className="w-2 h-2 rounded-full bg-primary shadow-glow ring-2 ring-white" />
                               </div>
                             )}
 
-                            <div className="absolute top-6 left-6 flex flex-col gap-2">
-                              <span className="px-4 py-1.5 rounded-xl bg-white/95 backdrop-blur-xl text-[8px] font-black text-primary shadow-2xl uppercase tracking-widest">
+                            <div className="absolute top-3 left-3">
+                              <span className="px-2.5 py-1 rounded-lg bg-white/95 backdrop-blur-md text-[10px] font-bold text-foreground shadow-sm uppercase tracking-wide">
                                 {article.category
                                   ? typeof article.category === "object"
                                     ? article.category.name
                                     : article.category
                                   : "Insight"}
                               </span>
-                              {article.difficultyText && (
-                                <span className="px-4 py-1.5 rounded-xl bg-black/80 backdrop-blur-xl text-[8px] font-black text-white shadow-2xl uppercase tracking-widest">
-                                  {article.difficultyText}
-                                </span>
-                              )}
-                            </div>
-
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 p-8 flex flex-col justify-end">
-                              <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-[0.2em] text-white/80 mb-3">
-                                <Eye className="w-3 h-3 text-primary" />
-                                {(article.viewCount || 0).toLocaleString()}{" "}
-                                Views
-                              </div>
-                              <h2 className="text-lg font-black leading-tight text-white mb-4 line-clamp-3">
-                                {displayTitle}
-                              </h2>
-                              <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-primary">
-                                {isTh ? "อ่านเพิ่มเติม" : "Learn More"}
-                                <ArrowLeft className="w-3 h-3 rotate-180" />
-                              </div>
                             </div>
                           </div>
 
-                          <div className="px-4 space-y-4">
-                            <div className="flex flex-wrap items-center gap-3 text-[9px] font-black uppercase tracking-widest text-muted-foreground/40">
+                          <div className="flex flex-col flex-1 p-5">
+                            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground/70 mb-3">
                               <Calendar className="w-3.5 h-3.5" />
                               {article.publishedAt || (article as any).date
                                 ? new Date(
@@ -421,31 +398,27 @@ function LearningPageContent() {
                                     },
                                   )
                                 : "Recent"}
-                              <span className="w-1 h-1 rounded-full bg-neutral-200" />
-                              <Clock className="w-3.5 h-3.5" />
+                              <span className="text-neutral-300">•</span>
                               {article.readingTimeText || "5 min read"}
                             </div>
 
-                            <h2 className="text-xl font-black text-foreground leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                            <h3 className="text-lg font-bold text-foreground leading-snug mb-3 group-hover:text-primary transition-colors">
                               {displayTitle}
-                            </h2>
+                            </h3>
 
                             <div
-                              className="text-xs text-muted-foreground line-clamp-3 font-medium leading-relaxed"
+                              className="text-xs text-muted-foreground/80 line-clamp-3 font-medium leading-relaxed mb-4 flex-1"
                               dangerouslySetInnerHTML={{
                                 __html: displayDescription,
                               }}
                             />
 
                             {article.tags && article.tags.length > 0 && (
-                              <div className="flex flex-wrap gap-2 pt-2">
+                              <div className="flex flex-wrap gap-1.5 pt-2 mt-auto border-t border-neutral-50">
                                 {article.tags.slice(0, 3).map((tag) => (
                                   <span
                                     key={tag.id}
-                                    style={{
-                                      color: tag.color || "var(--primary)",
-                                    }}
-                                    className="text-[8px] font-black uppercase tracking-tighter"
+                                    className="text-[10px] font-bold text-muted-foreground/60 bg-neutral-50 px-2.5 py-1 rounded-md"
                                   >
                                     #{tag.name}
                                   </span>
@@ -461,17 +434,16 @@ function LearningPageContent() {
               </div>
 
               {totalPages > 1 && (
-                <div className="mt-32 flex justify-center items-center gap-10">
+                <div className="mt-20 flex justify-center items-center gap-6">
                   <button
                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
-                    className="w-16 h-16 rounded-full border border-neutral-100 bg-white flex items-center justify-center hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-soft"
+                    className="w-10 h-10 rounded-full bg-white border border-neutral-200 flex items-center justify-center hover:bg-neutral-50 disabled:opacity-50 transition-all shadow-sm"
                   >
-                    <ChevronLeft className="w-6 h-6" />
+                    <ChevronLeft className="w-5 h-5 text-foreground" />
                   </button>
-                  <div className="text-xs font-black text-muted-foreground uppercase tracking-[0.5em]">
-                    Page{" "}
-                    <span className="text-primary italic">{currentPage}</span> /{" "}
+                  <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                    Page <span className="text-primary">{currentPage}</span> /{" "}
                     {totalPages}
                   </div>
                   <button
@@ -479,9 +451,9 @@ function LearningPageContent() {
                       setCurrentPage((p) => Math.min(totalPages, p + 1))
                     }
                     disabled={currentPage === totalPages}
-                    className="w-16 h-16 rounded-full border border-neutral-100 bg-white flex items-center justify-center hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-soft"
+                    className="w-10 h-10 rounded-full bg-white border border-neutral-200 flex items-center justify-center hover:bg-neutral-50 disabled:opacity-50 transition-all shadow-sm"
                   >
-                    <ChevronRight className="w-6 h-6" />
+                    <ChevronRight className="w-5 h-5 text-foreground" />
                   </button>
                 </div>
               )}
@@ -489,15 +461,15 @@ function LearningPageContent() {
           )}
 
           {!isLoading && articles.length === 0 && (
-            <div className="text-center py-60 rounded-[5rem] bg-white border border-neutral-100 shadow-soft">
-              <Search className="w-20 h-20 text-muted-foreground/10 mx-auto mb-10" />
-              <h3 className="text-3xl font-black text-muted-foreground/30 uppercase tracking-[0.2em] mb-6">
+            <div className="text-center py-32 rounded-3xl bg-white border border-neutral-100 shadow-sm">
+              <Search className="w-12 h-12 text-muted-foreground/10 mx-auto mb-6" />
+              <h3 className="text-lg font-bold text-foreground mb-2">
                 {isTh ? "ไม่พบเนื้อหาที่คุณค้นหา" : "No Resources Found"}
               </h3>
-              <p className="text-lg text-muted-foreground/20 font-bold italic">
+              <p className="text-sm text-muted-foreground max-w-xs mx-auto">
                 {isTh
-                  ? "ลองเปลี่ยนคำค้นหาหรือหมวดหมู่ใหม่ดูนะ"
-                  : "Try different keywords or check other categories."}
+                  ? "ลองเปลี่ยนคำค้นหาหรือตัวกรองหมวดหมู่ใหม่อีกครั้ง"
+                  : "Try adjusting your search or filters to find what you're looking for."}
               </p>
             </div>
           )}

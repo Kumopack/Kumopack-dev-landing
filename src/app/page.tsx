@@ -1,17 +1,23 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import ValueProposition from "@/components/ValueProposition";
-import HowItWorks from "@/components/HowItWorks";
-import FeaturesSection from "@/components/FeaturesSection";
-import DesignerSection from "@/components/DesignerSection";
-import MarketplaceSection from "@/components/MarketplaceSection";
-import CategoriesSection from "@/components/CategoriesSection";
-import GallerySection from "@/components/GallerySection";
-import BlogSection from "@/components/BlogSection";
-import LogoTicker from "@/components/LogoTicker";
 import Footer from "@/components/Footer";
 import { PromoPopup } from "@/components/PromoPopup";
 import { blogApi } from "@/lib/blog-api";
+import dynamic from "next/dynamic";
+
+const ValueProposition = dynamic(() => import("@/components/ValueProposition"));
+const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
+const FeaturesSection = dynamic(() => import("@/components/FeaturesSection"));
+const DesignerSection = dynamic(() => import("@/components/DesignerSection"));
+const MarketplaceSection = dynamic(
+  () => import("@/components/MarketplaceSection"),
+);
+const CategoriesSection = dynamic(
+  () => import("@/components/CategoriesSection"),
+);
+const GallerySection = dynamic(() => import("@/components/GallerySection"));
+const BlogSection = dynamic(() => import("@/components/BlogSection"));
+const LogoTicker = dynamic(() => import("@/components/LogoTicker"));
 
 export default async function Home() {
   const articlesResponse = await blogApi.getArticles(1, 3);

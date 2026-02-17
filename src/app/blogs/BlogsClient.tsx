@@ -39,7 +39,7 @@ export default function BlogsClient({
   const isTh = language === "th";
 
   const [search, setSearch] = useState("");
-  const [articles, setArticles] = useState<Article[]>(initialArticles);
+  const [articles, setArticles] = useState<Article[]>(initialArticles || []);
   const [categories, setCategories] = useState<Category[]>(initialCategories);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,7 +51,7 @@ export default function BlogsClient({
 
   // Sync state with server-provided props on navigation (e.g. Category change)
   useEffect(() => {
-    setArticles(initialArticles);
+    setArticles(initialArticles || []);
     setTotalItems(initialTotalItems);
     setCategories(initialCategories);
     setCurrentPage(1); // Ensure we are on page 1 when category changes via props
@@ -70,7 +70,7 @@ export default function BlogsClient({
           limit,
           selectedCategory || "All",
         );
-        setArticles(response.data);
+        setArticles(response.data || []);
         setTotalItems(response.totalItems);
       } catch (err) {
         console.error(err);
@@ -113,7 +113,7 @@ export default function BlogsClient({
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  const filteredArticles = articles.filter((article) => {
+  const filteredArticles = (articles || []).filter((article) => {
     const name = isTh ? article.nameTh : article.nameEn || article.nameTh;
     const desc = isTh
       ? article.shortDescriptionTh

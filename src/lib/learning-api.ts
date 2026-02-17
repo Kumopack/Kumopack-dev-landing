@@ -57,6 +57,7 @@ export interface LearningArticle {
         title?: string;
         description?: string;
         keywords?: string | null;
+        content?: string;
     };
     tutorial?: {
         url?: string;

@@ -10,7 +10,7 @@ interface BlogSectionProps {
   articles: Article[];
 }
 
-const BlogSection = ({ articles }: BlogSectionProps) => {
+const BlogSection = ({ articles = [] }: BlogSectionProps) => {
   return (
     <section id="blogs" className="px-4 md:px-8 py-16 md:py-24 scroll-mt-24">
       <div className="container mx-auto max-w-6xl">
