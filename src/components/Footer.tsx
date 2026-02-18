@@ -21,7 +21,7 @@ const Footer = () => {
             <Button
               variant="hero"
               size="xl"
-              className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90"
+              className="text-foreground hover:bg-primary-foreground/90"
             >
               {dict.footer.ctaButton}
               <ArrowRight className="w-5 h-5" />
@@ -137,7 +137,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-4 pt-4 border-t border-primary-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/50">
+        <div className="mt-2 pt-2 border-t border-primary-foreground/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-primary-foreground/50">
           <p>{dict.footer.allRightsReserved}</p>
           <div className="flex gap-6">
             <Link

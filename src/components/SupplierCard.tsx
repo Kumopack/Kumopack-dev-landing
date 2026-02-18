@@ -33,6 +33,8 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
+import { VerifiedBadge } from "@/components/shared/VerifiedBadge";
+
 interface SupplierCardProps {
   supplier: Supplier;
   layout: "grid" | "list";
@@ -60,7 +62,7 @@ export default function SupplierCard({
       } hover:border-primary/50 hover:shadow-xl transition-all duration-500 overflow-hidden flex ${
         isGrid
           ? "flex-col"
-          : "flex-col md:flex-row md:items-stretch md:h-[300px]"
+          : "flex-col md:flex-row md:items-stretch md:h-[260px]"
       }`}
     >
       {/* Image Section */}
@@ -78,17 +80,9 @@ export default function SupplierCard({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
 
-        {/* Verified Badge (Premium Style) */}
         {isVerified && (
           <div className="absolute top-3 left-3 z-10">
-            <div className="bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 text-white text-[10px] font-bold pl-1.5 pr-2.5 py-0.5 rounded-full shadow-lg shadow-amber-500/20 flex items-center gap-1 border border-white/20">
-              <div className="bg-white rounded-full p-0.5 shadow-sm">
-                <Award className="w-3 h-3 text-amber-500 fill-amber-500" />
-              </div>
-              <span className="text-white drop-shadow-md tracking-wide">
-                Verified
-              </span>
-            </div>
+            <VerifiedBadge />
           </div>
         )}
 
@@ -156,7 +150,7 @@ export default function SupplierCard({
           </div>
 
           {/* Details Grid */}
-          <div className="flex flex-wrap gap-y-2 gap-x-4 text-xs text-muted-foreground mb-4">
+          <div className="flex flex-wrap gap-y-2 gap-x-4 text-xs text-muted-foreground mb-2">
             <div className="flex items-start gap-1.5 bg-neutral-50 px-2 py-1 rounded-md border border-neutral-100 max-w-full w-full">
               <MapPin className="w-3.5 h-3.5 text-primary/70 shrink-0 mt-0.5" />
               <span className="line-clamp-2 font-medium leading-relaxed">
@@ -181,7 +175,7 @@ export default function SupplierCard({
         </div>
 
         {/* Features (Icons) - Pushed to bottom */}
-        <div className="mt-4 pt-4 border-t border-dashed border-neutral-200">
+        <div className="mt-2 pt-2 border-t border-dashed border-neutral-200">
           <div className="flex flex-wrap gap-2">
             {supplier.features.slice(0, 4).map((feature, i) => (
               <Popover key={feature.id || i}>
@@ -264,7 +258,7 @@ export default function SupplierCard({
         </div>
 
         {/* Footer / Action - Positioned for compact layout */}
-        <div className="mt-5 pt-4 border-t border-neutral-100 flex items-center justify-between">
+        <div className="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">
           <div className="flex items-center gap-1 text-xs font-medium text-neutral-500">
             <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
             <span className="text-foreground font-bold">{supplier.rating}</span>

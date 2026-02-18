@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Supplier } from "@/data/suppliers";
 import { getBuyerAuth, BUYER_URLS } from "@/lib/auth-buyer";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface SupplierActionCenterProps {
   supplier: Supplier;
@@ -24,6 +25,7 @@ interface SupplierActionCenterProps {
 export const SupplierActionCenter = ({
   supplier,
 }: SupplierActionCenterProps) => {
+  const { language } = useLanguage();
   const [isLiking, setIsLiking] = useState(false);
 
   const handleAction = async (action: "chat" | "like" | "quote") => {
@@ -190,25 +192,39 @@ export const SupplierActionCenter = ({
           )}
         </div>
 
-        <motion.div
-          whileHover={{ y: -3 }}
-          className="p-6 rounded-[2rem] bg-gradient-to-br from-primary/10 to-transparent border border-primary/10 relative group/trust"
-        >
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center">
-              <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+        {supplier.isVerified && (
+          <motion.div
+            whileHover={{ y: -3 }}
+            className="p-6 rounded-[2rem] bg-gradient-to-br from-primary/10 to-transparent border border-primary/10 relative group/trust"
+          >
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center">
+                <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+              </div>
+              <span className="font-black text-[10px] tracking-tight">
+                Kumo Secure Shield™
+              </span>
             </div>
-            <span className="font-black text-[10px] tracking-tight">
-              Kumo Secure Shield™
-            </span>
-          </div>
-          <p className="text-[10px] text-muted-foreground leading-relaxed font-medium">
-            This facility has passed our{" "}
-            <span className="text-foreground font-black">14-point audit</span>{" "}
-            including financial stability and ethics check.
-          </p>
-          <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-primary/5 blur-2xl group-hover/trust:bg-primary/20 transition-all duration-700" />
-        </motion.div>
+            <p className="text-[10px] text-muted-foreground leading-relaxed font-medium">
+              {language === "th" ? (
+                <>
+                  โรงงานนี้ผ่านการตรวจสอบมาตรฐาน{" "}
+                  <span className="text-foreground font-black">14 จุด</span>{" "}
+                  รวมถึงความมั่นคงทางการเงินและจริยธรรม
+                </>
+              ) : (
+                <>
+                  This facility has passed our{" "}
+                  <span className="text-foreground font-black">
+                    14-point audit
+                  </span>{" "}
+                  including financial stability and ethics check.
+                </>
+              )}
+            </p>
+            <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-primary/5 blur-2xl group-hover/trust:bg-primary/20 transition-all duration-700" />
+          </motion.div>
+        )}
       </motion.div>
     </aside>
   );

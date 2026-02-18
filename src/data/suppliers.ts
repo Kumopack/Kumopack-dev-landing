@@ -222,8 +222,12 @@ export async function getSupplierData(slug: string): Promise<Supplier | null> {
                 ? data.supplierFeatures.map((f: any) => ({
                     id: String(f.id),
                     title: f.taxonomy?.nameEn || f.taxonomy?.nameTh,
-                    description: f.taxonomy?.nameTh,
-                    icon: getStoragePath(f.taxonomy?.featurePicturePath)
+                    description: f.taxonomy?.descriptionEn || f.taxonomy?.descriptionTh || "",
+                    icon: getStoragePath(f.taxonomy?.featurePicturePath),
+                    nameTh: f.taxonomy?.nameTh,
+                    nameEn: f.taxonomy?.nameEn,
+                    descriptionTh: f.taxonomy?.descriptionTh,
+                    descriptionEn: f.taxonomy?.descriptionEn
                 }))
                 : (fallback?.features || []),
             categories: (data.supplierProductCategories || []).length > 0

@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Supplier } from "@/data/suppliers";
 import { SafeImage } from "@/components/ui/safe-image";
 
+import { VerifiedBadge } from "@/components/shared/VerifiedBadge";
+
 interface SupplierHeroProps {
   supplier: Supplier;
 }
@@ -16,18 +18,18 @@ export const SupplierHero = ({ supplier }: SupplierHeroProps) => {
       className="relative mb-24"
     >
       <div className="relative">
-        <div className="h-[280px] md:h-[380px] rounded-[2.5rem] overflow-hidden shadow-float border border-border/10 relative">
+        <div className="h-[400px] md:h-[500px] rounded-[1.5rem] overflow-hidden shadow-float border border-border/10 relative group">
           <SafeImage
             src={supplier.image}
             alt={supplier.name}
             fill={true}
-            className="object-cover"
+            className="object-cover transition-transform duration-1000 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-black/20" />
         </div>
 
-        <div className="absolute -bottom-12 left-6 md:left-10 flex items-end gap-5 md:gap-6 z-20">
-          <div className="w-24 h-24 md:w-40 md:h-40 rounded-[2rem] bg-card p-5 md:p-6 shadow-float border border-border/50 backdrop-blur-xl group hover:-translate-y-1 transition-transform duration-500">
+        <div className="absolute -bottom-12 left-6 md:left-10 flex items-end gap-5 md:gap-8 z-20">
+          <div className="w-28 h-28 md:w-48 md:h-48 rounded-[1rem] bg-card p-4 md:p-6 shadow-float border border-border/50 backdrop-blur-xl group hover:-translate-y-2 transition-transform duration-500 flex items-center justify-center">
             <SafeImage
               src={supplier.logo}
               alt={`${supplier.name} Logo`}
@@ -39,17 +41,12 @@ export const SupplierHero = ({ supplier }: SupplierHeroProps) => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="space-y-3"
+              className="space-y-4"
             >
-              <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-full bg-primary/20 text-primary text-[9px] font-black uppercase tracking-widest backdrop-blur-sm border border-primary/10">
-                  Verified Supplier
-                </span>
-                <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-600 text-[9px] font-black uppercase tracking-widest backdrop-blur-sm border border-green-500/10">
-                  Gold Member
-                </span>
+              <div className="flex items-center gap-3">
+                {supplier.isVerified && <VerifiedBadge />}
               </div>
-              <h1 className="text-3xl md:text-5xl font-black tracking-tight text-foreground drop-shadow-sm">
+              <h1 className="text-4xl md:text-6xl font-black tracking-tight text-foreground drop-shadow-sm leading-none">
                 {supplier.name}
               </h1>
             </motion.div>
@@ -57,16 +54,18 @@ export const SupplierHero = ({ supplier }: SupplierHeroProps) => {
         </div>
       </div>
 
-      <div className="mt-16 md:hidden space-y-3 px-2">
-        <div className="flex items-center gap-2">
-          <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[8px] font-black uppercase tracking-widest border border-primary/5">
-            Verified
-          </span>
-          <span className="px-2.5 py-0.5 rounded-full bg-green-500/10 text-green-600 text-[8px] font-black uppercase tracking-widest border border-green-500/5">
-            Gold
-          </span>
+      <div className="mt-20 md:hidden space-y-4 px-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          {supplier.isVerified && <VerifiedBadge />}
+          {supplier.isVerified && (
+            <span className="px-3 py-1 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-white text-[10px] font-black uppercase tracking-widest shadow-md">
+              Gold
+            </span>
+          )}
         </div>
-        <h1 className="text-3xl font-black tracking-tight">{supplier.name}</h1>
+        <h1 className="text-3xl font-black tracking-tight leading-tight">
+          {supplier.name}
+        </h1>
       </div>
     </motion.div>
   );

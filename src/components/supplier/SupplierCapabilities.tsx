@@ -1,10 +1,14 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
 import { Award } from "lucide-react";
 import { Supplier } from "@/data/suppliers";
 import { SafeImage } from "@/components/ui/safe-image";
-import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface SupplierCapabilitiesProps {
   features: Supplier["features"];
@@ -13,18 +17,33 @@ interface SupplierCapabilitiesProps {
 export const SupplierCapabilities = ({
   features,
 }: SupplierCapabilitiesProps) => {
+  const { language } = useLanguage();
+
   return (
     <section className="space-y-6">
       <h2 className="text-2xl font-black tracking-tight flex items-center gap-3">
         <span className="p-2 rounded-xl bg-coral/50 text-coral-foreground">
           <Award className="w-5 h-5" />
         </span>
-        Strength in <span className="text-primary italic">Every Layer</span>
+        {language === "th" ? (
+          <>
+            จุดเด่นของเรา{" "}
+            <span className="text-primary italic">(Highlights)</span>
+          </>
+        ) : (
+          <>
+            Strength in <span className="text-primary italic">Every Layer</span>
+          </>
+        )}
       </h2>
 
       <div className="flex flex-wrap gap-4 p-6 md:p-8 rounded-[2rem] bg-card/30 border border-border/50 backdrop-blur-xl">
         {features.map((feature, idx) => (
-          <FeatureChip key={feature.id || idx} feature={feature} />
+          <FeatureItem
+            key={feature.id || idx}
+            feature={feature}
+            language={language}
+          />
         ))}
         {features.length === 0 && (
           <p className="text-xs text-muted-foreground italic">
@@ -36,46 +55,54 @@ export const SupplierCapabilities = ({
   );
 };
 
-const FeatureChip = ({ feature }: { feature: Supplier["features"][0] }) => {
-  const [isHovered, setIsHovered] = useState(false);
+const FeatureItem = ({
+  feature,
+  language,
+}: {
+  feature: Supplier["features"][0];
+  language: string;
+}) => {
+  const title =
+    language === "th" && feature.nameTh ? feature.nameTh : feature.title;
+  // Note: feature.description might already be mapped to nameTh in suppliers.ts, but ideally we check specific fields
+  // For now we trust the passed object or standard fallbacks
+  const description = feature.description;
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <motion.div
-        whileHover={{ scale: 1.1, rotate: 5 }}
-        className="w-12 h-12 rounded-full bg-white shadow-lg border border-border/50 p-2.5 cursor-help flex items-center justify-center overflow-hidden bg-gradient-to-br from-white to-accent/20"
-      >
-        <SafeImage
-          src={feature.icon}
-          alt={feature.title}
-          className="w-full h-full object-contain"
-        />
-      </motion.div>
-
-      <AnimatePresence>
-        {isHovered && (
-          <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.9 }}
-            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 z-50 w-64 max-w-[90vw] p-4 rounded-2xl bg-foreground text-background shadow-2xl pointer-events-none"
-          >
-            <div className="space-y-1 break-words">
-              <p className="text-xs font-black uppercase tracking-widest text-primary/80">
-                {feature.title}
-              </p>
-              <p className="text-sm font-medium leading-relaxed">
-                {feature.description}
-              </p>
+    <Popover>
+      <PopoverTrigger asChild>
+        <div className="w-16 h-16 rounded-2xl bg-white shadow-sm border border-border/50 p-3 cursor-pointer hover:scale-110 hover:shadow-lg hover:border-primary/30 transition-all duration-300 flex items-center justify-center group relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-white to-accent/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="relative w-full h-full">
+            <SafeImage
+              src={feature.icon}
+              alt={title}
+              className="object-contain p-1"
+            />
+          </div>
+        </div>
+      </PopoverTrigger>
+      <PopoverContent className="w-72 p-4 rounded-xl shadow-xl border-border/50 bg-white/95 backdrop-blur-md">
+        <div className="space-y-2">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-accent/20 p-1.5 border border-border/20 shrink-0">
+              <SafeImage
+                src={feature.icon}
+                alt={title}
+                className="object-contain"
+              />
             </div>
-            <div className="absolute top-full left-1/2 -translate-x-1/2 w-3 h-3 bg-foreground rotate-45 -mt-1.5" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+            <h4 className="font-bold text-sm leading-tight text-foreground">
+              {title}
+            </h4>
+          </div>
+          {description && (
+            <p className="text-xs text-muted-foreground leading-relaxed pl-11">
+              {description}
+            </p>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 };
