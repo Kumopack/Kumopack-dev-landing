@@ -91,12 +91,12 @@ export interface ArticleParams {
 }
 
 export const learningApi = {
-    // 📚 บทความ (Articles)
+    
     async getArticles(params: ArticleParams = {}): Promise<ArticlesResponse> {
         try {
             const queryParams = new URLSearchParams();
             
-            // Align with NestJS Controller: @Query('categorySlug'), @Query('tagSlug')
+            
             if (params.category && params.category !== 'all') {
                 queryParams.append('categorySlug', params.category);
             }
@@ -113,7 +113,7 @@ export const learningApi = {
                 queryParams.append('difficulty', params.difficulty);
             }
             
-            // targetAudience is REQUIRED by the backend in getPublicArticles
+            
             queryParams.append('targetAudience', params.targetAudience || 'buyer');
             queryParams.append('lang', params.lang || 'th');
             
@@ -164,7 +164,7 @@ export const learningApi = {
 
     async getArticlesByCategory(slug: string, audience: 'buyer' | 'supplier', lang: string = 'th'): Promise<LearningArticle[]> {
         try {
-            // Route: /v1/learning-center/{lang}/category/{categorySlug}?targetAudience={audience}
+            
             const url = `${API_BASE_URL}/${lang}/category/${encodeURIComponent(slug)}?targetAudience=${audience}`;
             const res = await fetch(url);
             if (!res.ok) return [];
@@ -178,7 +178,7 @@ export const learningApi = {
 
     async getArticlesByTag(slug: string, audience: 'buyer' | 'supplier', lang: string = 'th'): Promise<LearningArticle[]> {
         try {
-            // Route: /v1/learning-center/{lang}/tag/{tagSlug}?targetAudience={audience}
+            
             const url = `${API_BASE_URL}/${lang}/tag/${encodeURIComponent(slug)}?targetAudience=${audience}`;
             const res = await fetch(url);
             if (!res.ok) return [];
@@ -235,7 +235,7 @@ export const learningApi = {
         }
     },
 
-    // 🏷️ หมวดหมู่ & แท็ก
+    
     async getCategories(targetAudience?: string, lang: string = 'th'): Promise<Category[]> {
         try {
             const queryParams = new URLSearchParams();
@@ -265,7 +265,7 @@ export const learningApi = {
         }
     },
 
-    // ❓ FAQ
+    
     async getFaqs(targetAudience?: string, lang: string = 'th'): Promise<any[]> {
         try {
             const queryParams = new URLSearchParams();
@@ -292,7 +292,7 @@ export const learningApi = {
         }
     },
 
-    // 🔧 Utilities
+    
     async getSitemap(lang: string = 'th'): Promise<{ articles: { slug: string }[], categories?: Category[], tags?: Tag[] }> {
         try {
             const res = await fetch(`${API_BASE_URL}/sitemap?lang=${lang}`);
@@ -321,8 +321,8 @@ export const learningApi = {
         if (path.startsWith('http') || path.startsWith('data:')) {
             return path;
         }
-        // Base URL should be the root of the v1 API because paths from backend 
-        // already include subfolders like 'images/' or 'videos/'
+        
+        
         const storageBase = 'https://api.kumopack.com/v1/';
         const cleanPath = path.startsWith('/') ? path.slice(1) : path;
         return `${storageBase}${cleanPath}`;

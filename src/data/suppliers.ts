@@ -3,7 +3,7 @@ export interface SupplierFeature {
     title: string;
     description: string;
     icon: string;
-    // Extended fields
+    
     nameTh?: string;
     nameEn?: string;
     descriptionTh?: string;
@@ -87,10 +87,10 @@ function extractProvince(address: string): string {
         }
     }
     
-    // Fallback: try to find the last part if it looks like a province (naive)
+    
     const parts = address.split(' ');
     if (parts.length > 2) {
-        // usually zip code is last, province is before that
+        
         const possibleProvince = parts[parts.length - 2]; 
         if (possibleProvince && /^[a-zA-Z]+$/.test(possibleProvince)) {
              return possibleProvince;
@@ -192,7 +192,7 @@ export async function getSupplierData(slug: string): Promise<Supplier | null> {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.kumopack.com/v1"}/supplier/${slug}`);
 
-        // Find mock fallback just in case
+        
         const fallback = suppliers.find(s => s.id === slug);
 
         if (!response.ok) return fallback || null;
@@ -262,7 +262,7 @@ export async function getSupplierData(slug: string): Promise<Supplier | null> {
             isVerified: checkIsVerified(data.supplierFeatures)
         };
     } catch (error) {
-        // Return mock data if API is down
+        
         return suppliers.find(s => s.id === slug) || null;
     }
 }

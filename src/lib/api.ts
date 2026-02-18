@@ -23,7 +23,7 @@ export const api = {
     async getArticles(page = 1, limit = 10): Promise<ArticlesResponse> {
         try {
             const res = await fetch(`${API_BASE_URL}/articles?page=${page}&limit=${limit}`, {
-                next: { revalidate: 3600 } // Cache for 1 hour
+                next: { revalidate: 3600 } 
             });
 
             if (!res.ok) {

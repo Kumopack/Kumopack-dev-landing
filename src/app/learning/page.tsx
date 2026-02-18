@@ -29,7 +29,6 @@ function LearningPageContent() {
   const pathname = usePathname();
   const isTh = language === "th";
 
-  // State management
   const [search, setSearch] = useState("");
   const [selectedCategorySlug, setSelectedCategorySlug] = useState("all");
   const [articles, setArticles] = useState<LearningArticle[]>([]);
@@ -41,7 +40,6 @@ function LearningPageContent() {
   const [totalPages, setTotalPages] = useState(1);
   const limit = 12;
 
-  // Read initial audience from URL or default to buyer
   const initialAudience =
     (searchParams?.get("audience") as "buyer" | "supplier") || "buyer";
   const [currentAudience, setCurrentAudience] = useState<"buyer" | "supplier">(

@@ -6,14 +6,12 @@ $pricing-text-dark: #2d1b69;
 $pricing-text-gray: #6b7280;
 $pricing-text-light: #9ca3af;
 
-// Main Container
 .pricingContainer {
   background: linear-gradient(135deg, #faf7ff 0%, #f3f0ff 100%);
   min-height: 100vh;
   padding: 2rem 0;
 }
 
-// Hero Section
 .pricingHeroSection {
   text-align: center;
   padding: 4rem 2rem;
@@ -65,7 +63,6 @@ $pricing-text-light: #9ca3af;
   }
 }
 
-// Billing Toggle
 .pricingBillingToggle {
   display: inline-flex;
   background: rgba(255, 255, 255, 0.8);
@@ -123,7 +120,6 @@ $pricing-text-light: #9ca3af;
   }
 }
 
-// Pricing Grid
 .pricingGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -133,7 +129,6 @@ $pricing-text-light: #9ca3af;
   padding: 0 2rem;
 }
 
-// Pricing Card
 .pricingCard {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(20px);
@@ -317,7 +312,6 @@ $pricing-text-light: #9ca3af;
   }
 }
 
-// Feature Section
 .pricingFeatureSection {
   max-width: 1200px;
   margin: 6rem auto 0;

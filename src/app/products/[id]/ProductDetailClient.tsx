@@ -22,6 +22,8 @@ import { SafeImage } from "@/components/ui/safe-image";
 import { SustainabilityIcon } from "@/components/SustainabilityIcon";
 import { motion } from "framer-motion";
 
+import { ProductImageLightbox } from "@/components/product/ProductImageLightbox";
+
 export default function ProductDetailClient({
   id: initialId,
 }: {
@@ -39,7 +41,10 @@ export default function ProductDetailClient({
   const [activeTab, setActiveTab] = useState<
     "overview" | "materials" | "standards"
   >("overview");
+  // selectedImage defaults to the feature picture and isn't updated by thumbnails anymore
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const router = useRouter();
 
   const isTh = language === "th";
@@ -173,7 +178,13 @@ export default function ProductDetailClient({
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
           <div className="space-y-6">
-            <div className="aspect-square relative rounded-[3rem] overflow-hidden bg-muted/20 border border-border/50 shadow-inner">
+            <div
+              className="aspect-square relative rounded-[3rem] overflow-hidden bg-muted/20 border border-border/50 shadow-inner cursor-zoom-in"
+              onClick={() => {
+                setLightboxImage(mainImageToDisplay);
+                setLightboxOpen(true);
+              }}
+            >
               <SafeImage
                 src={
                   mainImageToDisplay &&
@@ -184,15 +195,15 @@ export default function ProductDetailClient({
                 key={mainImageToDisplay}
                 alt={isTh ? product.nameTh : product.nameEn}
                 fill
-                className="object-cover transition-all duration-500"
+                className="object-cover transition-all duration-500 hover:scale-105"
                 priority
               />
 
-              <div className="absolute top-6 left-6 flex flex-wrap gap-2">
+              <div className="absolute top-6 left-6 flex flex-wrap gap-2 pointer-events-none">
                 {product.productLine && (
                   <Link
                     href={`/products?lang=${language}`}
-                    className="px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-sm text-xs font-bold shadow-sm text-primary hover:bg-white transition-colors"
+                    className="px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-sm text-xs font-bold shadow-sm text-primary hover:bg-white transition-colors pointer-events-auto"
                   >
                     {isTh
                       ? product.productLine.nameTh
@@ -207,12 +218,11 @@ export default function ProductDetailClient({
                 {product.images.map((img, idx) => (
                   <div
                     key={idx}
-                    onClick={() => setSelectedImage(img.path)}
-                    className={`aspect-square relative rounded-2xl overflow-hidden bg-muted/20 border cursor-pointer transition-all ${
-                      selectedImage === img.path
-                        ? "border-primary shadow-md ring-2 ring-primary/20 scale-105"
-                        : "border-border/50 hover:border-primary/50"
-                    }`}
+                    onClick={() => {
+                      setLightboxImage(img.path);
+                      setLightboxOpen(true);
+                    }}
+                    className={`aspect-square relative rounded-2xl overflow-hidden bg-muted/20 border cursor-pointer transition-all border-border/50 hover:border-primary/50 hover:shadow-md`}
                   >
                     <SafeImage
                       src={productApi.getProductImage(img.path)}
@@ -224,6 +234,13 @@ export default function ProductDetailClient({
                 ))}
               </div>
             )}
+
+            <ProductImageLightbox
+              isOpen={lightboxOpen}
+              onClose={() => setLightboxOpen(false)}
+              imageSrc={lightboxImage}
+              productName={isTh ? product.nameTh : product.nameEn}
+            />
           </div>
 
           <div className="flex flex-col">

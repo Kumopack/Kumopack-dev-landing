@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 interface SustainabilityIconProps {
-  item: any; // The sustainability object from API
+  item: any;
   className?: string;
   showText?: boolean;
 }
@@ -30,30 +30,27 @@ export function SustainabilityIcon({
   const { language } = useLanguage();
   const isTh = language === "th";
 
-  const s = item.sustainability || item; // Handle nested or direct object
+  const s = item.sustainability || item;
   if (!s) return null;
 
-  const color = s.colorLabel || "#22c55e"; // Default green
+  const color = s.colorLabel || "#22c55e";
   const name = isTh ? s.nameTh : s.nameEn;
   const shortName = s.shortName || (name ? name[0] : "S");
 
-  // Map icons based on keywords or shortName
   const getIcon = () => {
-    // Check shortName first
     const code = (s.shortName || "").toLowerCase();
     if (code === "mr" || code === "cr")
-      return <PackageCheck className="w-4 h-4" />; // Material/Component Reduction
-    if (code === "wr" || code === "vr") return <Box className="w-4 h-4" />; // Weight/Volume Reduction
-    if (code === "lp") return <Globe className="w-4 h-4" />; // Local Production
-    if (code === "rm") return <Sprout className="w-4 h-4" />; // Renewable Materials
-    if (code === "rc") return <Recycle className="w-4 h-4" />; // Recycled Content
-    if (code === "pf") return <Leaf className="w-4 h-4" />; // Plastic Free
-    if (code === "rf") return <Trees className="w-4 h-4" />; // Responsible Forestry
+      return <PackageCheck className="w-4 h-4" />;
+    if (code === "wr" || code === "vr") return <Box className="w-4 h-4" />;
+    if (code === "lp") return <Globe className="w-4 h-4" />;
+    if (code === "rm") return <Sprout className="w-4 h-4" />;
+    if (code === "rc") return <Recycle className="w-4 h-4" />;
+    if (code === "pf") return <Leaf className="w-4 h-4" />;
+    if (code === "rf") return <Trees className="w-4 h-4" />;
     if (code === "ref" || code === "rt" || code === "ru")
-      return <RefreshCw className="w-4 h-4" />; // Reuse/Return/Refill
-    if (code === "b") return <Trash2 className="w-4 h-4" />; // Biodegradable (compostable)
+      return <RefreshCw className="w-4 h-4" />;
+    if (code === "b") return <Trash2 className="w-4 h-4" />;
 
-    // Fallback based on name keywords
     const lowerName = (s.nameEn || "").toLowerCase();
     if (lowerName.includes("water")) return <Droplets className="w-4 h-4" />;
     if (lowerName.includes("energy") || lowerName.includes("power"))
@@ -62,7 +59,6 @@ export function SustainabilityIcon({
     if (lowerName.includes("wind")) return <Wind className="w-4 h-4" />;
     if (lowerName.includes("carbon")) return <Leaf className="w-4 h-4" />;
 
-    // Generic default
     return <Leaf className="w-4 h-4" />;
   };
 

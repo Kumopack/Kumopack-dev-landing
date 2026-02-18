@@ -20,7 +20,7 @@ export default function MaterialDetailClient({
   const params = useParams();
   const rawId = params?.id;
   const paramId = Array.isArray(rawId) ? rawId[0] : rawId;
-  // Use prop ID if available (from SSG), otherwise fallback to params
+
   const id = initialId || paramId;
 
   const { dict, language } = useLanguage();
@@ -30,7 +30,6 @@ export default function MaterialDetailClient({
 
   const isTh = language === "th";
 
-  // Helper to access nested keys
   const t = (key: string) => {
     const keys = key.split(".");
     let current: any = dict;
@@ -55,10 +54,8 @@ export default function MaterialDetailClient({
       try {
         const decodedId = decodeURIComponent(id);
 
-        // 1. Try direct slug fetch
         let foundMaterial = await materialApi.getMaterialBySlug(decodedId);
 
-        // 2. Fallback: Search in all materials
         if (!foundMaterial) {
           console.warn(
             `Material not found by slug '${decodedId}', trying fallback...`,
@@ -93,7 +90,6 @@ export default function MaterialDetailClient({
     fetchMaterial();
   }, [id]);
 
-  // Visual URL Update
   useEffect(() => {
     if (!material || !material.slug) return;
 
@@ -130,7 +126,6 @@ export default function MaterialDetailClient({
     );
   }
 
-  // Determine description logic - Bilingual
   const shortDesc = isTh
     ? material.shortDescription || ""
     : material.shortDescriptionEn || material.shortDescription || "";

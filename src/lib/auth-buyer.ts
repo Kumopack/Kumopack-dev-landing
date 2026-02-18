@@ -40,11 +40,11 @@ function getCookie(name: string): string | null {
 function isTokenExpired(token: string): boolean {
     try {
         const parts = token.split('.');
-        if (parts.length !== 3) return false; // Not a standard JWT, can't verify expiry this way
+        if (parts.length !== 3) return false; 
 
         const payload = JSON.parse(atob(parts[1]));
         if (payload && payload.exp) {
-            // exp is in seconds, Date.now() is in milliseconds
+            
             return Date.now() >= payload.exp * 1000;
         }
         return false;
@@ -73,12 +73,12 @@ export function getBuyerAuth(): BuyerAuthInfo {
         profile = null;
     }
 
-    // Basic validity check
+    
     if (!token || !profile || !profile.id) {
         return { isAuthenticated: false, token: null, profile: null };
     }
 
-    // Expiry check
+    
     if (isTokenExpired(token)) {
         return { isAuthenticated: false, token: null, profile: null };
     }

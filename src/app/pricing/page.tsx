@@ -403,7 +403,10 @@ const ensureStandardPackage = (
   return orderedResult;
 };
 
-export default function PricingPage() {
+import { Suspense } from "react";
+import { Loader2 } from "lucide-react";
+
+function PricingContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -682,5 +685,19 @@ export default function PricingPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function PricingPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-white">
+          <Loader2 className="w-10 h-10 text-primary animate-spin" />
+        </div>
+      }
+    >
+      <PricingContent />
+    </Suspense>
   );
 }

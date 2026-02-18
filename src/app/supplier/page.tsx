@@ -15,16 +15,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 export default function SupplierPage() {
   const { dict } = useLanguage();
   const [supplierList, setSupplierList] = useState<Supplier[]>([]);
-  // filteredList is now just the same as supplierList because filtering is server-side
+
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [isLoading, setIsLoading] = useState(true);
 
-  // Pagination & Filter State
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const itemsPerPage = 12; // Adjusted to user preference/default
+  const itemsPerPage = 12;
 
-  // Keep track of active filters to pass to API
   const [activeFilters, setActiveFilters] = useState<FilterState>({
     search: "",
     location: "All Locations",
@@ -50,27 +48,22 @@ export default function SupplierPage() {
     }
   }, [currentPage, activeFilters]);
 
-  // Fetch when page or filters change
   useEffect(() => {
     fetchSuppliers();
   }, [fetchSuppliers]);
 
-  // Scroll to top when page changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
   const handleFilterChange = useCallback((newFilters: FilterState) => {
-    // Check if filters really changed to avoid loops
-    // Simple JSON stringify comparison or specific field check
     setActiveFilters((prev) => {
       if (JSON.stringify(prev) === JSON.stringify(newFilters)) return prev;
       return newFilters;
     });
-    setCurrentPage(1); // Reset to page 1 on filter change
+    setCurrentPage(1);
   }, []);
 
-  // Calculate total pages based on API total
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (

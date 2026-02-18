@@ -30,7 +30,6 @@ export default function FAQPage() {
     setOpenItems((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Filter FAQs based on search
   const filteredSections = faqSections.map((section) => ({
     ...section,
     items: section.items.filter(

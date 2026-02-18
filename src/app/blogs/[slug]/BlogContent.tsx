@@ -28,7 +28,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Simplified URL sync to prevent flickering/loops
   useEffect(() => {
     const urlLang = searchParams?.get("lang");
     if (
@@ -47,6 +46,11 @@ export default function BlogContent({ blog }: { blog: Article }) {
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }
   }, [language, pathname, router]);
+
+  useEffect(() => {
+    router.refresh();
+  }, [router]);
+
   const [related, setRelated] = useState<Article[]>([]);
   const [loadingRelated, setLoadingRelated] = useState(true);
   const [anchors, setAnchors] = useState<{ id: string; text: string }[]>([]);
@@ -120,7 +124,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
     blogApi.incrementView(blog.slug);
   }, [blog.slug, description, isTh, conclusion, blog.id]);
 
-  // Update document title on client when language changes (since server metadata is static for export)
   useEffect(() => {
     if (typeof document !== "undefined") {
       document.title = `${name} | Kumopack Blog`;
@@ -576,7 +579,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
                               ? decodedSrc
                               : blogApi.getAssetPath(decodedSrc);
 
-                            // Move logic to CSS class for a cleaner HTML output as requested
                             return `<img src="${finalSrc}" alt="Article Illustration" />`;
                           },
                         );

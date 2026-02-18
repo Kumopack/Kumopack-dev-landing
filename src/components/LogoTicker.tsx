@@ -2,9 +2,7 @@
 
 import { motion } from "framer-motion";
 
-// Abstract logo icons as SVG components
 const LogoIcons = [
-  // Factory77 style - geometric building
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <path
@@ -15,7 +13,7 @@ const LogoIcons = [
       <rect x="22" y="28" width="6" height="8" fill="hsl(200, 70%, 40%)" />
     </svg>
   ),
-  // Lazada style - heart
+
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <path
@@ -30,7 +28,7 @@ const LogoIcons = [
       </defs>
     </svg>
   ),
-  // Shopee style - shopping bag
+
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <rect x="8" y="16" width="32" height="28" rx="4" fill="#EE4D2D" />
@@ -52,7 +50,7 @@ const LogoIcons = [
       </text>
     </svg>
   ),
-  // Nok Air style - bird circle
+
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <circle
@@ -72,7 +70,7 @@ const LogoIcons = [
       <circle cx="30" cy="22" r="2" fill="#1a1a1a" />
     </svg>
   ),
-  // eBay style - colorful letters
+
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <circle cx="12" cy="24" r="8" fill="#E53238" />
@@ -81,7 +79,7 @@ const LogoIcons = [
       <circle cx="30" cy="32" r="6" fill="#86B817" />
     </svg>
   ),
-  // depa style - bird
+
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <path
@@ -94,7 +92,7 @@ const LogoIcons = [
       <circle cx="40" cy="18" r="4" fill="#FACC15" />
     </svg>
   ),
-  // Ninja Van style - ninja mask
+
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <ellipse cx="24" cy="24" rx="18" ry="10" fill="#C41E3A" />
@@ -104,14 +102,14 @@ const LogoIcons = [
       <circle cx="32" cy="24" r="2" fill="#1a1a1a" />
     </svg>
   ),
-  // Flash style - lightning
+
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <rect x="8" y="8" width="32" height="32" rx="4" fill="#FFD700" />
       <path d="M28 8L18 26H24L20 40L32 20H26L28 8Z" fill="#0066CC" />
     </svg>
   ),
-  // Peak style - square badge
+
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <rect x="8" y="12" width="32" height="24" rx="2" fill="#2563EB" />
@@ -127,7 +125,7 @@ const LogoIcons = [
       </text>
     </svg>
   ),
-  // AirAsia style - red circle
+
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <circle cx="24" cy="24" r="18" fill="#DC2626" />
@@ -141,7 +139,7 @@ const LogoIcons = [
       />
     </svg>
   ),
-  // Abstract hexagon
+
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <polygon points="24,4 44,14 44,34 24,44 4,34 4,14" fill="url(#hex)" />
@@ -153,7 +151,7 @@ const LogoIcons = [
       </defs>
     </svg>
   ),
-  // Abstract diamond
+
   () => (
     <svg viewBox="0 0 48 48" className="w-10 h-10 md:w-12 md:h-12">
       <path d="M24 4L44 24L24 44L4 24Z" fill="#10B981" />
@@ -163,7 +161,6 @@ const LogoIcons = [
 ];
 
 const LogoTicker = () => {
-  // Duplicate logos for seamless infinite scroll
   const duplicatedLogos = [...LogoIcons, ...LogoIcons];
 
   return (

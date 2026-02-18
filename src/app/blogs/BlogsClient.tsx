@@ -49,18 +49,23 @@ export default function BlogsClient({
   const selectedCategory = searchParams?.get("category") || "All";
   const limit = 6;
 
-  // Sync state with server-provided props on navigation (e.g. Category change)
   useEffect(() => {
     setArticles(initialArticles || []);
     setTotalItems(initialTotalItems);
     setCategories(initialCategories);
-    setCurrentPage(1); // Ensure we are on page 1 when category changes via props
+    setCurrentPage(1);
+    console.log("BlogsClient: Props updated", {
+      initialArticlesCount: initialArticles?.length,
+    });
   }, [initialArticles, initialTotalItems, initialCategories]);
 
-  // Client-side fetching for Pagination ONLY (Page > 1)
-  // We rely on Server Component to fetch Page 1 data (via props)
   useEffect(() => {
-    if (currentPage === 1) return; // Skip fetch for Page 1, use props instead
+    console.log("BlogsClient: Mount - Forcing router.refresh()");
+    router.refresh();
+  }, [router]);
+
+  useEffect(() => {
+    if (currentPage === 1) return;
 
     const fetchArticles = async () => {
       setLoading(true);
@@ -82,7 +87,6 @@ export default function BlogsClient({
     fetchArticles();
   }, [currentPage, selectedCategory, limit]);
 
-  // URL Sync for Language
   useEffect(() => {
     const urlLang = searchParams?.get("lang");
     if (
@@ -109,7 +113,7 @@ export default function BlogsClient({
     } else {
       params.set("category", slug);
     }
-    setCurrentPage(1); // Reset page on category change
+    setCurrentPage(1);
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 

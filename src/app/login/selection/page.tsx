@@ -35,20 +35,15 @@ function LoginSelectionContent() {
       ? `${baseUrl}/auth?${params.toString()}`
       : `${baseUrl}/auth`;
 
-    // Set cookies based on role
     if (role === "buyer") {
       document.cookie =
         "kumopack-buyer-access-token=mock_buyer_token; path=/; max-age=86400";
-      document.cookie = "kumopack-supplier-access-token=; path=/; max-age=0"; // Clear other
+      document.cookie = "kumopack-supplier-access-token=; path=/; max-age=0";
     } else {
       document.cookie =
         "kumopack-supplier-access-token=mock_supplier_token; path=/; max-age=86400";
-      document.cookie = "kumopack-buyer-access-token=; path=/; max-age=0"; // Clear other
+      document.cookie = "kumopack-buyer-access-token=; path=/; max-age=0";
     }
-
-    // In a real app, we would redirect to the auth URL.
-    // For this demo/test, we redirect back to pricing or home
-    // window.location.href = finalUrl;
 
     console.log(`Mock login as ${role} successful. Cookies set.`);
     window.location.href = "/pricing?type=" + role;

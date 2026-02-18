@@ -24,7 +24,6 @@ export default function ProductsPage() {
         const categoriesRes = await productApi.getProductLines();
         setCategories(categoriesRes);
 
-        // Default to "Corrugated Box" or first category
         const defaultCategory =
           categoriesRes.find(
             (c) =>

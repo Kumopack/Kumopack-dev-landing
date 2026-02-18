@@ -58,7 +58,6 @@ export const SupplierActionCenter = ({
           if (response.ok) {
             window.location.href = BUYER_URLS.FAVORITE;
           } else {
-            // Even if it fails, maybe redirect to favorite page to see existing ones
             window.location.href = BUYER_URLS.FAVORITE;
           }
         } catch (error) {

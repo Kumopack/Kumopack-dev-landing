@@ -14,9 +14,6 @@ export const SupplierPortfolio = ({ categories }: SupplierPortfolioProps) => {
   const { language } = useLanguage();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Calculate if we likely need expansion (e.g. more than 12 items total)
-  // 12 items = 2 rows of 6 (if screen wide) or 3 rows of 4.
-  // With 100px items, we fit many.
   const totalItems = categories.reduce((acc, cat) => acc + cat.items.length, 0);
   const showToggle = totalItems > 12;
 

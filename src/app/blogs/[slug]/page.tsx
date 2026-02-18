@@ -7,17 +7,16 @@ import { getSafeSlug, slugMatches } from "@/lib/slug-utils";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
-// Allow any slug to be attempted (SSR), essential for dynamic blogs and new content
-export const dynamicParams = true;
+export const dynamicParams = false;
+export const revalidate = 0;
 
-// Limit static generation in dev to speed up Fast Refresh
 export async function generateStaticParams() {
   if (process.env.NODE_ENV === "development") {
     return [];
   }
 
   try {
-    const response = await blogApi.getArticles(1, 20); // Limit to recent 20 for build speed
+    const response = await blogApi.getArticles(1, 20);
     if (!response.data || response.data.length === 0) return [];
 
     return response.data
@@ -110,6 +109,22 @@ export default async function BlogDetailPage({
   } catch (error) {}
 
   if (!blog) {
+    if (process.env.NODE_ENV === "production") {
+      // In static export, if it's not in generateStaticParams, it's a 404 (or fallback if configured)
+      // But since we set dynamicParams = false, we shouldn't reach here for unknown slugs unless we return a 404.
+      // However, to be safe and allow client-side hydration to try:
+    }
+
+    // For static export build, we might need to return null or handle this.
+    // But better yet, let's allow it to render a "shell" that client-side logic can populate if needed?
+    // Actually, with dynamicParams=false, Next.js will 404 any path not in generateStaticParams.
+    // So this fallback logic is mostly for dev mode or if we relax the config.
+
+    // If we want to support dynamic slugs in a static export, we CANNOT.
+    // We MUST pre-render all of them.
+    // So this server-side fetch attempt in the component body is technically useless for `output: export`
+    // because the component runs ONLY at build time.
+
     blog = {
       id: -1,
       slug: decodedSlug,

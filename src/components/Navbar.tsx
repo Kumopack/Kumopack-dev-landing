@@ -47,7 +47,7 @@ const Navbar = () => {
   const handleMouseLeave = () => {
     const id = setTimeout(() => {
       setActiveDropdown(null);
-    }, 150); // Small delay to prevent flickering
+    }, 150);
     setTimeoutId(id);
   };
 

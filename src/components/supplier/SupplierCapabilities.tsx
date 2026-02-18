@@ -64,8 +64,7 @@ const FeatureItem = ({
 }) => {
   const title =
     language === "th" && feature.nameTh ? feature.nameTh : feature.title;
-  // Note: feature.description might already be mapped to nameTh in suppliers.ts, but ideally we check specific fields
-  // For now we trust the passed object or standard fallbacks
+
   const description = feature.description;
 
   return (

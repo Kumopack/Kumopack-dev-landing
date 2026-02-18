@@ -3,13 +3,16 @@ import { blogApi } from "@/lib/blog-api";
 import BlogsClient from "./BlogsClient";
 import { Loader2 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function BlogsPage(props: {
   searchParams: Promise<{ category?: string; lang?: string }>;
 }) {
   const searchParams = await props.searchParams;
   const category = searchParams.category || "All";
 
-  // Pre-fetch data on the server for faster initial render
+  console.log("BlogsPage: Fetching initial data...");
   try {
     const [articlesRes, categories] = await Promise.all([
       blogApi.getArticles(1, 6, category),
@@ -25,7 +28,7 @@ export default async function BlogsPage(props: {
         }
       >
         <BlogsClient
-          initialArticles={articlesRes.data}
+          initialArticles={articlesRes?.data || []}
           initialTotalItems={articlesRes.totalItems}
           initialCategories={categories}
         />
@@ -33,7 +36,7 @@ export default async function BlogsPage(props: {
     );
   } catch (error) {
     console.error("Error pre-fetching blog data:", error);
-    // Fallback if server-side fetching errors
+
     return (
       <Suspense
         fallback={

@@ -35,6 +35,6 @@ export const checkLoginStatus = (): AuthStatus => {
 export const logout = () => {
   Cookies.remove(COOKIE_KEYS.BUYER_ACCESS_TOKEN);
   Cookies.remove(COOKIE_KEYS.SUPPLIER_ACCESS_TOKEN);
-  // Add other cleanup if necessary
+  
   window.location.href = '/';
 };

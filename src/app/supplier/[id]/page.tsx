@@ -73,7 +73,6 @@ export async function generateStaticParams() {
     const data = await response.json();
     const apiSuppliers = data?.data || [];
 
-    // Always include mock suppliers to prevent 404s for them
     const allSlugs = new Set([
       ...apiSuppliers.map((s: any) => String(s.slug || s.id)),
       ...suppliers.map((s) => s.id),

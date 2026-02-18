@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import FAQPage from "./FAQClient";
 import { faqSections } from "./faqData";
 
-// Generate FAQ JSON-LD for SEO
 function generateFAQJsonLd() {
   const allFAQs = faqSections.flatMap((section) =>
     section.items.map((item) => ({

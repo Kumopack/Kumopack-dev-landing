@@ -59,23 +59,23 @@ export const pricingService = {
     }
   },
 
-  // Payment methods are not strictly needed for the initial view refactor 
-  // but are good to have for "Get Started" if we go that far. 
-  // For now I will include them to match the reference service structure.
+  
+  
+  
 
   createBuyerPayment: async (packageUuid: string, billingType: string) => {
-    // Implementation placeholder matching reference
-    // In a real scenario, this would post to the endpoint
-    // For this refactor, we focus on the View first, but I'll add the method signature.
+    
+    
+    
      try {
-        // NOTE: The reference code uses /api/v1 for this call (with "api" prefix?), but /v1 for others?
-        // Reference: fetch('/api/v1/membership/purchase/card?userType=buyer' ...
-        // Reference other: fetch('/v1/membership/public-list?userType=buyer' ...
-        // I should probably stick to NEXT_PUBLIC_API_ENDPOINT. 
-        // If NEXT_PUBLIC_API_ENDPOINT is http://localhost:8000/v1
-        // then `${API_ENDPOINT}/membership...` works.
-        // If the reference had /api/v1, it might be a Next.js proxy route? 
-        // But the user said "use NEXT_PUBLIC_API_ENDPOINT".
+        
+        
+        
+        
+        
+        
+        
+        
         
         const response = await fetch(`${API_ENDPOINT}/membership/purchase/card?userType=buyer`, {
             method: 'POST',

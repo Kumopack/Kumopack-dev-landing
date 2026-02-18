@@ -1,7 +1,7 @@
 
 export interface TaxonomyOption {
     id: string | number;
-    label: string; // mapped from nameEn or nameTh
+    label: string; 
     nameEn?: string;
     nameTh?: string;
 }
@@ -28,7 +28,7 @@ export async function getCategories(): Promise<TaxonomyOption[]> {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000/v1"}/options/product-lines`);
         if (!response.ok) throw new Error("Failed to fetch product lines");
         const data = await response.json();
-        // Assume data is array of objects { id, nameEn, nameTh }
+        
         return Array.isArray(data) ? data.map((item: any) => ({
             id: String(item.id),
             label: item.nameEn || item.nameTh || "Unknown",
@@ -46,7 +46,7 @@ export async function getFeatures(): Promise<TaxonomyOption[]> {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000/v1"}/options/supplier-features`);
         if (!response.ok) throw new Error("Failed to fetch supplier features");
         const data = await response.json();
-        // Assume data is array of objects { id, nameEn, nameTh }
+        
         return Array.isArray(data) ? data.map((item: any) => ({
             id: String(item.id),
             label: item.nameEn || item.nameTh || "Unknown",

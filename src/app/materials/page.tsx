@@ -23,21 +23,19 @@ export default function MaterialsPage() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Initial load: Get categories, set default to "Corrugated Box", then fetch its materials
   useEffect(() => {
     const init = async () => {
       try {
         const cats = await productApi.getProductLines();
         setCategories(cats);
 
-        // Default to "Corrugated Box" (กล่องกระดาษลูกฟูก) or first available
         const defaultCat =
           cats.find((c) => c.nameEn.toLowerCase().includes("corrugated")) ||
           cats[0];
 
         if (defaultCat) {
           setSelectedCategory(defaultCat.id);
-          // Fetch materials for default category
+
           const matRes = await materialApi.getAllMaterials(
             1,
             100,

@@ -26,19 +26,10 @@ export const SafeImage = ({
     setError(false);
   }, [src]);
 
-  // Determine what to show
-  // 1. If error occurred and we have a fallback, use fallback.
-  // 2. Otherwise use the safeSrc.
   const finalSrc = error && fallbackSrc ? fallbackSrc : safeSrc;
 
-  // Fallback dimensions if not provided and not using fill
   const finalWidth = !fill && !width ? 1200 : width;
   const finalHeight = !fill && !height ? 800 : height;
-
-  // Final check: if we have no source to show at all (no src provided, or src empty and no fallback)
-  // render the "Image Unavailable" placeholder.
-  // Note: if src is provided but broken, we rely on onError to switch to fallback.
-  // If we switched to fallback and that is also broken (or missing), we might still try to render it.
 
   if (!finalSrc && !fallbackSrc) {
     return (

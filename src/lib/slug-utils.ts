@@ -7,7 +7,7 @@
 export function getSafeSlug(slug: string): string {
   if (!slug) return "";
 
-  // 1. Decode EVERYTHING first to get the clean original characters (like Thai chars)
+  
   let decoded = slug;
   try {
     let prev = "";
@@ -16,15 +16,15 @@ export function getSafeSlug(slug: string): string {
       decoded = decodeURIComponent(decoded);
     }
   } catch (e) {
-    // Ignore decoding errors
+    
   }
   
-  // 2. Normalize to NFC for consistent filesystem/routing
+  
   decoded = decoded.normalize("NFC");
   
-  // 3. Handle truncation safely for Thai/Multi-byte characters
-  // A conservative safe limit for filenames. Thai characters use multiple bytes.
-  // Using 30 to be very safe with Thai characters (30 * 3 = 90 bytes)
+  
+  
+  
   if (decoded.length <= 30) return decoded;
 
   let truncated = [...decoded].slice(0, 30).join("");
@@ -38,7 +38,7 @@ function simpleHash(str: string): string {
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
     hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32bit integer
+    hash = hash & hash; 
   }
   return Math.abs(hash).toString(36).substring(0, 5);
 }

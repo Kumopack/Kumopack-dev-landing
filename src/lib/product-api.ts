@@ -66,7 +66,7 @@ export const productApi = {
 
     async getAllProducts(page = 1, limit = 10, productLineId?: number): Promise<ProductsResponse> {
         try {
-            // Public Endpoint: /v1/product
+            
             let url = `${API_BASE_URL}/product?page=${page}&limit=${limit}`;
             if (productLineId) {
                 url += `&productLine=${productLineId}`;
@@ -93,7 +93,7 @@ export const productApi = {
 
     async getProductBySlug(slug: string): Promise<Product | null> {
         try {
-            // Public Endpoint: /v1/product/:slug
+            
             const res = await fetch(`${API_BASE_URL}/product/${slug}`, {
                 next: { revalidate: 60 }
             });
@@ -112,7 +112,7 @@ export const productApi = {
 
     async getProductLines(): Promise<ProductLine[]> {
         try {
-             // Fetches product lines (categories)
+             
              const res = await fetch(`${API_BASE_URL}/product/product-lines`, {
                 next: { revalidate: 3600 }
             });
@@ -128,7 +128,7 @@ export const productApi = {
         }
     },
 
-    // Kept for backward compatibility if needed, but redirects to getProductBySlug logic
+    
     async getProductById(id: number | string): Promise<Product | null> {
         return this.getProductBySlug(String(id));
     },
