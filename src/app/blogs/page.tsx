@@ -3,14 +3,11 @@ import { blogApi } from "@/lib/blog-api";
 import BlogsClient from "./BlogsClient";
 import { Loader2 } from "lucide-react";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 
-export default async function BlogsPage(props: {
-  searchParams: Promise<{ category?: string; lang?: string }>;
-}) {
-  const searchParams = await props.searchParams;
-  const category = searchParams.category || "All";
+export default async function BlogsPage() {
+  const category = "All";
 
   console.log("BlogsPage: Fetching initial data...");
   try {

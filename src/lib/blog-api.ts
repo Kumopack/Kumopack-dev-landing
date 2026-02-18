@@ -131,7 +131,7 @@ export const blogApi = {
         url += `&category[]=${encodeURIComponent(category)}`;
       }
       console.log(`[blogApi] getArticles URL: ${url}`);
-      const res = await fetchWithTimeout(url, { cache: "no-store" }); // No cache
+      const res = await fetchWithTimeout(url); // Default cache behavior for static build
       if (!res.ok) {
         console.error(
           `[blogApi] Failed to fetch articles: ${res.status} ${res.statusText}`,
@@ -158,7 +158,7 @@ export const blogApi = {
 
       console.log(`[blogApi] Extracting ID from slug: ${slug} -> ${idOrSlug}`);
       const url = `${API_BASE_URL}/articles/${encodeURIComponent(idOrSlug)}`;
-      const res = await fetchWithTimeout(url, { cache: "no-store" }); // No cache
+      const res = await fetchWithTimeout(url); // Default cache behavior for static build
       if (!res.ok) return null;
       const article = await res.json();
 
@@ -194,8 +194,7 @@ export const blogApi = {
     try {
       const res = await fetchWithTimeout(
         `${API_BASE_URL}/articles/${encodeURIComponent(slug)}/related`,
-        { cache: "no-store" },
-      ); // No cache
+      ); // No cache option
       if (!res.ok) return [];
       return await res.json();
     } catch (error) {

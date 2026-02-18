@@ -68,7 +68,7 @@ export function ProductImageLightbox({
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                delay={0.1}
+                transition={{ delay: 0.1 }}
                 className="mt-4 text-white font-medium text-lg text-center pointer-events-auto"
               >
                 {productName}
