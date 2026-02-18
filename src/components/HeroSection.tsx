@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRight, Factory, DollarSign, Truck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { getAssetPath } from "@/lib/utils";
 import { SafeImage } from "@/components/ui/safe-image";
 
 const HeroSection = () => {

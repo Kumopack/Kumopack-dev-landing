@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 @theme {
   --font-sans: var(--font-noto-thai), var(--font-noto-en), ui-sans-serif, system-ui;
@@ -155,6 +159,12 @@
 
     --glass: 270 20% 15% / 0.8;
     --glass-border: 270 20% 25% / 0.5;
+  }
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
