@@ -130,27 +130,31 @@ export default function MaterialDetailClient({
     );
   }
 
-  // Determine description logic (fallback to English if Thai missing, or generic text)
-  const description = isTh
-    ? material.description || material.shortDescription || material.nameTh
-    : material.description || material.shortDescription || material.nameEn;
+  // Determine description logic - Bilingual
+  const shortDesc = isTh
+    ? material.shortDescription || ""
+    : material.shortDescriptionEn || material.shortDescription || "";
+
+  const longDesc = isTh
+    ? material.longDescription || ""
+    : material.longDescriptionEn || material.longDescription || "";
 
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      <section className="pt-32 px-4 md:px-8 max-w-7xl mx-auto">
+      <section className="pt-32 px-4 md:px-8 max-w-7xl mx-auto pb-24">
         <div className="mb-12">
           <Link
             href={`/materials?lang=${language}`}
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            {t("materials.back") || "Back to Materials"}
+            {t("materials.back")}
           </Link>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -170,82 +174,97 @@ export default function MaterialDetailClient({
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="space-y-10"
+            className="space-y-8"
           >
             <div>
               <h1 className="text-3xl md:text-5xl font-black mb-6 leading-tight">
                 {isTh ? material.nameTh : material.nameEn}
               </h1>
+
+              {/* Short Description */}
+              {shortDesc && (
+                <p className="text-xl md:text-2xl font-medium text-muted-foreground mb-8 leading-relaxed">
+                  {shortDesc}
+                </p>
+              )}
+
+              {/* Long Description */}
               <div className="prose prose-lg dark:prose-invert text-muted-foreground leading-relaxed">
-                {/<[a-z][\s\S]*>/i.test(description || "") ? (
-                  <div
-                    dangerouslySetInnerHTML={{ __html: description || "" }}
-                  />
+                {longDesc ? (
+                  <div dangerouslySetInnerHTML={{ __html: longDesc }} />
                 ) : (
-                  <p>{description}</p>
+                  <p className="text-muted-foreground/50 italic">
+                    {isTh
+                      ? "ไม่มีรายละเอียดเพิ่มเติม"
+                      : "No additional description available."}
+                  </p>
                 )}
               </div>
             </div>
 
             {material.sustainability && material.sustainability.length > 0 && (
-              <div>
-                <h3 className="font-bold text-xl mb-4 flex items-center gap-2">
-                  <span className="w-1 h-6 bg-green-500 rounded-full"></span>
+              <div className="pt-8 border-t border-border/40">
+                <h3 className="font-bold text-xl mb-6 flex items-center gap-3">
+                  <span className="w-1.5 h-8 bg-green-500 rounded-full shadow-glow"></span>
                   {isTh ? "ความยั่งยืน" : "Sustainability"}
                 </h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-3">
                   {material.sustainability.map((item: any, idx: number) => (
                     <SustainabilityIcon key={idx} item={item} />
                   ))}
                 </div>
               </div>
             )}
-
-            {material.products && material.products.length > 0 && (
-              <div>
-                <h3 className="font-bold text-xl mb-4 flex items-center gap-2">
-                  <span className="w-1 h-6 bg-primary rounded-full"></span>
-                  {isTh
-                    ? "สินค้าที่ใช้วัสดุนี้"
-                    : "Products using this material"}
-                </h3>
-
-                <div className="relative group/carousel">
-                  <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted/30 hover:scrollbar-thumb-muted/60">
-                    {material.products.map((item: any, idx: number) => {
-                      const p = item.product;
-                      if (!p) return null;
-                      return (
-                        <Link
-                          key={idx}
-                          href={`/products/${p.slug}?lang=${language}`}
-                          className="snap-start min-w-[160px] w-[160px] flex-shrink-0 group block p-3 rounded-2xl bg-card border border-border/50 hover:border-primary/50 hover:shadow-lg transition-all"
-                        >
-                          <div className="aspect-square relative rounded-xl overflow-hidden bg-muted mb-3 border border-border/20">
-                            <SafeImage
-                              src={productApi.getProductImage(
-                                p.featurePicturePath,
-                              )}
-                              alt={isTh ? p.nameTh : p.nameEn}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                          </div>
-                          <h4 className="font-bold text-sm group-hover:text-primary transition-colors line-clamp-1">
-                            {isTh ? p.nameTh : p.nameEn}
-                          </h4>
-                          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                            {p.code}
-                          </p>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            )}
           </motion.div>
         </div>
+
+        {/* Products Section - Full Width Bottom */}
+        {material.products && material.products.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="pt-12 border-t border-border/40"
+          >
+            <h3 className="font-bold text-2xl mb-8 flex items-center gap-3">
+              <span className="w-1.5 h-8 bg-primary rounded-full shadow-glow"></span>
+              {isTh ? "สินค้าที่ใช้วัสดุนี้" : "Products using this material"}
+            </h3>
+
+            <div className="relative group/carousel">
+              <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted/30 hover:scrollbar-thumb-muted/60">
+                {material.products.map((item: any, idx: number) => {
+                  const p = item.product;
+                  if (!p) return null;
+                  return (
+                    <Link
+                      key={idx}
+                      href={`/products/${p.slug}?lang=${language}`}
+                      className="snap-start min-w-[180px] w-[180px] flex-shrink-0 group block p-4 rounded-3xl bg-card border border-border/50 hover:border-primary/50 hover:shadow-float hover:-translate-y-1 transition-all duration-300"
+                    >
+                      <div className="aspect-square relative rounded-2xl overflow-hidden bg-muted mb-4 border border-border/20">
+                        <SafeImage
+                          src={productApi.getProductImage(p.featurePicturePath)}
+                          alt={isTh ? p.nameTh : p.nameEn}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="font-bold text-base group-hover:text-primary transition-colors line-clamp-1">
+                          {isTh ? p.nameTh : p.nameEn}
+                        </h4>
+                        <p className="text-xs text-muted-foreground font-medium bg-muted/50 px-2 py-0.5 rounded-md w-fit">
+                          {p.code}
+                        </p>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
+        )}
       </section>
       <Footer />
     </main>

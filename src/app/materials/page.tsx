@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Link, Layers } from "lucide-react";
+import { Link as LinkIcon, Layers } from "lucide-react";
 import { MinimalTabs } from "@/components/ui/minimal-tabs";
 import NextLink from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
@@ -20,39 +20,48 @@ export default function MaterialsPage() {
   const { dict, language } = useLanguage();
   const [materials, setMaterials] = useState<Material[]>([]);
   const [categories, setCategories] = useState<ProductLine[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Initial load: Get categories, set default to "Corrugated Box", then fetch its materials
   useEffect(() => {
-    const fetchData = async () => {
+    const init = async () => {
       try {
-        const [materialsRes, categoriesRes] = await Promise.all([
-          materialApi.getAllMaterials(),
-          productApi.getProductLines(),
-        ]);
-        setMaterials(materialsRes.data);
-        setCategories(categoriesRes);
+        const cats = await productApi.getProductLines();
+        setCategories(cats);
+
+        // Default to "Corrugated Box" (กล่องกระดาษลูกฟูก) or first available
+        const defaultCat =
+          cats.find((c) => c.nameEn.toLowerCase().includes("corrugated")) ||
+          cats[0];
+
+        if (defaultCat) {
+          setSelectedCategory(defaultCat.id);
+          // Fetch materials for default category
+          const matRes = await materialApi.getAllMaterials(
+            1,
+            100,
+            defaultCat.id,
+          );
+          setMaterials(matRes.data);
+        }
       } catch (error) {
-        console.error("Failed to load materials", error);
+        console.error("Failed to load initial data", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchData();
+    init();
   }, []);
 
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const handleCategoryClick = async (categoryId: number) => {
+    if (selectedCategory === categoryId) return;
 
-  const handleCategoryClick = async (categoryId: number | null) => {
     setSelectedCategory(categoryId);
     setIsLoading(true);
     try {
-      // Pass categoryId to the API
-      const res = await materialApi.getAllMaterials(
-        1,
-        100,
-        categoryId || undefined,
-      );
+      const res = await materialApi.getAllMaterials(1, 100, categoryId);
       setMaterials(res.data);
     } catch (error) {
       console.error("Failed to filter materials", error);
@@ -64,15 +73,15 @@ export default function MaterialsPage() {
   const isTh = language === "th";
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-background text-foreground flex flex-col">
       <Navbar />
 
-      <section className="pt-32 pb-24 px-4 md:px-8">
+      <section className="pt-32 pb-24 px-4 md:px-8 flex-1">
         <div className="container mx-auto max-w-6xl">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+          <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
             {dict.materials.title}
           </h1>
-          <p className="text-xl text-muted-foreground mb-16 max-w-2xl text-left">
+          <p className="text-xl text-muted-foreground mb-16 max-w-2xl text-left font-medium">
             {dict.materials.subtitle}
           </p>
 
@@ -82,18 +91,15 @@ export default function MaterialsPage() {
                 <Layers className="w-5 h-5 text-primary" />
                 {dict.common.category || "Categories"}
               </h2>
-              <div className="overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0">
+              <div className="overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
                 <MinimalTabs
-                  tabs={[
-                    { id: "all", label: dict.common.all || "All" },
-                    ...categories.map((cat) => ({
-                      id: cat.id.toString(),
-                      label: isTh ? cat.nameTh : cat.nameEn,
-                    })),
-                  ]}
-                  activeTab={selectedCategory?.toString() || "all"}
+                  tabs={categories.map((cat) => ({
+                    id: cat.id.toString(),
+                    label: isTh ? cat.nameTh : cat.nameEn,
+                  }))}
+                  activeTab={selectedCategory?.toString() || ""}
                   onChange={(id) => {
-                    handleCategoryClick(id === "all" ? null : Number(id));
+                    handleCategoryClick(Number(id));
                   }}
                 />
               </div>
@@ -124,9 +130,9 @@ export default function MaterialsPage() {
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: idx * 0.1 }}
-                        className="group relative bg-card rounded-3xl overflow-hidden border border-border/50 hover:shadow-float transition-all"
+                        className="group relative bg-card rounded-3xl overflow-hidden border border-border/50 hover:shadow-float transition-all h-full flex flex-col"
                       >
-                        <div className="aspect-square relative overflow-hidden bg-muted/20">
+                        <div className="aspect-square relative overflow-hidden bg-muted/20 shrink-0">
                           <SafeImage
                             src={materialApi.getMaterialImage(
                               m.featurePicturePath || "",
@@ -136,20 +142,22 @@ export default function MaterialsPage() {
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
-                        <div className="p-6">
-                          <h3 className="text-xl font-bold mb-2">
+                        <div className="p-6 flex-1 flex flex-col">
+                          <h3 className="text-lg font-bold mb-2 leading-tight">
                             {isTh ? m.nameTh : m.nameEn}
                           </h3>
-                          <p className="text-sm text-muted-foreground mb-6 line-clamp-2">
+                          <p className="text-sm text-muted-foreground mb-6 line-clamp-3 leading-relaxed">
                             {m.shortDescription || m.description}
                           </p>
-                          <NextLink
-                            href={`/materials/${m.slug || m.id}?lang=${language}`}
-                            className="text-primary font-semibold text-sm flex items-center gap-2"
-                          >
-                            {dict.materials.details}
-                            <Link className="w-4 h-4" />
-                          </NextLink>
+                          <div className="mt-auto pt-2">
+                            <NextLink
+                              href={`/materials/${m.slug || m.id}?lang=${language}`}
+                              className="text-primary font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all"
+                            >
+                              {dict.materials.details}
+                              <LinkIcon className="w-4 h-4" />
+                            </NextLink>
+                          </div>
                         </div>
                       </motion.div>
                     ))}

@@ -144,7 +144,10 @@ export interface Material {
     nameTh: string;
     nameEn: string;
     shortDescription?: string;
-    description?: string; // or shortDescription
+    shortDescriptionEn?: string;
+    longDescription?: string;
+    longDescriptionEn?: string;
+    description?: string;
     featurePicturePath?: string;
     sortOrder?: number;
     sustainability?: {

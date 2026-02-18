@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/LanguageContext";
 import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect, use } from "react";
-import { Product, productApi } from "@/lib/product-api";
+import { Product, productApi, materialApi } from "@/lib/product-api";
 import { SafeImage } from "@/components/ui/safe-image";
 import { SustainabilityIcon } from "@/components/SustainabilityIcon";
 import { motion } from "framer-motion";
@@ -39,6 +39,7 @@ export default function ProductDetailClient({
   const [activeTab, setActiveTab] = useState<
     "overview" | "materials" | "standards"
   >("overview");
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const router = useRouter();
 
   const isTh = language === "th";
@@ -87,6 +88,11 @@ export default function ProductDetailClient({
 
         if (foundProduct) {
           setProduct(foundProduct);
+          setSelectedImage(
+            foundProduct.featurePicturePath ||
+              (foundProduct.images && foundProduct.images[0]?.path) ||
+              null,
+          );
         } else {
           setProduct(null);
         }
@@ -140,14 +146,15 @@ export default function ProductDetailClient({
   const tabBtnClass = (tab: string) =>
     `px-6 py-3 rounded-full text-sm font-bold transition-all ${activeTab === tab ? "bg-primary text-white shadow-lg" : "bg-muted/30 text-muted-foreground hover:bg-muted/50"}`;
 
-  const mainImage =
-    product.featurePicturePath ||
-    (product.images && product.images[0]?.path) ||
-    "";
+  const mainImageToDisplay = selectedImage || "/placeholder-box.png";
 
-  const descriptionHtml = isTh
-    ? product.longDescription
-    : product.longDescriptionEn;
+  const shortDesc = isTh
+    ? product.shortDescription || ""
+    : product.shortDescriptionEn || product.shortDescription || "";
+
+  const longDesc = isTh
+    ? product.longDescription || ""
+    : product.longDescriptionEn || product.longDescription || "";
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -169,23 +176,28 @@ export default function ProductDetailClient({
             <div className="aspect-square relative rounded-[3rem] overflow-hidden bg-muted/20 border border-border/50 shadow-inner">
               <SafeImage
                 src={
-                  mainImage
-                    ? productApi.getProductImage(mainImage)
+                  mainImageToDisplay &&
+                  mainImageToDisplay !== "/placeholder-box.png"
+                    ? productApi.getProductImage(mainImageToDisplay)
                     : "/placeholder-box.png"
                 }
+                key={mainImageToDisplay}
                 alt={isTh ? product.nameTh : product.nameEn}
                 fill
-                className="object-cover"
+                className="object-cover transition-all duration-500"
                 priority
               />
 
               <div className="absolute top-6 left-6 flex flex-wrap gap-2">
                 {product.productLine && (
-                  <span className="px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-sm text-xs font-bold shadow-sm text-primary">
+                  <Link
+                    href={`/products?lang=${language}`}
+                    className="px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-sm text-xs font-bold shadow-sm text-primary hover:bg-white transition-colors"
+                  >
                     {isTh
                       ? product.productLine.nameTh
                       : product.productLine.nameEn}
-                  </span>
+                  </Link>
                 )}
               </div>
             </div>
@@ -195,7 +207,12 @@ export default function ProductDetailClient({
                 {product.images.map((img, idx) => (
                   <div
                     key={idx}
-                    className="aspect-square relative rounded-2xl overflow-hidden bg-muted/20 border border-border/50 cursor-pointer hover:border-primary/50 transition-colors"
+                    onClick={() => setSelectedImage(img.path)}
+                    className={`aspect-square relative rounded-2xl overflow-hidden bg-muted/20 border cursor-pointer transition-all ${
+                      selectedImage === img.path
+                        ? "border-primary shadow-md ring-2 ring-primary/20 scale-105"
+                        : "border-border/50 hover:border-primary/50"
+                    }`}
                   >
                     <SafeImage
                       src={productApi.getProductImage(img.path)}
@@ -255,19 +272,25 @@ export default function ProductDetailClient({
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-6"
                 >
+                  {/* Short Description */}
+                  {shortDesc && (
+                    <p className="text-xl font-medium text-foreground/80 leading-relaxed">
+                      {shortDesc}
+                    </p>
+                  )}
+
                   <div className="prose prose-lg dark:prose-invert max-w-none text-muted-foreground leading-relaxed">
-                    {descriptionHtml ? (
+                    {longDesc ? (
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: descriptionHtml,
+                          __html: longDesc,
                         }}
                       />
                     ) : (
                       <p>
-                        {product.description ||
-                          product.shortDescription ||
-                          product.shortDescriptionEn ||
-                          t("products.mailerBoxDesc")}
+                        {isTh
+                          ? "ไม่มีรายละเอียดเพิ่มเติม"
+                          : "No description available."}
                       </p>
                     )}
                   </div>
@@ -301,28 +324,57 @@ export default function ProductDetailClient({
                       : "High-quality materials selected for your packaging needs."}
                   </p>
                   {product.materials && product.materials.length > 0 ? (
-                    <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {product.materials.map((m: any, idx: number) => (
-                        <div
+                        <Link
                           key={idx}
-                          className="flex items-start gap-4 p-4 rounded-2xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-soft transition-all"
+                          href={
+                            m.material?.slug
+                              ? `/materials/${m.material.slug}?lang=${language}`
+                              : "#"
+                          }
+                          className="flex items-start gap-4 p-4 rounded-2xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-soft transition-all group"
                         >
-                          <div className="w-12 h-12 rounded-xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center flex-shrink-0 text-orange-600">
-                            <Box className="w-6 h-6" />
+                          <div className="w-16 h-16 rounded-xl bg-muted/50 border border-border/20 flex-shrink-0 relative overflow-hidden">
+                            <SafeImage
+                              src={
+                                m.material
+                                  ? materialApi.getMaterialImage(
+                                      m.material.featurePicturePath || "",
+                                    )
+                                  : "/placeholder-box.png"
+                              }
+                              alt={
+                                m.material
+                                  ? isTh
+                                    ? m.material.nameTh
+                                    : m.material.nameEn
+                                  : ""
+                              }
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
                           </div>
-                          <div>
-                            <h4 className="font-bold text-foreground">
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-bold text-base text-foreground group-hover:text-primary transition-colors truncate">
                               {m.material
                                 ? isTh
                                   ? m.material.nameTh
                                   : m.material.nameEn
                                 : `Material ${m.materialId}`}
                             </h4>
-                            <p className="text-xs text-muted-foreground mt-1">
-                              Premium Grade
+                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                              {m.material
+                                ? isTh
+                                  ? m.material.shortDescription
+                                  : m.material.shortDescriptionEn
+                                : ""}
                             </p>
+                            <div className="mt-2 text-xs font-medium bg-muted/50 px-2 py-0.5 rounded-md w-fit text-muted-foreground">
+                              {m.material?.code || "Code"}
+                            </div>
                           </div>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   ) : (

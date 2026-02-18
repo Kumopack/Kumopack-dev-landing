@@ -21,12 +21,26 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const [productsRes, categoriesRes] = await Promise.all([
-          productApi.getAllProducts(1, 100), // Get more products initially
-          productApi.getProductLines(),
-        ]);
-        setProducts(productsRes.data);
+        const categoriesRes = await productApi.getProductLines();
         setCategories(categoriesRes);
+
+        // Default to "Corrugated Box" or first category
+        const defaultCategory =
+          categoriesRes.find(
+            (c) =>
+              c.nameEn.toLowerCase().includes("corrugated") ||
+              c.nameTh.includes("ลูกฟูก"),
+          ) || categoriesRes[0];
+
+        if (defaultCategory) {
+          setSelectedCategory(defaultCategory.id);
+          const productsRes = await productApi.getAllProducts(
+            1,
+            100,
+            defaultCategory.id,
+          );
+          setProducts(productsRes.data);
+        }
       } catch (error) {
         console.error("Failed to load data", error);
       } finally {
@@ -37,16 +51,11 @@ export default function ProductsPage() {
     fetchInitialData();
   }, []);
 
-  const handleCategoryClick = async (categoryId: number | null) => {
+  const handleCategoryClick = async (categoryId: number) => {
     setSelectedCategory(categoryId);
     setIsLoading(true);
     try {
-      // If categoryId is null, fetch all products
-      const productsRes = await productApi.getAllProducts(
-        1,
-        100,
-        categoryId || undefined,
-      );
+      const productsRes = await productApi.getAllProducts(1, 100, categoryId);
       setProducts(productsRes.data);
     } catch (error) {
       console.error("Failed to fetch products by category", error);
@@ -79,16 +88,13 @@ export default function ProductsPage() {
                 </h2>
                 <div className="overflow-x-auto pb-2 -mx-4 px-4 md:mx-0 md:px-0">
                   <MinimalTabs
-                    tabs={[
-                      { id: "all", label: dict.common.all || "All" },
-                      ...categories.map((cat) => ({
-                        id: cat.id.toString(),
-                        label: isTh ? cat.nameTh : cat.nameEn,
-                      })),
-                    ]}
-                    activeTab={selectedCategory?.toString() || "all"}
+                    tabs={categories.map((cat) => ({
+                      id: cat.id.toString(),
+                      label: isTh ? cat.nameTh : cat.nameEn,
+                    }))}
+                    activeTab={selectedCategory?.toString() || ""}
                     onChange={(id) => {
-                      handleCategoryClick(id === "all" ? null : Number(id));
+                      handleCategoryClick(Number(id));
                     }}
                   />
                 </div>
