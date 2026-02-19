@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar } from "lucide-react";
 import { blogs, Blog } from "@/data/blogs";
-import Link from "next/link";
+import Link from "@/components/common/LocalizedLink";
 import { getSafeSlug } from "@/lib/slug-utils";
 
 const BlogCarousel = () => {

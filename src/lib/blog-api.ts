@@ -19,17 +19,17 @@ export interface Article {
   slug: string;
   shortDescriptionTh: string;
   shortDescriptionEn: string;
-  descriptionTh?: string; // Rich text
-  descriptionEn?: string; // Rich text
-  conclusionTh?: string; // Rich text
-  conclusionEn?: string; // Rich text
+  descriptionTh?: string;
+  descriptionEn?: string;
+  conclusionTh?: string;
+  conclusionEn?: string;
   featurePicturePath: string;
   totalView: number;
   publishedDate: string;
   createdAt: string;
   updatedAt: string;
   categories: Category[];
-  author?: string; // Legacy/Fallback
+  author?: string;
   createdBy?: {
     id: string | number;
     uuId?: string;
@@ -57,7 +57,7 @@ export interface ArticlesResponse {
   pageSize: number;
 }
 
-const TIMEOUT_MS = 15000; // 15s for slower local dev
+const TIMEOUT_MS = 15000;
 
 async function fetchWithTimeout(
   url: string,
@@ -84,7 +84,7 @@ async function fetchWithTimeout(
     return await runFetch(url);
   } catch (error: any) {
     const isLocal = url.includes("localhost") || url.includes("127.0.0.1");
-    // Browser connection refusal usually throws a TypeError with "Failed to fetch"
+
     const isConnectionError =
       error?.cause?.code === "ECONNREFUSED" ||
       error?.name === "AbortError" ||
@@ -131,7 +131,7 @@ export const blogApi = {
         url += `&category[]=${encodeURIComponent(category)}`;
       }
       console.log(`[blogApi] getArticles URL: ${url}`);
-      const res = await fetchWithTimeout(url); // Default cache behavior for static build
+      const res = await fetchWithTimeout(url);
       if (!res.ok) {
         console.error(
           `[blogApi] Failed to fetch articles: ${res.status} ${res.statusText}`,
@@ -152,20 +152,15 @@ export const blogApi = {
 
   async getArticleBySlug(slug: string): Promise<Article | null> {
     try {
-      // Extract ID suffix if slug is compound (e.g. "my-title-b6bi9" -> "b6bi9")
-      const parts = slug.split("-");
-      const idOrSlug = parts[parts.length - 1];
+      const idOrSlug = slug;
 
-      console.log(`[blogApi] Extracting ID from slug: ${slug} -> ${idOrSlug}`);
+      console.log(`[blogApi] Fetching article by slug: ${slug}`);
       const url = `${API_BASE_URL}/articles/${encodeURIComponent(idOrSlug)}`;
-      const res = await fetchWithTimeout(url); // Default cache behavior for static build
+      const res = await fetchWithTimeout(url);
       if (!res.ok) return null;
       const article = await res.json();
 
-      // Mock/Inject data for demonstration as requested
-      // ... (keep existing mock logic)
       if (article) {
-        // ...
         if (article.id == 93 || article.id === "93") {
           article.createdBy = {
             id: "40",
@@ -194,7 +189,7 @@ export const blogApi = {
     try {
       const res = await fetchWithTimeout(
         `${API_BASE_URL}/articles/${encodeURIComponent(slug)}/related`,
-      ); // No cache option
+      );
       if (!res.ok) return [];
       return await res.json();
     } catch (error) {
@@ -218,27 +213,23 @@ export const blogApi = {
 
   getAssetPath(path: string): string {
     if (!path) return "";
-    // If it's already an absolute URL or data URI, return as is
+
     if (path.startsWith("http") || path.startsWith("data:")) {
       return path;
     }
 
-    // If it starts with / but is not followed by / (to avoid // protocol-relative)
-    // AND it's likely a local asset from the public folder
     if (
       path.startsWith("/") &&
-      !path.startsWith("//") &&
-      !path.includes("articles") &&
-      !path.includes("admin")
+      !path.startsWith("/articles") &&
+      !path.startsWith("/admin")
     ) {
-      // For public folder assets, let the local utility handle it (or Next.js)
       return path;
     }
 
     const storageBase =
       (process.env.NEXT_PUBLIC_IMAGE_URL ||
         "https://api.kumopack.com/v1/images") + "/";
-    // Remove leading slash if present to avoid double slashes with storageBase
+
     const cleanPath = path.startsWith("/") ? path.slice(1) : path;
     return `${storageBase}${cleanPath}`;
   },

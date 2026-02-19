@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Package, ArrowRight, Mail, Phone, MapPin } from "lucide-react";
-import Link from "next/link";
+import Link from "@/components/common/LocalizedLink";
 import { useLanguage } from "@/context/LanguageContext";
 
 const Footer = () => {

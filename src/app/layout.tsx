@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Thai, Noto_Sans } from "next/font/google";
 import "./globals.css";
-import { LanguageProvider } from "@/context/LanguageContext";
 
 const notoTh = Noto_Sans_Thai({
   variable: "--font-noto-thai",
@@ -17,34 +16,17 @@ const notoEn = Noto_Sans({
 
 export const metadata: Metadata = {
   title: "Kumopack | The Absolute Packaging Solutions",
-  description:
-    "Design and order custom packaging that elevates your brand. Get instant quotes from top-tier factories. Compare, choose, and create—all in one place.",
-  keywords: [
-    "packaging",
-    "custom boxes",
-    "sourcing",
-    "factory",
-    "b2b",
-    "printing",
-  ],
-  openGraph: {
-    title: "Kumopack | The Absolute Packaging Solutions",
-    description: "Design and order custom packaging that elevates your brand.",
-    url: process.env.NEXT_PUBLIC_MAIN_SITE_URL || "https://kumopack.com",
-    siteName: "Kumopack",
-    locale: "en_US",
-    type: "website",
-  },
+  description: "Design and order custom packaging that elevates your brand.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html
-      lang="en"
+      lang="th"
       className={`${notoTh.variable} ${notoEn.variable}`}
       suppressHydrationWarning
     >
@@ -52,7 +34,7 @@ export default function RootLayout({
         className="antialiased font-sans overflow-x-hidden"
         suppressHydrationWarning
       >
-        <LanguageProvider>{children}</LanguageProvider>
+        {children}
       </body>
     </html>
   );

@@ -2,7 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import Link from "@/components/common/LocalizedLink";
 import { ArrowRight, Factory, DollarSign, Truck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { SafeImage } from "@/components/ui/safe-image";

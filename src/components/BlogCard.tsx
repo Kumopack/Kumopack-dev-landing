@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/common/LocalizedLink";
 import { motion } from "framer-motion";
 import { Calendar, Eye, ArrowRight, User } from "lucide-react";
 import { SafeImage } from "@/components/ui/safe-image";

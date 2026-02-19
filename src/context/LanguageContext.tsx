@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { th } from "@/locales/th";
 import { en } from "@/locales/en";
+import { useParams, useRouter, usePathname } from "next/navigation";
 
 type Language = "th" | "en";
 type Translations = typeof en;
@@ -27,30 +28,40 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 const translations: Record<Language, Translations> = { th, en };
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguageState] = useState<Language>("th");
+  const params = useParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const urlLang = params?.lang as Language;
+
+  const [language, setLanguageState] = useState<Language>(
+    urlLang && ["th", "en"].includes(urlLang) ? urlLang : "th",
+  );
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const urlLang = params.get("lang") as Language;
-    const savedLang = localStorage.getItem("kumopack_lang") as Language;
-
-    const initialLang =
-      urlLang && ["th", "en"].includes(urlLang)
-        ? urlLang
-        : savedLang && ["th", "en"].includes(savedLang)
-          ? savedLang
-          : "th";
-
-    if (initialLang !== language) {
-      setLanguageState(initialLang);
+    if (urlLang && ["th", "en"].includes(urlLang) && urlLang !== language) {
+      setLanguageState(urlLang);
     }
     setIsHydrated(true);
-  }, []);
+  }, [urlLang, language]);
 
   const setLanguage = (lang: Language) => {
+    if (lang === language) return;
+
     setLanguageState(lang);
     localStorage.setItem("kumopack_lang", lang);
+
+    if (pathname) {
+      const segments = pathname.split("/");
+
+      if (segments[1] === "en" || segments[1] === "th") {
+        segments[1] = lang;
+        router.push(segments.join("/") || "/");
+      } else {
+        router.push(`/${lang}${pathname}`);
+      }
+    }
   };
 
   const t = (key: string): string => {
