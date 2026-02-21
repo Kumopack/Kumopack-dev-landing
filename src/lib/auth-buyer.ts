@@ -13,7 +13,7 @@ export interface BuyerProfile {
   email?: string;
   firstName?: string;
   lastName?: string;
-  [key: string]: any;
+  [key: string]: string | number | boolean | undefined;
 }
 
 export interface BuyerAuthInfo {
@@ -49,7 +49,7 @@ function isTokenExpired(token: string): boolean {
       return Date.now() >= payload.exp * 1000;
     }
     return false;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -71,7 +71,7 @@ export function getBuyerAuth(): BuyerAuthInfo {
     if (profileStr) {
       profile = JSON.parse(profileStr);
     }
-  } catch (e) {
+  } catch {
     profile = null;
   }
 

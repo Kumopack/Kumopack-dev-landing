@@ -68,7 +68,7 @@ function isLocalUrl(url: string): boolean {
 
 function isConnectionError(error: unknown): boolean {
   if (!(error instanceof Error)) return false;
-  const e = error as any;
+  const e = error as Error & { cause?: { code?: string } };
   return (
     e?.cause?.code === "ECONNREFUSED" ||
     e?.name === "AbortError" ||
@@ -163,10 +163,11 @@ export async function apiPost<T>(
   const res = await runFetch(url, init, options);
 
   if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
+    const data = await res.json().catch(() => ({}) as Record<string, unknown>);
     throw new ApiError(
       res.status,
-      (data as any)?.message || `POST ${path} failed`,
+      ((data as Record<string, unknown>)?.message as string) ||
+        `POST ${path} failed`,
       url,
     );
   }

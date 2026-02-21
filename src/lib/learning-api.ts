@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "./api-config";
-import { apiGet } from "./api-client";
+import { apiGet, ApiError } from "./api-client";
 
 const LEARNING_BASE = `${API_BASE_URL}/learning-center`;
 
@@ -115,7 +115,35 @@ function buildArticleQuery(params: ArticleParams): string {
   return q.toString();
 }
 
-function extractArray(result: any): any[] {
+interface ApiListResponse {
+  data?: LearningArticle[];
+}
+
+interface FaqItem {
+  id: string | number;
+  question: string;
+  answer: string;
+  slug?: string;
+  [key: string]: string | number | boolean | undefined | null;
+}
+
+interface FaqDetail {
+  id: string | number;
+  question: string;
+  answer: string;
+  slug?: string;
+  [key: string]: string | number | boolean | undefined | null;
+}
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+  [key: string]: string | undefined;
+}
+
+function extractArray(
+  result: ApiListResponse | LearningArticle[],
+): LearningArticle[] {
   return Array.isArray(result) ? result : result.data || [];
 }
 
@@ -156,7 +184,7 @@ export const learningApi = {
         `${LEARNING_BASE}/article?${q.toString()}`,
       );
     } catch (error) {
-      if ((error as any)?.status === 404) return null;
+      if (error instanceof ApiError && error.status === 404) return null;
       console.error(`Error fetching learning article ${id || slug}:`, error);
       return null;
     }
@@ -168,7 +196,7 @@ export const learningApi = {
     lang: string = "th",
   ): Promise<LearningArticle[]> {
     try {
-      const result = await apiGet<any>(
+      const result = await apiGet<ApiListResponse | LearningArticle[]>(
         `${LEARNING_BASE}/${lang}/category/${encodeURIComponent(slug)}?targetAudience=${audience}`,
       );
       return extractArray(result);
@@ -184,7 +212,7 @@ export const learningApi = {
     lang: string = "th",
   ): Promise<LearningArticle[]> {
     try {
-      const result = await apiGet<any>(
+      const result = await apiGet<ApiListResponse | LearningArticle[]>(
         `${LEARNING_BASE}/${lang}/tag/${encodeURIComponent(slug)}?targetAudience=${audience}`,
       );
       return extractArray(result);
@@ -213,7 +241,7 @@ export const learningApi = {
       if (params.page) queryParams.append("page", String(params.page));
       if (params.limit) queryParams.append("limit", String(params.limit));
 
-      const result = await apiGet<any>(
+      const result = await apiGet<ApiListResponse | LearningArticle[]>(
         `${LEARNING_BASE}/search?${queryParams.toString()}`,
       );
       return extractArray(result);
@@ -225,7 +253,7 @@ export const learningApi = {
 
   async getFeaturedArticles(lang: string = "th"): Promise<LearningArticle[]> {
     try {
-      const result = await apiGet<any>(
+      const result = await apiGet<ApiListResponse | LearningArticle[]>(
         `${LEARNING_BASE}/featured?lang=${lang}`,
       );
       return extractArray(result);
@@ -240,7 +268,7 @@ export const learningApi = {
     lang: string = "th",
   ): Promise<LearningArticle[]> {
     try {
-      const result = await apiGet<any>(
+      const result = await apiGet<ApiListResponse | LearningArticle[]>(
         `${LEARNING_BASE}/related?slug=${encodeURIComponent(slug)}&lang=${lang}`,
       );
       return extractArray(result);
@@ -280,22 +308,28 @@ export const learningApi = {
     }
   },
 
-  async getFaqs(targetAudience?: string, lang: string = "th"): Promise<any[]> {
+  async getFaqs(
+    targetAudience?: string,
+    lang: string = "th",
+  ): Promise<FaqItem[]> {
     try {
       const q = new URLSearchParams();
       if (targetAudience) q.append("targetAudience", targetAudience);
       if (lang) q.append("lang", lang);
 
-      return await apiGet<any[]>(`${LEARNING_BASE}/faq?${q.toString()}`);
+      return await apiGet<FaqItem[]>(`${LEARNING_BASE}/faq?${q.toString()}`);
     } catch (error) {
       console.error("Error fetching FAQs:", error);
       return [];
     }
   },
 
-  async getFaqDetail(slug: string, lang: string = "th"): Promise<any> {
+  async getFaqDetail(
+    slug: string,
+    lang: string = "th",
+  ): Promise<FaqDetail | null> {
     try {
-      return await apiGet<any>(
+      return await apiGet<FaqDetail>(
         `${LEARNING_BASE}/faq/detail?slug=${encodeURIComponent(slug)}&lang=${lang}`,
       );
     } catch (error) {
@@ -304,9 +338,7 @@ export const learningApi = {
     }
   },
 
-  async getSitemap(
-    lang: string = "th",
-  ): Promise<{
+  async getSitemap(lang: string = "th"): Promise<{
     articles: { slug: string }[];
     categories?: Category[];
     tags?: Tag[];
@@ -323,9 +355,12 @@ export const learningApi = {
     }
   },
 
-  async getBreadcrumbs(slug: string, lang: string = "th"): Promise<any[]> {
+  async getBreadcrumbs(
+    slug: string,
+    lang: string = "th",
+  ): Promise<BreadcrumbItem[]> {
     try {
-      return await apiGet<any[]>(
+      return await apiGet<BreadcrumbItem[]>(
         `${LEARNING_BASE}/breadcrumbs?slug=${encodeURIComponent(slug)}&lang=${lang}`,
       );
     } catch (error) {

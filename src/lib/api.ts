@@ -1,4 +1,3 @@
-import { API_BASE_URL } from "./api-config";
 import { apiGet } from "./api-client";
 
 export interface Article {

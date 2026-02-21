@@ -1,15 +1,29 @@
-import { API_BASE_URL } from "@/lib/api-config";
 import { apiGet, apiPost } from "@/lib/api-client";
 import { BUYER_PORTAL_URL, SUPPLIER_PORTAL_URL } from "@/lib/api-config";
+
+interface MembershipListResponse {
+  data?: MembershipPackage[];
+}
+
+interface MembershipPackage {
+  id: string;
+  name: string;
+  [key: string]: string | number | boolean | undefined | null;
+}
+
+interface PaymentResponse {
+  url?: string;
+  [key: string]: string | number | boolean | undefined | null;
+}
 
 export const pricingService = {
   getBuyerPricing: async () => {
     try {
-      const result = await apiGet<any>(
+      const result = await apiGet<MembershipListResponse | MembershipPackage[]>(
         `/membership/public-list?userType=buyer`,
       );
 
-      if (result.data && Array.isArray(result.data)) {
+      if (!Array.isArray(result) && result.data && Array.isArray(result.data)) {
         return result.data;
       } else if (Array.isArray(result)) {
         return result;
@@ -24,11 +38,11 @@ export const pricingService = {
 
   getSupplierPricing: async () => {
     try {
-      const result = await apiGet<any>(
+      const result = await apiGet<MembershipListResponse | MembershipPackage[]>(
         `/membership/public-list?userType=supplier`,
       );
 
-      if (result.data && Array.isArray(result.data)) {
+      if (!Array.isArray(result) && result.data && Array.isArray(result.data)) {
         return result.data;
       } else if (Array.isArray(result)) {
         return result;
@@ -41,23 +55,29 @@ export const pricingService = {
     }
   },
 
-  createBuyerPayment: async (packageUuid: string, billingType: string) => {
+  createBuyerPayment: async (packageUuid: string, _billingType: string) => {
     try {
-      return await apiPost<any>(`/membership/purchase/card?userType=buyer`, {
-        packageUuid: packageUuid,
-        returnUrl: `${BUYER_PORTAL_URL}/profile/setting/bill-plan`,
-      });
+      return await apiPost<PaymentResponse>(
+        `/membership/purchase/card?userType=buyer`,
+        {
+          packageUuid: packageUuid,
+          returnUrl: `${BUYER_PORTAL_URL}/profile/setting/bill-plan`,
+        },
+      );
     } catch (error) {
       throw error;
     }
   },
 
-  createSupplierPayment: async (packageUuid: string, billingType: string) => {
+  createSupplierPayment: async (packageUuid: string, _billingType: string) => {
     try {
-      return await apiPost<any>(`/membership/purchase/card?userType=supplier`, {
-        packageUuid: packageUuid,
-        returnUrl: `${SUPPLIER_PORTAL_URL}/plans`,
-      });
+      return await apiPost<PaymentResponse>(
+        `/membership/purchase/card?userType=supplier`,
+        {
+          packageUuid: packageUuid,
+          returnUrl: `${SUPPLIER_PORTAL_URL}/plans`,
+        },
+      );
     } catch (error) {
       throw error;
     }

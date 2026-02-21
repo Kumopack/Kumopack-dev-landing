@@ -85,7 +85,6 @@ export const blogApi = {
       if (category && category !== "All") {
         path += `&category[]=${encodeURIComponent(category)}`;
       }
-      console.log(`[blogApi] getArticles URL: ${API_BASE_URL}${path}`);
       const res = await apiFetch(path, {}, { failoverToProduction: true });
       if (!res.ok) {
         console.error(
