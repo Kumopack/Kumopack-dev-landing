@@ -9,7 +9,7 @@ export interface Province {
 
 export async function getProvinces(): Promise<Province[]> {
   try {
-    const data = await apiGet<Province[]>(`/options/provinces`);
+    const data = await apiGet<Province[]>(`/geo/provinces`);
     return Array.isArray(data) ? data : [];
   } catch (error) {
     console.error("Failed to fetch provinces:", error);

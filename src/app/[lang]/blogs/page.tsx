@@ -6,7 +6,6 @@ import { Loader2 } from "lucide-react";
 export default async function BlogsPage() {
   const category = "All";
 
-  console.log("BlogsPage: Fetching initial data...");
   try {
     const [articlesRes, categories] = await Promise.all([
       blogApi.getArticles(1, 6, category),

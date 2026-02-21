@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "@/components/common/LocalizedLink";
 import {
   useSearchParams,
   useLocalizedRouter as useRouter,
@@ -64,11 +63,6 @@ export default function BlogsClient({
   }, [initialArticles, initialTotalItems, initialCategories]);
 
   useEffect(() => {
-    console.log("BlogsClient: Mount - Forcing router.refresh()");
-    router.refresh();
-  }, [router]);
-
-  useEffect(() => {
     if (currentPage === 1) return;
 
     const fetchArticles = async () => {
@@ -100,7 +94,7 @@ export default function BlogsClient({
     ) {
       setLanguage(urlLang as "th" | "en");
     }
-  }, [searchParams]);
+  }, [searchParams, language]);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams?.toString() || "");

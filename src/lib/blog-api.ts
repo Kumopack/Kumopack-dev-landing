@@ -93,10 +93,7 @@ export const blogApi = {
         throw new Error("Failed to fetch articles");
       }
       const data = await res.json();
-      console.log(`[blogApi] getArticles Response:`, {
-        totalItems: data.totalItems,
-        dataLength: data.data?.length,
-      });
+
       return data;
     } catch (error) {
       console.error("Error fetching articles:", error);

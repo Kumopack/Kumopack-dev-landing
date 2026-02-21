@@ -51,10 +51,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
     }
   }, [language, pathname, router]);
 
-  useEffect(() => {
-    router.refresh();
-  }, [router]);
-
   const [related, setRelated] = useState<Article[]>([]);
   const [loadingRelated, setLoadingRelated] = useState(true);
   const [anchors, setAnchors] = useState<{ id: string; text: string }[]>([]);
@@ -616,9 +612,9 @@ export default function BlogContent({ blog }: { blog: Article }) {
                       <span className="text-sm font-bold text-muted-foreground mr-2">
                         Tags:
                       </span>
-                      {blog.keywords.map((kw) => (
+                      {blog.keywords.map((kw, index) => (
                         <div
-                          key={kw.id}
+                          key={`blog-${blog.id}-keyword-${index}`}
                           className="px-3 py-1.5 rounded-lg bg-neutral-100/80 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary transition-colors cursor-default"
                         >
                           #{kw.keyword}

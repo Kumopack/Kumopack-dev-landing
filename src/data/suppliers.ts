@@ -382,7 +382,7 @@ export async function getSuppliersList(
         orderAmount: s.orderAmount ? `${s.orderAmount} Orders` : "No Minimum",
       },
       isActive: s.isActive,
-      slug: s.slug || String(s.id),
+      slug: s.slug || s.uuId || String(s.id),
       supplierType: s.supplierType,
       companyTaxNo: s.companyTaxNo,
       membershipTypeTitle: s.membershipTypeTitle,

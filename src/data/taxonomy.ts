@@ -26,7 +26,7 @@ export const FALLBACK_FEATURES = [
 
 export async function getCategories(): Promise<TaxonomyOption[]> {
   try {
-    const data = await apiGet<TaxonomyOption[]>(`/options/product-lines`);
+    const data = await apiGet<TaxonomyOption[]>(`/product/product-lines`);
 
     return Array.isArray(data)
       ? data.map((item) => ({
@@ -44,6 +44,7 @@ export async function getCategories(): Promise<TaxonomyOption[]> {
 
 export async function getFeatures(): Promise<TaxonomyOption[]> {
   try {
+    // TODO: No existing endpoint for this right now.
     const data = await apiGet<TaxonomyOption[]>(`/options/supplier-features`);
 
     return Array.isArray(data)
