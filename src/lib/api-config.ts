@@ -9,7 +9,7 @@
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000/v1";
 
-export const API_PRODUCTION_URL = "https://api.kumopack.com/v1";
+export const API_PRODUCTION_URL = "https://dev-api.kumopack.com/v1";
 
 export const API_IMAGE_URL =
   process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:8000/v1/images";
