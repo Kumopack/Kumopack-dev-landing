@@ -1,6 +1,5 @@
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.kumopack.com/v1";
-const API_PRODUCTION_URL = "https://api.kumopack.com/v1";
+import { API_BASE_URL, API_IMAGE_URL } from "./api-config";
+import { apiFetch } from "./api-client";
 
 export interface Category {
   id: string | number;
@@ -57,61 +56,17 @@ export interface ArticlesResponse {
   pageSize: number;
 }
 
-const TIMEOUT_MS = 15000;
-
-async function fetchWithTimeout(
-  url: string,
-  options: RequestInit = {},
-): Promise<Response> {
-  const fetchWithSignal = async (targetUrl: string, signal: AbortSignal) => {
-    return fetch(targetUrl, { ...options, signal });
-  };
-
-  const runFetch = async (targetUrl: string) => {
-    const controller = new AbortController();
-    const id = setTimeout(() => controller.abort(), TIMEOUT_MS);
-    try {
-      const response = await fetchWithSignal(targetUrl, controller.signal);
-      clearTimeout(id);
-      return response;
-    } catch (error: any) {
-      clearTimeout(id);
-      throw error;
-    }
-  };
-
-  try {
-    return await runFetch(url);
-  } catch (error: any) {
-    const isLocal = url.includes("localhost") || url.includes("127.0.0.1");
-
-    const isConnectionError =
-      error?.cause?.code === "ECONNREFUSED" ||
-      error?.name === "AbortError" ||
-      error?.message?.includes("Timeout") ||
-      error?.message?.includes("Failed to fetch") ||
-      error instanceof TypeError;
-
-    if (isLocal && isConnectionError && API_BASE_URL !== API_PRODUCTION_URL) {
-      console.warn(
-        `[blogApi] Client-side Failover to Production: ${url.replace(API_BASE_URL, API_PRODUCTION_URL)}`,
-      );
-      try {
-        return await runFetch(url.replace(API_BASE_URL, API_PRODUCTION_URL));
-      } catch (prodError) {
-        throw prodError;
-      }
-    }
-    throw error;
-  }
-}
-
 export const blogApi = {
   async getCategories(): Promise<Category[]> {
     try {
-      const res = await fetchWithTimeout(`${API_BASE_URL}/articles/category`, {
-        next: { revalidate: 3600 },
-      });
+      const res = await apiFetch(
+        `/articles/category`,
+        {},
+        {
+          next: { revalidate: 3600 },
+          failoverToProduction: true,
+        },
+      );
       if (!res.ok) throw new Error("Failed to fetch categories");
       return await res.json();
     } catch (error) {
@@ -126,12 +81,12 @@ export const blogApi = {
     category?: string,
   ): Promise<ArticlesResponse> {
     try {
-      let url = `${API_BASE_URL}/articles?page=${page}&limit=${limit}`;
+      let path = `/articles?page=${page}&limit=${limit}`;
       if (category && category !== "All") {
-        url += `&category[]=${encodeURIComponent(category)}`;
+        path += `&category[]=${encodeURIComponent(category)}`;
       }
-      console.log(`[blogApi] getArticles URL: ${url}`);
-      const res = await fetchWithTimeout(url);
+      console.log(`[blogApi] getArticles URL: ${API_BASE_URL}${path}`);
+      const res = await apiFetch(path, {}, { failoverToProduction: true });
       if (!res.ok) {
         console.error(
           `[blogApi] Failed to fetch articles: ${res.status} ${res.statusText}`,
@@ -155,8 +110,11 @@ export const blogApi = {
       const idOrSlug = slug;
 
       console.log(`[blogApi] Fetching article by slug: ${slug}`);
-      const url = `${API_BASE_URL}/articles/${encodeURIComponent(idOrSlug)}`;
-      const res = await fetchWithTimeout(url);
+      const res = await apiFetch(
+        `/articles/${encodeURIComponent(idOrSlug)}`,
+        {},
+        { failoverToProduction: true },
+      );
       if (!res.ok) return null;
       const article = await res.json();
 
@@ -187,8 +145,10 @@ export const blogApi = {
 
   async getRelatedArticles(slug: string): Promise<Article[]> {
     try {
-      const res = await fetchWithTimeout(
-        `${API_BASE_URL}/articles/${encodeURIComponent(slug)}/related`,
+      const res = await apiFetch(
+        `/articles/${encodeURIComponent(slug)}/related`,
+        {},
+        { failoverToProduction: true },
       );
       if (!res.ok) return [];
       return await res.json();
@@ -200,11 +160,10 @@ export const blogApi = {
 
   async incrementView(slug: string): Promise<void> {
     try {
-      await fetchWithTimeout(
-        `${API_BASE_URL}/articles/${encodeURIComponent(slug)}/increment-view`,
-        {
-          method: "POST",
-        },
+      await apiFetch(
+        `/articles/${encodeURIComponent(slug)}/increment-view`,
+        { method: "POST" },
+        { failoverToProduction: true },
       );
     } catch (error) {
       console.error(`Error incrementing view for ${slug}:`, error);
@@ -226,10 +185,7 @@ export const blogApi = {
       return path;
     }
 
-    const storageBase =
-      (process.env.NEXT_PUBLIC_IMAGE_URL ||
-        "https://api.kumopack.com/v1/images") + "/";
-
+    const storageBase = API_IMAGE_URL + "/";
     const cleanPath = path.startsWith("/") ? path.slice(1) : path;
     return `${storageBase}${cleanPath}`;
   },

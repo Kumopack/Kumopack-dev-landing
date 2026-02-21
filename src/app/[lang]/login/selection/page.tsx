@@ -11,9 +11,7 @@ import { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import Script from "next/script";
 import Cookies from "js-cookie";
-
-const API_ENDPOINT =
-  process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.kumopack.com/v1";
+import { API_BASE_URL, BUYER_PORTAL_URL, SUPPLIER_PORTAL_URL } from "@/lib/api-config";
 
 function LoginSelectionContent() {
   const searchParams = useSearchParams();
@@ -57,7 +55,7 @@ function LoginSelectionContent() {
     }
 
     try {
-      const loginUrl = `${API_ENDPOINT}/${role}/auth/login`;
+      const loginUrl = `${API_BASE_URL}/${role}/auth/login`;
       const response = await fetch(loginUrl, {
         method: "POST",
         headers: {
@@ -92,11 +90,7 @@ function LoginSelectionContent() {
         });
       }
 
-      const portalUrl =
-        role === "buyer"
-          ? process.env.NEXT_PUBLIC_BUYER_URL || "https://buyer.kumopack.com"
-          : process.env.NEXT_PUBLIC_SUPPLIER_URL ||
-            "https://supplier.kumopack.com";
+      const portalUrl = role === "buyer" ? BUYER_PORTAL_URL : SUPPLIER_PORTAL_URL;
 
       window.location.href = portalUrl;
     } catch (error: any) {
@@ -328,14 +322,7 @@ function LoginSelectionContent() {
                     <button
                       type="button"
                       onClick={() => {
-                        const googleUrl =
-                          role === "buyer"
-                            ? (process.env.NEXT_PUBLIC_API_ENDPOINT ||
-                                "https://api.kumopack.com/v1") +
-                              "/buyer/auth/google"
-                            : (process.env.NEXT_PUBLIC_API_ENDPOINT ||
-                                "https://api.kumopack.com/v1") +
-                              "/supplier/auth/google";
+                        const googleUrl = `${API_BASE_URL}/${role}/auth/google`;
                         window.location.href = googleUrl;
                       }}
                       className="w-full h-12 bg-white/80 border border-gray-100 rounded-xl flex items-center justify-center gap-3 text-sm font-semibold text-gray-700 hover:bg-white transition-colors shadow-sm"
