@@ -14,7 +14,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Supplier } from "@/data/suppliers";
+import { Supplier } from "@/types/supplier";
 import { getBuyerAuth, BUYER_URLS } from "@/lib/auth-buyer";
 import { useLanguage } from "@/context/LanguageContext";
 

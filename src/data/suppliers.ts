@@ -2,64 +2,17 @@ import { getStoragePath } from "@/lib/utils";
 import { API_IMAGE_URL } from "@/lib/api-config";
 import { apiGet, apiFetch } from "@/lib/api-client";
 
-export interface SupplierFeature {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-
-  nameTh?: string;
-  nameEn?: string;
-  descriptionTh?: string;
-  descriptionEn?: string;
-}
-
-export interface ProductCategory {
-  id: string;
-  name: string;
-  description?: string;
-  image?: string;
-  items: {
-    id: string;
-    name: string;
-    image: string;
-  }[];
-}
-
-export interface Supplier {
-  id: string;
-  code?: string;
-  name: string;
-  displayTitle?: string;
-  rating: number;
-  reviewCount: number;
-  location: string;
-  address: string;
-  specialized: string;
-  image: string;
-  logo: string;
-  tagline: string;
-  description: string;
-  website: string;
-  email: string;
-  phone?: string;
-  features: SupplierFeature[];
-  categories: ProductCategory[];
-  gallery: string[];
-  stats: {
-    experience: string;
-    capacity: string;
-    certifications: string;
-    leadTime: string;
-    orderAmount: string;
-  };
-  isActive?: boolean;
-  slug?: string;
-  supplierType?: string;
-  companyTaxNo?: string;
-  membershipTypeTitle?: string;
-  isVerified?: boolean;
-}
+// Re-export types for backwards compatibility
+export type {
+  Supplier,
+  SupplierFeature,
+  ProductCategory,
+} from "@/types/supplier";
+import type {
+  Supplier,
+  SupplierFeature,
+  ProductCategory,
+} from "@/types/supplier";
 
 const PROVINCE_MAP: Record<string, string> = {
   กทม: "Bangkok",
@@ -118,38 +71,86 @@ const FEATURE_MAP: Record<string, string> = {
   "on demand": "ondemand",
 };
 
-const REVERSE_CATEGORY_MAP: Record<string, string> = {
-  flexible: "Flexible Packaging",
-  corrugated: "Corrugated Box",
-  rigid: "Rigid Box",
-  paper: "Paper Packaging",
-  label: "Sticker & Label",
-  tube: "Tube Packaging",
-};
-
-const REVERSE_FEATURE_MAP: Record<string, string> = {
-  fast: "Fast Production",
-  ondemand: "No Minimum",
-  design: "Design Services",
-  fda: "FDA Certified",
-  iso: "ISO Certified",
-};
-
 function normalizeCategory(name: string): string {
   if (!name) return "";
   return CATEGORY_MAP[name.toLowerCase()] || name.toLowerCase();
 }
 
-function normalizeFeature(name: string): string {
-  if (!name) return "";
-  const lower = name.toLowerCase();
-  for (const [key, value] of Object.entries(FEATURE_MAP)) {
-    if (lower.includes(key)) return value;
-  }
-  return lower;
+/* eslint-disable @typescript-eslint/no-explicit-any -- Raw API response shapes are dynamic */
+interface TaxonomyRef {
+  id?: string | number;
+  slug?: string;
+  nameTh?: string;
+  nameEn?: string;
+  descriptionTh?: string;
+  descriptionEn?: string;
+  featurePicturePath?: string;
+  shortName?: string;
+  colorLabel?: string;
 }
 
-function checkIsVerified(features: any[]): boolean {
+interface SupplierFeatureRaw {
+  id: string | number;
+  taxonomyId?: string | number;
+  taxonomy?: TaxonomyRef;
+}
+
+interface SupplierProductCategoryRaw {
+  productLine?: { id: string | number; nameEn?: string; nameTh?: string };
+}
+
+interface SupplierProductRaw {
+  categoryId?: string | number;
+  product?: {
+    id: string | number;
+    nameEn?: string;
+    nameTh?: string;
+    featurePicturePath?: string;
+  };
+}
+
+interface SupplierApiData {
+  id: string | number;
+  slug?: string;
+  code?: string;
+  uuId?: string;
+  displayTitle?: string;
+  companyName?: string;
+  companyAddress?: string;
+  companyCard?: string;
+  companyPictureCover?: string;
+  companyLogo?: string;
+  companyTaxNo?: string;
+  tagline?: string;
+  businessDescription?: string;
+  cardDescription?: string;
+  website?: string;
+  email?: string;
+  phone?: string;
+  review?: number;
+  reviewAmount?: number;
+  orderAmount?: number;
+  minimumProductionQuantity?: string;
+  deliveryDateAmount?: number;
+  createdAt?: string;
+  isActive?: boolean;
+  supplierType?: string;
+  membershipTypeTitle?: string;
+  supplierFeatures?: SupplierFeatureRaw[];
+  supplierProductCategories?: SupplierProductCategoryRaw[];
+  supplierProducts?: SupplierProductRaw[];
+  supplierCertificates?: { taxonomy?: TaxonomyRef }[];
+  galleryImages?: { path: string }[];
+}
+
+interface SupplierListResponse {
+  data?: SupplierApiData[];
+  totalItems?: number;
+  total?: number;
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+function checkIsVerified(features: SupplierFeatureRaw[]): boolean {
   if (!features || !Array.isArray(features)) return false;
   return features.some(
     (f) =>
@@ -191,7 +192,7 @@ export const suppliers: Supplier[] = [
 
 export async function getSupplierData(slug: string): Promise<Supplier | null> {
   try {
-    const data = await apiGet<any>(`/supplier/${slug}`);
+    const data = await apiGet<SupplierApiData>(`/supplier/${slug}`);
 
     const fallback = suppliers.find((s) => s.id === slug);
 
@@ -210,7 +211,7 @@ export async function getSupplierData(slug: string): Promise<Supplier | null> {
       rating: data.review || fallback?.rating || 5,
       reviewCount: data.reviewAmount || fallback?.reviewCount || 0,
       location:
-        extractProvince(data.companyAddress) ||
+        extractProvince(data.companyAddress || "") ||
         fallback?.location ||
         "Thailand",
       address: data.companyAddress || fallback?.address || "",
@@ -237,9 +238,9 @@ export async function getSupplierData(slug: string): Promise<Supplier | null> {
       phone: data.phone || fallback?.phone || "",
       features:
         (data.supplierFeatures || []).length > 0
-          ? data.supplierFeatures.map((f: any) => ({
+          ? data.supplierFeatures!.map((f) => ({
               id: String(f.id),
-              title: f.taxonomy?.nameEn || f.taxonomy?.nameTh,
+              title: f.taxonomy?.nameEn || f.taxonomy?.nameTh || "",
               description:
                 f.taxonomy?.descriptionEn || f.taxonomy?.descriptionTh || "",
               icon: getStoragePath(f.taxonomy?.featurePicturePath),
@@ -251,26 +252,25 @@ export async function getSupplierData(slug: string): Promise<Supplier | null> {
           : fallback?.features || [],
       categories:
         (data.supplierProductCategories || []).length > 0
-          ? data.supplierProductCategories
-              .map((cat: any) => ({
+          ? data
+              .supplierProductCategories!.map((cat) => ({
                 id: String(cat.productLine?.id),
-                name: cat.productLine?.nameEn,
+                name: cat.productLine?.nameEn || "",
                 items: (data.supplierProducts || [])
                   .filter(
-                    (p: any) =>
-                      String(p.categoryId) === String(cat.productLine?.id),
+                    (p) => String(p.categoryId) === String(cat.productLine?.id),
                   )
-                  .map((p: any) => ({
+                  .map((p) => ({
                     id: String(p.product?.id),
-                    name: p.product?.nameEn || p.product?.nameTh,
+                    name: p.product?.nameEn || p.product?.nameTh || "",
                     image: getStoragePath(p.product?.featurePicturePath),
                   })),
               }))
-              .filter((c: any) => c.items.length > 0)
+              .filter((c) => c.items.length > 0)
           : fallback?.categories || [],
       gallery:
         (data.galleryImages || []).length > 0
-          ? data.galleryImages.map((img: any) => getStoragePath(img.path))
+          ? data.galleryImages!.map((img) => getStoragePath(img.path))
           : fallback?.gallery || [],
       stats: {
         experience: data.createdAt
@@ -280,8 +280,8 @@ export async function getSupplierData(slug: string): Promise<Supplier | null> {
           data.minimumProductionQuantity || fallback?.stats.capacity || "N/A",
         certifications:
           (data.supplierCertificates || []).length > 0
-            ? data.supplierCertificates
-                .map((c: any) => c.taxonomy?.shortName)
+            ? data
+                .supplierCertificates!.map((c) => c.taxonomy?.shortName)
                 .join(", ")
             : fallback?.stats.certifications || "ISO",
         leadTime: data.deliveryDateAmount
@@ -295,9 +295,9 @@ export async function getSupplierData(slug: string): Promise<Supplier | null> {
       supplierType: data.supplierType,
       companyTaxNo: data.companyTaxNo,
       membershipTypeTitle: data.membershipTypeTitle,
-      isVerified: checkIsVerified(data.supplierFeatures),
+      isVerified: checkIsVerified(data.supplierFeatures || []),
     };
-  } catch (error) {
+  } catch {
     return suppliers.find((s) => s.id === slug) || null;
   }
 }
@@ -328,21 +328,23 @@ export async function getSuppliersList(
 
   try {
     const res = await apiFetch(path);
-    const data = await res.json();
+    const data: SupplierListResponse | SupplierApiData[] = await res.json();
     const list = Array.isArray(data) ? data : data.data || [];
-    const total = data.totalItems || data.total || list.length;
+    const total = Array.isArray(data)
+      ? data.length
+      : data.totalItems || data.total || list.length;
 
-    const mapped = list.map((s: any) => ({
+    const mapped = list.map((s: SupplierApiData) => ({
       id: s.uuId || String(s.id),
       code: s.code,
-      name: s.companyName,
+      name: s.companyName || "",
       status: "Gold Supplier",
       rating: Number(s.review || 4.5),
       reviewCount: Number(s.reviewAmount || 120),
       specialized: (s.supplierProductCategories || [])
-        .map((c: any) => c.productLine.nameEn)
+        .map((c: SupplierProductCategoryRaw) => c.productLine?.nameEn)
         .join(", "),
-      location: extractProvince(s.companyAddress),
+      location: extractProvince(s.companyAddress || ""),
       tagline: s.tagline || "",
       image:
         getStoragePath(s.companyPictureCover) || "/asset/placeholder-logo.png",
@@ -353,7 +355,7 @@ export async function getSuppliersList(
       address: s.companyAddress || "",
       logo: getStoragePath(s.companyLogo) || "",
       description: s.cardDescription || "",
-      features: (s.supplierFeatures || []).map((f: any) => ({
+      features: (s.supplierFeatures || []).map((f: SupplierFeatureRaw) => ({
         id: String(f.taxonomy?.id || f.id),
         title: f.taxonomy?.nameEn || f.taxonomy?.nameTh || "",
         description:
@@ -364,11 +366,13 @@ export async function getSuppliersList(
         descriptionTh: f.taxonomy?.descriptionTh,
         descriptionEn: f.taxonomy?.descriptionEn,
       })),
-      categories: (s.supplierProductCategories || []).map((c: any) => ({
-        id: normalizeCategory(c.productLine?.nameEn),
-        name: c.productLine?.nameEn,
-        items: [],
-      })),
+      categories: (s.supplierProductCategories || []).map(
+        (c: SupplierProductCategoryRaw) => ({
+          id: normalizeCategory(c.productLine?.nameEn || ""),
+          name: c.productLine?.nameEn || "",
+          items: [],
+        }),
+      ),
       gallery: [],
       stats: {
         experience: "N/A",
@@ -382,11 +386,11 @@ export async function getSuppliersList(
       supplierType: s.supplierType,
       companyTaxNo: s.companyTaxNo,
       membershipTypeTitle: s.membershipTypeTitle,
-      isVerified: checkIsVerified(s.supplierFeatures),
+      isVerified: checkIsVerified(s.supplierFeatures || []),
     }));
 
     return { data: mapped, total };
-  } catch (error) {
+  } catch {
     return { data: suppliers, total: suppliers.length };
   }
 }

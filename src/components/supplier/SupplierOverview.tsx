@@ -1,7 +1,7 @@
 "use client";
 
 import { Factory, MapPin } from "lucide-react";
-import { Supplier } from "@/data/suppliers";
+import { Supplier } from "@/types/supplier";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface SupplierOverviewProps {

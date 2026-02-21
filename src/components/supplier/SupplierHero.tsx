@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Supplier } from "@/data/suppliers";
+import { Supplier } from "@/types/supplier";
 import { SafeImage } from "@/components/ui/safe-image";
 
 import { VerifiedBadge } from "@/components/shared/VerifiedBadge";
