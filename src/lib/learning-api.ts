@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "./api-config";
+import { API_BASE_URL, API_IMAGE_URL } from "./api-config";
 import { apiGet, ApiError } from "./api-client";
 
 const LEARNING_BASE = `${API_BASE_URL}/learning-center`;
@@ -377,7 +377,7 @@ export const learningApi = {
       return path;
     }
 
-    const storageBase = `${API_BASE_URL}/`;
+    const storageBase = `${API_IMAGE_URL}/`;
     const cleanPath = path.startsWith("/") ? path.slice(1) : path;
     return `${storageBase}${cleanPath}`;
   },
