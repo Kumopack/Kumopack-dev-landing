@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/select";
 import { getProvinces, Province } from "@/data/geo";
 import { getCategories, getFeatures, TaxonomyOption } from "@/data/taxonomy";
-import { div } from "framer-motion/client";
 
 interface SupplierFiltersProps {
   onSearch: (query: string) => void;

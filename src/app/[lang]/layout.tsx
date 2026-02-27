@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LanguageProvider } from "@/context/LanguageContext";
+import QueryProvider from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "Kumopack | The Absolute Packaging Solutions",
@@ -22,5 +23,10 @@ export default async function LocaleLayout({
   // to avoid Next.js warnings about unwrapped promises in layouts.
   await params;
 
-  return <LanguageProvider>{children}</LanguageProvider>;
+  return (
+    <LanguageProvider>
+      <QueryProvider>{children}</QueryProvider>
+    </LanguageProvider>
+  );
 }
+

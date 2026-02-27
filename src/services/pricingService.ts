@@ -1,23 +1,29 @@
-const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
+import { apiGet, apiPost } from "@/lib/api-client";
+import { BUYER_PORTAL_URL, SUPPLIER_PORTAL_URL } from "@/lib/api-config";
+
+interface MembershipListResponse {
+  data?: MembershipPackage[];
+}
+
+interface MembershipPackage {
+  id: string;
+  name: string;
+  [key: string]: string | number | boolean | undefined | null;
+}
+
+interface PaymentResponse {
+  url?: string;
+  [key: string]: string | number | boolean | undefined | null;
+}
 
 export const pricingService = {
   getBuyerPricing: async () => {
     try {
-      const response = await fetch(`${API_ENDPOINT}/membership/public-list?userType=buyer`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      });
+      const result = await apiGet<MembershipListResponse | MembershipPackage[]>(
+        `/membership/public-list?userType=buyer`,
+      );
 
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      if (result.data && Array.isArray(result.data)) {
+      if (!Array.isArray(result) && result.data && Array.isArray(result.data)) {
         return result.data;
       } else if (Array.isArray(result)) {
         return result;
@@ -25,28 +31,18 @@ export const pricingService = {
         return [];
       }
     } catch (error) {
-      console.error('getBuyerPricing error:', error);
-      throw new Error('ไม่สามารถโหลดข้อมูลแพ็คเกจได้');
+      console.error("getBuyerPricing error:", error);
+      throw new Error("ไม่สามารถโหลดข้อมูลแพ็คเกจได้");
     }
   },
 
   getSupplierPricing: async () => {
     try {
-      const response = await fetch(`${API_ENDPOINT}/membership/public-list?userType=supplier`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      });
+      const result = await apiGet<MembershipListResponse | MembershipPackage[]>(
+        `/membership/public-list?userType=supplier`,
+      );
 
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      if (result.data && Array.isArray(result.data)) {
+      if (!Array.isArray(result) && result.data && Array.isArray(result.data)) {
         return result.data;
       } else if (Array.isArray(result)) {
         return result;
@@ -54,80 +50,36 @@ export const pricingService = {
         return [];
       }
     } catch (error) {
-      console.error('getSupplierPricing error:', error);
-      throw new Error('ไม่สามารถโหลดข้อมูลแพ็คเกจได้');
+      console.error("getSupplierPricing error:", error);
+      throw new Error("ไม่สามารถโหลดข้อมูลแพ็คเกจได้");
     }
   },
 
-  
-  
-  
-
-  createBuyerPayment: async (packageUuid: string, billingType: string) => {
-    
-    
-    
-     try {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        const response = await fetch(`${API_ENDPOINT}/membership/purchase/card?userType=buyer`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-            body: JSON.stringify({
-                packageUuid: packageUuid,
-                returnUrl: `${
-                    process.env.NEXT_PUBLIC_BUYER_URL || 'https://buyer.kumopack.com'
-                }/profile/setting/bill-plan`,
-            }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-             throw new Error(data.message || 'เกิดข้อผิดพลาดในการจ่ายเงิน');
-        }
-
-        return data;
-    } catch (error) {
-        throw error;
-    }
-  },
-
-   createSupplierPayment: async (packageUuid: string, billingType: string) => {
+  createBuyerPayment: async (packageUuid: string, _billingType: string) => {
     try {
-        const response = await fetch(`${API_ENDPOINT}/membership/purchase/card?userType=supplier`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-            body: JSON.stringify({
-                packageUuid: packageUuid,
-                returnUrl: `${
-                    process.env.NEXT_PUBLIC_SUPPLIER_URL || 'https://supplier.kumopack.com'
-                }/plans`,
-            }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'เกิดข้อผิดพลาดในการจ่ายเงิน');
-        }
-
-        return data;
+      return await apiPost<PaymentResponse>(
+        `/membership/purchase/card?userType=buyer`,
+        {
+          packageUuid: packageUuid,
+          returnUrl: `${BUYER_PORTAL_URL}/profile/setting/bill-plan`,
+        },
+      );
     } catch (error) {
-        throw error;
+      throw error;
     }
-  }
+  },
+
+  createSupplierPayment: async (packageUuid: string, _billingType: string) => {
+    try {
+      return await apiPost<PaymentResponse>(
+        `/membership/purchase/card?userType=supplier`,
+        {
+          packageUuid: packageUuid,
+          returnUrl: `${SUPPLIER_PORTAL_URL}/plans`,
+        },
+      );
+    } catch (error) {
+      throw error;
+    }
+  },
 };

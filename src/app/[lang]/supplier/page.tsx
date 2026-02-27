@@ -6,7 +6,8 @@ import Footer from "@/components/Footer";
 import { LayoutGrid, List } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
-import { getSuppliersList, Supplier } from "@/data/suppliers";
+import { getSuppliersList } from "@/data/suppliers";
+import { Supplier } from "@/types/supplier";
 import { useState, useEffect, useCallback } from "react";
 import SupplierCard from "@/components/SupplierCard";
 import SupplierFilters, { FilterState } from "@/components/SupplierFilters";

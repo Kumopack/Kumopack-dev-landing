@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { th } from "@/locales/th";
 import { en } from "@/locales/en";
-import { useParams, useRouter, usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 
 type Language = "th" | "en";
 type Translations = typeof en;
@@ -29,7 +29,6 @@ const translations: Record<Language, Translations> = { th, en };
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const params = useParams();
-  const router = useRouter();
   const pathname = usePathname();
 
   const urlLang = params?.lang as Language;
@@ -55,12 +54,17 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     if (pathname) {
       const segments = pathname.split("/");
 
+      let newPath: string;
       if (segments[1] === "en" || segments[1] === "th") {
         segments[1] = lang;
-        router.push(segments.join("/") || "/");
+        newPath = segments.join("/") || "/";
       } else {
-        router.push(`/${lang}${pathname}`);
+        newPath = `/${lang}${pathname}`;
       }
+
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set("lang", lang);
+      window.location.href = `${newPath}?${searchParams.toString()}`;
     }
   };
 

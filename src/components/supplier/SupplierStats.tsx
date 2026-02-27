@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Zap, Clock, Boxes, ShieldCheck } from "lucide-react";
-import { Supplier } from "@/data/suppliers";
+import { Supplier } from "@/types/supplier";
 
 interface SupplierStatsProps {
     stats: Supplier["stats"];

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { learningApi, LearningArticle } from "@/lib/learning-api";
 import LearningContent from "./LearningContent";
 import Navbar from "@/components/Navbar";
@@ -8,6 +9,47 @@ import { Loader2 } from "lucide-react";
 import { getSafeSlug, slugMatches } from "@/lib/slug-utils";
 
 export const dynamicParams = false;
+
+// ---------------------------------------------------------------------------
+// Dynamic Metadata (SEO + Accessibility)
+// ---------------------------------------------------------------------------
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug: rawId } = await params;
+  const language = "th";
+
+  let decodedSlug = String(rawId);
+  try {
+    let prev = "";
+    while (decodedSlug !== prev) {
+      prev = decodedSlug;
+      decodedSlug = decodeURIComponent(decodedSlug);
+    }
+  } catch (e) {}
+  decodedSlug = decodedSlug.normalize("NFC");
+
+  try {
+    const article = await learningApi.getArticleBySlug(decodedSlug, language);
+    if (article) {
+      return {
+        title: article.meta?.title || article.title,
+        description:
+          article.meta?.description ||
+          article.description ||
+          article.excerpt ||
+          `${article.title} - Kumopack Learning Center`,
+      };
+    }
+  } catch (e) {}
+
+  return {
+    title: "Learning Center | Kumopack",
+    description: "In-depth guides and insights for packaging professionals.",
+  };
+}
 
 export async function generateStaticParams() {
   try {
@@ -75,6 +117,7 @@ export default async function LearningDetailPage({
   decodedSlug = decodedSlug.normalize("NFC");
 
   let article: LearningArticle | null = null;
+  let relatedArticles: LearningArticle[] = [];
   let isFallback = false;
 
   try {
@@ -107,6 +150,8 @@ export default async function LearningDetailPage({
 
     if (article) {
       isFallback = !article.url.startsWith(`/${language}/`);
+      // Fetch related articles concurrently on the server side
+      relatedArticles = await learningApi.getRelatedArticles(article.slug, language);
     } else {
       article = {
         id: -1,
@@ -161,13 +206,19 @@ export default async function LearningDetailPage({
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-kumopack-base-white">
-          <Loader2 className="w-12 h-12 text-primary animate-spin opacity-20" />
+        <div
+          className="min-h-screen flex items-center justify-center bg-kumopack-base-white"
+          role="status"
+          aria-label="Loading article"
+        >
+          <Loader2 className="w-12 h-12 text-primary animate-spin opacity-20" aria-hidden="true" />
+          <span className="sr-only">Loading article content...</span>
         </div>
       }
     >
       <LearningContent
         article={article}
+        relatedArticles={relatedArticles}
         audience={audience}
         isFallback={isFallback}
       />

@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SafeImage } from "@/components/ui/safe-image";
-import { Supplier } from "@/data/suppliers";
+import { Supplier } from "@/types/supplier";
 import {
   Tooltip,
   TooltipContent,

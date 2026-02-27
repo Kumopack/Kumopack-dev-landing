@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Boxes, ChevronDown, ChevronUp } from "lucide-react";
-import { Supplier } from "@/data/suppliers";
+import { Supplier } from "@/types/supplier";
 import { SafeImage } from "@/components/ui/safe-image";
 import { useLanguage } from "@/context/LanguageContext";
 
