@@ -93,29 +93,37 @@ const HeroSection = () => {
           >
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-premium backdrop-blur-xl border border-white/30 shadow-glow"
+              className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-primary/5 border border-primary/15 shadow-sm"
             >
-              <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse-soft" />
-              <span className="text-sm font-semibold text-foreground/90 tracking-wide uppercase">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse-soft" />
+              <span className="text-sm font-medium text-primary tracking-wide">
                 {t("aboutUs.brandsTrusted") || "Trusted by 500+ global brands"}
               </span>
             </motion.div>
 
-            <motion.h1
-              variants={itemVariants}
-              className="text-5xl md:text-6xl lg:text-7xl font-black text-foreground leading-[1.05] tracking-tighter"
-            >
-              <span className="block drop-shadow-sm">
+            <motion.h1 variants={itemVariants} className="space-y-2">
+              <span className="block text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground/80 leading-[1.15] tracking-tight">
                 {t("home.heroTitleMain")}
               </span>
-              <span className="text-primary italic inline-block mt-2 drop-shadow-sm">
+              <span className="relative block text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-lavender-deep">
                 {t("home.heroTitleHighlight")}
+                {/* Animated underline accent */}
+                <motion.span
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{
+                    delay: 1.2,
+                    duration: 0.8,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-primary/60 to-lavender-deep/40 rounded-full origin-left"
+                />
               </span>
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="text-xl md:text-2xl text-muted-foreground/90 max-w-xl leading-relaxed font-medium"
+              className="text-base md:text-lg text-muted-foreground max-w-md leading-relaxed"
             >
               {t("home.heroSubtitle")}
             </motion.p>

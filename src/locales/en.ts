@@ -33,7 +33,82 @@ export const en = {
     heroTitleMain: "Build your brand with",
     heroTitleHighlight: "custom packaging",
     heroSubtitle:
-      "We connect you with the best factories to create unique packaging and sustainable materials.",
+      "Connect with certified factories worldwide to design, source, and produce premium custom packaging — faster and smarter than ever.",
+    heroBadge: "Trusted by 500+ global brands",
+    heroStat1Value: "500+",
+    heroStat1Label: "Brands Served",
+    heroStat2Value: "200+",
+    heroStat2Label: "Certified Factories",
+    heroStat3Value: "3–5",
+    heroStat3Label: "Days to Quote",
+    heroFeature1: "Custom Box Design",
+    heroFeature2: "Eco-Friendly Materials",
+    heroFeature3: "Direct Factory Prices",
+    heroFeature4: "Low MOQ Orders",
+    heroCtaSecondary: "View Pricing",
+    heroBoxLabel1: "Mailer Box",
+    heroBoxLabel2: "Product Box",
+    heroBoxLabel3: "Shipping Box",
+    heroTrustLine: "No middlemen. No hidden fees. Just great packaging.",
+  },
+  systemFeatures: {
+    buyerTab: "Buyer",
+    factoryTab: "Factory / Supplier",
+    buyerTitle: "System for Buyers",
+    buyerSubtitle:
+      "Get offers from a variety of factories to match your needs and find products at the right price and quality.",
+    buyerFeature1Title: "Smart Factory Matching",
+    buyerFeature1Desc:
+      "Find the right factory for your needs with our intelligent search system that filters manufacturers matching your exact requirements — no more contacting factories that can't produce what you want.",
+    buyerFeature2Title: "Side-by-Side Comparison",
+    buyerFeature2Desc:
+      "Compare each factory's strengths — location, printing capabilities, production speed, minimum order quantities, and more — all in one view.",
+    buyerFeature3Title: "Quotes Within 48 Hours",
+    buyerFeature3Desc:
+      "Suppliers are required to submit quotations within 48 hours. If the deadline passes, the quotation request is automatically closed.",
+    buyerFeature4Title: "Ordering, Payment & Product Guarantee",
+    buyerFeature4Desc:
+      "Place orders directly on the platform with multiple payment options including QR Payment, Credit Card, and Bank Transfer.",
+    factoryTitle: "System for Factories",
+    factorySubtitle:
+      "Increase your opportunities to quote customers and open new sales channels.",
+    factoryFeature1Title: "Daily Business Matching",
+    factoryFeature1Desc:
+      "Receive new quote requests from buyers every day — a constant stream of new customer opportunities.",
+    factoryFeature2Title: "Quotation Management",
+    factoryFeature2Desc:
+      "Issue quotations and close sales all within the platform in just a few simple steps.",
+    factoryFeature3Title: "Private 1:1 Chat",
+    factoryFeature3Desc:
+      "Chat directly with customers to increase closing rates, with easy access to customer details right in the conversation.",
+    factoryFeature4Title: "Top Google Rankings",
+    factoryFeature4Desc:
+      "Reduce advertising costs — Kumopack is an online marketplace that pushes every factory in the system to rank at the top of Google search results.",
+    // Buyer Highlights (left panel)
+    buyerHighlight1Value: "48 hrs",
+    buyerHighlight1Label: "Guaranteed quote response time",
+    buyerHighlight2Value: "200+",
+    buyerHighlight2Label: "Certified factory partners",
+    buyerHighlight3Value: "100%",
+    buyerHighlight3Label: "Secure payment protection",
+    buyerHighlight4Value: "4.9/5",
+    buyerHighlight4Label: "Average buyer satisfaction",
+    // Factory Highlights (left panel)
+    factoryHighlight1Value: "Daily",
+    factoryHighlight1Label: "New buyer leads matched",
+    factoryHighlight2Value: "Top 10",
+    factoryHighlight2Label: "Google ranking for factories",
+    factoryHighlight3Value: "3x",
+    factoryHighlight3Label: "Average sales growth",
+    factoryHighlight4Value: "0%",
+    factoryHighlight4Label: "Platform commission fee",
+    // Info boxes
+    buyerInfoTitle: "Why buy through Kumopack?",
+    buyerInfoDesc:
+      "Our platform eliminates the hassle of sourcing packaging. Every factory is pre-vetted, every quote is standardized, and every order is protected with our buyer guarantee program.",
+    factoryInfoTitle: "Why sell on Kumopack?",
+    factoryInfoDesc:
+      "Gain instant access to hundreds of qualified buyers actively searching for packaging suppliers. No advertising spend needed — we bring the customers to you.",
   },
   pricing: {
     title: "Pricing",

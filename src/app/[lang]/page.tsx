@@ -16,6 +16,9 @@ const CategoriesSection = dynamic(
   () => import("@/components/CategoriesSection"),
 );
 const GallerySection = dynamic(() => import("@/components/GallerySection"));
+const SystemFeaturesSection = dynamic(
+  () => import("@/components/SystemFeaturesSection"),
+);
 const BlogSection = dynamic(() => import("@/components/BlogSection"));
 const LogoTicker = dynamic(() => import("@/components/LogoTicker"));
 
@@ -29,6 +32,7 @@ export default async function Home() {
       <PromoPopup />
       <HeroSection />
       <GallerySection />
+      <SystemFeaturesSection />
       <ValueProposition />
       <HowItWorks />
       <FeaturesSection />
