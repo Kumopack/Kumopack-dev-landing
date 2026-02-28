@@ -18,5 +18,14 @@ export function getAssetPath(path: string | undefined | null) {
   if (!path) return "";
   if (path.startsWith("http") || path.startsWith("data:")) return path;
 
+  // Fix for GitHub Pages deployment: prepend basePath for absolute paths
+  if (
+    path.startsWith("/") &&
+    process.env.NODE_ENV === "production" &&
+    !path.startsWith("/Kumopack-dev")
+  ) {
+    return `/Kumopack-dev-landing${path}`;
+  }
+
   return path;
 }
