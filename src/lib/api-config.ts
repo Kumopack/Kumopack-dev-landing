@@ -7,12 +7,18 @@
  */
 
 export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:8000/v1";
+  process.env.NEXT_PUBLIC_API_ENDPOINT ||
+  (process.env.NODE_ENV === "production"
+    ? "https://api.kumopack.com/v1"
+    : "http://localhost:8000/v1");
 
 export const API_PRODUCTION_URL = "https://dev-api.kumopack.com/v1";
 
 export const API_IMAGE_URL =
-  process.env.NEXT_PUBLIC_IMAGE_URL || "http://localhost:8000/v1/images";
+  process.env.NEXT_PUBLIC_IMAGE_URL ||
+  (process.env.NODE_ENV === "production"
+    ? "https://api.kumopack.com/v1/images"
+    : "http://localhost:8000/v1/images");
 
 export const BUYER_PORTAL_URL =
   process.env.NEXT_PUBLIC_BUYER_URL || "http://localhost:3000";
