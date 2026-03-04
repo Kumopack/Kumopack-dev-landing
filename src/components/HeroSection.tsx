@@ -132,7 +132,7 @@ const HeroSection = () => {
               variants={itemVariants}
               className="flex flex-wrap gap-6 pt-4"
             >
-              <Link href="/pricing">
+              <Link href="/register">
                 <Button
                   variant="hero"
                   size="xl"
@@ -165,7 +165,7 @@ const HeroSection = () => {
                 <div className="flex items-center gap-4">
                   <div className="w-4 h-4 rounded-full bg-primary animate-pulse-soft" />
                   <span className="text-xs font-black tracking-[0.2em] uppercase text-muted-foreground/60">
-                    Live Sourcing Network
+                    ระบบเปรียบเทียบเทียบราคา (จำลอง)
                   </span>
                 </div>
                 <div className="px-3 py-1.5 rounded-lg bg-primary/20 text-[10px] font-black text-primary italic border border-primary/30 tracking-widest">
@@ -176,24 +176,24 @@ const HeroSection = () => {
               <div className="space-y-6">
                 {[
                   {
-                    factory: "ShenZhen Pack Co.",
-                    price: "$0.42",
-                    time: "5-7 days",
+                    factory: "Khon Kaen Packaging Co., Ltd.",
+                    price: "12.50",
+                    time: "Delivery in 5 days",
                     badge: "Popular",
                     delay: 0.6,
                   },
                   {
-                    factory: "GuangZhou Premium",
-                    price: "$0.38",
-                    time: "7-10 days",
-                    badge: "Best Price",
+                    factory: "Saraburi Plastic Factory",
+                    price: "11.20",
+                    time: "Delivery in 7 days",
+                    badge: "Best Value",
                     delay: 0.7,
                   },
                   {
-                    factory: "Dongguan Fast",
-                    price: "$0.45",
-                    time: "3-5 days",
-                    badge: "Fast",
+                    factory: "Samut Prakan Packaging",
+                    price: "14.00",
+                    time: "Delivery in 3 days",
+                    badge: "Fast Delivery",
                     delay: 0.8,
                   },
                 ].map((quote, index) => (
@@ -224,12 +224,12 @@ const HeroSection = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-muted-foreground">
                         <div className="p-1.5 rounded-lg bg-white/5">
-                          <DollarSign className="w-4 h-4 text-primary" />
+                          <span className="w-4 h-4 text-primary"> ฿ </span>
                         </div>
                         <span className="font-bold text-foreground text-xl">
                           {quote.price}
                           <span className="text-[12px] text-muted-foreground/60 ml-1">
-                            /unit
+                            /ชิ้น
                           </span>
                         </span>
                       </div>

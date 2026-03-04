@@ -255,11 +255,7 @@ export default function LoginSelectionContent() {
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                     >
-                      {showPassword ? (
-                        <EyeOff size={16} />
-                      ) : (
-                        <Eye size={16} />
-                      )}
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </div>
                 </div>
@@ -337,10 +333,10 @@ export default function LoginSelectionContent() {
         <div className="mt-auto pt-8 text-center text-[10px] text-black">
           {t("login.newToKumopack")}{" "}
           <Link
-            href="/pricing"
+            href="/register"
             className="text-purple-600 font-bold hover:underline"
           >
-            {t("login.explorePlans")}
+            {t("login.signUp")}
           </Link>
         </div>
       )}
