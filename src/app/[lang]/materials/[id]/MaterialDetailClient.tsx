@@ -5,7 +5,10 @@ import Footer from "@/components/Footer";
 import { ArrowLeft } from "lucide-react";
 import Link from "@/components/common/LocalizedLink";
 import { useLanguage } from "@/context/LanguageContext";
-import { useParams, useLocalizedRouter as useRouter } from "@/hooks/useLocalizedRouter";
+import {
+  useParams,
+  useLocalizedRouter as useRouter,
+} from "@/hooks/useLocalizedRouter";
 import { useState, useEffect } from "react";
 import { Material, materialApi, productApi } from "@/lib/product-api";
 import { SustainabilityIcon } from "@/components/SustainabilityIcon";
@@ -176,14 +179,12 @@ export default function MaterialDetailClient({
                 {isTh ? material.nameTh : material.nameEn}
               </h1>
 
-              {/* Short Description */}
               {shortDesc && (
                 <p className="text-xl md:text-2xl font-medium text-muted-foreground mb-8 leading-relaxed">
                   {shortDesc}
                 </p>
               )}
 
-              {/* Long Description */}
               <div className="prose prose-lg dark:prose-invert text-muted-foreground leading-relaxed">
                 {longDesc ? (
                   <div dangerouslySetInnerHTML={{ __html: longDesc }} />
@@ -213,7 +214,6 @@ export default function MaterialDetailClient({
           </motion.div>
         </div>
 
-        {/* Products Section - Full Width Bottom */}
         {material.products && material.products.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

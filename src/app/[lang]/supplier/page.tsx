@@ -71,7 +71,6 @@ export default function SupplierPage() {
     <main className="min-h-screen bg-neutral-50/50 text-foreground selection:bg-primary/20 selection:text-primary">
       <Navbar />
 
-      {/* Header Section */}
       <section className="pt-32 pb-12 px-4 md:px-8 bg-white border-b border-neutral-100">
         <div className="container mx-auto max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-end gap-6">
@@ -100,7 +99,6 @@ export default function SupplierPage() {
       <section className="py-12 px-4 md:px-8">
         <div className="container mx-auto max-w-8xl">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
-            {/* Sidebar Filters (Left Side) */}
             <div className="lg:col-span-1 order-1 lg:order-1">
               <SupplierFilters
                 onSearch={() => {}}
@@ -108,7 +106,6 @@ export default function SupplierPage() {
               />
             </div>
 
-            {/* Main Content (Supplier List) */}
             <div className="lg:col-span-3 order-2 lg:order-2">
               <div className="flex justify-between items-center mb-6">
                 <p className="text-sm font-bold text-muted-foreground uppercase tracking-wider">
@@ -150,7 +147,6 @@ export default function SupplierPage() {
               ) : (
                 <TooltipProvider>
                   <div className="space-y-12">
-                    {/* List */}
                     <div
                       className={`grid gap-6 ${viewMode === "grid" ? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3" : "grid-cols-1"}`}
                     >
@@ -171,7 +167,6 @@ export default function SupplierPage() {
                       )}
                     </div>
 
-                    {/* Pagination Controls */}
                     {totalPages > 1 && (
                       <div className="flex justify-center items-center gap-2">
                         <button

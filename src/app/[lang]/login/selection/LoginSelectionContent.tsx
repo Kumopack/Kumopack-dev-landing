@@ -102,7 +102,6 @@ export default function LoginSelectionContent() {
 
   return (
     <>
-      {/* Back Button */}
       <button
         onClick={() => (role ? setRole(null) : goHome())}
         className="absolute top-6 left-6 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center hover:bg-gray-50 transition-colors z-20"
@@ -111,7 +110,6 @@ export default function LoginSelectionContent() {
         <ArrowLeft size={18} className="text-gray-600" />
       </button>
 
-      {/* Header Section */}
       <div className="flex flex-col items-center mb-8">
         <div className="mb-4">
           <Image
@@ -158,7 +156,6 @@ export default function LoginSelectionContent() {
         </AnimatePresence>
       </div>
 
-      {/* Content Section */}
       <div className="flex-1">
         <AnimatePresence mode="wait">
           {!role ? (
@@ -328,7 +325,6 @@ export default function LoginSelectionContent() {
         </AnimatePresence>
       </div>
 
-      {/* Footer Link only on first step */}
       {!role && (
         <div className="mt-auto pt-8 text-center text-[10px] text-black">
           {t("login.newToKumopack")}{" "}

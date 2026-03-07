@@ -43,15 +43,19 @@ export default function LearningPageClient({
   const pathname = usePathname();
   const isTh = language === "th";
 
-  const initialAudience = (searchParams?.get("audience") as "buyer" | "supplier") || "buyer";
+  const initialAudience =
+    (searchParams?.get("audience") as "buyer" | "supplier") || "buyer";
   const initialSearch = searchParams?.get("q") || "";
   const initialCategorySlug = searchParams?.get("categorySlug") || "all";
   const initialPage = Number(searchParams?.get("page")) || 1;
 
-  const [currentAudience, setCurrentAudience] = useState<"buyer" | "supplier">(initialAudience);
+  const [currentAudience, setCurrentAudience] = useState<"buyer" | "supplier">(
+    initialAudience,
+  );
   const [search, setSearch] = useState(initialSearch);
   const [debouncedSearch, setDebouncedSearch] = useState(initialSearch);
-  const [selectedCategorySlug, setSelectedCategorySlug] = useState(initialCategorySlug);
+  const [selectedCategorySlug, setSelectedCategorySlug] =
+    useState(initialCategorySlug);
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   // Debounce search input
@@ -65,7 +69,11 @@ export default function LearningPageClient({
   // Language sync effects
   useEffect(() => {
     const urlLang = searchParams?.get("lang");
-    if (urlLang && (urlLang === "th" || urlLang === "en") && urlLang !== language) {
+    if (
+      urlLang &&
+      (urlLang === "th" || urlLang === "en") &&
+      urlLang !== language
+    ) {
       setLanguage(urlLang as "th" | "en");
     }
   }, []);
@@ -315,7 +323,6 @@ export default function LearningPageClient({
             </div>
           ) : (
             <>
-              {/* Subtle fetching indicator when background-refreshing cached data */}
               {articlesFetching && !isLoading && (
                 <div className="flex justify-center mb-4">
                   <div className="h-0.5 w-32 bg-primary/20 rounded-full overflow-hidden">

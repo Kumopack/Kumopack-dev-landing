@@ -1,0 +1,262 @@
+[
+	{
+		"code": "IDT0001",
+		"nameTh": "อุตสาหกรรมการพิมพ์",
+		"nameEn": "Printing Industry"
+	},
+	{
+		"code": "IDT0002",
+		"nameTh": "อุตสาหกรรมโลจิสติกส์ แพ็คเกจจิ้ง",
+		"nameEn": "Logistic Packaging Industry"
+	},
+	{
+		"code": "IDT0003",
+		"nameTh": "อุตสาหกรรมคอสเมติกส์ แพ็คเกจจิ้ง",
+		"nameEn": "Cosmetic Packaging Industry"
+	},
+	{
+		"code": "IDT0004",
+		"nameTh": "อุตสาหกรรมฟู้ดแอดน์เบฟเวอเรจ แพ็คเกจจิ้ง",
+		"nameEn": "Food and Beverage Packaging Industry"
+	},
+	{
+		"code": "IDT0005",
+		"nameTh": "อุตสาหกรรมคอสเมติกส์และความงาม",
+		"nameEn": "Cosmetic Industry"
+	},
+	{
+		"code": "IDT0006",
+		"nameTh": "อุตสาหกรรมอาหารและอาหารแช่เเข็ง",
+		"nameEn": "Food and Beverage Industry"
+	},
+	{
+		"code": "IDT0007",
+		"nameTh": "อุตสาหกรรมแมททีเรียวอาหาร",
+		"nameEn": "Food Material Industry"
+	},
+	{
+		"code": "IDT0008",
+		"nameTh": "อุตสาหกรรมเครื่องนุ่งหุ่มและสิ่งทอ",
+		"nameEn": "Garments and Textile Industry"
+	},
+	{
+		"code": "IDT0009",
+		"nameTh": "อุตสาหกรรมแกรนิตและหินอ่อน",
+		"nameEn": "Granite and Marble Industry"
+	},
+	{
+		"code": "IDT0010",
+		"nameTh": "อุตสาหกรรมแก้วและกระจก",
+		"nameEn": "Glass Manufactures Industry"
+	},
+	{
+		"code": "IDT0011",
+		"nameTh": "อุตสาหกรรมเทคโนโลยีและการสื่อสาร",
+		"nameEn": "Technology and Communication Industry"
+	},
+	{
+		"code": "IDT0012",
+		"nameTh": "อุตสาหกรรมพลังงานและสาธรณูปโภค",
+		"nameEn": "Energy and Utilities Industry"
+	},
+	{
+		"code": "IDT0013",
+		"nameTh": "อุตสาหกรรมเคมีภัณฑ์",
+		"nameEn": "Chemical Industry"
+	},
+	{
+		"code": "IDT0014",
+		"nameTh": "อุตสาหกรรมเวชภัณฑ์",
+		"nameEn": "Medical Suppliers"
+	},
+	{
+		"code": "IDT0015",
+		"nameTh": "อุตสาหกรรมชิ้นส่วนอะไหล่ยานยนต์",
+		"nameEn": "Automotive and Auto Parts Industry"
+	},
+	{
+		"code": "IDT0016",
+		"nameTh": "อุตสาหกรรมเทคโนโลยีชีวภาพ",
+		"nameEn": "Biotech Industry"
+	},
+	{
+		"code": "IDT0017",
+		"nameTh": "หน่วยงานรัฐบาล",
+		"nameEn": "Government Management"
+	},
+	{
+		"code": "IDT0018",
+		"nameTh": "การส่งออกและการนําเข้า",
+		"nameEn": "Import and Export"
+	},
+	{
+		"code": "IDT0019",
+		"nameTh": "ผลิตภัณฑ์และการจัดการเพื่อสิ่งแวดล้อม",
+		"nameEn": "Environment Management and Environment Product Industry"
+	},
+	{
+		"code": "IDT0020",
+		"nameTh": "สินค้าอุปโภค",
+		"nameEn": "Consumer Goods Industry"
+	},
+	{
+		"code": "IDT0021",
+		"nameTh": "สินค้าออนไลน์และการค้าปลีก",
+		"nameEn": "Online and Retailer Industry"
+	},
+	{
+		"code": "IDT0022",
+		"nameTh": "การขนส่งและการเดินทาง",
+		"nameEn": "Logistic and Fulfillment Industry"
+	},
+	{
+		"code": "IDT0023",
+		"nameTh": "สุขภาพและความงาม",
+		"nameEn": "Health and Beauty Industry"
+	},
+	{
+		"code": "IDT0024",
+		"nameTh": "ผลิตภัณฑ์จากพืช",
+		"nameEn": "Basic Agro-Industry"
+	},
+	{
+		"code": "IDT0025",
+		"nameTh": "ผลิตภัณฑ์ของตกแต่งและครัวเรือน",
+		"nameEn": "Home and Garden Products"
+	},
+	{
+		"code": "IDT0026",
+		"nameTh": "ผลิตภัณฑ์แม่และเด็ก",
+		"nameEn": "Mom and Baby Products"
+	},
+	{
+		"code": "IDT0027",
+		"nameTh": "ผลิตภัณฑ์อัญมณีและเครื่องประดับ",
+		"nameEn": "Gem and Jewelry Products"
+	},
+	{
+		"code": "IDT0028",
+		"nameTh": "การเงินและธนาคาร",
+		"nameEn": "Financial Company"
+	},
+	{
+		"code": "IDT0029",
+		"nameTh": "ยางและผลิตภัณฑ์ยาง",
+		"nameEn": "Rubber Products"
+	},
+	{
+		"code": "IDT0030",
+		"nameTh": "ผลิตภัณฑ์โลหะและอลูมิเนียม",
+		"nameEn": "Fabricated and Aluminium Products"
+	},
+	{
+		"code": "IDT0031",
+		"nameTh": "ผลิตเครื่องใช้ไฟฟ้าและอุปกรณ์ไฟฟ้า",
+		"nameEn": "Electrical Machinery and Electrical Suppliers"
+	},
+	{
+		"code": "IDT0032",
+		"nameTh": "ผลิตภัณฑ์จากปิโตรเลียม",
+		"nameEn": "Petroleum Products"
+	},
+	{
+		"code": "IDT0033",
+		"nameTh": "ผลิตภัณฑ์พลาสติก",
+		"nameEn": "Plastic Products"
+	},
+	{
+		"code": "IDT0034",
+		"nameTh": "อุตสาหกรรมการผลิตเครื่องจักร และเครื่องกล",
+		"nameEn": "Machinery Industry"
+	},
+	{
+		"code": "IDT0035",
+		"nameTh": "อุตสาหกรรมเครื่องจักรกลการเกษตร",
+		"nameEn": "Agricultural Machinery Manufacturers Industry"
+	},
+	{
+		"code": "IDT0036",
+		"nameTh": "อุตสาหกรรมดิจิทอล",
+		"nameEn": "Digital Industry"
+	},
+	{
+		"code": "IDT0037",
+		"nameTh": "อุตสาหกรรมก๊าซและแก๊ซ",
+		"nameEn": "Gas Industry"
+	},
+	{
+		"code": "IDT0038",
+		"nameTh": "อุตสาหกรรมเซรามิก",
+		"nameEn": "Ceramics Industry"
+	},
+	{
+		"code": "IDT0039",
+		"nameTh": "อุตสาหกรรมปิโตรเคมี",
+		"nameEn": "Petrochemical Industry"
+	},
+	{
+		"code": "IDT0040",
+		"nameTh": "อุตสาหกรรมปูนซีเมนต์",
+		"nameEn": "Cement Industry"
+	},
+	{
+		"code": "IDT0041",
+		"nameTh": "การก่อสร้าง",
+		"nameEn": "Architecture Industry"
+	},
+	{
+		"code": "IDT0042",
+		"nameTh": "อุตสาหกรรมผลิตภัณฑ์เสริมอาหาร",
+		"nameEn": "Dietary Supplement Industry"
+	},
+	{
+		"code": "IDT0043",
+		"nameTh": "อุตสาหกรรมการผลิตเครื่องมือแพทย์",
+		"nameEn": "Medical Device Manufactures Industry"
+	},
+	{
+		"code": "IDT0044",
+		"nameTh": "อุตสาหกรรมเฟอร์นิเจอร์",
+		"nameEn": "Furniture Industry"
+	},
+	{
+		"code": "IDT0045",
+		"nameTh": "อุตสาหกรรมไม้อัดไม้บางและวัสดุแผ่น",
+		"nameEn": "Panel Product Industry"
+	},
+	{
+		"code": "IDT0046",
+		"nameTh": "อุตสาหกรรมยา",
+		"nameEn": "Pharmaceuticals Industry"
+	},
+	{
+		"code": "IDT0047",
+		"nameTh": "อุตสาหกรรมเยื่อและกระดาษ",
+		"nameEn": "Pulp and Paper Industry"
+	},
+	{
+		"code": "IDT0048",
+		"nameTh": "อุตสาหกรรมสมุนไพร",
+		"nameEn": "Herbal Industry"
+	},
+	{
+		"code": "IDT0049",
+		"nameTh": "อุตสาหกรรมและผลิตภัณฑ์จากหนัง",
+		"nameEn": "Leather Based Industry"
+	},
+	{
+		"code": "IDT0050",
+		"nameTh": "อุตสาหกรรมหล่อโลหะ",
+		"nameEn": "Foundry Industry"
+	},
+	{
+		"code": "IDT0051",
+		"nameTh": "อุตสาหกรรมหัตถกรรมสร้างสรรค์",
+		"nameEn": "Creative Craft Industry"
+	},
+	{
+		"code": "IDT0052",
+		"nameTh": "อื่นๆ",
+		"nameEn": "ETC."
+	}
+]

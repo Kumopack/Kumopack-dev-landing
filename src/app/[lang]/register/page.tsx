@@ -15,7 +15,6 @@ export default function RegisterPage() {
     >
       <GoogleTagManager gtmId="GTM-T8J43WBR" />
 
-      {/* Main Glassmorphism Card */}
       <div className="w-full max-w-[540px] relative bg-white/40 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-white/20 px-6 py-8 md:px-10 md:py-10 flex flex-col my-10">
         <Suspense
           fallback={

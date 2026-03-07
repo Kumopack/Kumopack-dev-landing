@@ -292,7 +292,6 @@ export default function ProductDetailClient({
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-6"
                 >
-                  {/* Short Description */}
                   {shortDesc && (
                     <p className="text-xl font-medium text-foreground/80 leading-relaxed">
                       {shortDesc}

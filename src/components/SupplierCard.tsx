@@ -65,7 +65,6 @@ export default function SupplierCard({
           : "flex-col md:flex-row md:items-stretch md:h-[260px]"
       }`}
     >
-      {/* Image Section */}
       <div
         className={`relative overflow-hidden shrink-0 ${
           isGrid ? "aspect-square w-full" : "h-48 w-full md:h-full md:w-[300px]"
@@ -86,7 +85,6 @@ export default function SupplierCard({
           </div>
         )}
 
-        {/* Logo Overlay */}
         <div className="absolute bottom-3 left-3 w-12 h-12 rounded-xl bg-white p-1 shadow-lg shadow-black/10">
           <div className="relative w-full h-full rounded-lg overflow-hidden bg-neutral-50">
             <SafeImage
@@ -107,7 +105,6 @@ export default function SupplierCard({
           )}
         </div>
 
-        {/* Rating Badge */}
         <div className="absolute top-3 right-3 bg-white/10 backdrop-blur-md border border-white/20 px-2 py-1 rounded-full flex items-center gap-1 shadow-lg">
           <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
           <span className="text-[10px] font-bold text-white">
@@ -116,13 +113,10 @@ export default function SupplierCard({
         </div>
       </div>
 
-      {/* Content Section */}
       <div className="flex-1 flex flex-col relative h-full p-4 md:p-5">
         <div className="flex-1 relative overflow-hidden">
-          {/* Background Pattern */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl -z-10" />
 
-          {/* Header */}
           <div className="mb-3">
             <div className="flex items-start justify-between gap-4">
               <div className="w-full">
@@ -149,7 +143,6 @@ export default function SupplierCard({
             </div>
           </div>
 
-          {/* Details Grid */}
           <div className="flex flex-wrap gap-y-2 gap-x-4 text-xs text-muted-foreground mb-2">
             <div className="flex items-start gap-1.5 bg-neutral-50 px-2 py-1 rounded-md border border-neutral-100 max-w-full w-full">
               <MapPin className="w-3.5 h-3.5 text-primary/70 shrink-0 mt-0.5" />
@@ -174,7 +167,6 @@ export default function SupplierCard({
           </div>
         </div>
 
-        {/* Features (Icons) - Pushed to bottom */}
         <div className="mt-2 pt-2 border-t border-dashed border-neutral-200">
           <div className="flex flex-wrap gap-2">
             {supplier.features.slice(0, 4).map((feature, i) => (
@@ -257,7 +249,6 @@ export default function SupplierCard({
           </div>
         </div>
 
-        {/* Footer / Action - Positioned for compact layout */}
         <div className="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">
           <div className="flex items-center gap-1 text-xs font-medium text-neutral-500">
             <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />

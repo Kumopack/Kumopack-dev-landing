@@ -117,7 +117,6 @@ export default function RegisterContent() {
 
   return (
     <>
-      {/* Back Button */}
       <button
         onClick={goBack}
         className="absolute top-6 left-6 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center hover:bg-gray-50 transition-colors z-20"
@@ -126,7 +125,6 @@ export default function RegisterContent() {
         <ArrowLeft size={18} className="text-gray-600" />
       </button>
 
-      {/* Header Section */}
       <div className="flex flex-col items-center mb-6">
         <div className="mb-4">
           <Image
@@ -175,7 +173,6 @@ export default function RegisterContent() {
         </AnimatePresence>
       </div>
 
-      {/* Content Section */}
       <div className="flex-1 w-full max-w-sm mx-auto">
         <AnimatePresence mode="wait">
           {!role ? (
@@ -466,7 +463,6 @@ export default function RegisterContent() {
                     </>
                   )}
 
-                  {/* Common Fields */}
                   <div className="space-y-1">
                     <Label className="text-xs font-semibold text-gray-700 ml-1">
                       Email <span className="text-red-500">*</span>

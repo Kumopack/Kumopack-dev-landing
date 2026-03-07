@@ -80,7 +80,6 @@ export default function SupplierFilters({
           Filters
         </h3>
 
-        {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
@@ -96,7 +95,6 @@ export default function SupplierFilters({
           />
         </div>
 
-        {/* Clear Filters */}
         {(filters.categories.length > 0 ||
           filters.features.length > 0 ||
           filters.location !== "All Locations" ||
@@ -127,7 +125,6 @@ export default function SupplierFilters({
           defaultValue={["location", "category", "features"]}
           className="w-full"
         >
-          {/* Location Filter */}
           <AccordionItem value="location" className="border-b-neutral-100 px-5">
             <AccordionTrigger className="hover:no-underline py-4">
               <div className="flex items-center gap-2 font-bold text-sm">
@@ -161,7 +158,6 @@ export default function SupplierFilters({
             </AccordionContent>
           </AccordionItem>
 
-          {/* Category Filter */}
           <AccordionItem value="category" className="border-b-neutral-100 px-5">
             <AccordionTrigger className="hover:no-underline py-4">
               <div className="flex items-center gap-2 font-bold text-sm">
@@ -191,7 +187,6 @@ export default function SupplierFilters({
             </AccordionContent>
           </AccordionItem>
 
-          {/* Features Filter */}
           <AccordionItem value="features" className="border-none px-5">
             <AccordionTrigger className="hover:no-underline py-4">
               <div className="flex items-center gap-2 font-bold text-sm">
@@ -223,7 +218,6 @@ export default function SupplierFilters({
         </Accordion>
       </div>
 
-      {/* Quick Stats / Info Widget */}
       <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-[1.5rem] border border-primary/10 p-5">
         <h3 className="font-bold text-primary mb-2 flex items-center gap-2">
           <Filter className="w-4 h-4" />

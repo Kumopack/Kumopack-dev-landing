@@ -16,7 +16,6 @@ export default function LoginSelectionPage() {
     >
       <GoogleTagManager gtmId="GTM-T8J43WBR" />
 
-      {/* Main Glassmorphism Card */}
       <div className="w-full max-w-[480px] min-h-[640px] relative bg-white/40 backdrop-blur-2xl rounded-[2.5rem] shadow-2xl border border-white/20 px-8 py-10 flex flex-col">
         <Suspense
           fallback={

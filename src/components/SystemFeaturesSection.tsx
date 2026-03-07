@@ -137,7 +137,6 @@ const SystemFeaturesSection = () => {
   return (
     <section className="py-20 bg-background scroll-mt-24">
       <div className="container mx-auto px-6 max-w-6xl">
-        {/* Title & Subtitle */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab + "-header"}
@@ -156,7 +155,6 @@ const SystemFeaturesSection = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Tab Switcher */}
         <div className="inline-flex items-center bg-accent/50 dark:bg-white/5 rounded-full p-1.5 mb-12 border border-border">
           <button
             onClick={() => setActiveTab("buyer")}
@@ -180,9 +178,7 @@ const SystemFeaturesSection = () => {
           </button>
         </div>
 
-        {/* Two Column Layout */}
         <div className="grid lg:grid-cols-5 gap-10 lg:gap-14">
-          {/* Left: Highlight Stats Panel (no images, pure CSS) */}
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab + "-highlights"}
@@ -192,7 +188,6 @@ const SystemFeaturesSection = () => {
               transition={{ duration: 0.35, ease: "easeOut" }}
               className="lg:col-span-2 space-y-5"
             >
-              {/* Stats Grid */}
               <div className="grid grid-cols-2 gap-4">
                 {highlights.map((item, index) => {
                   const Icon = item.icon;
@@ -217,7 +212,6 @@ const SystemFeaturesSection = () => {
                 })}
               </div>
 
-              {/* Bottom CTA-like info box */}
               <div className="p-5 rounded-2xl bg-gradient-to-br from-primary/5 to-lavender/30 border border-primary/10">
                 <p className="text-sm font-semibold text-foreground mb-1">
                   {t(`systemFeatures.${activeTab}InfoTitle`)}
@@ -229,7 +223,6 @@ const SystemFeaturesSection = () => {
             </motion.div>
           </AnimatePresence>
 
-          {/* Right: Feature List */}
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab + "-features"}
@@ -246,7 +239,6 @@ const SystemFeaturesSection = () => {
                     key={index}
                     className="group flex gap-5 py-7 first:pt-0 last:pb-0"
                   >
-                    {/* Icon with connecting line */}
                     <div className="hidden sm:flex flex-col items-center">
                       <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
                         <Icon className="w-5 h-5 text-primary group-hover:text-white transition-colors" />

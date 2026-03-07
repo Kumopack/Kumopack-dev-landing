@@ -126,7 +126,6 @@ const GallerySection = () => {
       className="py-20 bg-accent/30 scroll-mt-24 overflow-hidden"
     >
       <div className="container mx-auto px-6">
-        {/* Header */}
         <div className="text-center mb-2 animate-fade-up">
           <span className="inline-block px-4 py-2 rounded-full bg-lavender text-purple-soft text-sm font-semibold mb-3">
             Product Gallery
@@ -140,9 +139,7 @@ const GallerySection = () => {
         </div>
       </div>
 
-      {/* 3D Carousel */}
       <div className="relative w-full" style={{ perspective: "1200px" }}>
-        {/* Carousel Track */}
         <div className="relative h-[400px] sm:h-[460px] w-full flex items-center justify-center">
           {galleryItems.map((item, index) => {
             const offset = getOffset(index);
@@ -178,15 +175,15 @@ const GallerySection = () => {
                       sizes="280px"
                       className="object-cover"
                     />
-                    {/* Gradient overlay */}
+
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                    {/* Category pill */}
+
                     <div className="absolute top-3 left-3">
                       <span className="px-3 py-1 bg-white/90 dark:bg-black/60 backdrop-blur-md rounded-full text-[10px] font-bold text-foreground uppercase tracking-wider shadow-sm border border-white/30">
                         {item.category}
                       </span>
                     </div>
-                    {/* Title overlay at bottom */}
+
                     <div className="absolute bottom-0 left-0 right-0 p-4">
                       <h3 className="text-base font-bold text-white leading-snug drop-shadow-md">
                         {item.title}
@@ -199,7 +196,6 @@ const GallerySection = () => {
           })}
         </div>
 
-        {/* Navigation Arrows */}
         <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between pointer-events-none px-4 sm:px-8 md:px-16 lg:px-32">
           <button
             onClick={prev}
@@ -215,7 +211,6 @@ const GallerySection = () => {
           </button>
         </div>
 
-        {/* Dot indicators */}
         <div className="flex items-center justify-center gap-1.5 mt-6">
           {galleryItems.map((_, index) => (
             <button
@@ -231,7 +226,6 @@ const GallerySection = () => {
         </div>
       </div>
 
-      {/* Stats */}
       <div className="container mx-auto px-6">
         <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4">
           {[

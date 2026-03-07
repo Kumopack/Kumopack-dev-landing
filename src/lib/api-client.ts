@@ -10,10 +10,6 @@
 
 import { API_BASE_URL, API_PRODUCTION_URL } from "./api-config";
 
-// ---------------------------------------------------------------------------
-// Error class
-// ---------------------------------------------------------------------------
-
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -25,24 +21,15 @@ export class ApiError extends Error {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
 export interface ApiRequestOptions {
-  /** Next.js caching options, e.g. `{ revalidate: 60 }` */
   next?: NextFetchRequestConfig;
-  /** Request headers to merge */
+
   headers?: Record<string, string>;
-  /** Timeout in ms (default 15 000) */
+
   timeout?: number;
-  /** If true, retry against production URL on local connection failure */
+
   failoverToProduction?: boolean;
 }
-
-// ---------------------------------------------------------------------------
-// Internal helpers
-// ---------------------------------------------------------------------------
 
 const DEFAULT_TIMEOUT = 15_000;
 
@@ -88,8 +75,6 @@ async function runFetch(
   try {
     return await fetchWithTimeout(url, init, timeout);
   } catch (error) {
-    // Failover: if the request targeted a local API and it failed, retry
-    // against the production URL (useful during SSR/build).
     if (
       options.failoverToProduction &&
       isLocalUrl(url) &&
@@ -103,10 +88,6 @@ async function runFetch(
     throw error;
   }
 }
-
-// ---------------------------------------------------------------------------
-// Public API
-// ---------------------------------------------------------------------------
 
 /**
  * Perform a GET request against the API.

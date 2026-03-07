@@ -107,7 +107,7 @@ const HeroSection = () => {
               </span>
               <span className="relative block text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-lavender-deep">
                 {t("home.heroTitleHighlight")}
-                {/* Animated underline accent */}
+
                 <motion.span
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}

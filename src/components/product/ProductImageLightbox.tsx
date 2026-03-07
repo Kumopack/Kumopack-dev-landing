@@ -24,7 +24,6 @@ export function ProductImageLightbox({
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-8">
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -33,7 +32,6 @@ export function ProductImageLightbox({
             className="absolute inset-0 bg-black/60 backdrop-blur-md"
           />
 
-          {/* Modal Container */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -42,7 +40,6 @@ export function ProductImageLightbox({
             className="relative w-full max-w-2xl bg-transparent pointer-events-none flex flex-col items-center justify-center"
           >
             <div className="pointer-events-auto relative w-full aspect-square max-h-[80vh] max-w-[80vh] bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl overflow-hidden flex items-center justify-center p-4 sm:p-8 border border-white/20">
-              {/* Close Button */}
               <button
                 onClick={onClose}
                 className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/10 hover:bg-black/20 dark:bg-white/10 dark:hover:bg-white/20 text-foreground transition-colors"
@@ -51,7 +48,6 @@ export function ProductImageLightbox({
                 <X className="w-6 h-6" />
               </button>
 
-              {/* Image Container - Square constrained */}
               <div className="relative w-full h-full flex items-center justify-center">
                 <SafeImage
                   src={productApi.getProductImage(imageSrc)}
@@ -63,7 +59,6 @@ export function ProductImageLightbox({
               </div>
             </div>
 
-            {/* Optional Caption/Name */}
             {productName && (
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
