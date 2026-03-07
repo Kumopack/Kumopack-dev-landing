@@ -8,7 +8,6 @@ import { useLanguage } from "@/context/LanguageContext";
 
 export default function LocalNotFound() {
   const { t, language } = useLanguage();
-  const isTh = language === "th";
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4 overflow-hidden relative">
@@ -52,12 +51,10 @@ export default function LocalNotFound() {
           className="space-y-4"
         >
           <h1 className="text-4xl md:text-5xl font-black text-foreground">
-            {isTh ? "ไม่พบหน้านี้" : "Page Not Found"}
+            {t("notFound.title")}
           </h1>
           <p className="text-xl text-muted-foreground font-medium max-w-lg mx-auto leading-relaxed">
-            {isTh
-              ? "ขออภัย เราไม่พบหน้าที่คุณกำลังมองหา อาจเป็นเพราะหน้านี้ถูกย้ายหรือไม่มีอยู่จริง"
-              : "Oops! We couldn't find the page you're looking for. It might have been moved or doesn't exist."}
+            {t("notFound.description")}
           </p>
         </motion.div>
 
@@ -75,7 +72,7 @@ export default function LocalNotFound() {
           >
             <Link href="/">
               <Home className="w-6 h-6" />
-              {t("common.backToHome")}
+              {t("notFound.backHome")}
             </Link>
           </Button>
           <Button
@@ -85,7 +82,7 @@ export default function LocalNotFound() {
             onClick={() => window.history.back()}
           >
             <ArrowLeft className="w-6 h-6" />
-            {isTh ? "ย้อนกลับ" : "Go Back"}
+            {t("notFound.goBack")}
           </Button>
         </motion.div>
 

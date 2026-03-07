@@ -26,8 +26,29 @@ export const en = {
     materials: "Materials",
     products: "Products",
     policy: "Policy",
+    faq: "FAQ",
     contact: "Contact",
     events: "Kumo's Event",
+    getQuotes: "Get Quotes",
+    joinNetwork: "Join Network",
+    supplierPortal: "Supplier Portal",
+    desc: {
+      products: "Explore our wide range of custom packaging solutions.",
+      getQuotes: "Get a quote from multiple factories in 48 hours.",
+      joinNetwork: "Join our network of premium packaging manufacturers.",
+      supplierPortal: "Manage your quotes, orders, and factory profile.",
+      learningBuyer: "Master the art of packaging with our expert guides.",
+      learningSupplier: "Build your factory brand and scale your production.",
+      learning: "Deep dive into the packaging ecosystem.",
+      materials: "Discover sustainable and high-quality material options.",
+      blog: "Latest news, trends, and stories from the industry.",
+      productsDetail: "View our comprehensive catalog of box types.",
+      policy: "Review our shipping, quality, and service terms.",
+      faq: "Find answers to frequently asked questions.",
+      contact: "Get in touch with our packaging experts.",
+      events: "Join our upcoming workshops and webinars.",
+      pricing: "Check our flexible plans for business scaling.",
+    },
   },
   home: {
     heroTitleMain: "Build your brand with",
@@ -50,6 +71,168 @@ export const en = {
     heroBoxLabel2: "Product Box",
     heroBoxLabel3: "Shipping Box",
     heroTrustLine: "No middlemen. No hidden fees. Just great packaging.",
+    quoteComparison: "Quote Comparison (Simulated)",
+    realTime: "REAL-TIME",
+    perPiece: "/piece",
+  },
+  gallery: {
+    badge: "Product Gallery",
+    title: "Our Packaging Solutions",
+    subtitle: "Discover our wide range of custom box types",
+    stats: {
+      brands: "Happy Brands",
+      boxes: "Boxes Delivered",
+      factories: "Factory Partners",
+      satisfaction: "Satisfaction Rate",
+    },
+    categories: {
+      standard: "Standard",
+      food: "Food",
+      agriculture: "Agriculture",
+      office: "Office",
+      premium: "Premium",
+      retail: "Retail",
+      industrial: "Industrial",
+      shipping: "Shipping",
+      cosmetics: "Cosmetics",
+      display: "Display",
+      apparel: "Apparel",
+    },
+  },
+  valueProposition: {
+    title: "Direct Connection to",
+    highlight: "Manufacturers",
+    description:
+      "Expanding Sales Channels: Bridging Buyers and Producers. We connect you directly with certified manufacturers, eliminating middlemen and ensuring quality at competitive prices.",
+    stats: {
+      projects: "Successful Projects",
+      savings: "Average Cost Savings",
+      satisfaction: "User Satisfaction Rate",
+      certified: "Standard-Certified Manufacturers",
+    },
+  },
+  features: {
+    badge: "Smart Features",
+    title: "Everything you need to source packaging",
+    subtitle:
+      "Our intelligent platform connects you with the best factories and features to streamline your packaging journey.",
+    items: {
+      location: {
+        title: "Nearest Location",
+        desc: "Eco-friendly shipping from factories closest to you, reducing carbon footprint.",
+        badge: "Eco-Friendly",
+      },
+      printing: {
+        title: "Advanced Printing",
+        desc: "Flexo \u0026 Digital UV Inkjet technology for vibrant, lasting prints.",
+        badge: "High Quality",
+      },
+      badges: {
+        title: "Factory Badges",
+        desc: "Verified factories with Popular, Fast Production, and On-demand labels.",
+        badge: "Verified",
+      },
+      quotes: {
+        title: "Instant Quotes",
+        desc: "Get real-time pricing from multiple factories in seconds.",
+        badge: "Fast",
+      },
+      sustainable: {
+        title: "Sustainable Options",
+        desc: "Recyclable and biodegradable packaging materials available.",
+        badge: "Green",
+      },
+      ondemand: {
+        title: "On-Demand Production",
+        desc: "No minimum orders. Get exactly what you need, when you need it.",
+        badge: "Flexible",
+      },
+    },
+  },
+  designer: {
+    badge: "Immersive 3D Studio",
+    title: "Your vision,",
+    highlight: "perfectly realized.",
+    description:
+      "Bring your packaging ideas to life with our effortless online designer. Visualize every detail with photorealistic accuracy.",
+    features: {
+      realtime: {
+        title: "Real-time 3D",
+        desc: "Rotate, zoom, and explore every angle",
+      },
+      revisions: {
+        title: "Instant Revisions",
+        desc: "See changes update in photorealistic quality",
+      },
+    },
+    cta: "Launch 3D Designer",
+  },
+  marketplace: {
+    badge: "Retail Marketplace",
+    title: "No minimums?",
+    highlight: " Zero stress.",
+    description:
+      "Shop our retail marketplace for ready-to-use packaging. Perfect for small businesses scaling up, startups, and anyone who demands quality without limits.",
+    benefits: {
+      noMin: "No minimum orders",
+      ready: "Ready-to-ship packaging",
+      premium: "Premium quality materials",
+      fast: "Fast 2-3 day delivery",
+    },
+    statValue: "10,000+ Products",
+    statLabel: "Premium readiness",
+    cta: "Explore the Marketplace",
+  },
+  categories: {
+    badge: "Product Categories",
+    title: "Packaging for every need",
+    subtitle: "Explore our comprehensive range of custom packaging solutions",
+    specs: "Printing \u0026 Specs",
+    items: {
+      corrugated: {
+        name: "Corrugated Boxes",
+        desc: "Durable shipping \u0026 retail boxes",
+      },
+      film: {
+        name: "Film Pouches",
+        desc: "Flexible packaging for food \u0026 products",
+      },
+      labels: {
+        name: "Custom Labels",
+        desc: "Branded stickers \u0026 product labels",
+      },
+      tape: {
+        name: "Branded Tape",
+        desc: "Custom printed packing tape",
+      },
+      mailer: {
+        name: "Mailer Bags",
+        desc: "Poly mailers for e-commerce",
+      },
+      gift: {
+        name: "Gift Boxes",
+        desc: "Premium presentation packaging",
+      },
+    },
+  },
+  blog: {
+    title: "Latest",
+    highlight: "Packaging",
+    titleEnd: " Insights",
+    subtitle:
+      "Stay updated with the latest trends, materials, and tips in the world of custom packaging.",
+    cta: "View All Articles",
+  },
+  logoTicker: {
+    title: "Join over 500 growing companies",
+  },
+  promo: {
+    title: "CNY Special Offer!",
+    highlight: "Red Packets",
+    subtitle:
+      "Register today and get a FREE 200 THB discount coupon. Exclusive for new members only!",
+    cta: "Claim Your 200 THB Now",
+    close: "Maybe later",
   },
   systemFeatures: {
     buyerTab: "Buyer",
@@ -241,6 +424,18 @@ export const en = {
     shippingBoxDesc: "Heavy-duty boxes for safe product transit.",
     tuckTopBox: "Tuck Top Box",
     tuckTopBoxDesc: "Classic retail packaging for smaller items.",
+    corrugatedMailerBox: "Corrugated Mailer Box",
+    corrugatedPizzaBox: "Corrugated Pizza Box",
+    dieCutFruitBox: "Die-cut Fruit Box",
+    documentBox: "Document Box",
+    drawerBox: "Drawer Box",
+    foldingCartonBox: "Folding Carton Box",
+    fullTelescope: "Full Telescope (FTD)",
+    handleBox: "Handle Box",
+    regularSlottedContainer: "Regular Slotted Container (RSC)",
+    reverseTuckEnd: "Reverse Tuck End (RTE)",
+    rollEndTray: "Roll End Tray",
+    shoeBox: "Shoe Box",
   },
   materials: {
     title: "Materials",
@@ -293,17 +488,70 @@ export const en = {
     title: "Streamlined from Idea to Unboxing",
     subtitle:
       "We've simplified the complex world of packaging sourcing into four simple steps.",
-    step1Title: "Design Your Vision",
-    step1Desc:
-      "Choose your box style and upload your artwork using our intuitive 3D editor.",
-    step2Title: "Get Instant Quotes",
-    step2Desc:
-      "Receive competitive bids from our network of certified manufacturers in real-time.",
-    step3Title: "Order Samples",
-    step3Desc:
-      "Test the quality with a physical sample before committing to a full production run.",
-    step4Title: "Scale Production",
-    step4Desc:
-      "Once approved, your packaging goes into production and ships directly to your door.",
+    steps: {
+      design: {
+        title: "Design Your Vision",
+        desc: "Choose your box style and upload your artwork using our intuitive 3D editor.",
+      },
+      quote: {
+        title: "Match & Quote",
+        desc: "Receive competitive bids from our network of certified manufacturers in real-time.",
+      },
+      order: {
+        title: "Order Samples",
+        desc: "Test the quality with a physical sample before committing to a full production run.",
+      },
+      scale: {
+        title: "Scale Production",
+        desc: "Once approved, your packaging goes into production and ships directly to your door.",
+      },
+    },
+  },
+  notFound: {
+    title: "Oops! Page Not Found",
+    description:
+      "The page you are looking for might have been moved or never existed. Let's get you back on track.",
+    backHome: "Back to Home",
+    goBack: "Go Back",
+  },
+  contact: {
+    title: "Let's {talk} Packaging",
+    talk: "Talk",
+    subtitle:
+      "Have questions about custom orders, factory sourcing, or sustainable materials? Our team is here to help you find the absolute solution.",
+    formTitle: "Send a Message",
+    name: "Full Name",
+    email: "Email Address",
+    subject: "Subject",
+    message: "Message",
+    send: "Send Message",
+    infoTitle: "Contact Information",
+    chatTitle: "Live Chat",
+    chatDesc:
+      "Need an instant answer? Chat with our support team using the widget in the bottom right corner.",
+    startChat: "Start Chat",
+  },
+  policy: {
+    title: "Policies \u0026 Terms",
+    security: {
+      title: "Security Policy",
+      content:
+        "We prioritize the security of your transactions and data. Our platform uses industry-standard encryption and secure payment gateways to ensure your business information remains protected.",
+    },
+    terms: {
+      title: "Terms of Service",
+      content:
+        "By using Kumopack, you agree to our terms of service regarding sourcing, ordering, and communication with manufacturers. We act as a facilitator and platform provider.",
+    },
+    privacy: {
+      title: "Privacy Policy",
+      content:
+        "Your privacy is paramount. We only collect necessary information to facilitate your orders and improve our service. We never sell your data to third parties.",
+    },
+    refund: {
+      title: "Refund \u0026 Return Policy",
+      content:
+        "As custom packaging is manufactured to order, returns are generally only accepted for manufacturing defects. We facilitate quality disputes between buyers and factories.",
+    },
   },
 };

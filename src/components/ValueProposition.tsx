@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 const ValueProposition = () => {
+  const { t } = useLanguage();
   return (
     <section
       id="about"
@@ -38,27 +40,28 @@ const ValueProposition = () => {
           >
             <div className="space-y-4">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-                Direct Connection to{" "}
+                {t("valueProposition.title")}{" "}
                 <span className="text-primary font-extrabold">
-                  Manufacturers
+                  {t("valueProposition.highlight")}
                 </span>
               </h2>
               <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-                Expanding Sales Channels: Bridging Buyers and Producers. We
-                connect you directly with certified manufacturers, eliminating
-                middlemen and ensuring quality at competitive prices.
+                {t("valueProposition.description")}
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:gap-6">
               {[
-                { value: "400+", label: "Successful Projects" },
-                { value: "27%", label: "Average Cost Savings" },
-                { value: "94%", label: "User Satisfaction Rate" },
-                { value: "200+", label: "Standard-Certified Manufacturers" },
+                { value: "400+", labelKey: "valueProposition.stats.projects" },
+                { value: "27%", labelKey: "valueProposition.stats.savings" },
+                {
+                  value: "94%",
+                  labelKey: "valueProposition.stats.satisfaction",
+                },
+                { value: "200+", labelKey: "valueProposition.stats.certified" },
               ].map((stat, index) => (
                 <motion.div
-                  key={stat.label}
+                  key={index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -69,7 +72,7 @@ const ValueProposition = () => {
                     {stat.value}
                   </div>
                   <div className="text-xs md:text-sm text-muted-foreground">
-                    {stat.label}
+                    {t(stat.labelKey)}
                   </div>
                 </motion.div>
               ))}

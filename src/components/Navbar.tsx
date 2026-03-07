@@ -96,7 +96,7 @@ const Navbar = () => {
                           {t("nav.products")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Build your packaging
+                          {t("nav.desc.products")}
                         </div>
                       </div>
                     </Link>
@@ -110,10 +110,10 @@ const Navbar = () => {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">
-                          Get Quotes
+                          {t("nav.getQuotes")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Compare factory prices
+                          {t("nav.desc.getQuotes")}
                         </div>
                       </div>
                     </Link>
@@ -130,7 +130,7 @@ const Navbar = () => {
                           {t("nav.learning")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Guides for buyers
+                          {t("nav.desc.learningBuyer")}
                         </div>
                       </div>
                     </Link>
@@ -149,7 +149,7 @@ const Navbar = () => {
                           {t("pricing.title")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Check pricing plans
+                          {t("nav.desc.pricing")}
                         </div>
                       </div>
                     </Link>
@@ -180,10 +180,10 @@ const Navbar = () => {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">
-                          Join Network
+                          {t("nav.joinNetwork")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Become a partner
+                          {t("nav.desc.joinNetwork")}
                         </div>
                       </div>
                     </Link>
@@ -197,10 +197,10 @@ const Navbar = () => {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">
-                          Supplier Portal
+                          {t("nav.supplierPortal")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Manage your listings
+                          {t("nav.desc.supplierPortal")}
                         </div>
                       </div>
                     </Link>
@@ -217,7 +217,7 @@ const Navbar = () => {
                           {t("nav.learning")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Guides for suppliers
+                          {t("nav.desc.learningSupplier")}
                         </div>
                       </div>
                     </Link>
@@ -236,7 +236,7 @@ const Navbar = () => {
                           {t("pricing.title")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Check pricing plans
+                          {t("nav.desc.pricing")}
                         </div>
                       </div>
                     </Link>
@@ -282,42 +282,42 @@ const Navbar = () => {
                       <ETCCard
                         icon={BookOpen}
                         title={t("nav.blog")}
-                        description="Tips, trends, and packaging insights"
+                        description={t("nav.desc.blog")}
                         color="mint"
                         href="/blogs"
                       />
                       <ETCCard
                         icon={GraduationCap}
                         title={t("nav.learning")}
-                        description="Step-by-step guides for everyone"
+                        description={t("nav.desc.learning")}
                         color="lavender"
                         href="/learning"
                       />
                       <ETCCard
                         icon={Layers}
                         title={t("nav.materials")}
-                        description="Kraft paper, Corrugated, and Films"
+                        description={t("nav.desc.materials")}
                         color="sky"
                         href="/materials"
                       />
                       <ETCCard
                         icon={Box}
                         title={t("nav.products")}
-                        description="Deep dive into specifications"
+                        description={t("nav.desc.productsDetail")}
                         color="coral"
                         href="/products"
                       />
                       <ETCCard
                         icon={Shield}
                         title={t("nav.policy")}
-                        description="Terms, shipping, and returns"
+                        description={t("nav.desc.policy")}
                         color="lavender"
                         href="/policy"
                       />
                       <ETCCard
                         icon={Package}
-                        title="FAQ"
-                        description="คำถามที่พบบ่อย"
+                        title={t("nav.faq")}
+                        description={t("nav.desc.faq")}
                         color="mint"
                         href="/faq"
                       />
@@ -325,14 +325,14 @@ const Navbar = () => {
                         <ETCCard
                           icon={MessageCircle}
                           title={t("nav.contact")}
-                          description="Get in touch with our team"
+                          description={t("nav.desc.contact")}
                           color="purple"
                           href="/contact"
                         />
                         <ETCCard
                           icon={Sparkles}
                           title={t("nav.events")}
-                          description="Exciting activities and rewards"
+                          description={t("nav.desc.events")}
                           color="coral"
                           href="/events"
                         />
@@ -427,7 +427,7 @@ const Navbar = () => {
           <div className="lg:hidden mt-2 p-4 rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float animate-in slide-in-from-top-4 duration-300 overflow-y-auto max-h-[80vh]">
             <div className="flex flex-col gap-1">
               <div className="px-4 py-2 text-[9px] font-black text-primary tracking-widest uppercase opacity-70">
-                For Buyer
+                {t("nav.forBuyer")}
               </div>
               <Link
                 href="/products"
@@ -447,11 +447,11 @@ const Navbar = () => {
                 <div className="w-8 h-8 rounded-xl bg-mint/20 flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-mint-foreground" />
                 </div>
-                Get Quotes
+                {t("nav.getQuotes")}
               </Link>
 
               <div className="px-4 py-2 mt-2 text-[9px] font-black text-primary tracking-widest uppercase opacity-70">
-                For Supplier
+                {t("nav.forSupplier")}
               </div>
               <Link
                 href="/contact"
@@ -461,7 +461,7 @@ const Navbar = () => {
                 <div className="w-8 h-8 rounded-xl bg-sky/20 flex items-center justify-center">
                   <Package className="w-4 h-4 text-sky-foreground" />
                 </div>
-                Join Network
+                {t("nav.joinNetwork")}
               </Link>
               <Link
                 href="/supplier"
@@ -471,7 +471,7 @@ const Navbar = () => {
                 <div className="w-8 h-8 rounded-xl bg-sky/20 flex items-center justify-center">
                   <Layers className="w-4 h-4 text-sky-foreground" />
                 </div>
-                Supplier Portal
+                {t("nav.supplierPortal")}
               </Link>
 
               <Link

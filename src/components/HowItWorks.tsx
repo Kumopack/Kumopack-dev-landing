@@ -7,39 +7,27 @@ import { useLanguage } from "@/context/LanguageContext";
 const steps = [
   {
     icon: <Paintbrush className="w-8 h-8" />,
-    titleKey: "howItWorks.step1Title",
-    descKey: "howItWorks.step1Desc",
-    defaultTitle: "Design Your Vision",
-    defaultDesc:
-      "Choose your box style and upload your artwork using our intuitive 3D editor.",
+    titleKey: "howItWorks.steps.design.title",
+    descKey: "howItWorks.steps.design.desc",
     color: "bg-primary/20 text-primary",
   },
   {
     icon: <MessageSquare className="w-8 h-8" />,
-    titleKey: "howItWorks.step2Title",
-    descKey: "howItWorks.step2Desc",
-    defaultTitle: "Get Instant Quotes",
-    defaultDesc:
-      "Receive competitive bids from our network of certified manufacturers in real-time.",
+    titleKey: "howItWorks.steps.quote.title",
+    descKey: "howItWorks.steps.quote.desc",
     color: "bg-mint/20 text-mint-foreground",
   },
   {
-    icon: <Zap className="w-8 h-8" />,
-    titleKey: "howItWorks.step3Title",
-    descKey: "howItWorks.step3Desc",
-    defaultTitle: "Order Samples",
-    defaultDesc:
-      "Test the quality with a physical sample before committing to a full production run.",
-    color: "bg-coral/20 text-coral-foreground",
+    icon: <Package className="w-8 h-8" />,
+    titleKey: "howItWorks.steps.order.title",
+    descKey: "howItWorks.steps.order.desc",
+    color: "bg-blue-500/20 text-blue-600",
   },
   {
-    icon: <Package className="w-8 h-8" />,
-    titleKey: "howItWorks.step4Title",
-    descKey: "howItWorks.step4Desc",
-    defaultTitle: "Scale Production",
-    defaultDesc:
-      "Once approved, your packaging goes into production and ships directly to your door.",
-    color: "bg-sky/20 text-sky-foreground",
+    icon: <Zap className="w-8 h-8" />,
+    titleKey: "howItWorks.steps.scale.title",
+    descKey: "howItWorks.steps.scale.desc",
+    color: "bg-coral/20 text-coral-foreground",
   },
 ];
 
@@ -62,7 +50,7 @@ const HowItWorks = () => {
             transition={{ duration: 0.6 }}
             className="text-3xl md:text-5xl font-black text-foreground mb-6"
           >
-            {t("howItWorks.title") || "Streamlined from Idea to Unboxing"}
+            {t("howItWorks.title")}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -71,8 +59,7 @@ const HowItWorks = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-xl text-muted-foreground font-medium"
           >
-            {t("howItWorks.subtitle") ||
-              "We've simplified the complex world of packaging sourcing into four simple steps."}
+            {t("howItWorks.subtitle")}
           </motion.p>
         </div>
 
@@ -97,14 +84,10 @@ const HowItWorks = () => {
               </div>
 
               <h3 className="text-2xl font-bold text-foreground mb-4">
-                {t(step.titleKey) !== step.titleKey
-                  ? t(step.titleKey)
-                  : step.defaultTitle}
+                {t(step.titleKey)}
               </h3>
               <p className="text-muted-foreground leading-relaxed">
-                {t(step.descKey) !== step.descKey
-                  ? t(step.descKey)
-                  : step.defaultDesc}
+                {t(step.descKey)}
               </p>
 
               {index < steps.length - 1 && (

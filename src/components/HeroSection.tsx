@@ -165,11 +165,11 @@ const HeroSection = () => {
                 <div className="flex items-center gap-4">
                   <div className="w-4 h-4 rounded-full bg-primary animate-pulse-soft" />
                   <span className="text-xs font-black tracking-[0.2em] uppercase text-muted-foreground/60">
-                    ระบบเปรียบเทียบเทียบราคา (จำลอง)
+                    {t("home.quoteComparison")}
                   </span>
                 </div>
                 <div className="px-3 py-1.5 rounded-lg bg-primary/20 text-[10px] font-black text-primary italic border border-primary/30 tracking-widest">
-                  REAL-TIME
+                  {t("home.realTime")}
                 </div>
               </div>
 
@@ -229,7 +229,7 @@ const HeroSection = () => {
                         <span className="font-bold text-foreground text-xl">
                           {quote.price}
                           <span className="text-[12px] text-muted-foreground/60 ml-1">
-                            /ชิ้น
+                            {t("home.perPiece")}
                           </span>
                         </span>
                       </div>

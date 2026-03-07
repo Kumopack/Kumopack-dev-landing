@@ -3,65 +3,75 @@
 import { useState, useEffect, useCallback } from "react";
 import { SafeImage } from "@/components/ui/safe-image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const galleryItems = [
   {
     image: "/img/box/corrugated-mailer-box.jpg",
-    title: "Corrugated Mailer Box",
-    category: "Standard",
+    titleKey: "products.corrugatedMailerBox",
+    categoryKey: "gallery.categories.shipping",
   },
   {
     image: "/img/box/corrugated-pizza-box.jpg",
-    title: "Corrugated Pizza Box",
-    category: "Food",
+    titleKey: "products.corrugatedPizzaBox",
+    categoryKey: "gallery.categories.food",
   },
   {
     image: "/img/box/die-cut-fruit-box.jpg",
-    title: "Die-cut Fruit Box",
-    category: "Agriculture",
+    titleKey: "products.dieCutFruitBox",
+    categoryKey: "gallery.categories.agriculture",
   },
   {
     image: "/img/box/document-box.jpg",
-    title: "Document Box",
-    category: "Office",
+    titleKey: "products.documentBox",
+    categoryKey: "gallery.categories.office",
   },
   {
     image: "/img/box/drawer-box.jpg",
-    title: "Drawer Box",
-    category: "Premium",
+    titleKey: "products.drawerBox",
+    categoryKey: "gallery.categories.premium",
   },
   {
     image: "/img/box/folding-carton-box.jpg",
-    title: "Folding Carton Box",
-    category: "Retail",
+    titleKey: "products.foldingCartonBox",
+    categoryKey: "gallery.categories.retail",
   },
   {
     image: "/img/box/full-telescope-ftd.jpg",
-    title: "Full Telescope (FTD)",
-    category: "Industrial",
+    titleKey: "products.fullTelescope",
+    categoryKey: "gallery.categories.industrial",
   },
-  { image: "/img/box/handle-box.jpg", title: "Handle Box", category: "Retail" },
+  {
+    image: "/img/box/handle-box.jpg",
+    titleKey: "products.handleBox",
+    categoryKey: "gallery.categories.retail",
+  },
   {
     image: "/img/box/regular-slotted-container-rsc.jpg",
-    title: "Regular Slotted Container (RSC)",
-    category: "Shipping",
+    titleKey: "products.regularSlottedContainer",
+    categoryKey: "gallery.categories.shipping",
   },
   {
     image: "/img/box/reverse-tuck-end-rte.jpg",
-    title: "Reverse Tuck End (RTE)",
-    category: "Cosmetics",
+    titleKey: "products.reverseTuckEnd",
+    categoryKey: "gallery.categories.cosmetics",
   },
   {
     image: "/img/box/roll-end-tray.jpg",
-    title: "Roll End Tray",
-    category: "Display",
+    titleKey: "products.rollEndTray",
+    categoryKey: "gallery.categories.display",
   },
-  { image: "/img/box/shoe-box.jpg", title: "Shoe Box", category: "Apparel" },
+  {
+    image: "/img/box/shoe-box.jpg",
+    titleKey: "products.shoeBox",
+    categoryKey: "gallery.categories.apparel",
+  },
 ];
 
 const VISIBLE_COUNT = 5; // How many cards visible at once (odd number for symmetry)
 
 const GallerySection = () => {
+  const { t } = useLanguage();
   const [activeIndex, setActiveIndex] = useState(0);
   const total = galleryItems.length;
 
@@ -128,13 +138,13 @@ const GallerySection = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-2 animate-fade-up">
           <span className="inline-block px-4 py-2 rounded-full bg-lavender text-purple-soft text-sm font-semibold mb-3">
-            Product Gallery
+            {t("gallery.badge")}
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-            Our Packaging Solutions
+            {t("gallery.title")}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Discover our wide range of custom box types
+            {t("gallery.subtitle")}
           </p>
         </div>
       </div>
@@ -170,7 +180,7 @@ const GallerySection = () => {
                   <div className="relative overflow-hidden aspect-square w-full">
                     <SafeImage
                       src={item.image}
-                      alt={item.title}
+                      alt={t(item.titleKey)}
                       fill
                       sizes="280px"
                       className="object-cover"
@@ -180,13 +190,13 @@ const GallerySection = () => {
 
                     <div className="absolute top-3 left-3">
                       <span className="px-3 py-1 bg-white/90 dark:bg-black/60 backdrop-blur-md rounded-full text-[10px] font-bold text-foreground uppercase tracking-wider shadow-sm border border-white/30">
-                        {item.category}
+                        {t(item.categoryKey)}
                       </span>
                     </div>
 
                     <div className="absolute bottom-0 left-0 right-0 p-4">
                       <h3 className="text-base font-bold text-white leading-snug drop-shadow-md">
-                        {item.title}
+                        {t(item.titleKey)}
                       </h3>
                     </div>
                   </div>
@@ -229,10 +239,10 @@ const GallerySection = () => {
       <div className="container mx-auto px-6">
         <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { value: "500+", label: "Happy Brands" },
-            { value: "10M+", label: "Boxes Delivered" },
-            { value: "50+", label: "Factory Partners" },
-            { value: "99%", label: "Satisfaction Rate" },
+            { value: "500+", labelKey: "gallery.stats.brands" },
+            { value: "10M+", labelKey: "gallery.stats.boxes" },
+            { value: "50+", labelKey: "gallery.stats.factories" },
+            { value: "99%", labelKey: "gallery.stats.satisfaction" },
           ].map((stat, index) => (
             <div
               key={index}
@@ -241,7 +251,9 @@ const GallerySection = () => {
               <p className="text-2xl md:text-3xl font-bold text-primary mb-0.5">
                 {stat.value}
               </p>
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
+              <p className="text-sm text-muted-foreground">
+                {t(stat.labelKey)}
+              </p>
             </div>
           ))}
         </div>

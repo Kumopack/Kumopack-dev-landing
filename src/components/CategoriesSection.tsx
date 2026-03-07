@@ -1,54 +1,56 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/context/LanguageContext";
 import { Package, Box, Film, Tag, Layers, Archive } from "lucide-react";
 
 const categories = [
   {
     icon: Box,
-    name: "Corrugated Boxes",
-    description: "Durable shipping & retail boxes",
+    nameKey: "categories.items.corrugated.name",
+    descriptionKey: "categories.items.corrugated.desc",
     specs: ["Flexo Print", "Digital UV", "Custom Die-Cut"],
     color: "from-amber-100 to-orange-100",
   },
   {
     icon: Film,
-    name: "Film Pouches",
-    description: "Flexible packaging for food & products",
+    nameKey: "categories.items.film.name",
+    descriptionKey: "categories.items.film.desc",
     specs: ["Matte/Gloss Finish", "Resealable Zippers", "Stand-up Design"],
     color: "from-emerald-100 to-teal-100",
   },
   {
     icon: Tag,
-    name: "Custom Labels",
-    description: "Branded stickers & product labels",
+    nameKey: "categories.items.labels.name",
+    descriptionKey: "categories.items.labels.desc",
     specs: ["Vinyl & Paper", "Waterproof Options", "Die-Cut Shapes"],
     color: "from-lavender to-purple-100",
   },
   {
     icon: Layers,
-    name: "Branded Tape",
-    description: "Custom printed packing tape",
+    nameKey: "categories.items.tape.name",
+    descriptionKey: "categories.items.tape.desc",
     specs: ["1-3 Color Print", "Strong Adhesive", "Custom Widths"],
     color: "from-blue-100 to-indigo-100",
   },
   {
     icon: Package,
-    name: "Mailer Bags",
-    description: "Poly mailers for e-commerce",
+    nameKey: "categories.items.mailer.name",
+    descriptionKey: "categories.items.mailer.desc",
     specs: ["Self-Seal", "Tamper Evident", "Eco-Friendly Options"],
     color: "from-rose-100 to-pink-100",
   },
   {
     icon: Archive,
-    name: "Gift Boxes",
-    description: "Premium presentation packaging",
+    nameKey: "categories.items.gift.name",
+    descriptionKey: "categories.items.gift.desc",
     specs: ["Rigid & Folding", "Magnetic Closure", "Embossing Available"],
     color: "from-violet-100 to-purple-100",
   },
 ];
 
 const CategoriesSection = () => {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
   return (
@@ -56,13 +58,13 @@ const CategoriesSection = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 animate-fade-up">
           <span className="inline-block px-4 py-2 rounded-full bg-lavender text-purple-soft text-sm font-medium mb-4">
-            Product Categories
+            {t("categories.badge")}
           </span>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Packaging for every need
+            {t("categories.title")}
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Explore our comprehensive range of custom packaging solutions
+            {t("categories.subtitle")}
           </p>
         </div>
 
@@ -87,10 +89,10 @@ const CategoriesSection = () => {
                   <category.icon className="w-8 h-8 text-foreground/70" />
                 </div>
                 <h3 className="font-semibold text-foreground mb-1 text-sm">
-                  {category.name}
+                  {t(category.nameKey)}
                 </h3>
                 <p className="text-xs text-muted-foreground">
-                  {category.description}
+                  {t(category.descriptionKey)}
                 </p>
               </div>
 
@@ -102,7 +104,7 @@ const CategoriesSection = () => {
                 `}
               >
                 <p className="text-sm font-medium text-foreground mb-3">
-                  Printing & Specs
+                  {t("categories.specs")}
                 </p>
                 <div className="space-y-2">
                   {category.specs.map((spec, specIndex) => (

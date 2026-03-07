@@ -12,7 +12,7 @@ const POPUP_STORAGE_KEY = "kumopack_promo_closed_at";
 export const PromoPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const { language } = useLanguage();
+  const { t } = useLanguage();
 
   useEffect(() => {
     setIsMounted(true);
@@ -76,18 +76,14 @@ export const PromoPopup = () => {
                 </div>
 
                 <h3 className="text-2xl font-bold mb-2 leading-tight">
-                  {language === "en"
-                    ? "CNY Special Offer!"
-                    : "โปรโมชั่นฉลองตรุษจีน!"}
+                  {t("promo.title")}
                   <span className="text-red-600 block mt-1">
-                    {language === "en" ? "Red Packets" : "แจกอั่งเปา!"}
+                    {t("promo.highlight")}
                   </span>
                 </h3>
 
                 <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                  {language === "en"
-                    ? "Register today and get a FREE 200 THB discount coupon. Exclusive for new members only!"
-                    : "สมัครสมาชิกกับเราภายในวันนี้ รับคูปองส่วนลดฟรี 200 บาท สำหรับสมาชิกใหม่เท่านั้น!"}
+                  {t("promo.subtitle")}
                 </p>
 
                 <div className="flex flex-col gap-3">
@@ -95,18 +91,14 @@ export const PromoPopup = () => {
                     onClick={handleAction}
                     className="w-full py-6 rounded-xl text-base font-bold shadow-md bg-red-600 hover:bg-red-700 text-white border-none"
                   >
-                    <span>
-                      {language === "en"
-                        ? "Claim Your 200 THB Now"
-                        : "รับส่วนลด 200 บาทตอนนี้"}
-                    </span>
+                    <span>{t("promo.cta")}</span>
                     <ExternalLink className="ml-2 w-4 h-4" />
                   </Button>
                   <button
                     onClick={handleClose}
                     className="text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors py-2"
                   >
-                    {language === "en" ? "Maybe later" : "ไว้คราวหน้า"}
+                    {t("promo.close")}
                   </button>
                 </div>
               </div>

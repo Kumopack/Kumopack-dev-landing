@@ -19,6 +19,7 @@ const GallerySection = dynamic(() => import("@/components/GallerySection"));
 const SystemFeaturesSection = dynamic(
   () => import("@/components/SystemFeaturesSection"),
 );
+const SystemFeaturesV2 = dynamic(() => import("@/components/SystemFeaturesV2"));
 const BlogSection = dynamic(() => import("@/components/BlogSection"));
 const LogoTicker = dynamic(() => import("@/components/LogoTicker"));
 
@@ -32,7 +33,28 @@ export default async function Home() {
       <PromoPopup />
       <HeroSection />
       <GallerySection />
-      <SystemFeaturesSection />
+
+      {/* UI Comparison Section */}
+      <section className="space-y-32 py-16">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex justify-center mb-12">
+            <span className="px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-black uppercase tracking-[0.2em] border border-primary/20">
+              Option A: Original Design
+            </span>
+          </div>
+          <SystemFeaturesSection />
+        </div>
+
+        <div className="max-w-6xl mx-auto px-4 pt-24 border-t border-border/40">
+          <div className="flex justify-center mb-12">
+            <span className="px-4 py-1.5 rounded-full bg-brand-purple/10 text-brand-purple text-xs font-black uppercase tracking-[0.2em] border border-brand-purple/20">
+              Option B: New Layout
+            </span>
+          </div>
+          <SystemFeaturesV2 />
+        </div>
+      </section>
+
       <ValueProposition />
       <HowItWorks />
       <FeaturesSection />
