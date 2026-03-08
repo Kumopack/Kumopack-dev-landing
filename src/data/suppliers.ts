@@ -221,12 +221,8 @@ export async function getSupplierData(slug: string): Promise<Supplier | null> {
         "Packaging",
       image:
         getStoragePath(data.companyCard || data.companyPictureCover) ||
-        fallback?.image ||
-        "/asset/thumb-supplier-no-img.png",
-      logo:
-        getStoragePath(data.companyLogo) ||
-        fallback?.logo ||
-        "/asset/logo-supplier-no-img.png",
+        fallback?.image,
+      logo: getStoragePath(data.companyLogo) || fallback?.logo,
       tagline: data.tagline || fallback?.tagline || "Strength in Every Layer.",
       description:
         data.businessDescription ||
@@ -346,8 +342,7 @@ export async function getSuppliersList(
         .join(", "),
       location: extractProvince(s.companyAddress || ""),
       tagline: s.tagline || "",
-      image:
-        getStoragePath(s.companyPictureCover) || "/asset/placeholder-logo.png",
+      image: getStoragePath(s.companyPictureCover),
       website: s.website || "",
       email: s.email || "",
       phone: s.phone || "",

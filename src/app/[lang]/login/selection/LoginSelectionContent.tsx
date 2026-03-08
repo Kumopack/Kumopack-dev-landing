@@ -15,6 +15,7 @@ import {
   BUYER_PORTAL_URL,
   SUPPLIER_PORTAL_URL,
 } from "@/lib/api-config";
+import { getAssetPath } from "@/lib/utils";
 
 export default function LoginSelectionContent() {
   const searchParams = useSearchParams();
@@ -113,7 +114,7 @@ export default function LoginSelectionContent() {
       <div className="flex flex-col items-center mb-8">
         <div className="mb-4">
           <Image
-            src="/logo/logo-icon.png"
+            src={getAssetPath("/logo/logo-icon.png")}
             alt="Kumopack"
             width={60}
             height={60}
@@ -173,7 +174,7 @@ export default function LoginSelectionContent() {
               >
                 <div className="w-20 h-20 bg-purple-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-purple-100 transition-colors p-2">
                   <Image
-                    src="/icon/buyer.svg"
+                    src={getAssetPath("/icon/buyer.svg")}
                     alt="Buyer"
                     width={80}
                     height={80}
@@ -195,7 +196,7 @@ export default function LoginSelectionContent() {
               >
                 <div className="w-20 h-20 bg-orange-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-orange-100 transition-colors p-2">
                   <Image
-                    src="/icon/supplier.svg"
+                    src={getAssetPath("/icon/supplier.svg")}
                     alt="Supplier"
                     width={80}
                     height={80}
@@ -294,7 +295,7 @@ export default function LoginSelectionContent() {
                     className="w-full h-12 bg-white/80 border border-gray-100 rounded-xl flex items-center justify-center gap-3 text-sm font-semibold text-gray-700 hover:bg-white transition-colors shadow-sm"
                   >
                     <Image
-                      src="/icon/google-icon.png"
+                      src={getAssetPath("/icon/google-icon.png")}
                       alt="Google"
                       width={20}
                       height={20}

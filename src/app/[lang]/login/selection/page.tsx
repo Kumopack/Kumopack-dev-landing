@@ -2,14 +2,14 @@ import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 import { GoogleTagManager } from "@next/third-parties/google";
 import LoginSelectionContent from "./LoginSelectionContent";
+import { getAssetPath } from "@/lib/utils";
 
 export default function LoginSelectionPage() {
   return (
     <main
       className="min-h-screen w-full flex items-center justify-center bg-gray-50 p-4 relative"
       style={{
-        backgroundImage:
-          "url('/asset/Flux_Dev_A_3Drendered_minimalist_rectangular_product_box_float_4.jpeg')",
+        backgroundImage: `url('${getAssetPath("/asset/Flux_Dev_A_3Drendered_minimalist_rectangular_product_box_float_4.jpeg")}')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

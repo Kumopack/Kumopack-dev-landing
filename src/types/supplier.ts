@@ -32,8 +32,8 @@ export interface Supplier {
   location: string;
   address: string;
   specialized: string;
-  image: string;
-  logo: string;
+  image?: string;
+  logo?: string;
   tagline: string;
   description: string;
   website: string;

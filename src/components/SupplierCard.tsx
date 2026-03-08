@@ -71,8 +71,7 @@ export default function SupplierCard({
         }`}
       >
         <SafeImage
-          src={supplier.image || "/asset/thumb-supplier-no-img.png"}
-          fallbackSrc="/asset/thumb-supplier-no-img.png"
+          src={supplier.image}
           alt={supplier.name}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -88,8 +87,7 @@ export default function SupplierCard({
         <div className="absolute bottom-3 left-3 w-12 h-12 rounded-xl bg-white p-1 shadow-lg shadow-black/10">
           <div className="relative w-full h-full rounded-lg overflow-hidden bg-neutral-50">
             <SafeImage
-              src={supplier.logo || "/asset/logo-supplier-no-img.png"}
-              fallbackSrc="/asset/logo-supplier-no-img.png"
+              src={supplier.logo}
               alt={`${supplier.name} logo`}
               fill
               className="object-contain mix-blend-multiply"

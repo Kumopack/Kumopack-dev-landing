@@ -4,79 +4,80 @@ import { motion } from "framer-motion";
 import { ArrowRight, MoveRight } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
+import { getAssetPath } from "@/lib/utils";
 
 const categories = [
   {
     id: "corrugated-mailer",
     titleKey: "products.corrugatedMailerBox",
     count: 1653,
-    image: "/img/box/corrugated-mailer-box.jpg",
+    image: getAssetPath("/img/box/corrugated-mailer-box.jpg"),
   },
   {
     id: "corrugated-pizza",
     titleKey: "products.corrugatedPizzaBox",
     count: 828,
-    image: "/img/box/corrugated-pizza-box.jpg",
+    image: getAssetPath("/img/box/corrugated-pizza-box.jpg"),
   },
   {
     id: "die-cut-fruit",
     titleKey: "products.dieCutFruitBox",
     count: 1863,
-    image: "/img/box/die-cut-fruit-box.jpg",
+    image: getAssetPath("/img/box/die-cut-fruit-box.jpg"),
   },
   {
     id: "document-box",
     titleKey: "products.documentBox",
     count: 660,
-    image: "/img/box/document-box.jpg",
+    image: getAssetPath("/img/box/document-box.jpg"),
   },
   {
     id: "drawer-box",
     titleKey: "products.drawerBox",
     count: 202,
-    image: "/img/box/drawer-box.jpg",
+    image: getAssetPath("/img/box/drawer-box.jpg"),
   },
   {
     id: "folding-carton",
     titleKey: "products.foldingCartonBox",
     count: 338,
-    image: "/img/box/folding-carton-box.jpg",
+    image: getAssetPath("/img/box/folding-carton-box.jpg"),
   },
   {
     id: "full-telescope",
     titleKey: "products.fullTelescope",
     count: 437,
-    image: "/img/box/full-telescope-ftd.jpg",
+    image: getAssetPath("/img/box/full-telescope-ftd.jpg"),
   },
   {
     id: "handle-box",
     titleKey: "products.handleBox",
     count: 195,
-    image: "/img/box/handle-box.jpg",
+    image: getAssetPath("/img/box/handle-box.jpg"),
   },
   {
     id: "rsc",
     titleKey: "products.regularSlottedContainer",
     count: 143,
-    image: "/img/box/regular-slotted-container-rsc.jpg",
+    image: getAssetPath("/img/box/regular-slotted-container-rsc.jpg"),
   },
   {
     id: "rte",
     titleKey: "products.reverseTuckEnd",
     count: 79,
-    image: "/img/box/reverse-tuck-end-rte.jpg",
+    image: getAssetPath("/img/box/reverse-tuck-end-rte.jpg"),
   },
   {
     id: "roll-end-tray",
     titleKey: "products.rollEndTray",
     count: 81,
-    image: "/img/box/roll-end-tray.jpg",
+    image: getAssetPath("/img/box/roll-end-tray.jpg"),
   },
   {
     id: "shoe-box",
     titleKey: "products.shoeBox",
     count: 178,
-    image: "/img/box/shoe-box.jpg",
+    image: getAssetPath("/img/box/shoe-box.jpg"),
   },
 ];
 

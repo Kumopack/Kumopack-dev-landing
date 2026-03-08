@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "@/components/common/LocalizedLink";
 import { useLanguage } from "@/context/LanguageContext";
 import { API_BASE_URL } from "@/lib/api-config";
+import { getAssetPath } from "@/lib/utils";
 import { industrialData } from "./data/industrialData";
 
 export default function RegisterContent() {
@@ -128,7 +129,7 @@ export default function RegisterContent() {
       <div className="flex flex-col items-center mb-6">
         <div className="mb-4">
           <Image
-            src="/logo/logo-icon.png"
+            src={getAssetPath("/logo/logo-icon.png")}
             alt="Kumopack"
             width={60}
             height={60}
@@ -190,7 +191,7 @@ export default function RegisterContent() {
               >
                 <div className="w-20 h-20 bg-purple-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-purple-100 transition-colors p-2">
                   <Image
-                    src="/icon/buyer.svg"
+                    src={getAssetPath("/icon/buyer.svg")}
                     alt="Buyer"
                     width={80}
                     height={80}
@@ -212,7 +213,7 @@ export default function RegisterContent() {
               >
                 <div className="w-20 h-20 bg-orange-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-orange-100 transition-colors p-2">
                   <Image
-                    src="/icon/supplier.svg"
+                    src={getAssetPath("/icon/supplier.svg")}
                     alt="Supplier"
                     width={80}
                     height={80}
