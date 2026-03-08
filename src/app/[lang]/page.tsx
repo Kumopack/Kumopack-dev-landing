@@ -22,6 +22,9 @@ const SystemFeaturesSection = dynamic(
 const SystemFeaturesV2 = dynamic(() => import("@/components/SystemFeaturesV2"));
 const BlogSection = dynamic(() => import("@/components/BlogSection"));
 const LogoTicker = dynamic(() => import("@/components/LogoTicker"));
+const MockupCategoriesV2 = dynamic(
+  () => import("@/components/MockupCategoriesV2"),
+);
 
 export default async function Home() {
   const articlesResponse = await blogApi.getArticles(1, 3);
@@ -33,6 +36,7 @@ export default async function Home() {
       <PromoPopup />
       <HeroSection />
       <GallerySection />
+      <MockupCategoriesV2 />
 
       {/* UI Comparison Section */}
       <section className="space-y-32 py-16">

@@ -68,7 +68,7 @@ const galleryItems = [
   },
 ];
 
-const VISIBLE_COUNT = 5; // How many cards visible at once (odd number for symmetry)
+const VISIBLE_COUNT = 5;
 
 const GallerySection = () => {
   const { t } = useLanguage();
@@ -84,7 +84,6 @@ const GallerySection = () => {
     [total],
   );
 
-  // Auto-rotate every 4 seconds
   useEffect(() => {
     const interval = setInterval(next, 4000);
     return () => clearInterval(interval);
@@ -97,7 +96,7 @@ const GallerySection = () => {
    */
   const getOffset = (index: number): number | null => {
     let diff = index - activeIndex;
-    // Wrap around
+
     if (diff > total / 2) diff -= total;
     if (diff < -total / 2) diff += total;
     const half = Math.floor(VISIBLE_COUNT / 2);
@@ -116,11 +115,11 @@ const GallerySection = () => {
     }
 
     const absOffset = Math.abs(offset);
-    const scale = 1 - absOffset * 0.15; // center=1, ±1=0.85, ±2=0.70
-    const translateX = offset * 240; // px shift per position
+    const scale = 1 - absOffset * 0.15;
+    const translateX = offset * 240;
     const zIndex = VISIBLE_COUNT - absOffset;
-    const opacity = 1 - absOffset * 0.25; // center=1, ±1=0.75, ±2=0.50
-    const rotateY = offset * -8; // slight 3D tilt
+    const opacity = 1 - absOffset * 0.25;
+    const rotateY = offset * -8;
 
     return {
       transform: `translateX(${translateX}px) scale(${scale}) rotateY(${rotateY}deg)`,

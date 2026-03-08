@@ -554,4 +554,22 @@ export const en = {
         "As custom packaging is manufactured to order, returns are generally only accepted for manufacturing defects. We facilitate quality disputes between buyers and factories.",
     },
   },
+  mockupCategories: {
+    title: "Top mockup categories",
+    viewAll: "View 5000+ mockup",
+    items: {
+      box: "Box Mockups",
+      pouch: "Pouch / Bag Mockups",
+      bottle: "Bottle Mockups",
+      can: "Can Mockups",
+      tube: "Tube Mockups",
+      cup: "Cup / Container Mockups",
+      food: "Food Packaging Mockups",
+      waterBottle: "Water Bottle Mockups",
+      giftBox: "Gift Box Mockups",
+      paperBag: "Paper Bag Mockups",
+      pizza: "Pizza Packaging Mockups",
+      supplement: "Supplement Bottle Mockups",
+    },
+  },
 };

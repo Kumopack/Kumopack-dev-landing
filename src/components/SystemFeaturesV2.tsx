@@ -134,7 +134,7 @@ const SystemFeaturesV2 = () => {
             <div className="space-y-4">
               {currentFeatures.map((feature, index) => (
                 <motion.div
-                  key={feature.title}
+                  key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
