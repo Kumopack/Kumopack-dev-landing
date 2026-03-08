@@ -5,9 +5,17 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Home, Ghost } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage, LanguageProvider } from "@/context/LanguageContext";
 
 export default function NotFound() {
+  return (
+    <LanguageProvider>
+      <NotFoundContent />
+    </LanguageProvider>
+  );
+}
+
+function NotFoundContent() {
   const { t, language } = useLanguage();
 
   return (
