@@ -29,6 +29,7 @@ export const en = {
     faq: "FAQ",
     contact: "Contact",
     events: "Kumo's Event",
+    aboutUs: "About Us",
     getQuotes: "Get Quotes",
     joinNetwork: "Join Network",
     supplierPortal: "Supplier Portal",
@@ -48,6 +49,7 @@ export const en = {
       contact: "Get in touch with our packaging experts.",
       events: "Join our upcoming workshops and webinars.",
       pricing: "Check our flexible plans for business scaling.",
+      aboutUs: "Learn about our story and team.",
     },
   },
   home: {
@@ -471,6 +473,7 @@ export const en = {
       "To empower businesses of all sizes to create professional, sustainable, and affordable packaging that elevates their brand identity. We simplify the sourcing process, making it accessible to everyone.",
     brandsTrusted: "Brands Trusted",
     factoryPartners: "Factory Partners",
+    companiesHelped: "Companies Helped",
     coreValuesTitle: "Our Core Values",
     coreValuesSubtitle: "The principles that guide everything we do.",
     values: {
@@ -482,6 +485,35 @@ export const en = {
       qualityDesc: "Rigorous standards for every single box.",
       community: "Community",
       communityDesc: "Supporting growth for buyers and suppliers.",
+    },
+    ourStoryBadge: "Our Story",
+    ourStoryTitle: "We're just getting started",
+    ourStorySubtitle: "We've already helped over 4,000 companies achieve remarkable results.",
+    ourStoryParagraph1:
+      "Packaging is one of the world's most important industries. Most consumer goods require various types of packaging suited to their specific containment and shipping needs. However, the diversity of packaging types is vast — categorized by raw material, product type (cosmetics, food & beverage, logistics packaging), machinery used for production, and printing methods. This makes the packaging industry enormous, and even factories of the same type using different machinery will produce different products for different customer segments. On average, each product requires 2-3 types of packaging materials, making it challenging for customers to coordinate with multiple factories.",
+    ourStoryParagraph2:
+      "KUMOPACK started from a small group of people inspired to collectively develop the potential of the packaging industry. Drawing from hands-on experience working with thousands of packaging clients, we saw their pain points firsthand. KUMOPACK came together to create a new environment — not just to aggregate quality factories into one system, but to drive competition and creatively elevate the packaging capabilities of factories across every region.",
+    ourStoryParagraph3:
+      "With our determination and ambition to see Thailand's packaging industry grow exponentially and produce creative products in continuous competition, we are fully committed to being a part of every company's success. No matter how much the direction of the packaging industry changes in the future, KUMOPACK is ready to be one of the crucial gears facing every change together with you.",
+    teamBadge: "Join Us!",
+    teamTitle: "Meet our team",
+    teamSubtitle: "Our philosophy is simple — hire a team of diverse, passionate people and foster a culture that empowers you to do your best work.",
+    team: {
+      phontakorn: {
+        name: "Phontakorn Jarutrassana",
+        role: "Founder & CEO",
+        quote: "How to make Thailand's packaging factories grow sustainably?",
+      },
+      thanin: {
+        name: "Thanin Pitaksakulhong",
+        role: "Founder & CFO",
+        quote: "How we push Thailand's factories to become a major production base for sustainable packaging?",
+      },
+      sasisom: {
+        name: "Sasisom Im-Erbsin",
+        role: "Founder & CTO",
+        quote: "What kind of system should be established to prevent all forms of fraud?",
+      },
     },
   },
   howItWorks: {

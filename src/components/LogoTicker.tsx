@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
+import { getAssetPath } from "@/lib/utils";
 
 const partners = [
   {
@@ -123,7 +124,7 @@ const LogoTicker = () => {
                   style={{ transform: `scale(${partner.zoom || 1})` }}
                 >
                   <Image
-                    src={partner.src}
+                    src={getAssetPath(partner.src)}
                     alt={partner.name}
                     fill
                     className="object-contain"

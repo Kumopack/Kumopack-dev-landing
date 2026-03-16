@@ -7,8 +7,7 @@ import { getSafeSlug, slugMatches } from "@/lib/slug-utils";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
-export const dynamicParams = false;
-export const revalidate = 0;
+
 
 export async function generateStaticParams() {
   if (process.env.NODE_ENV === "development") {

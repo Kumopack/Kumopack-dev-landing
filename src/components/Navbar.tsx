@@ -16,6 +16,7 @@ import {
   GraduationCap,
   Menu,
   X,
+  Info,
 } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { useLanguage } from "@/context/LanguageContext";
@@ -337,6 +338,15 @@ const Navbar = () => {
                           href="/events"
                         />
                       </div>
+                      <div className="col-span-2">
+                        <ETCCard
+                          icon={Info}
+                          title={t("nav.aboutUs") || "About Us"}
+                          description={t("nav.desc.aboutUs") || "Learn about our story and team"}
+                          color="sky"
+                          href="/about-us"
+                        />
+                      </div>
                     </div>
                   </div>
                 )}
@@ -493,6 +503,16 @@ const Navbar = () => {
                   <Layers className="w-4 h-4 text-primary" />
                 </div>
                 {t("nav.materials")}
+              </Link>
+              <Link
+                href="/about-us"
+                onClick={() => setIsMenuOpen(false)}
+                className="p-3 rounded-2xl hover:bg-purple/10 transition-colors font-bold flex items-center gap-3 text-sm"
+              >
+                <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <Info className="w-4 h-4 text-primary" />
+                </div>
+                {t("nav.aboutUs") || "About Us"}
               </Link>
 
               <hr className="border-border/50 my-4" />
