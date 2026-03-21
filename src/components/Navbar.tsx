@@ -23,6 +23,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import { Globe, Search } from "lucide-react";
 import { getAssetPath } from "@/lib/utils";
 import { getSafeSlug } from "@/lib/slug-utils";
+import EventsNavCard from "@/components/EventsNavCard";
+import WorkshopNavLink from "@/components/WorkshopNavLink";
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -189,23 +191,6 @@ const Navbar = () => {
                       </div>
                     </Link>
                     <Link
-                      href="/supplier"
-                      prefetch={false}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky/20 transition-colors"
-                    >
-                      <div className="w-8 h-8 rounded-xl bg-sky/30 flex items-center justify-center">
-                        <Layers className="w-4 h-4 text-sky-foreground" />
-                      </div>
-                      <div>
-                        <div className="font-medium text-foreground">
-                          {t("nav.supplierPortal")}
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          {t("nav.desc.supplierPortal")}
-                        </div>
-                      </div>
-                    </Link>
-                    <Link
                       href="/learning?audience=supplier"
                       prefetch={false}
                       className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky/20 transition-colors"
@@ -234,10 +219,12 @@ const Navbar = () => {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">
-                          {t("pricing.title")}
+                          {language === "th"
+                            ? "แพ็กเกจราคา"
+                            : "Pricing Packages"}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          {t("nav.desc.pricing")}
+                          {t("nav.desc.pricingSupplier")}
                         </div>
                       </div>
                     </Link>
@@ -254,17 +241,7 @@ const Navbar = () => {
               </Link>
               */}
 
-              <a
-                href={
-                  process.env.NEXT_PUBLIC_MOCKUP_SITE_URL ||
-                  "https://mockup.kumopack.com"
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-lavender transition-all duration-200"
-              >
-                {t("nav.workshop")}
-              </a>
+              <WorkshopNavLink />
 
               <div
                 className="relative"
@@ -279,21 +256,17 @@ const Navbar = () => {
                 </button>
                 {activeDropdown === "etc" && (
                   <div className="absolute top-full right-0 mt-2 w-[480px] rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float p-6 animate-fade-in">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="col-span-2 mb-4">
                       <ETCCard
                         icon={BookOpen}
                         title={t("nav.blog")}
                         description={t("nav.desc.blog")}
                         color="mint"
                         href="/blogs"
-                      />
-                      <ETCCard
-                        icon={GraduationCap}
-                        title={t("nav.learning")}
-                        description={t("nav.desc.learning")}
-                        color="lavender"
-                        href="/learning"
-                      />
+                      />{" "}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
                       <ETCCard
                         icon={Layers}
                         title={t("nav.materials")}
@@ -305,24 +278,24 @@ const Navbar = () => {
                         icon={Box}
                         title={t("nav.products")}
                         description={t("nav.desc.productsDetail")}
-                        color="coral"
+                        color="amber"
                         href="/products"
                       />
                       <ETCCard
                         icon={Shield}
                         title={t("nav.policy")}
                         description={t("nav.desc.policy")}
-                        color="lavender"
+                        color="rose"
                         href="/policy"
                       />
                       <ETCCard
                         icon={Package}
                         title={t("nav.faq")}
                         description={t("nav.desc.faq")}
-                        color="mint"
+                        color="teal"
                         href="/faq"
                       />
-                      <div className="col-span-2 grid grid-cols-2 gap-4">
+                      <div className="col-span-2 grid grid-cols-2 grid-rows-2 gap-4">
                         <ETCCard
                           icon={MessageCircle}
                           title={t("nav.contact")}
@@ -330,20 +303,17 @@ const Navbar = () => {
                           color="purple"
                           href="/contact"
                         />
-                        <ETCCard
-                          icon={Sparkles}
-                          title={t("nav.events")}
-                          description={t("nav.desc.events")}
-                          color="coral"
-                          href="/events"
-                        />
-                      </div>
-                      <div className="col-span-2">
+                        <div className="row-span-2">
+                          <EventsNavCard />
+                        </div>
                         <ETCCard
                           icon={Info}
                           title={t("nav.aboutUs") || "About Us"}
-                          description={t("nav.desc.aboutUs") || "Learn about our story and team"}
-                          color="sky"
+                          description={
+                            t("nav.desc.aboutUs") ||
+                            "Learn about our story and team"
+                          }
+                          color="lavender"
                           href="/about-us"
                         />
                       </div>
@@ -473,16 +443,6 @@ const Navbar = () => {
                 </div>
                 {t("nav.joinNetwork")}
               </Link>
-              <Link
-                href="/supplier"
-                onClick={() => setIsMenuOpen(false)}
-                className="p-3 rounded-2xl hover:bg-sky/10 transition-colors font-bold flex items-center gap-3 text-sm"
-              >
-                <div className="w-8 h-8 rounded-xl bg-sky/20 flex items-center justify-center">
-                  <Layers className="w-4 h-4 text-sky-foreground" />
-                </div>
-                {t("nav.supplierPortal")}
-              </Link>
 
               <Link
                 href="/learning?audience=buyer"
@@ -554,9 +514,10 @@ interface ETCCardProps {
   icon: React.ElementType;
   title: string;
   description: string;
-  color: "mint" | "sky" | "coral" | "lavender" | "purple";
+  color: "mint" | "sky" | "coral" | "lavender" | "purple" | "amber" | "rose" | "teal";
   fullWidth?: boolean;
   href: string;
+  className?: string;
 }
 
 const ETCCard = ({
@@ -566,6 +527,7 @@ const ETCCard = ({
   color,
   fullWidth,
   href,
+  className,
 }: ETCCardProps) => {
   const colorClasses = {
     mint: "bg-mint/30 text-mint-foreground hover:bg-mint/40",
@@ -573,6 +535,9 @@ const ETCCard = ({
     coral: "bg-coral/30 text-coral-foreground hover:bg-coral/40",
     lavender: "bg-lavender/50 text-foreground hover:bg-lavender/70",
     purple: "bg-primary/20 text-primary hover:bg-primary/30",
+    amber: "bg-amber-100/60 text-amber-800 hover:bg-amber-100/80",
+    rose: "bg-rose-100/60 text-rose-700 hover:bg-rose-100/80",
+    teal: "bg-teal-100/60 text-teal-700 hover:bg-teal-100/80",
   };
 
   const iconBgClasses = {
@@ -581,12 +546,15 @@ const ETCCard = ({
     coral: "bg-coral/50",
     lavender: "bg-lavender-deep/30",
     purple: "bg-primary/30",
+    amber: "bg-amber-200/60",
+    rose: "bg-rose-200/60",
+    teal: "bg-teal-200/60",
   };
 
   return (
     <Link
       href={href}
-      className={`group flex items-start gap-4 p-4 rounded-2xl transition-all duration-200 ${colorClasses[color]} ${fullWidth ? "" : ""}`}
+      className={`group flex items-start gap-4 p-4 rounded-2xl transition-all duration-200 ${colorClasses[color]} ${fullWidth ? "" : ""} ${className || ""}`}
     >
       <div
         className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${iconBgClasses[color]}`}

@@ -24,22 +24,26 @@ export const en = {
     etc: "ETC",
     blog: "Blog",
     materials: "Materials",
-    products: "Products",
+    products: "Product Catalog",
     policy: "Policy",
     faq: "FAQ",
     contact: "Contact",
     events: "Kumo's Event",
     aboutUs: "About Us",
-    getQuotes: "Get Quotes",
-    joinNetwork: "Join Network",
+    getQuotes: "Factory Directory",
+    joinNetwork: "Join Us",
     supplierPortal: "Supplier Portal",
     desc: {
-      products: "Explore our wide range of custom packaging solutions.",
-      getQuotes: "Get a quote from multiple factories in 48 hours.",
-      joinNetwork: "Join our network of premium packaging manufacturers.",
+      products: "Find the packaging type that best fits your product.",
+      getQuotes:
+        "Browse all factories in our system — view details, strengths, and expertise in one place.",
+      joinNetwork:
+        "Register as a Kumopack packaging factory to access new business opportunities.",
       supplierPortal: "Manage your quotes, orders, and factory profile.",
-      learningBuyer: "Master the art of packaging with our expert guides.",
-      learningSupplier: "Build your factory brand and scale your production.",
+      learningBuyer:
+        "Guides, how-tos, and tips to help you use Kumopack more effectively.",
+      learningSupplier:
+        "Guides, system tutorials, and best practices to help factories get the most out of Kumopack.",
       learning: "Deep dive into the packaging ecosystem.",
       materials: "Discover sustainable and high-quality material options.",
       blog: "Latest news, trends, and stories from the industry.",
@@ -48,8 +52,11 @@ export const en = {
       faq: "Find answers to frequently asked questions.",
       contact: "Get in touch with our packaging experts.",
       events: "Join our upcoming workshops and webinars.",
-      pricing: "Check our flexible plans for business scaling.",
+      pricing: "Choose the package that fits your needs.",
+      pricingSupplier:
+        "Choose the plan that fits your factory's size and growth goals.",
       aboutUs: "Learn about our story and team.",
+      workshop: "Workshop",
     },
   },
   home: {
@@ -187,33 +194,33 @@ export const en = {
   },
   categories: {
     badge: "Product Categories",
-    title: "Packaging for every need",
-    subtitle: "Explore our comprehensive range of custom packaging solutions",
+    title: "Find the right packaging for your business, all in one place",
+    subtitle: "All packaging types to meet your business needs",
     specs: "Printing \u0026 Specs",
     items: {
       corrugated: {
         name: "Corrugated Boxes",
-        desc: "Durable shipping \u0026 retail boxes",
+        desc: "Ideal for shipping, postal, and packaging that requires durability and strength",
       },
-      film: {
-        name: "Film Pouches",
-        desc: "Flexible packaging for food \u0026 products",
-      },
-      labels: {
-        name: "Custom Labels",
-        desc: "Branded stickers \u0026 product labels",
+      offset: {
+        name: "Offset Boxes",
+        desc: "For product boxes requiring beautiful printing, premium image, and high resolution",
       },
       tape: {
         name: "Branded Tape",
-        desc: "Custom printed packing tape",
+        desc: "Standard and custom branded tape for packing and shipping",
+      },
+      film: {
+        name: "Film Bags",
+        desc: "Flexible packaging for food, consumer products, and small items requiring versatility",
+      },
+      tube: {
+        name: "Paper Tube",
+        desc: "Cylindrical packaging for premium products, gifts, or items needing a distinctive look",
       },
       mailer: {
-        name: "Mailer Bags",
-        desc: "Poly mailers for e-commerce",
-      },
-      gift: {
-        name: "Gift Boxes",
-        desc: "Premium presentation packaging",
+        name: "Padded Mailers",
+        desc: "For shipping small items that need extra protection, reducing impact during transit",
       },
     },
   },
@@ -239,9 +246,9 @@ export const en = {
   systemFeatures: {
     buyerTab: "Buyer",
     factoryTab: "Factory / Supplier",
-    buyerTitle: "System for Buyers",
+    buyerTitle: "For Buyers",
     buyerSubtitle:
-      "Get offers from a variety of factories to match your needs and find products at the right price and quality.",
+      "We bring together a variety of packaging factories on a single platform, so you can find packaging that matches your products, budget, and standards.",
     buyerFeature1Title: "Smart Factory Matching",
     buyerFeature1Desc:
       "Find the right factory for your needs with our intelligent search system that filters manufacturers matching your exact requirements — no more contacting factories that can't produce what you want.",
@@ -254,9 +261,9 @@ export const en = {
     buyerFeature4Title: "Ordering, Payment & Product Guarantee",
     buyerFeature4Desc:
       "Place orders directly on the platform with multiple payment options including QR Payment, Credit Card, and Bank Transfer.",
-    factoryTitle: "System for Factories",
+    factoryTitle: "For Factory Suppliers",
     factorySubtitle:
-      "Increase your opportunities to quote customers and open new sales channels.",
+      "Open opportunities for factories to reach new qualified buyers, receive quote requests, and grow sales easily.",
     factoryFeature1Title: "Daily Business Matching",
     factoryFeature1Desc:
       "Receive new quote requests from buyers every day — a constant stream of new customer opportunities.",
@@ -271,32 +278,38 @@ export const en = {
       "Reduce advertising costs — Kumopack is an online marketplace that pushes every factory in the system to rank at the top of Google search results.",
     // Buyer Highlights (left panel)
     buyerHighlight1Value: "48 hrs",
-    buyerHighlight1Label: "Guaranteed quote response time",
+    buyerHighlight1Label: "Get quotes within 48 hours",
     buyerHighlight2Value: "200+",
     buyerHighlight2Label: "Certified factory partners",
     buyerHighlight3Value: "100%",
-    buyerHighlight3Label: "Secure payment protection",
+    buyerHighlight3Label: "Secure payment at every step",
     buyerHighlight4Value: "4.9/5",
     buyerHighlight4Label: "Average buyer satisfaction",
     // Factory Highlights (left panel)
-    factoryHighlight1Value: "Daily",
-    factoryHighlight1Label: "New buyer leads matched",
-    factoryHighlight2Value: "Top 10",
-    factoryHighlight2Label: "Google ranking for factories",
-    factoryHighlight3Value: "3x",
-    factoryHighlight3Label: "Average sales growth",
+    factoryHighlight1Value: "New Leads",
+    factoryHighlight1Label: "Connect with new buyers continuously",
+    factoryHighlight2Value: "Visibility",
+    factoryHighlight2Label: "Make it easier for customers to find your factory",
+    factoryHighlight3Value: "Growth",
+    factoryHighlight3Label: "Expand your sales channels to new customers",
     factoryHighlight4Value: "0%",
-    factoryHighlight4Label: "Platform commission fee",
+    factoryHighlight4Label: "Zero bad debt risk",
     // Info boxes
-    buyerInfoTitle: "Why buy through Kumopack?",
+    buyerInfoTitle: "Why choose Kumopack?",
     buyerInfoDesc:
-      "Our platform eliminates the hassle of sourcing packaging. Every factory is pre-vetted, every quote is standardized, and every order is protected with our buyer guarantee program.",
-    factoryInfoTitle: "Why sell on Kumopack?",
+      "Kumopack makes finding packaging factories easier by bringing quality manufacturers together in one place, with quotes tailored to your needs. Compare conveniently, decide confidently, and save time at every step.",
+    factoryInfoTitle: "Why choose Kumopack?",
     factoryInfoDesc:
-      "Gain instant access to hundreds of qualified buyers actively searching for packaging suppliers. No advertising spend needed — we bring the customers to you.",
+      "Gain instant access to hundreds of qualified buyers actively searching for packaging suppliers. No advertising spend needed — Kumopack brings customers to you.",
+    factoryInfoFeature1Title: "Continuous buyer matching",
+    factoryInfoFeature1Desc:
+      "Factories receive quote requests from new buyers continuously, increasing opportunities to acquire new customers and drive sales.",
+    factoryInfoFeature2Title: "Boost online visibility",
+    factoryInfoFeature2Desc:
+      "Reduce advertising costs as Kumopack helps your factory get discovered online more easily, increasing visibility among buyers searching for packaging suppliers.",
   },
   pricing: {
-    title: "Pricing",
+    title: "Pricing & Packages",
     hero: {
       title: "Choose the right plan for your business",
       subtitle: "Flexible plans that grow with you",
@@ -396,7 +409,8 @@ export const en = {
     termsOfService: "Terms of Service",
   },
   products: {
-    title: "Products",
+    title: "Product Categories",
+    titleAccent: "Packaging",
     subtitle:
       "Discover the perfect box style for your brand. High-quality construction meets custom design flexibility.",
     explore: "Explore",
@@ -488,7 +502,8 @@ export const en = {
     },
     ourStoryBadge: "Our Story",
     ourStoryTitle: "We're just getting started",
-    ourStorySubtitle: "We've already helped over 4,000 companies achieve remarkable results.",
+    ourStorySubtitle:
+      "We've already helped over 4,000 companies achieve remarkable results.",
     ourStoryParagraph1:
       "Packaging is one of the world's most important industries. Most consumer goods require various types of packaging suited to their specific containment and shipping needs. However, the diversity of packaging types is vast — categorized by raw material, product type (cosmetics, food & beverage, logistics packaging), machinery used for production, and printing methods. This makes the packaging industry enormous, and even factories of the same type using different machinery will produce different products for different customer segments. On average, each product requires 2-3 types of packaging materials, making it challenging for customers to coordinate with multiple factories.",
     ourStoryParagraph2:
@@ -497,7 +512,8 @@ export const en = {
       "With our determination and ambition to see Thailand's packaging industry grow exponentially and produce creative products in continuous competition, we are fully committed to being a part of every company's success. No matter how much the direction of the packaging industry changes in the future, KUMOPACK is ready to be one of the crucial gears facing every change together with you.",
     teamBadge: "Join Us!",
     teamTitle: "Meet our team",
-    teamSubtitle: "Our philosophy is simple — hire a team of diverse, passionate people and foster a culture that empowers you to do your best work.",
+    teamSubtitle:
+      "Our philosophy is simple — hire a team of diverse, passionate people and foster a culture that empowers you to do your best work.",
     team: {
       phontakorn: {
         name: "Phontakorn Jarutrassana",
@@ -507,35 +523,41 @@ export const en = {
       thanin: {
         name: "Thanin Pitaksakulhong",
         role: "Founder & CFO",
-        quote: "How we push Thailand's factories to become a major production base for sustainable packaging?",
+        quote:
+          "How we push Thailand's factories to become a major production base for sustainable packaging?",
       },
       sasisom: {
         name: "Sasisom Im-Erbsin",
         role: "Founder & CTO",
-        quote: "What kind of system should be established to prevent all forms of fraud?",
+        quote:
+          "What kind of system should be established to prevent all forms of fraud?",
       },
     },
   },
   howItWorks: {
-    title: "Streamlined from Idea to Unboxing",
+    title: "Simplify Complexity, All in One Place",
     subtitle:
-      "We've simplified the complex world of packaging sourcing into four simple steps.",
+      "Kumopack transforms the complex packaging sourcing process into a clear, simple, and complete experience.",
     steps: {
       design: {
-        title: "Design Your Vision",
-        desc: "Choose your box style and upload your artwork using our intuitive 3D editor.",
+        label: "Idea & Design",
+        title: "Start from your idea",
+        desc: "Choose your packaging style and build it into a production-ready file with our 3D Design system — so everyone sees the same vision from the start.",
       },
       quote: {
-        title: "Match & Quote",
-        desc: "Receive competitive bids from our network of certified manufacturers in real-time.",
+        label: "Matching",
+        title: "Match with the right factory",
+        desc: "We select manufacturers that match your job type, quality standards, production volume, and budget.",
       },
       order: {
-        title: "Order Samples",
-        desc: "Test the quality with a physical sample before committing to a full production run.",
+        label: "Sample",
+        title: "Receive a sample for review",
+        desc: "Inspect materials, colors, printing, and real details of the product before confirming production.",
       },
       scale: {
-        title: "Scale Production",
-        desc: "Once approved, your packaging goes into production and ships directly to your door.",
+        label: "Production & Delivery",
+        title: "Produce and deliver",
+        desc: "Once the sample is approved, your order goes into production and is delivered to you on schedule.",
       },
     },
   },
@@ -553,18 +575,29 @@ export const en = {
       "Have questions about custom orders, factory sourcing, or sustainable materials? Our team is here to help you find the absolute solution.",
     formTitle: "Send a Message",
     name: "Full Name",
+    namePlaceholder: "Enter your full name",
     email: "Email Address",
+    phone: "Phone Number",
+    phonePlaceholder: "08X-XXX-XXXX",
+    phoneLabel: "Phone",
     subject: "Subject",
+    subjectPlaceholder: "Inquiry about custom boxes",
     message: "Message",
+    messagePlaceholder: "How can we help you?",
     send: "Send Message",
     infoTitle: "Contact Information",
-    chatTitle: "Live Chat",
-    chatDesc:
-      "Need an instant answer? Chat with our support team using the widget in the bottom right corner.",
-    startChat: "Start Chat",
   },
   policy: {
     title: "Policies \u0026 Terms",
+    tabs: {
+      policy: "Policies",
+      terms: "Platform Terms",
+      advantages: "Factory Advantages",
+    },
+    supportEmail: "support@kumopack.com",
+    forBuyers: "For Buyers",
+    forSuppliers: "For Suppliers",
+    more: "More",
     security: {
       title: "Security Policy",
       content:
@@ -585,9 +618,141 @@ export const en = {
       content:
         "As custom packaging is manufactured to order, returns are generally only accepted for manufacturing defects. We facilitate quality disputes between buyers and factories.",
     },
+    platformTerms: {
+      heading: "Platform Service Terms \u0026 Conditions",
+      intro:
+        "Buyers and suppliers agree to the manufacturing terms and conditions specified by Kumopack according to international standards. Both parties mutually accept the following terms:",
+      sections: [
+        {
+          title: "1. Packaging Box Dimensions",
+          items: [
+            "Box sizes are produced based on the quotation. The supplier must clearly specify inner, outer, and score line dimensions. If not specified, the confirmed sample dimensions take precedence.",
+            "The supplier must send a sample box matching the quoted size for buyer verification before production. If production begins before buyer confirmation, the supplier bears full responsibility and must reproduce the order or refund the deposit in full.",
+            "Box dimensions reference the score line or buyer-confirmed sample, with a tolerance of ±2mm per side. Products within this tolerance cannot be rejected or returned.",
+            "The buyer is responsible for verifying the accuracy of sample box dimensions.",
+          ],
+        },
+        {
+          title: "2. Paper Specifications \u0026 GSM",
+          items: [
+            "Paper color specifications follow the invoice. The supplier must send color shade samples for buyer confirmation before every production run.",
+            "Paper GSM follows the invoice. The supplier must provide actual-spec box samples or paper sheets for buyer confirmation before producing new sizes.",
+            "GSM references standard values. If the GSM does not match the confirmed invoice specifications, the supplier is responsible for damages in that lot.",
+            "For inner fluting GSM, the supplier must inform the buyer of the paper GSM used. The buyer may reject shipments that do not match the stated specifications.",
+          ],
+        },
+        {
+          title: "3. Production \u0026 Printing",
+          items: [
+            "The supplier produces and delivers boxes according to the invoice specifications for strength, color, and GSM. The fluting must not be crushed in a way that compromises structural integrity.",
+            "Print colors are agreed upon using Pantone C codes (for flexography) or CMYK (for digital print). The supplier must provide Pantone C color swatches on the actual paper stock, with clear lower/upper tolerance limits upon request.",
+            "Paper GSM references the latest buyer-confirmed invoice. The overall GSM variance across all layers must not exceed the specified threshold.",
+          ],
+        },
+        {
+          title: "4. Production Quantities",
+          items: [
+            "Production quantity tolerance is ±3% of the order. If there is a shortage, the supplier may close the deal with buyer consent.",
+            "If the shortage exceeds 3% and the buyer does not consent, the supplier must produce the remaining quantity as agreed.",
+            "If the shortage is within 3%, the supplier may close the deal per the purchase order even without buyer consent, as the buyer has accepted Kumopack's production terms.",
+          ],
+        },
+        {
+          title: "5. Delivery",
+          items: [
+            "After production is complete, the supplier must deliver within the mutually agreed timeframe, with a maximum delay of 5 business days. Beyond this, the system imposes a 2% daily penalty on sales, or the buyer may request a supplier change or cancellation.",
+            "After production is complete, the supplier is responsible for coordinating delivery with the buyer. If the buyer is unreachable or reschedules, the supplier is not considered to have exceeded the delivery deadline.",
+            "The supplier must deliver goods to the agreed location. Delivery includes unloading at ground level but excludes carrying up floors, elevators, or distances beyond 50 meters from the delivery vehicle. Additional charges may apply for such conditions.",
+          ],
+        },
+        {
+          title: "6. Payment for Goods",
+          items: [
+            "Once the buyer accepts the quotation and agrees to purchase, the supplier must issue an invoice within the system.",
+            "After the buyer makes payment, the amount is held as a production deposit by Kumopack until the goods are delivered and accepted. Upon deal closure, Kumopack transfers the balance to the supplier.",
+            "After the supplier receives the order, they must send samples for buyer confirmation. Upon buyer approval, Kumopack releases the first 50% deposit to the supplier to begin production. Day 1 of production starts from the confirmation date.",
+            "After delivery, the buyer must inspect and confirm acceptance within the system. If the buyer does not confirm or file a claim within 7 days of receiving goods, the system automatically closes the deal.",
+          ],
+        },
+      ],
+    },
+    factoryAdvantages: {
+      heading: "Factory Advantages",
+      howToGetHeading: "How to Get Icon Showing Advantages",
+      intro:
+        "Buyers and suppliers agree to the manufacturing terms and conditions specified by Kumopack according to international standards. Both parties mutually accept the following terms:",
+      items: [
+        {
+          title: "Nearest Location",
+          description:
+            "Indicates the supplier's factory is within a 20-kilometer radius of the buyer.",
+          criteria:
+            "The supplier adds their main office location in the system. The system pins this location and compares it with the buyer's registered address.",
+        },
+        {
+          title: "Flexo Printing",
+          description:
+            "Indicates the supplier's factory has flexographic printing capability.",
+          criteria:
+            "The supplier enables the Flexo Printing option in the back-office system. Once enabled, the system automatically displays this icon.",
+        },
+        {
+          title: "Digital UV Inkjet",
+          description:
+            "Indicates the supplier's factory has digital printing and/or UV printing capability.",
+          criteria:
+            "The supplier enables Digital + UV Printing in the back-office system. Once enabled, the system automatically displays this icon.",
+        },
+        {
+          title: "Popular Factory",
+          description:
+            "Indicates the supplier is popular among buyers with a high deal closure rate.",
+          criteria:
+            "The supplier has an average rating above 4 stars and more than 20 orders within the past year.",
+        },
+        {
+          title: "Diversity",
+          description:
+            "Indicates the supplier can produce a wide variety of products within their category.",
+          criteria:
+            "The supplier selects more than 6 packaging product types and can print in more than 2 colors.",
+        },
+        {
+          title: "Fast Production",
+          description:
+            "Indicates the supplier can produce goods quickly within 5-7 business days.",
+          criteria:
+            "The supplier guarantees a lead-time of no more than 5-7 business days.",
+        },
+        {
+          title: "On Demand",
+          description:
+            "Indicates the supplier has no minimum order quantity requirement.",
+          criteria:
+            "The supplier selects that they can produce per customer's minimum quantity or fewer than 100 units.",
+        },
+        {
+          title: "Sale Support",
+          description:
+            "Indicates the supplier has dedicated sales staff for quick buyer coordination.",
+          criteria:
+            "The supplier selects that they have sales support available in the system.",
+        },
+        {
+          title: "Guarantee by Kumopack",
+          description:
+            "Indicates the supplier has been audited by the Kumopack team for production quality, machinery, worker safety, and compliance.",
+          criteria:
+            "The Kumopack team audits the supplier's processes, raw materials, printing type, internal management, and worker safety. After passing the evaluation, the team grants the Guarantee icon within 7 business days.",
+        },
+      ],
+    },
   },
   mockupCategories: {
     title: "Top mockup categories",
+    heading: "Choose Your",
+    headingAccent: "Style",
+    subtitle: "Find the right box style for your products",
     viewAll: "View 5000+ mockup",
     items: {
       box: "Box Mockups",

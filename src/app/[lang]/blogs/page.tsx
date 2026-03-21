@@ -8,7 +8,7 @@ export default async function BlogsPage() {
 
   try {
     const [articlesRes, categories] = await Promise.all([
-      blogApi.getArticles(1, 6, category),
+      blogApi.getArticles(1, 12, category),
       blogApi.getCategories(),
     ]);
 

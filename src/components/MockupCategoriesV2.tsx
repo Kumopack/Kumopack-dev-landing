@@ -85,78 +85,127 @@ const MockupCategoriesV2 = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
-      {/* Playful Background Elements */}
+    <section className="py-28 relative overflow-hidden bg-gradient-to-b from-white via-primary/[0.02] to-white">
+      {/* Subtle background accents */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[30%] h-[30%] bg-accent/5 rounded-full blur-[100px]" />
+        <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] bg-primary/[0.03] rounded-full blur-[150px]" />
+        <div className="absolute bottom-[10%] right-[5%] w-[400px] h-[400px] bg-accent/[0.03] rounded-full blur-[120px]" />
       </div>
 
-      <div className="container mx-auto px-6 max-w-5xl">
-        <div className="text-center mb-16 space-y-4">
+      <div className="container mx-auto px-6 max-w-6xl">
+        {/* Header */}
+        <div className="text-center mb-20">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-100 text-neutral-500 text-[10px] font-black uppercase tracking-[0.2em]"
+            className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.25em] mb-6"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             {t("mockupCategories.title")}
           </motion.div>
-          <h2 className="text-4xl md:text-5xl font-black text-foreground tracking-tighter leading-none">
-            Choose Your <span className="text-neutral-300">Style</span>
-          </h2>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1, duration: 0.6 }}
+            className="text-4xl md:text-6xl font-black text-foreground tracking-tight leading-[1.1] mb-4"
+          >
+            {t("mockupCategories.heading")}{" "}
+            <span className="bg-gradient-to-r from-primary via-primary/80 to-accent bg-clip-text text-transparent">
+              {t("mockupCategories.headingAccent")}
+            </span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-muted-foreground text-base md:text-lg max-w-md mx-auto"
+          >
+            {t("mockupCategories.subtitle")}
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {categories.map((category, index) => (
             <motion.div
               key={category.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{
-                duration: 0.8,
-                delay: index * 0.05,
+                duration: 0.5,
+                delay: index * 0.04,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="group relative bg-white rounded-[2rem] p-6 border border-neutral-100 shadow-[0_5px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden h-[150px] select-none pointer-events-none"
+              className="group relative rounded-2xl overflow-hidden h-[140px] select-none pointer-events-none bg-white border border-neutral-100/80 shadow-[0_2px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition-all duration-500"
             >
-              <div className="relative z-10 h-full flex flex-col justify-center">
-                <div className="space-y-0.5">
-                  <h3 className="text-md font-black text-foreground tracking-tighter group-hover:text-primary transition-colors duration-500 line-clamp-2 pr-20">
+              {/* Left accent bar */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary/60 via-primary/20 to-transparent" />
+
+              {/* Content */}
+              <div
+                className="relative z-10 h-full flex flex-col justify-center pl-6 pr-4"
+                style={{ width: "58%" }}
+              >
+                <div className="space-y-1">
+                  <h3 className="text-[15px] font-bold text-foreground tracking-tight line-clamp-2 leading-snug">
                     {t(category.titleKey)}
                   </h3>
-                  <div className="text-muted-foreground/40 text-[9px] font-black uppercase tracking-widest">
-                    {category.count.toLocaleString()} Templates
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-1 h-1 rounded-full bg-primary/40" />
+                    <span className="text-muted-foreground/50 text-[10px] font-semibold tracking-wide">
+                      {category.count.toLocaleString()} templates
+                    </span>
                   </div>
                 </div>
               </div>
 
-              {/* Seamless Image Container */}
-              <div className="absolute right-2 inset-y-2 w-[45%] group-hover:scale-110 transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]">
-                <div className="relative w-full h-full mix-blend-multiply flex items-center justify-end">
+              {/* Image - clean, no overlay */}
+              <div className="absolute right-0 inset-y-0 w-[40%] bg-neutral-50/50 flex items-center justify-center p-3">
+                <div className="relative w-full h-full">
                   <Image
                     src={category.image}
                     alt={t(category.titleKey)}
                     fill
-                    className="object-contain object-right"
-                    sizes="(max-width: 768px) 50vw, 33vw"
+                    className="object-contain mix-blend-multiply"
+                    sizes="(max-width: 768px) 40vw, 20vw"
                   />
                 </div>
               </div>
-
-              {/* Decorative Corner Element */}
-              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-primary/5 to-transparent rounded-bl-[60px] -mr-8 -mt-8 group-hover:scale-150 transition-transform duration-1000" />
             </motion.div>
           ))}
         </div>
 
-        <div className="mt-16 flex justify-center">
-          <p className="text-neutral-300 font-black text-[10px] uppercase tracking-[0.4em]">
-            {t("mockupCategories.viewAll")}
-          </p>
-        </div>
+        {/* Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1, duration: 0.6 }}
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4"
+        >
+          {[
+            { value: "500+", labelKey: "gallery.stats.brands" },
+            { value: "10M+", labelKey: "gallery.stats.boxes" },
+            { value: "50+", labelKey: "gallery.stats.factories" },
+            { value: "99%", labelKey: "gallery.stats.satisfaction" },
+          ].map((stat, index) => (
+            <div
+              key={index}
+              className="text-center py-5 px-4 rounded-2xl bg-white border border-neutral-100/80 shadow-[0_2px_20px_rgba(0,0,0,0.03)]"
+            >
+              <p className="text-2xl md:text-3xl font-black bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-1">
+                {stat.value}
+              </p>
+              <p className="text-xs text-muted-foreground font-medium">
+                {t(stat.labelKey)}
+              </p>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

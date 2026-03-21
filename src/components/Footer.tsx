@@ -1,9 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Package, ArrowRight, Mail, Phone, MapPin } from "lucide-react";
+import { ArrowRight, Mail, Phone, MapPin } from "lucide-react";
 import Link from "@/components/common/LocalizedLink";
 import { useLanguage } from "@/context/LanguageContext";
+import Image from "next/image";
+import { getAssetPath } from "@/lib/utils";
 
 const Footer = () => {
   const { dict } = useLanguage();
@@ -14,7 +16,7 @@ const Footer = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             {dict.footer.ctaTitle}
           </h2>
-          <p className="text-primary-foreground/70 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-primary-foreground/70 text-lg mb-8 max-w-4xl mx-auto">
             {dict.footer.ctaSubtitle}
           </p>
           <Link href="/pricing">
@@ -32,9 +34,13 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-12">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-2xl bg-primary-foreground/10 flex items-center justify-center">
-                <Package className="w-5 h-5" />
-              </div>
+              <Image
+                src={getAssetPath("/logo/logo-icon.png")}
+                alt="Kumopack"
+                width={36}
+                height={36}
+                className="rounded-xl"
+              />
               <span className="text-xl font-semibold">Kumopack</span>
             </div>
             <p className="text-primary-foreground/60 text-sm">

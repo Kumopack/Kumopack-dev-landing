@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
   output: process.env.NODE_ENV === "production" ? "export" : undefined,
@@ -6,6 +7,9 @@ const nextConfig: NextConfig = {
     process.env.NODE_ENV === "production" ? "/Kumopack-dev-landing" : "",
   assetPrefix:
     process.env.NODE_ENV === "production" ? "/Kumopack-dev-landing/" : "",
+  turbopack: {
+    root: path.resolve(__dirname),
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

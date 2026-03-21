@@ -516,12 +516,12 @@ export default function BlogContent({ blog }: { blog: Article }) {
                 </div>
               </header>
 
-              <div className="relative w-full aspect-[16/16] md:aspect-[16/16] rounded-[2.5rem] overflow-hidden mb-16 shadow-2xl border border-neutral-100/50 group">
+              <div className="relative w-full aspect-[16/8] rounded-2xl overflow-hidden mb-12 shadow-lg border border-neutral-100/50 group">
                 <SafeImage
                   src={blogApi.getAssetPath(blog.featurePicturePath)}
                   alt={name}
                   fill={true}
-                  className="object-cover group-hover:scale-105 transition-transform duration-1000"
+                  className="object-cover group-hover:scale-[1.02] transition-transform duration-1000"
                 />
               </div>
 

@@ -41,7 +41,7 @@ export const SupplierActionCenter = ({
         window.location.href = BUYER_URLS.BASE;
         break;
       case "quote":
-        window.location.href = BUYER_URLS.CREATE_PRODUCTION;
+        window.location.href = BUYER_URLS.BASE;
         break;
       case "like":
         setIsLiking(true);
@@ -100,10 +100,14 @@ export const SupplierActionCenter = ({
             </div>
             <div className="text-right space-y-1">
               <span className="text-[9px] font-black text-muted-foreground tracking-[0.2em] uppercase">
-                VERIFIED
+                {language === "th" ? "ยอดขาย" : "SALES"}
               </span>
               <div className="font-black text-lg tracking-tighter">
-                {supplier.reviewCount}+
+                {supplier.reviewCount >= 1000000
+                  ? `${(supplier.reviewCount / 1000000).toFixed(1)}M`
+                  : supplier.reviewCount >= 1000
+                    ? `${(supplier.reviewCount / 1000).toFixed(0)}K`
+                    : `${supplier.reviewCount}`}+
               </div>
             </div>
           </div>
@@ -112,9 +116,9 @@ export const SupplierActionCenter = ({
             <Button
               size="xl"
               onClick={() => handleAction("chat")}
-              className="w-full rounded-2xl shadow-glow h-16 text-lg font-black gap-3 group/btn bg-gradient-to-r from-primary to-primary/80 border-none transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full rounded-2xl shadow-glow h-16 text-xl font-black gap-3 group/btn bg-gradient-to-r from-primary to-primary/80 border-none transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
-              <MessageSquare className="w-6 h-6 group-hover/btn:rotate-12 transition-transform" />
+              <MessageSquare className="w-7 h-7 group-hover/btn:rotate-12 transition-transform" />
               Direct Chat
             </Button>
             <div className="grid grid-cols-2 gap-3">
@@ -145,85 +149,7 @@ export const SupplierActionCenter = ({
           </div>
         </div>
 
-        <div className="space-y-6 pt-8 border-t border-border/20">
-          {supplier.website && (
-            <div className="flex items-center gap-4 group/item">
-              <div className="w-12 h-12 rounded-xl bg-muted/50 flex items-center justify-center group-hover/item:bg-primary group-hover/item:text-white transition-all duration-300 shadow-soft">
-                <Globe className="w-5 h-5" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-[9px] font-black text-muted-foreground tracking-[0.15em] mb-1 uppercase">
-                  CONNECT ONLINE
-                </div>
-                <a
-                  href={supplier.website}
-                  target="_blank"
-                  className="font-bold text-sm text-foreground hover:text-primary transition-colors flex items-center gap-1.5 truncate"
-                >
-                  <span className="truncate">
-                    {supplier.website
-                      .replace("https://", "")
-                      .replace("http://", "")}
-                  </span>
-                  <ExternalLink className="w-3 h-3 shrink-0" />
-                </a>
-              </div>
-            </div>
-          )}
 
-          {supplier.email && (
-            <div className="flex items-center gap-4 group/item">
-              <div className="w-12 h-12 rounded-xl bg-muted/50 flex items-center justify-center group-hover/item:bg-primary group-hover/item:text-white transition-all duration-300 shadow-soft">
-                <Mail className="w-5 h-5" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-[9px] font-black text-muted-foreground tracking-[0.15em] mb-1 uppercase">
-                  SECURE MESSAGE
-                </div>
-                <a
-                  href={`mailto:${supplier.email}`}
-                  className="font-bold text-sm text-foreground hover:text-primary transition-colors flex items-center gap-1.5 truncate"
-                >
-                  <span className="truncate">{supplier.email}</span>
-                </a>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {supplier.isVerified && (
-          <motion.div
-            whileHover={{ y: -3 }}
-            className="p-6 rounded-[2rem] bg-gradient-to-br from-primary/10 to-transparent border border-primary/10 relative group/trust"
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-lg bg-primary/20 flex items-center justify-center">
-                <ShieldCheck className="w-3.5 h-3.5 text-primary" />
-              </div>
-              <span className="font-black text-[10px] tracking-tight">
-                Kumo Secure Shield™
-              </span>
-            </div>
-            <p className="text-[10px] text-muted-foreground leading-relaxed font-medium">
-              {language === "th" ? (
-                <>
-                  โรงงานนี้ผ่านการตรวจสอบมาตรฐาน{" "}
-                  <span className="text-foreground font-black">14 จุด</span>{" "}
-                  รวมถึงความมั่นคงทางการเงินและจริยธรรม
-                </>
-              ) : (
-                <>
-                  This facility has passed our{" "}
-                  <span className="text-foreground font-black">
-                    14-point audit
-                  </span>{" "}
-                  including financial stability and ethics check.
-                </>
-              )}
-            </p>
-            <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-primary/5 blur-2xl group-hover/trust:bg-primary/20 transition-all duration-700" />
-          </motion.div>
-        )}
       </motion.div>
     </aside>
   );

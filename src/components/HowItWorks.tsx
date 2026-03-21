@@ -1,33 +1,45 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Paintbrush, MessageSquare, Package, Zap } from "lucide-react";
+import { Lightbulb, Handshake, PackageCheck, Truck } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 const steps = [
   {
-    icon: <Paintbrush className="w-8 h-8" />,
+    icon: <Lightbulb className="w-7 h-7" />,
+    labelKey: "howItWorks.steps.design.label",
     titleKey: "howItWorks.steps.design.title",
     descKey: "howItWorks.steps.design.desc",
-    color: "bg-primary/20 text-primary",
+    gradient: "from-amber-400 to-orange-500",
+    bg: "bg-amber-50",
+    iconColor: "text-amber-600",
   },
   {
-    icon: <MessageSquare className="w-8 h-8" />,
+    icon: <Handshake className="w-7 h-7" />,
+    labelKey: "howItWorks.steps.quote.label",
     titleKey: "howItWorks.steps.quote.title",
     descKey: "howItWorks.steps.quote.desc",
-    color: "bg-mint/20 text-mint-foreground",
+    gradient: "from-blue-400 to-indigo-500",
+    bg: "bg-blue-50",
+    iconColor: "text-blue-600",
   },
   {
-    icon: <Package className="w-8 h-8" />,
+    icon: <PackageCheck className="w-7 h-7" />,
+    labelKey: "howItWorks.steps.order.label",
     titleKey: "howItWorks.steps.order.title",
     descKey: "howItWorks.steps.order.desc",
-    color: "bg-blue-500/20 text-blue-600",
+    gradient: "from-emerald-400 to-teal-500",
+    bg: "bg-emerald-50",
+    iconColor: "text-emerald-600",
   },
   {
-    icon: <Zap className="w-8 h-8" />,
+    icon: <Truck className="w-7 h-7" />,
+    labelKey: "howItWorks.steps.scale.label",
     titleKey: "howItWorks.steps.scale.title",
     descKey: "howItWorks.steps.scale.desc",
-    color: "bg-coral/20 text-coral-foreground",
+    gradient: "from-purple-400 to-pink-500",
+    bg: "bg-purple-50",
+    iconColor: "text-purple-600",
   },
 ];
 
@@ -57,13 +69,18 @@ const HowItWorks = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-xl text-muted-foreground font-medium"
+            className="text-lg text-muted-foreground font-medium leading-relaxed"
           >
             {t("howItWorks.subtitle")}
           </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="relative grid md:grid-cols-2 lg:grid-cols-4 gap-0">
+          {/* Connecting line */}
+          <div className="hidden lg:block absolute top-[52px] left-[12%] right-[12%] h-[2px]">
+            <div className="w-full h-full bg-gradient-to-r from-amber-300 via-blue-300 via-emerald-300 to-purple-300 rounded-full opacity-40" />
+          </div>
+
           {steps.map((step, index) => (
             <motion.div
               key={index}
@@ -71,34 +88,49 @@ const HowItWorks = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="group relative p-8 rounded-[2.5rem] bg-card border border-border/50 hover:border-primary/40 hover:shadow-float transition-all duration-500"
+              className="relative flex flex-col items-center text-center px-6 py-8"
             >
-              <div className="absolute top-6 right-8 text-4xl font-black text-muted/20 group-hover:text-primary/10 transition-colors">
-                0{index + 1}
+              {/* Step number + icon circle */}
+              <div className="relative mb-6">
+                <div
+                  className={`w-[104px] h-[104px] rounded-3xl ${step.bg} flex items-center justify-center relative z-10 border border-white shadow-lg`}
+                >
+                  <div className={step.iconColor}>{step.icon}</div>
+                </div>
+                {/* Step number badge */}
+                <div
+                  className={`absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center text-white text-sm font-bold shadow-md z-20`}
+                >
+                  {index + 1}
+                </div>
               </div>
 
-              <div
-                className={`w-16 h-16 rounded-2xl ${step.color} flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500`}
+              {/* Label */}
+              <span
+                className={`inline-block text-[11px] font-bold uppercase tracking-widest mb-2 bg-gradient-to-r ${step.gradient} bg-clip-text text-transparent`}
               >
-                {step.icon}
-              </div>
+                {t(step.labelKey)}
+              </span>
 
-              <h3 className="text-2xl font-bold text-foreground mb-4">
+              {/* Title */}
+              <h3 className="text-lg font-bold text-foreground mb-3 leading-snug">
                 {t(step.titleKey)}
               </h3>
-              <p className="text-muted-foreground leading-relaxed">
+
+              {/* Description */}
+              <p className="text-sm text-muted-foreground leading-relaxed max-w-[280px]">
                 {t(step.descKey)}
               </p>
 
+              {/* Arrow connector (mobile) */}
               {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-4 translate-x-full -translate-y-1/2 text-muted/30">
+                <div className="lg:hidden flex justify-center my-4">
                   <svg
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
                     fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 h-8"
+                    className="text-muted-foreground/30 rotate-90"
                   >
                     <path
                       d="M5 12H19M19 12L13 6M19 12L13 18"

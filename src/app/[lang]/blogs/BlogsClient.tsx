@@ -50,7 +50,7 @@ export default function BlogsClient({
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const selectedCategory = searchParams?.get("category") || "All";
-  const limit = 6;
+  const limit = 12;
 
   useEffect(() => {
     setArticles(initialArticles || []);
@@ -143,16 +143,16 @@ export default function BlogsClient({
         className="pb-2 md:pb-4"
       />
 
-      <section className="px-2 pb-6 md:pb-8">
+      <section className="px-4 pb-6 md:pb-8">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="max-w-xl mx-auto relative group"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-mint/10 blur-2xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-700" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-mint/20 blur-2xl opacity-40 group-focus-within:opacity-100 transition-opacity duration-700" />
           <div className="relative">
-            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-foreground/30 w-5 h-3 group-focus-within:text-primary transition-all duration-300" />
+            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-primary/60 w-5 h-5 group-focus-within:text-primary transition-all duration-300" />
             <input
               type="text"
               placeholder={
@@ -160,15 +160,15 @@ export default function BlogsClient({
               }
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-white/60 backdrop-blur-3xl border border-white/40 rounded-xl md:rounded-2xl pl-16 pr-8 md:px-16 py-4 md:py-6 font-bold text-sm md:text-base focus:ring-4 focus:ring-primary/5 focus:bg-white outline-none transition-all shadow-soft placeholder:text-muted-foreground/20"
+              className="w-full bg-primary/5 backdrop-blur-3xl border-2 border-primary/20 rounded-xl md:rounded-2xl pl-14 pr-8 md:pl-16 md:pr-8 py-4 md:py-5 font-bold text-sm md:text-base focus:ring-4 focus:ring-primary/10 focus:border-primary/40 focus:bg-white outline-none transition-all shadow-soft placeholder:text-muted-foreground/40"
             />
           </div>
         </motion.div>
       </section>
 
       <section className="sticky top-20 md:top-24 z-30 bg-kumopack-base-white/90 backdrop-blur-md border-y border-neutral-100">
-        <div className="max-w-[1140px] mx-auto px-0 overflow-x-auto no-scrollbar">
-          <div className="flex items-center justify-center py-4 md:py-5 gap-1 md:gap-2 min-w-max">
+        <div className="max-w-[1140px] mx-auto px-4">
+          <div className="flex items-center justify-center flex-wrap py-4 md:py-5 gap-1 md:gap-2">
             {[
               {
                 id: "all",

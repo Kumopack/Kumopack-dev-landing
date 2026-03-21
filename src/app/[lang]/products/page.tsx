@@ -71,12 +71,26 @@ export default function ProductsPage() {
 
       <section className="pt-32 pb-24 px-4 md:px-8">
         <div className="container mx-auto max-w-6xl">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            {dict.products.title} <span className="text-primary">Packages</span>
-          </h1>
-          <p className="text-xl text-muted-foreground mb-16 max-w-2xl text-left">
-            {dict.products.subtitle}
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-16"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em] mb-5">
+              <Box className="w-3 h-3" />
+              {dict.products.title}
+            </div>
+            <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-5">
+              {dict.products.title}{" "}
+              <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/50 bg-clip-text text-transparent">
+                {dict.products.titleAccent}
+              </span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+              {dict.products.subtitle}
+            </p>
+          </motion.div>
 
           <div className="space-y-12">
             {categories.length > 0 && (

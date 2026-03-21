@@ -35,7 +35,7 @@ export default async function Home() {
       <Navbar />
       <PromoPopup />
       <HeroSection />
-      <GallerySection />
+      {/* <GallerySection /> */}
       <MockupCategoriesV2 />
 
       {/* UI Comparison Section */}
@@ -49,21 +49,21 @@ export default async function Home() {
           <SystemFeaturesSection />
         </div>
 
-        <div className="max-w-6xl mx-auto px-4 pt-24 border-t border-border/40">
+        {/* <div className="max-w-6xl mx-auto px-4 pt-24 border-t border-border/40">
           <div className="flex justify-center mb-12">
             <span className="px-4 py-1.5 rounded-full bg-brand-purple/10 text-brand-purple text-xs font-black uppercase tracking-[0.2em] border border-brand-purple/20">
               Option B: New Layout
             </span>
           </div>
           <SystemFeaturesV2 />
-        </div>
+        </div> */}
       </section>
 
       <ValueProposition />
       <HowItWorks />
       <FeaturesSection />
-      <DesignerSection />
-      <MarketplaceSection />
+      {/* <DesignerSection /> */}
+      {/* <MarketplaceSection /> */}
       <CategoriesSection />
       <BlogSection articles={articles} />
       <LogoTicker />

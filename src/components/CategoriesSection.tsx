@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { Package, Box, Film, Tag, Layers, Archive } from "lucide-react";
+import { Box, Printer, Ribbon, ShoppingBag, Cylinder, Mail } from "lucide-react";
 
 const categories = [
   {
@@ -13,39 +13,39 @@ const categories = [
     color: "from-amber-100 to-orange-100",
   },
   {
-    icon: Film,
-    nameKey: "categories.items.film.name",
-    descriptionKey: "categories.items.film.desc",
-    specs: ["Matte/Gloss Finish", "Resealable Zippers", "Stand-up Design"],
-    color: "from-emerald-100 to-teal-100",
+    icon: Printer,
+    nameKey: "categories.items.offset.name",
+    descriptionKey: "categories.items.offset.desc",
+    specs: ["Offset 4 Color", "Spot UV", "Embossing & Foil"],
+    color: "from-violet-100 to-purple-100",
   },
   {
-    icon: Tag,
-    nameKey: "categories.items.labels.name",
-    descriptionKey: "categories.items.labels.desc",
-    specs: ["Vinyl & Paper", "Waterproof Options", "Die-Cut Shapes"],
-    color: "from-lavender to-purple-100",
-  },
-  {
-    icon: Layers,
+    icon: Ribbon,
     nameKey: "categories.items.tape.name",
     descriptionKey: "categories.items.tape.desc",
     specs: ["1-3 Color Print", "Strong Adhesive", "Custom Widths"],
     color: "from-blue-100 to-indigo-100",
   },
   {
-    icon: Package,
-    nameKey: "categories.items.mailer.name",
-    descriptionKey: "categories.items.mailer.desc",
-    specs: ["Self-Seal", "Tamper Evident", "Eco-Friendly Options"],
+    icon: ShoppingBag,
+    nameKey: "categories.items.film.name",
+    descriptionKey: "categories.items.film.desc",
+    specs: ["Matte/Gloss Finish", "Resealable Zippers", "Stand-up Design"],
+    color: "from-emerald-100 to-teal-100",
+  },
+  {
+    icon: Cylinder,
+    nameKey: "categories.items.tube.name",
+    descriptionKey: "categories.items.tube.desc",
+    specs: ["Custom Size", "Premium Finish", "Eco-Friendly"],
     color: "from-rose-100 to-pink-100",
   },
   {
-    icon: Archive,
-    nameKey: "categories.items.gift.name",
-    descriptionKey: "categories.items.gift.desc",
-    specs: ["Rigid & Folding", "Magnetic Closure", "Embossing Available"],
-    color: "from-violet-100 to-purple-100",
+    icon: Mail,
+    nameKey: "categories.items.mailer.name",
+    descriptionKey: "categories.items.mailer.desc",
+    specs: ["Bubble Lined", "Self-Seal", "Custom Print"],
+    color: "from-sky-100 to-cyan-100",
   },
 ];
 
@@ -78,7 +78,7 @@ const CategoriesSection = () => {
             >
               <div
                 className={`
-                  p-6 rounded-3xl border border-border/50 bg-card text-center
+                  p-6 rounded-3xl border border-border/50 bg-card text-center h-full
                   transition-all duration-500 hover:shadow-float hover:-translate-y-2
                   ${activeCategory === index ? "shadow-float -translate-y-2" : ""}
                 `}
@@ -88,10 +88,10 @@ const CategoriesSection = () => {
                 >
                   <category.icon className="w-8 h-8 text-foreground/70" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-1 text-sm">
+                <h3 className="font-semibold text-foreground mb-1 text-sm min-h-[2.5rem] flex items-center justify-center">
                   {t(category.nameKey)}
                 </h3>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground line-clamp-3">
                   {t(category.descriptionKey)}
                 </p>
               </div>
