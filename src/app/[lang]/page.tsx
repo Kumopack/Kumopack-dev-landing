@@ -35,10 +35,10 @@ export default async function Home() {
       <Navbar />
       <PromoPopup />
       <HeroSection />
-      {/* <GallerySection /> */}
+      {}
       <MockupCategoriesV2 />
 
-      {/* UI Comparison Section */}
+      {}
       <section className="space-y-32 py-16">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex justify-center mb-12">
@@ -62,8 +62,8 @@ export default async function Home() {
       <ValueProposition />
       <HowItWorks />
       <FeaturesSection />
-      {/* <DesignerSection /> */}
-      {/* <MarketplaceSection /> */}
+      {}
+      {}
       <CategoriesSection />
       <BlogSection articles={articles} />
       <LogoTicker />

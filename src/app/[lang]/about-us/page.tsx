@@ -91,9 +91,9 @@ export default function AboutUsPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      {/* ── Hero ── */}
+      {}
       <section className="relative pt-32 pb-24 px-4 md:px-8 overflow-hidden">
-        {/* Background decorations */}
+        {}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-mint/5" />
         <div className="absolute top-20 right-0 w-[600px] h-[600px] bg-gradient-to-br from-primary/10 to-mint/10 rounded-full blur-[120px] opacity-50" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-lavender/20 to-transparent rounded-full blur-[80px] opacity-40" />
@@ -115,7 +115,7 @@ export default function AboutUsPage() {
             </p>
           </motion.div>
 
-          {/* Stats row */}
+          {}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -141,7 +141,7 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* ── Our Story ── */}
+      {}
       <section className="py-24 px-4 md:px-8 relative">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
         <div className="container mx-auto max-w-6xl">
@@ -158,7 +158,7 @@ export default function AboutUsPage() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-16 items-start">
-            {/* Story text */}
+            {}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -183,7 +183,7 @@ export default function AboutUsPage() {
                 {dict.aboutUs.ourStoryParagraph3}
               </p>
 
-              {/* Highlighted quote block */}
+              {}
               <div className="relative bg-gradient-to-br from-primary/5 to-mint/5 rounded-3xl p-8 border border-primary/10">
                 <Quote className="w-8 h-8 text-primary/30 mb-3" />
                 <p className="text-foreground font-medium italic leading-relaxed">
@@ -201,7 +201,7 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* ── Mission ── */}
+      {}
       <section className="py-24 px-4 md:px-8 bg-gradient-to-br from-muted/30 via-transparent to-primary/5">
         <div className="container mx-auto max-w-6xl">
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -241,7 +241,7 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* ── Core Values ── */}
+      {}
       <section className="py-24 px-4 md:px-8">
         <div className="container mx-auto max-w-6xl">
           <motion.div {...fadeInUp} className="text-center mb-16">
@@ -280,7 +280,7 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      {/* ── Meet Our Team ── */}
+      {}
       <section className="py-24 px-4 md:px-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-lavender/10" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
@@ -309,7 +309,7 @@ export default function AboutUsPage() {
                   className="group text-center"
                 >
                   <div className="relative mx-auto mb-8">
-                    {/* Glow ring */}
+                    {}
                     <div className="absolute -inset-2 bg-gradient-to-br from-primary/30 to-mint/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-md" />
                     <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-card shadow-float group-hover:scale-105 transition-transform duration-500">
                       <Image
@@ -327,7 +327,7 @@ export default function AboutUsPage() {
                     {data.role}
                   </p>
 
-                  {/* Quote card */}
+                  {}
                   <div className="bg-card/80 backdrop-blur-sm rounded-2xl p-5 border border-border/50 group-hover:border-primary/20 group-hover:shadow-soft transition-all duration-300">
                     <Quote className="w-5 h-5 text-primary/40 mb-2 mx-auto" />
                     <p className="text-sm text-muted-foreground italic leading-relaxed">
@@ -339,7 +339,7 @@ export default function AboutUsPage() {
             })}
           </div>
 
-          {/* Open Positions CTA */}
+          {}
           <motion.div {...fadeInUp} className="mt-20 text-center">
             <div className="inline-flex flex-col items-center gap-4 bg-gradient-to-br from-primary/5 to-mint/5 rounded-3xl px-12 py-10 border border-primary/10">
               <h3 className="text-2xl font-bold">{dict.aboutUs.teamBadge}</h3>

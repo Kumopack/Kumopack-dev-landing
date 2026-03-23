@@ -11,7 +11,7 @@ export default function ComingSoonPage() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4 overflow-hidden relative">
-      {/* Background blurs */}
+      {}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full animate-pulse" />
         <div
@@ -21,7 +21,7 @@ export default function ComingSoonPage() {
       </div>
 
       <div className="max-w-xl w-full text-center space-y-12">
-        {/* Icon + background text */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -46,7 +46,7 @@ export default function ComingSoonPage() {
           </motion.div>
         </motion.div>
 
-        {/* Text */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -63,7 +63,7 @@ export default function ComingSoonPage() {
           </p>
         </motion.div>
 
-        {/* Buttons */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ export default function ComingSoonPage() {
           </Button>
         </motion.div>
 
-        {/* Footer mark */}
+        {}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

@@ -84,7 +84,7 @@ export default function SupplierFilters({
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        {/* Mobile toggle button */}
+        {}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="lg:hidden w-full flex items-center justify-between p-3 rounded-xl bg-white border border-neutral-200 shadow-sm"
@@ -103,13 +103,13 @@ export default function SupplierFilters({
           />
         </button>
 
-        {/* Desktop always visible header */}
+        {}
         <h3 className="hidden lg:flex font-bold text-lg items-center gap-2">
           <Filter className="w-5 h-5 text-primary" />
           {t("supplier.filters.title")}
         </h3>
 
-        {/* Filter content - collapsible on mobile, always shown on desktop */}
+        {}
         <div className={`${isOpen ? "block" : "hidden"} lg:block space-y-4`}>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -156,7 +156,10 @@ export default function SupplierFilters({
             defaultValue={["location", "category", "features"]}
             className="w-full"
           >
-            <AccordionItem value="location" className="border-b-neutral-100 px-5">
+            <AccordionItem
+              value="location"
+              className="border-b-neutral-100 px-5"
+            >
               <AccordionTrigger className="hover:no-underline py-4">
                 <div className="flex items-center gap-2 font-bold text-sm">
                   <MapPin className="w-4 h-4 text-primary" />
@@ -174,7 +177,9 @@ export default function SupplierFilters({
                     }}
                   >
                     <SelectTrigger className="w-full bg-neutral-50 border-neutral-200 h-11">
-                      <SelectValue placeholder={t("supplier.filters.selectLocation")} />
+                      <SelectValue
+                        placeholder={t("supplier.filters.selectLocation")}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="All Locations">
@@ -191,7 +196,10 @@ export default function SupplierFilters({
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="category" className="border-b-neutral-100 px-5">
+            <AccordionItem
+              value="category"
+              className="border-b-neutral-100 px-5"
+            >
               <AccordionTrigger className="hover:no-underline py-4">
                 <div className="flex items-center gap-2 font-bold text-sm">
                   <Package className="w-4 h-4 text-primary" />
@@ -252,7 +260,7 @@ export default function SupplierFilters({
         </div>
       </div>
 
-      {/* Why Kumopack - hidden on mobile */}
+      {}
       <div className="hidden lg:block bg-gradient-to-br from-primary/5 to-primary/10 rounded-[1.5rem] border border-primary/10 p-5">
         <h3 className="font-bold text-primary mb-2 flex items-center gap-2">
           <Filter className="w-4 h-4" />

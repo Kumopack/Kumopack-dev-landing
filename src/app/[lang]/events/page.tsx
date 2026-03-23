@@ -126,21 +126,21 @@ function ThemeCard({
       className={`group relative overflow-hidden rounded-3xl cursor-pointer transition-all duration-500 hover:shadow-float hover:scale-[1.02] ${styles.bg}`}
     >
       <div className="relative p-6 md:p-8">
-        {/* Badge */}
+        {}
         <span
           className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold mb-4 ${styles.badge} ${styles.badgeText}`}
         >
           {isTh ? theme.subtitleTh : theme.subtitle}
         </span>
 
-        {/* Title */}
+        {}
         <h3
           className={`text-2xl md:text-3xl font-extrabold mb-3 ${styles.textColor}`}
         >
           {isTh ? theme.titleTh : theme.title}
         </h3>
 
-        {/* Description */}
+        {}
         <p
           className={`text-sm md:text-base leading-relaxed mb-6 max-w-md ${
             theme.variant === "halloween"
@@ -151,7 +151,7 @@ function ThemeCard({
           {isTh ? theme.descriptionTh : theme.description}
         </p>
 
-        {/* 3D Image */}
+        {}
         <div className="relative flex justify-center items-center">
           <Image
             src={getAssetPath(theme.image)}
@@ -164,7 +164,7 @@ function ThemeCard({
         </div>
       </div>
 
-      {/* Decorative blurs */}
+      {}
       <div
         className={`absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-30 ${
           theme.variant === "christmas"
@@ -188,7 +188,7 @@ function ThemeCard({
         }`}
       />
 
-      {/* Hover link indicator */}
+      {}
       <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
         <div className="w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-soft">
           <ExternalLink className="w-4 h-4 text-foreground" />
@@ -206,7 +206,7 @@ export default function EventsPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      {/* Hero */}
+      {}
       <section className="relative pt-40 pb-20 px-4 md:px-8 overflow-hidden">
         <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/10 via-transparent to-transparent -z-10" />
 
@@ -243,7 +243,7 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* Theme Cards Grid */}
+      {}
       <section className="px-4 md:px-8 pb-20">
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
@@ -259,7 +259,7 @@ export default function EventsPage() {
         </div>
       </section>
 
-      {/* Partnership CTA */}
+      {}
       {/* <section className="py-24 px-4 md:px-8">
         <div className="container mx-auto max-w-6xl">
           <div className="bg-lavender rounded-[4rem] p-12 md:p-20 relative overflow-hidden">

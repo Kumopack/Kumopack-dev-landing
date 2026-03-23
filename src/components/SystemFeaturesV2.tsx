@@ -71,7 +71,7 @@ const SystemFeaturesV2 = () => {
 
   return (
     <div className="space-y-10">
-      {/* Tab Switcher */}
+      {}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -102,9 +102,9 @@ const SystemFeaturesV2 = () => {
         </div>
       </motion.div>
 
-      {/* Content Grid */}
+      {}
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-        {/* Left - Feature List */}
+        {}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -157,7 +157,7 @@ const SystemFeaturesV2 = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Right - Device Mockups */}
+        {}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -166,10 +166,10 @@ const SystemFeaturesV2 = () => {
           className="relative"
         >
           <div className="relative flex items-end justify-center gap-4">
-            {/* Laptop Mockup */}
+            {}
             <div className="relative">
               <div className="bg-card border border-border/50 rounded-xl shadow-soft overflow-hidden w-full max-w-md">
-                {/* Laptop Screen Header */}
+                {}
                 <div className="bg-muted/50 px-3 py-2 flex items-center gap-2 border-b border-border/30">
                   <div className="flex gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-destructive/50" />
@@ -180,16 +180,16 @@ const SystemFeaturesV2 = () => {
                     kumopack.com/marketplace
                   </div>
                 </div>
-                {/* Laptop Screen Content */}
+                {}
                 <div className="p-4 space-y-3 bg-gradient-to-b from-background to-muted/20">
-                  {/* Search Bar */}
+                  {}
                   <div className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2">
                     <Search className="w-4 h-4 text-muted-foreground" />
                     <span className="text-xs text-muted-foreground">
                       Search factories...
                     </span>
                   </div>
-                  {/* Factory Cards */}
+                  {}
                   {[
                     {
                       name: "Premium Print Co.",
@@ -232,12 +232,12 @@ const SystemFeaturesV2 = () => {
               </div>
             </div>
 
-            {/* Mobile Mockup */}
+            {}
             <div className="relative -mb-4">
               <div className="bg-card border-2 border-border/50 rounded-3xl shadow-soft overflow-hidden w-36 md:w-44">
-                {/* Phone Notch */}
+                {}
                 <div className="bg-foreground/90 mx-auto w-16 h-4 rounded-b-xl" />
-                {/* Phone Content */}
+                {}
                 <div className="p-3 space-y-2 bg-gradient-to-b from-background to-muted/20">
                   <div className="flex items-center gap-1.5 bg-muted/50 rounded-md px-2 py-1">
                     <Search className="w-3 h-3 text-muted-foreground" />

@@ -76,7 +76,9 @@ const Navbar = () => {
                   The Absolute Packaging Solutions
                 </span>
                 <span className="text-[8px] text-muted-foreground/60 leading-tight">
-                  {language === "th" ? "ครบ จบ เรื่องบรรจุภัณฑ์" : "Complete packaging for your business"}
+                  {language === "th"
+                    ? "ครบ จบ เรื่องบรรจุภัณฑ์"
+                    : "Complete packaging for your business"}
                 </span>
               </div>
             </Link>
@@ -415,9 +417,12 @@ const Navbar = () => {
         {isMenuOpen && (
           <div className="lg:hidden mt-2 p-5 rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float animate-in slide-in-from-top-4 duration-300 overflow-y-auto max-h-[80vh]">
             <div className="flex flex-col gap-1">
-              {/* Workshop highlight */}
+              {}
               <a
-                href={process.env.NEXT_PUBLIC_MOCKUP_SITE_URL || "https://mockup.kumopack.com"}
+                href={
+                  process.env.NEXT_PUBLIC_MOCKUP_SITE_URL ||
+                  "https://mockup.kumopack.com"
+                }
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsMenuOpen(false)}
@@ -428,7 +433,9 @@ const Navbar = () => {
                 </div>
                 <div className="flex-1">
                   <div className="font-bold text-sm">{t("nav.workshop")}</div>
-                  <div className="text-[11px] text-muted-foreground">{t("nav.desc.workshop") || "ออกแบบกล่อง 3D แบบเรียลไทม์"}</div>
+                  <div className="text-[11px] text-muted-foreground">
+                    {t("nav.desc.workshop") || "ออกแบบกล่อง 3D แบบเรียลไทม์"}
+                  </div>
                 </div>
                 <span className="flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-amber-400 opacity-75" />
@@ -436,131 +443,201 @@ const Navbar = () => {
                 </span>
               </a>
 
-              {/* Buyer Section */}
+              {}
               <div className="px-3 py-2 text-[10px] font-black text-primary tracking-widest uppercase opacity-60">
                 {t("nav.forBuyer")}
               </div>
-              <Link href="/products" onClick={() => setIsMenuOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors">
+              <Link
+                href="/products"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+              >
                 <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center">
                   <Box className="w-4 h-4 text-amber-600" />
                 </div>
                 <div className="flex-1">
-                  <div className="font-semibold text-sm">{t("nav.products")}</div>
+                  <div className="font-semibold text-sm">
+                    {t("nav.products")}
+                  </div>
                 </div>
               </Link>
-              <Link href="/supplier" onClick={() => setIsMenuOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors">
+              <Link
+                href="/supplier"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+              >
                 <div className="w-9 h-9 rounded-xl bg-mint/30 flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-mint-foreground" />
                 </div>
                 <div className="flex-1">
-                  <div className="font-semibold text-sm">{t("nav.getQuotes")}</div>
+                  <div className="font-semibold text-sm">
+                    {t("nav.getQuotes")}
+                  </div>
                 </div>
               </Link>
-              <Link href="/pricing" onClick={() => setIsMenuOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors">
+              <Link
+                href="/pricing"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+              >
                 <div className="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center">
                   <CreditCard className="w-4 h-4 text-blue-600" />
                 </div>
                 <div className="flex-1">
-                  <div className="font-semibold text-sm">{t("nav.pricing")}</div>
+                  <div className="font-semibold text-sm">
+                    {t("nav.pricing")}
+                  </div>
                 </div>
               </Link>
 
-              {/* Supplier Section */}
+              {}
               <div className="px-3 py-2 mt-2 text-[10px] font-black text-primary tracking-widest uppercase opacity-60">
                 {t("nav.forSupplier")}
               </div>
-              <Link href="/contact" onClick={() => setIsMenuOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors">
+              <Link
+                href="/contact"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+              >
                 <div className="w-9 h-9 rounded-xl bg-sky/30 flex items-center justify-center">
                   <Package className="w-4 h-4 text-sky-foreground" />
                 </div>
                 <div className="flex-1">
-                  <div className="font-semibold text-sm">{t("nav.joinNetwork")}</div>
+                  <div className="font-semibold text-sm">
+                    {t("nav.joinNetwork")}
+                  </div>
                 </div>
               </Link>
-              <Link href="/learning?audience=supplier" onClick={() => setIsMenuOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors">
+              <Link
+                href="/learning?audience=supplier"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+              >
                 <div className="w-9 h-9 rounded-xl bg-purple-100 flex items-center justify-center">
                   <GraduationCap className="w-4 h-4 text-purple-600" />
                 </div>
                 <div className="flex-1">
-                  <div className="font-semibold text-sm">{t("nav.learning")}</div>
+                  <div className="font-semibold text-sm">
+                    {t("nav.learning")}
+                  </div>
                 </div>
               </Link>
 
-              {/* Others Section */}
+              {}
               <div className="px-3 py-2 mt-2 text-[10px] font-black text-muted-foreground tracking-widest uppercase opacity-60">
                 {t("nav.etc")}
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <Link href="/blogs" onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors">
+                <Link
+                  href="/blogs"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
                   <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
                     <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
                   </div>
                   <span className="font-semibold text-sm">{t("nav.blog")}</span>
                 </Link>
-                <Link href="/materials" onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors">
+                <Link
+                  href="/materials"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
                   <div className="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center">
                     <Layers className="w-3.5 h-3.5 text-sky-600" />
                   </div>
-                  <span className="font-semibold text-sm">{t("nav.materials")}</span>
+                  <span className="font-semibold text-sm">
+                    {t("nav.materials")}
+                  </span>
                 </Link>
-                <Link href="/faq" onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors">
+                <Link
+                  href="/faq"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
                   <div className="w-8 h-8 rounded-lg bg-teal-100 flex items-center justify-center">
                     <Package className="w-3.5 h-3.5 text-teal-600" />
                   </div>
                   <span className="font-semibold text-sm">{t("nav.faq")}</span>
                 </Link>
-                <Link href="/contact" onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors">
+                <Link
+                  href="/contact"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
                   <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
                     <MessageCircle className="w-3.5 h-3.5 text-purple-600" />
                   </div>
-                  <span className="font-semibold text-sm">{t("nav.contact")}</span>
+                  <span className="font-semibold text-sm">
+                    {t("nav.contact")}
+                  </span>
                 </Link>
-                <Link href="/policy" onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors">
+                <Link
+                  href="/policy"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
                   <div className="w-8 h-8 rounded-lg bg-rose-100 flex items-center justify-center">
                     <Shield className="w-3.5 h-3.5 text-rose-600" />
                   </div>
-                  <span className="font-semibold text-sm">{t("nav.policy")}</span>
+                  <span className="font-semibold text-sm">
+                    {t("nav.policy")}
+                  </span>
                 </Link>
-                <Link href="/about-us" onClick={() => setIsMenuOpen(false)}
-                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors">
+                <Link
+                  href="/about-us"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
                   <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
                     <Info className="w-3.5 h-3.5 text-indigo-600" />
                   </div>
-                  <span className="font-semibold text-sm">{t("nav.aboutUs") || "About Us"}</span>
+                  <span className="font-semibold text-sm">
+                    {t("nav.aboutUs") || "About Us"}
+                  </span>
                 </Link>
               </div>
 
-              {/* Events Banner */}
-              <Link href="/events" onClick={() => setIsMenuOpen(false)}
-                className="mt-3 flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-orange-400/15 via-pink-400/10 to-purple-400/15 border border-coral/20">
+              {}
+              <Link
+                href="/events"
+                onClick={() => setIsMenuOpen(false)}
+                className="mt-3 flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-orange-400/15 via-pink-400/10 to-purple-400/15 border border-coral/20"
+              >
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-white" />
                 </div>
                 <div className="flex-1">
                   <div className="font-bold text-sm">{t("nav.events")}</div>
-                  <div className="text-[11px] text-muted-foreground">{t("nav.desc.events")}</div>
+                  <div className="text-[11px] text-muted-foreground">
+                    {t("nav.desc.events")}
+                  </div>
                 </div>
               </Link>
 
-              {/* Buttons */}
+              {}
               <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-border/30">
-                <Link href="/login/selection" onClick={() => setIsMenuOpen(false)} className="w-full">
-                  <Button variant="ghost" className="w-full h-12 rounded-2xl font-bold">
+                <Link
+                  href="/login/selection"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full"
+                >
+                  <Button
+                    variant="ghost"
+                    className="w-full h-12 rounded-2xl font-bold"
+                  >
                     {t("common.signIn")}
                   </Button>
                 </Link>
-                <Link href="/pricing" onClick={() => setIsMenuOpen(false)} className="w-full">
-                  <Button variant="hero" className="w-full h-12 rounded-2xl font-bold shadow-soft">
+                <Link
+                  href="/pricing"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full"
+                >
+                  <Button
+                    variant="hero"
+                    className="w-full h-12 rounded-2xl font-bold shadow-soft"
+                  >
                     {t("common.getStarted")}
                   </Button>
                 </Link>
@@ -577,7 +654,15 @@ interface ETCCardProps {
   icon: React.ElementType;
   title: string;
   description: string;
-  color: "mint" | "sky" | "coral" | "lavender" | "purple" | "amber" | "rose" | "teal";
+  color:
+    | "mint"
+    | "sky"
+    | "coral"
+    | "lavender"
+    | "purple"
+    | "amber"
+    | "rose"
+    | "teal";
   fullWidth?: boolean;
   href: string;
   className?: string;

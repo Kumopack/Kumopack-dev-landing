@@ -28,17 +28,28 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
-/* ────────── Icon maps (index-matched to locale arrays) ────────── */
-
 const policyIcons: LucideIcon[] = [Shield, FileText, Lock, RefreshCcw];
-const termIcons: LucideIcon[] = [Box, Palette, Factory, ClipboardList, Truck, CreditCard];
+const termIcons: LucideIcon[] = [
+  Box,
+  Palette,
+  Factory,
+  ClipboardList,
+  Truck,
+  CreditCard,
+];
 const advIcons: LucideIcon[] = [
-  MapPin, Printer, MonitorSmartphone, Star, Layers, Zap, Hash, Headphones, ShieldCheck,
+  MapPin,
+  Printer,
+  MonitorSmartphone,
+  Star,
+  Layers,
+  Zap,
+  Hash,
+  Headphones,
+  ShieldCheck,
 ];
 
 const tabKeys = ["policy", "terms", "advantages"] as const;
-
-/* ────────────────────────── COMPONENT ────────────────────────── */
 
 export default function PolicyPage() {
   const { t, dict } = useLanguage();
@@ -52,7 +63,7 @@ export default function PolicyPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      {/* Hero */}
+      {}
       <section className="pt-32 pb-8 px-4 md:px-8">
         <div className="container mx-auto max-w-5xl text-center">
           <h1 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">
@@ -74,7 +85,7 @@ export default function PolicyPage() {
         </div>
       </section>
 
-      {/* Tabs */}
+      {}
       <section className="sticky top-20 md:top-24 z-30 bg-background/90 backdrop-blur-md border-y border-border/50">
         <div className="container mx-auto max-w-5xl px-4">
           <div className="flex items-center justify-center flex-wrap gap-1 md:gap-2 py-3">
@@ -111,11 +122,11 @@ export default function PolicyPage() {
         </div>
       </section>
 
-      {/* Content */}
+      {}
       <section className="py-16 px-4 md:px-8">
         <div className="container mx-auto max-w-5xl">
           <AnimatePresence mode="wait">
-            {/* ─── Tab 1: Policies ─── */}
+            {}
             {activeTab === "policy" && (
               <motion.div
                 key="policy"
@@ -146,7 +157,7 @@ export default function PolicyPage() {
               </motion.div>
             )}
 
-            {/* ─── Tab 2: Platform Terms ─── */}
+            {}
             {activeTab === "terms" && (
               <motion.div
                 key="terms"
@@ -165,41 +176,46 @@ export default function PolicyPage() {
                 </div>
 
                 <div className="space-y-12">
-                  {sections.map((section: { title: string; items: string[] }, sIdx: number) => {
-                    const Icon = termIcons[sIdx] || Box;
-                    return (
-                      <div
-                        key={sIdx}
-                        className="bg-card/50 border border-border/50 rounded-3xl p-6 md:p-8"
-                      >
-                        <div className="flex items-center gap-4 mb-6">
-                          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                            <Icon className="w-6 h-6 text-primary" />
-                          </div>
-                          <h3 className="text-xl md:text-2xl font-bold">
-                            {section.title}
-                          </h3>
-                        </div>
-                        <div className="space-y-4 pl-4 md:pl-16">
-                          {section.items.map((item: string, iIdx: number) => (
-                            <div key={iIdx} className="flex gap-4">
-                              <span className="text-primary font-extrabold text-lg shrink-0 w-8">
-                                {iIdx + 1}.
-                              </span>
-                              <p className="text-muted-foreground leading-relaxed">
-                                {item}
-                              </p>
+                  {sections.map(
+                    (
+                      section: { title: string; items: string[] },
+                      sIdx: number,
+                    ) => {
+                      const Icon = termIcons[sIdx] || Box;
+                      return (
+                        <div
+                          key={sIdx}
+                          className="bg-card/50 border border-border/50 rounded-3xl p-6 md:p-8"
+                        >
+                          <div className="flex items-center gap-4 mb-6">
+                            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                              <Icon className="w-6 h-6 text-primary" />
                             </div>
-                          ))}
+                            <h3 className="text-xl md:text-2xl font-bold">
+                              {section.title}
+                            </h3>
+                          </div>
+                          <div className="space-y-4 pl-4 md:pl-16">
+                            {section.items.map((item: string, iIdx: number) => (
+                              <div key={iIdx} className="flex gap-4">
+                                <span className="text-primary font-extrabold text-lg shrink-0 w-8">
+                                  {iIdx + 1}.
+                                </span>
+                                <p className="text-muted-foreground leading-relaxed">
+                                  {item}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    },
+                  )}
                 </div>
               </motion.div>
             )}
 
-            {/* ─── Tab 3: Factory Advantages ─── */}
+            {}
             {activeTab === "advantages" && (
               <motion.div
                 key="advantages"
@@ -208,7 +224,7 @@ export default function PolicyPage() {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Advantages descriptions */}
+                {}
                 <div className="mb-16">
                   <h2 className="text-3xl font-extrabold mb-4">
                     {t("policy.factoryAdvantages.heading")}
@@ -247,7 +263,7 @@ export default function PolicyPage() {
                   </div>
                 </div>
 
-                {/* How to get icons */}
+                {}
                 <div>
                   <h2 className="text-3xl font-extrabold mb-4">
                     {t("policy.factoryAdvantages.howToGetHeading")}

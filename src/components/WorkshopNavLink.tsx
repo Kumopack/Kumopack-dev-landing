@@ -31,7 +31,7 @@ const WorkshopNavLink = () => {
         </span>
       </a>
 
-      {/* 3D Preview Tooltip */}
+      {}
       <div
         className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 transition-all duration-300 z-50 ${
           hovered
@@ -40,8 +40,11 @@ const WorkshopNavLink = () => {
         }`}
       >
         <div className="bg-card/95 backdrop-blur-xl border border-border/50 rounded-2xl shadow-float p-5 w-[240px]">
-          {/* 3D Cube */}
-          <div className="flex justify-center mb-3" style={{ perspective: "400px" }}>
+          {}
+          <div
+            className="flex justify-center mb-3"
+            style={{ perspective: "400px" }}
+          >
             <div
               className="relative w-16 h-16"
               style={{
@@ -49,17 +52,17 @@ const WorkshopNavLink = () => {
                 animation: "spin3d 4s linear infinite",
               }}
             >
-              {/* Front */}
+              {}
               <div
                 className="absolute inset-0 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 border border-amber-300/50"
                 style={{ transform: "translateZ(32px)" }}
               />
-              {/* Back */}
+              {}
               <div
                 className="absolute inset-0 rounded-lg bg-gradient-to-br from-pink-400 to-purple-500 border border-pink-300/50"
                 style={{ transform: "translateZ(-32px) rotateY(180deg)" }}
               />
-              {/* Left */}
+              {}
               <div
                 className="absolute inset-0 rounded-lg bg-gradient-to-br from-orange-400 to-pink-500 border border-orange-300/50"
                 style={{
@@ -67,7 +70,7 @@ const WorkshopNavLink = () => {
                   width: "64px",
                 }}
               />
-              {/* Right */}
+              {}
               <div
                 className="absolute inset-0 rounded-lg bg-gradient-to-br from-purple-400 to-amber-500 border border-purple-300/50"
                 style={{
@@ -75,7 +78,7 @@ const WorkshopNavLink = () => {
                   width: "64px",
                 }}
               />
-              {/* Top */}
+              {}
               <div
                 className="absolute inset-0 rounded-lg bg-gradient-to-br from-yellow-300 to-amber-400 border border-yellow-200/50"
                 style={{
@@ -83,7 +86,7 @@ const WorkshopNavLink = () => {
                   height: "64px",
                 }}
               />
-              {/* Bottom */}
+              {}
               <div
                 className="absolute inset-0 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 border border-orange-400/50"
                 style={{
@@ -94,7 +97,7 @@ const WorkshopNavLink = () => {
             </div>
           </div>
 
-          {/* Text */}
+          {}
           <div className="text-center">
             <div className="flex items-center justify-center gap-1.5 text-sm font-bold text-foreground mb-1">
               <Box className="w-3.5 h-3.5 text-amber-500" />
@@ -109,7 +112,7 @@ const WorkshopNavLink = () => {
             </div>
           </div>
         </div>
-        {/* Arrow */}
+        {}
         <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-card/95 border-l border-t border-border/50 rotate-45" />
       </div>
 

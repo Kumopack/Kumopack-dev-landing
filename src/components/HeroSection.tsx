@@ -4,21 +4,99 @@ import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "@/components/common/LocalizedLink";
-import { ArrowRight, Factory, DollarSign, Truck, Search, MapPin, Star } from "lucide-react";
+import {
+  ArrowRight,
+  Factory,
+  DollarSign,
+  Truck,
+  Search,
+  MapPin,
+  Star,
+} from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { SafeImage } from "@/components/ui/safe-image";
 
 const allFactories = [
-  { factory: "Khon Kaen Packaging Co., Ltd.", province: "ขอนแก่น", price: "12.50", time: "5 days", badge: "Popular", rating: 4.9 },
-  { factory: "Saraburi Plastic Factory", province: "สระบุรี", price: "11.20", time: "7 days", badge: "Best Value", rating: 4.8 },
-  { factory: "Samut Prakan Packaging", province: "สมุทรปราการ", price: "14.00", time: "3 days", badge: "Fast", rating: 4.7 },
-  { factory: "Chiang Mai BoxCraft", province: "เชียงใหม่", price: "13.50", time: "6 days", badge: "Eco", rating: 4.9 },
-  { factory: "Nakhon Ratchasima Print", province: "นครราชสีมา", price: "10.80", time: "5 days", badge: "Low MOQ", rating: 4.6 },
-  { factory: "Surat Thani Pack Hub", province: "สุราษฎร์ธานี", price: "12.00", time: "8 days", badge: "Premium", rating: 4.8 },
-  { factory: "Chonburi Corrugated Co.", province: "ชลบุรี", price: "11.50", time: "4 days", badge: "Top Rated", rating: 5.0 },
-  { factory: "Rayong Green Pack", province: "ระยอง", price: "13.00", time: "5 days", badge: "Eco", rating: 4.7 },
-  { factory: "Bangkok Premium Box", province: "กรุงเทพฯ", price: "15.00", time: "2 days", badge: "Express", rating: 4.9 },
-  { factory: "Udon Thani Packaging", province: "อุดรธานี", price: "10.50", time: "6 days", badge: "Budget", rating: 4.5 },
+  {
+    factory: "Khon Kaen Packaging Co., Ltd.",
+    province: "ขอนแก่น",
+    price: "12.50",
+    time: "5 days",
+    badge: "Popular",
+    rating: 4.9,
+  },
+  {
+    factory: "Saraburi Plastic Factory",
+    province: "สระบุรี",
+    price: "11.20",
+    time: "7 days",
+    badge: "Best Value",
+    rating: 4.8,
+  },
+  {
+    factory: "Samut Prakan Packaging",
+    province: "สมุทรปราการ",
+    price: "14.00",
+    time: "3 days",
+    badge: "Fast",
+    rating: 4.7,
+  },
+  {
+    factory: "Chiang Mai BoxCraft",
+    province: "เชียงใหม่",
+    price: "13.50",
+    time: "6 days",
+    badge: "Eco",
+    rating: 4.9,
+  },
+  {
+    factory: "Nakhon Ratchasima Print",
+    province: "นครราชสีมา",
+    price: "10.80",
+    time: "5 days",
+    badge: "Low MOQ",
+    rating: 4.6,
+  },
+  {
+    factory: "Surat Thani Pack Hub",
+    province: "สุราษฎร์ธานี",
+    price: "12.00",
+    time: "8 days",
+    badge: "Premium",
+    rating: 4.8,
+  },
+  {
+    factory: "Chonburi Corrugated Co.",
+    province: "ชลบุรี",
+    price: "11.50",
+    time: "4 days",
+    badge: "Top Rated",
+    rating: 5.0,
+  },
+  {
+    factory: "Rayong Green Pack",
+    province: "ระยอง",
+    price: "13.00",
+    time: "5 days",
+    badge: "Eco",
+    rating: 4.7,
+  },
+  {
+    factory: "Bangkok Premium Box",
+    province: "กรุงเทพฯ",
+    price: "15.00",
+    time: "2 days",
+    badge: "Express",
+    rating: 4.9,
+  },
+  {
+    factory: "Udon Thani Packaging",
+    province: "อุดรธานี",
+    price: "10.50",
+    time: "6 days",
+    badge: "Budget",
+    rating: 4.5,
+  },
 ];
 
 const HeroSection = () => {
@@ -28,7 +106,7 @@ const HeroSection = () => {
   const filteredFactories = allFactories.filter(
     (f) =>
       f.factory.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      f.province.toLowerCase().includes(searchQuery.toLowerCase())
+      f.province.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const containerVariants: Variants = {
@@ -142,7 +220,7 @@ const HeroSection = () => {
                   className="absolute -bottom-2 left-0 right-0 h-1.5 bg-gradient-to-r from-[#b15fce] via-[#9b7dd4] to-[#76b3cf] rounded-full origin-left"
                 />
 
-                {/* Decorative glow */}
+                {}
                 <span className="absolute -inset-4 bg-gradient-to-r from-[#b15fce]/15 via-[#9b7dd4]/10 to-[#76b3cf]/15 blur-3xl rounded-full -z-10" />
               </span>
             </motion.h1>
@@ -187,10 +265,10 @@ const HeroSection = () => {
             className="relative lg:pl-8"
           >
             <div className="relative flex items-end justify-center gap-4">
-              {/* Laptop Mockup - Large */}
+              {}
               <div className="relative w-full max-w-xl">
                 <div className="bg-card border border-border/50 rounded-2xl shadow-soft overflow-hidden">
-                  {/* Browser Chrome */}
+                  {}
                   <div className="bg-muted/50 px-4 py-2.5 flex items-center gap-2.5 border-b border-border/30">
                     <div className="flex gap-1.5">
                       <div className="w-3 h-3 rounded-full bg-destructive/50" />
@@ -202,9 +280,9 @@ const HeroSection = () => {
                     </div>
                   </div>
 
-                  {/* Laptop Content */}
+                  {}
                   <div className="p-4 md:p-5 space-y-3 bg-gradient-to-b from-background to-muted/20">
-                    {/* Header Row */}
+                    {}
                     <div className="flex items-center justify-between mb-1">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-primary animate-pulse-soft" />
@@ -217,7 +295,7 @@ const HeroSection = () => {
                       </div>
                     </div>
 
-                    {/* Interactive Search */}
+                    {}
                     <div className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2.5 border border-border/30 focus-within:border-primary/40 transition-colors">
                       <Search className="w-4 h-4 text-muted-foreground shrink-0" />
                       <input
@@ -229,7 +307,7 @@ const HeroSection = () => {
                       />
                     </div>
 
-                    {/* Scrollable Factory Cards */}
+                    {}
                     <div className="max-h-[240px] md:max-h-[280px] overflow-y-auto space-y-2 pr-1 custom-scrollbar">
                       {filteredFactories.length === 0 ? (
                         <div className="text-center py-8 text-xs text-muted-foreground">
@@ -265,14 +343,19 @@ const HeroSection = () => {
                                 </span>
                                 <div className="flex items-center gap-0.5">
                                   <Star className="w-3 h-3 text-primary fill-primary" />
-                                  <span className="text-[10px] font-bold text-primary">{quote.rating}</span>
+                                  <span className="text-[10px] font-bold text-primary">
+                                    {quote.rating}
+                                  </span>
                                 </div>
                               </div>
                             </div>
                             <div className="flex items-center justify-between text-[10px] md:text-xs">
                               <div className="flex items-center gap-1 font-bold text-foreground">
-                                <span className="text-primary">฿</span> {quote.price}
-                                <span className="text-muted-foreground/50 font-normal">{t("home.perPiece")}</span>
+                                <span className="text-primary">฿</span>{" "}
+                                {quote.price}
+                                <span className="text-muted-foreground/50 font-normal">
+                                  {t("home.perPiece")}
+                                </span>
                               </div>
                               <div className="flex items-center gap-1 text-muted-foreground">
                                 <Truck className="w-3 h-3 text-lavender-deep" />
@@ -287,23 +370,43 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              {/* Phone Mockup - hidden on small screens */}
+              {}
               <div className="relative -mb-6 hidden md:block">
                 <div className="bg-card border-2 border-border/50 rounded-3xl shadow-soft overflow-hidden w-44 lg:w-52">
-                  {/* Phone Notch */}
+                  {}
                   <div className="bg-foreground/90 mx-auto w-16 h-4 rounded-b-xl" />
-                  {/* Phone Content */}
+                  {}
                   <div className="p-3 space-y-2 bg-gradient-to-b from-background to-muted/20">
                     <div className="flex items-center gap-1.5 bg-muted/50 rounded-md px-2 py-1.5">
                       <Search className="w-3 h-3 text-muted-foreground" />
-                      <span className="text-[9px] text-muted-foreground">ค้นหาโรงงาน...</span>
+                      <span className="text-[9px] text-muted-foreground">
+                        ค้นหาโรงงาน...
+                      </span>
                     </div>
                     {[
-                      { name: "Bangkok Premium Box", province: "กรุงเทพฯ", price: "15.00", rating: 4.9 },
-                      { name: "Chonburi Corrugated", province: "ชลบุรี", price: "11.50", rating: 5.0 },
-                      { name: "Chiang Mai BoxCraft", province: "เชียงใหม่", price: "13.50", rating: 4.9 },
+                      {
+                        name: "Bangkok Premium Box",
+                        province: "กรุงเทพฯ",
+                        price: "15.00",
+                        rating: 4.9,
+                      },
+                      {
+                        name: "Chonburi Corrugated",
+                        province: "ชลบุรี",
+                        price: "11.50",
+                        rating: 5.0,
+                      },
+                      {
+                        name: "Chiang Mai BoxCraft",
+                        province: "เชียงใหม่",
+                        price: "13.50",
+                        rating: 4.9,
+                      },
                     ].map((item, idx) => (
-                      <div key={idx} className="bg-card/80 border border-border/30 rounded-lg p-2.5 space-y-1">
+                      <div
+                        key={idx}
+                        className="bg-card/80 border border-border/30 rounded-lg p-2.5 space-y-1"
+                      >
                         <div className="text-[9px] font-semibold text-foreground truncate">
                           {item.name}
                         </div>
@@ -312,10 +415,14 @@ const HeroSection = () => {
                           {item.province}
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-[9px] text-primary font-bold">฿{item.price}/ชิ้น</span>
+                          <span className="text-[9px] text-primary font-bold">
+                            ฿{item.price}/ชิ้น
+                          </span>
                           <div className="flex items-center gap-0.5">
                             <Star className="w-2.5 h-2.5 text-primary fill-primary" />
-                            <span className="text-[8px] font-bold text-primary">{item.rating}</span>
+                            <span className="text-[8px] font-bold text-primary">
+                              {item.rating}
+                            </span>
                           </div>
                         </div>
                       </div>

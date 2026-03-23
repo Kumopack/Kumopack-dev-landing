@@ -76,7 +76,7 @@ const HowItWorks = () => {
         </div>
 
         <div className="relative grid md:grid-cols-2 lg:grid-cols-4 gap-0">
-          {/* Connecting line */}
+          {}
           <div className="hidden lg:block absolute top-[52px] left-[12%] right-[12%] h-[2px]">
             <div className="w-full h-full bg-gradient-to-r from-amber-300 via-blue-300 via-emerald-300 to-purple-300 rounded-full opacity-40" />
           </div>
@@ -90,14 +90,14 @@ const HowItWorks = () => {
               transition={{ duration: 0.5, delay: index * 0.15 }}
               className="relative flex flex-col items-center text-center px-6 py-8"
             >
-              {/* Step number + icon circle */}
+              {}
               <div className="relative mb-6">
                 <div
                   className={`w-[104px] h-[104px] rounded-3xl ${step.bg} flex items-center justify-center relative z-10 border border-white shadow-lg`}
                 >
                   <div className={step.iconColor}>{step.icon}</div>
                 </div>
-                {/* Step number badge */}
+                {}
                 <div
                   className={`absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center text-white text-sm font-bold shadow-md z-20`}
                 >
@@ -105,24 +105,24 @@ const HowItWorks = () => {
                 </div>
               </div>
 
-              {/* Label */}
+              {}
               <span
                 className={`inline-block text-[11px] font-bold uppercase tracking-widest mb-2 bg-gradient-to-r ${step.gradient} bg-clip-text text-transparent`}
               >
                 {t(step.labelKey)}
               </span>
 
-              {/* Title */}
+              {}
               <h3 className="text-lg font-bold text-foreground mb-3 leading-snug">
                 {t(step.titleKey)}
               </h3>
 
-              {/* Description */}
+              {}
               <p className="text-sm text-muted-foreground leading-relaxed max-w-[280px]">
                 {t(step.descKey)}
               </p>
 
-              {/* Arrow connector (mobile) */}
+              {}
               {index < steps.length - 1 && (
                 <div className="lg:hidden flex justify-center my-4">
                   <svg

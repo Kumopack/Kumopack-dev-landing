@@ -86,14 +86,14 @@ const MockupCategoriesV2 = () => {
 
   return (
     <section className="py-28 relative overflow-hidden bg-gradient-to-b from-white via-primary/[0.02] to-white">
-      {/* Subtle background accents */}
+      {}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
         <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] bg-primary/[0.03] rounded-full blur-[150px]" />
         <div className="absolute bottom-[10%] right-[5%] w-[400px] h-[400px] bg-accent/[0.03] rounded-full blur-[120px]" />
       </div>
 
       <div className="container mx-auto px-6 max-w-6xl">
-        {/* Header */}
+        {}
         <div className="text-center mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -127,7 +127,7 @@ const MockupCategoriesV2 = () => {
           </motion.p>
         </div>
 
-        {/* Cards Grid */}
+        {}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {categories.map((category, index) => (
             <motion.div
@@ -142,10 +142,10 @@ const MockupCategoriesV2 = () => {
               }}
               className="group relative rounded-2xl overflow-hidden h-[140px] select-none pointer-events-none bg-white border border-neutral-100/80 shadow-[0_2px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition-all duration-500"
             >
-              {/* Left accent bar */}
+              {}
               <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary/60 via-primary/20 to-transparent" />
 
-              {/* Content */}
+              {}
               <div
                 className="relative z-10 h-full flex flex-col justify-center pl-6 pr-4"
                 style={{ width: "58%" }}
@@ -163,7 +163,7 @@ const MockupCategoriesV2 = () => {
                 </div>
               </div>
 
-              {/* Image - clean, no overlay */}
+              {}
               <div className="absolute right-0 inset-y-0 w-[40%] bg-neutral-50/50 flex items-center justify-center p-3">
                 <div className="relative w-full h-full">
                   <Image
@@ -179,7 +179,7 @@ const MockupCategoriesV2 = () => {
           ))}
         </div>
 
-        {/* Stats */}
+        {}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

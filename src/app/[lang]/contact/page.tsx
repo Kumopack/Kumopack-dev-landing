@@ -25,9 +25,9 @@ export default function ContactPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Navbar />
 
-      {/* ── Hero Section ── */}
+      {}
       <section className="relative pt-32 pb-20 px-4 md:px-8 overflow-hidden">
-        {/* Ambient background */}
+        {}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-mint/5" />
         <div className="absolute top-20 -right-40 w-[600px] h-[600px] bg-gradient-to-br from-primary/15 to-mint/15 rounded-full blur-[120px]" />
         <div className="absolute -bottom-20 -left-40 w-[500px] h-[500px] bg-gradient-to-tr from-lavender/20 to-coral/10 rounded-full blur-[100px]" />
@@ -51,7 +51,7 @@ export default function ContactPage() {
               </p>
             </motion.div>
 
-            {/* Hero image */}
+            {}
             <motion.div
               initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -74,13 +74,13 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ── Main Content ── */}
+      {}
       <section className="py-20 px-4 md:px-8 relative">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
         <div className="container mx-auto max-w-6xl">
           <div className="grid lg:grid-cols-5 gap-12">
-            {/* ── Left: Form (3 cols) ── */}
+            {}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -88,7 +88,7 @@ export default function ContactPage() {
               className="lg:col-span-3"
             >
               <div className="relative">
-                {/* Glassmorphism glow */}
+                {}
                 <div className="absolute -inset-1 bg-gradient-to-br from-primary/10 via-transparent to-mint/10 rounded-[2rem] blur-xl opacity-50" />
                 <div className="relative bg-card/80 backdrop-blur-sm p-8 md:p-10 rounded-3xl border border-border/50 shadow-float">
                   <div className="flex items-center gap-3 mb-8">
@@ -166,14 +166,14 @@ export default function ContactPage() {
               </div>
             </motion.div>
 
-            {/* ── Right: Contact Info (2 cols) ── */}
+            {}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
               className="lg:col-span-2 space-y-5"
             >
-              {/* Email Card */}
+              {}
               <div className="group bg-card/80 backdrop-blur-sm p-6 rounded-2xl border border-border/50 hover:border-primary/30 hover:shadow-soft transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
@@ -193,7 +193,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Phone Card */}
+              {}
               <div className="group bg-card/80 backdrop-blur-sm p-6 rounded-2xl border border-border/50 hover:border-primary/30 hover:shadow-soft transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-500/5 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
@@ -213,7 +213,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* LINE Card */}
+              {}
               <div className="group bg-card/80 backdrop-blur-sm p-6 rounded-2xl border border-border/50 hover:border-[#06C755]/30 hover:shadow-soft transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-[#06C755]/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">

@@ -241,7 +241,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
           text-align: justify;
         }
 
-        /* Text Formatting */
         .blog-content strong,
         .blog-content b {
           font-weight: 700;
@@ -257,7 +256,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
           text-decoration: line-through;
         }
 
-        /* Font Sizes */
         .blog-content .ql-size-small {
           font-size: 0.75em;
         }
@@ -268,7 +266,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
           font-size: 2.5em;
         }
 
-        /* Code Block */
         .blog-content pre,
         .blog-content code {
           background: hsl(var(--muted));
@@ -283,7 +280,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
           margin: 2rem 0;
         }
 
-        /* Subscript & Superscript */
         .blog-content sub {
           vertical-align: sub;
           font-size: 0.75em;
@@ -293,7 +289,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
           font-size: 0.75em;
         }
 
-        /* Video */
         .blog-content iframe,
         .blog-content video {
           max-width: 100%;
@@ -329,7 +324,6 @@ export default function BlogContent({ blog }: { blog: Article }) {
           }
         }
 
-        /* Spacing adjustment for content paragraphs that just wrap an image */
         .blog-content p:has(img) {
           margin-bottom: 0px !important;
         }
