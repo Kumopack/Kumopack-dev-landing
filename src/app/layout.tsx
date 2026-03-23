@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html
       lang="th"
-      className={`${notoTh.variable} ${notoEn.variable}`}
+      className={`${notoTh.variable} ${notoEn.variable} overflow-x-hidden`}
       suppressHydrationWarning
     >
       <body

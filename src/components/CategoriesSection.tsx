@@ -60,10 +60,10 @@ const CategoriesSection = () => {
           <span className="inline-block px-4 py-2 rounded-full bg-lavender text-purple-soft text-sm font-medium mb-4">
             {t("categories.badge")}
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             {t("categories.title")}
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
             {t("categories.subtitle")}
           </p>
         </div>
@@ -91,7 +91,7 @@ const CategoriesSection = () => {
                 <h3 className="font-semibold text-foreground mb-1 text-sm min-h-[2.5rem] flex items-center justify-center">
                   {t(category.nameKey)}
                 </h3>
-                <p className="text-xs text-muted-foreground line-clamp-3">
+                <p className="text-xs text-muted-foreground line-clamp-2">
                   {t(category.descriptionKey)}
                 </p>
               </div>
@@ -103,20 +103,19 @@ const CategoriesSection = () => {
                   ${activeCategory === index ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}
                 `}
               >
-                <p className="text-sm font-medium text-foreground mb-3">
-                  {t("categories.specs")}
-                </p>
-                <div className="space-y-2">
-                  {category.specs.map((spec, specIndex) => (
-                    <div
-                      key={specIndex}
-                      className="flex items-center gap-2 text-sm text-muted-foreground"
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                      {spec}
-                    </div>
-                  ))}
+                <div className="flex items-center gap-3 mb-2">
+                  <div
+                    className={`w-10 h-10 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center shrink-0`}
+                  >
+                    <category.icon className="w-5 h-5 text-foreground/70" />
+                  </div>
+                  <h4 className="font-bold text-sm text-foreground leading-tight">
+                    {t(category.nameKey)}
+                  </h4>
                 </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {t(category.descriptionKey)}
+                </p>
               </div>
             </div>
           ))}

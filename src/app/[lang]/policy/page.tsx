@@ -55,7 +55,7 @@ export default function PolicyPage() {
       {/* Hero */}
       <section className="pt-32 pb-8 px-4 md:px-8">
         <div className="container mx-auto max-w-5xl text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
+          <h1 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">
             {t("policy.title")}
           </h1>
           <p className="text-muted-foreground mb-2">
@@ -249,7 +249,7 @@ export default function PolicyPage() {
 
                 {/* How to get icons */}
                 <div>
-                  <h2 className="text-3xl font-extrabold mb-4 italic">
+                  <h2 className="text-3xl font-extrabold mb-4">
                     {t("policy.factoryAdvantages.howToGetHeading")}
                   </h2>
                   <div className="space-y-4">

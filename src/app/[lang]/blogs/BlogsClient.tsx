@@ -166,7 +166,7 @@ export default function BlogsClient({
         </motion.div>
       </section>
 
-      <section className="sticky top-20 md:top-24 z-30 bg-kumopack-base-white/90 backdrop-blur-md border-y border-neutral-100">
+      <section className="sticky top-[72px] md:top-24 z-30 bg-kumopack-base-white/90 backdrop-blur-md border-y border-neutral-100">
         <div className="max-w-[1140px] mx-auto px-4">
           <div className="flex items-center justify-center flex-wrap py-4 md:py-5 gap-1 md:gap-2">
             {[

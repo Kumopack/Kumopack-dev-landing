@@ -1,14 +1,35 @@
 "use client";
 
+import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "@/components/common/LocalizedLink";
-import { ArrowRight, Factory, DollarSign, Truck } from "lucide-react";
+import { ArrowRight, Factory, DollarSign, Truck, Search, MapPin, Star } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { SafeImage } from "@/components/ui/safe-image";
 
+const allFactories = [
+  { factory: "Khon Kaen Packaging Co., Ltd.", province: "ขอนแก่น", price: "12.50", time: "5 days", badge: "Popular", rating: 4.9 },
+  { factory: "Saraburi Plastic Factory", province: "สระบุรี", price: "11.20", time: "7 days", badge: "Best Value", rating: 4.8 },
+  { factory: "Samut Prakan Packaging", province: "สมุทรปราการ", price: "14.00", time: "3 days", badge: "Fast", rating: 4.7 },
+  { factory: "Chiang Mai BoxCraft", province: "เชียงใหม่", price: "13.50", time: "6 days", badge: "Eco", rating: 4.9 },
+  { factory: "Nakhon Ratchasima Print", province: "นครราชสีมา", price: "10.80", time: "5 days", badge: "Low MOQ", rating: 4.6 },
+  { factory: "Surat Thani Pack Hub", province: "สุราษฎร์ธานี", price: "12.00", time: "8 days", badge: "Premium", rating: 4.8 },
+  { factory: "Chonburi Corrugated Co.", province: "ชลบุรี", price: "11.50", time: "4 days", badge: "Top Rated", rating: 5.0 },
+  { factory: "Rayong Green Pack", province: "ระยอง", price: "13.00", time: "5 days", badge: "Eco", rating: 4.7 },
+  { factory: "Bangkok Premium Box", province: "กรุงเทพฯ", price: "15.00", time: "2 days", badge: "Express", rating: 4.9 },
+  { factory: "Udon Thani Packaging", province: "อุดรธานี", price: "10.50", time: "6 days", badge: "Budget", rating: 4.5 },
+];
+
 const HeroSection = () => {
   const { t } = useLanguage();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredFactories = allFactories.filter(
+    (f) =>
+      f.factory.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      f.province.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -96,17 +117,19 @@ const HeroSection = () => {
               className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-primary/5 border border-primary/15 shadow-sm"
             >
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse-soft" />
-              <span className="text-sm font-medium text-primary tracking-wide">
-                {t("aboutUs.brandsTrusted") || "Trusted by 500+ global brands"}
+              <span className="text-sm font-bold text-primary tracking-wide">
+                {t("home.heroBadge")}
               </span>
             </motion.div>
 
-            <motion.h1 variants={itemVariants} className="space-y-2">
-              <span className="block text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground/80 leading-[1.15] tracking-tight">
+            <motion.h1 variants={itemVariants} className="space-y-3">
+              <span className="block text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-[1.1] tracking-tight">
                 {t("home.heroTitleMain")}
               </span>
-              <span className="relative block text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-lavender-deep">
-                {t("home.heroTitleHighlight")}
+              <span className="relative block text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#b15fce] via-[#9b7dd4] to-[#76b3cf] animate-gradient bg-[length:200%_auto] drop-shadow-sm">
+                  {t("home.heroTitleHighlight")}
+                </span>
 
                 <motion.span
                   initial={{ scaleX: 0 }}
@@ -116,14 +139,17 @@ const HeroSection = () => {
                     duration: 0.8,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-primary/60 to-lavender-deep/40 rounded-full origin-left"
+                  className="absolute -bottom-2 left-0 right-0 h-1.5 bg-gradient-to-r from-[#b15fce] via-[#9b7dd4] to-[#76b3cf] rounded-full origin-left"
                 />
+
+                {/* Decorative glow */}
+                <span className="absolute -inset-4 bg-gradient-to-r from-[#b15fce]/15 via-[#9b7dd4]/10 to-[#76b3cf]/15 blur-3xl rounded-full -z-10" />
               </span>
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="text-base md:text-lg text-muted-foreground max-w-md leading-relaxed"
+              className="text-base md:text-lg text-muted-foreground max-w-lg leading-relaxed font-medium"
             >
               {t("home.heroSubtitle")}
             </motion.p>
@@ -136,7 +162,7 @@ const HeroSection = () => {
                 <Button
                   variant="hero"
                   size="xl"
-                  className="shadow-glow hover:scale-105 active:scale-95 transition-all duration-300 px-10 py-7 text-lg rounded-2xl"
+                  className="shadow-glow hover:scale-105 active:scale-95 transition-all duration-300 px-10 py-7 text-lg font-bold rounded-2xl"
                 >
                   {t("common.getStarted")}
                   <ArrowRight className="w-6 h-6 ml-2" />
@@ -146,7 +172,7 @@ const HeroSection = () => {
                 <Button
                   variant="soft"
                   size="xl"
-                  className="glass-premium hover:bg-white/20 transition-all duration-300 px-10 py-7 text-lg rounded-2xl"
+                  className="glass-premium hover:bg-white/20 transition-all duration-300 px-10 py-7 text-lg font-bold rounded-2xl"
                 >
                   {t("pricing.title")}
                 </Button>
@@ -158,88 +184,144 @@ const HeroSection = () => {
             initial={{ opacity: 0, scale: 0.9, x: 50 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="relative lg:pl-16 hidden lg:block"
+            className="relative lg:pl-8"
           >
-            <div className="floating-card p-10 max-w-lg mx-auto hover:shadow-glow transition-all duration-700 hover:-translate-y-4 group">
-              <div className="flex items-center justify-between mb-10">
-                <div className="flex items-center gap-4">
-                  <div className="w-4 h-4 rounded-full bg-primary animate-pulse-soft" />
-                  <span className="text-xs font-black tracking-[0.2em] uppercase text-muted-foreground/60">
-                    {t("home.quoteComparison")}
-                  </span>
-                </div>
-                <div className="px-3 py-1.5 rounded-lg bg-primary/20 text-[10px] font-black text-primary italic border border-primary/30 tracking-widest">
-                  {t("home.realTime")}
+            <div className="relative flex items-end justify-center gap-4">
+              {/* Laptop Mockup - Large */}
+              <div className="relative w-full max-w-xl">
+                <div className="bg-card border border-border/50 rounded-2xl shadow-soft overflow-hidden">
+                  {/* Browser Chrome */}
+                  <div className="bg-muted/50 px-4 py-2.5 flex items-center gap-2.5 border-b border-border/30">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-destructive/50" />
+                      <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+                      <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                    </div>
+                    <div className="flex-1 bg-background/50 rounded-lg px-3 py-1.5 text-xs text-muted-foreground">
+                      kumopack.com/quotes
+                    </div>
+                  </div>
+
+                  {/* Laptop Content */}
+                  <div className="p-4 md:p-5 space-y-3 bg-gradient-to-b from-background to-muted/20">
+                    {/* Header Row */}
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-primary animate-pulse-soft" />
+                        <span className="text-[10px] md:text-xs font-black tracking-wider uppercase text-muted-foreground/60">
+                          {t("home.quoteComparison")}
+                        </span>
+                      </div>
+                      <div className="px-2 py-1 rounded-md bg-primary/20 text-[8px] md:text-[10px] font-black text-primary italic border border-primary/30 tracking-wider">
+                        {t("home.realTime")}
+                      </div>
+                    </div>
+
+                    {/* Interactive Search */}
+                    <div className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2.5 border border-border/30 focus-within:border-primary/40 transition-colors">
+                      <Search className="w-4 h-4 text-muted-foreground shrink-0" />
+                      <input
+                        type="text"
+                        placeholder="ค้นหาโรงงาน หรือจังหวัด..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-transparent text-xs md:text-sm placeholder:text-muted-foreground/50 focus:outline-none text-foreground"
+                      />
+                    </div>
+
+                    {/* Scrollable Factory Cards */}
+                    <div className="max-h-[240px] md:max-h-[280px] overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+                      {filteredFactories.length === 0 ? (
+                        <div className="text-center py-8 text-xs text-muted-foreground">
+                          ไม่พบโรงงานที่ค้นหา
+                        </div>
+                      ) : (
+                        filteredFactories.map((quote, index) => (
+                          <motion.div
+                            key={quote.factory}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.05 * index, duration: 0.3 }}
+                            className="bg-card/80 border border-border/30 rounded-xl p-3 hover:border-primary/30 hover:shadow-sm transition-all cursor-pointer group/item"
+                          >
+                            <div className="flex justify-between items-start mb-2">
+                              <div className="flex items-center gap-2.5 min-w-0">
+                                <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover/item:bg-primary/20 transition-colors">
+                                  <Factory className="w-4 h-4 text-primary" />
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="text-xs md:text-sm font-semibold text-foreground truncate group-hover/item:text-primary transition-colors">
+                                    {quote.factory}
+                                  </div>
+                                  <div className="flex items-center gap-1 text-[10px] text-muted-foreground mt-0.5">
+                                    <MapPin className="w-2.5 h-2.5" />
+                                    {quote.province}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex flex-col items-end gap-1 shrink-0 ml-2">
+                                <span className="px-2 py-0.5 rounded-full text-[7px] md:text-[8px] font-black uppercase bg-primary/10 text-primary border border-primary/20">
+                                  {quote.badge}
+                                </span>
+                                <div className="flex items-center gap-0.5">
+                                  <Star className="w-3 h-3 text-primary fill-primary" />
+                                  <span className="text-[10px] font-bold text-primary">{quote.rating}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between text-[10px] md:text-xs">
+                              <div className="flex items-center gap-1 font-bold text-foreground">
+                                <span className="text-primary">฿</span> {quote.price}
+                                <span className="text-muted-foreground/50 font-normal">{t("home.perPiece")}</span>
+                              </div>
+                              <div className="flex items-center gap-1 text-muted-foreground">
+                                <Truck className="w-3 h-3 text-lavender-deep" />
+                                <span>{quote.time}</span>
+                              </div>
+                            </div>
+                          </motion.div>
+                        ))
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                {[
-                  {
-                    factory: "Khon Kaen Packaging Co., Ltd.",
-                    price: "12.50",
-                    time: "Delivery in 5 days",
-                    badge: "Popular",
-                    delay: 0.6,
-                  },
-                  {
-                    factory: "Saraburi Plastic Factory",
-                    price: "11.20",
-                    time: "Delivery in 7 days",
-                    badge: "Best Value",
-                    delay: 0.7,
-                  },
-                  {
-                    factory: "Samut Prakan Packaging",
-                    price: "14.00",
-                    time: "Delivery in 3 days",
-                    badge: "Fast Delivery",
-                    delay: 0.8,
-                  },
-                ].map((quote, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{
-                      delay: quote.delay,
-                      duration: 0.6,
-                      ease: "easeOut",
-                    }}
-                    className="p-6 rounded-[2rem] bg-white/5 border border-white/10 hover:bg-white/15 hover:border-primary/40 transition-all duration-500 group/item cursor-pointer shadow-sm hover:shadow-glow"
-                  >
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover/item:bg-primary/20 transition-colors">
-                          <Factory className="w-5 h-5 text-primary" />
-                        </div>
-                        <span className="font-bold text-lg text-foreground group-hover/item:text-primary transition-colors">
-                          {quote.factory}
-                        </span>
-                      </div>
-                      <span className="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-primary/10 text-primary border border-primary/30">
-                        {quote.badge}
-                      </span>
+              {/* Phone Mockup - hidden on small screens */}
+              <div className="relative -mb-6 hidden md:block">
+                <div className="bg-card border-2 border-border/50 rounded-3xl shadow-soft overflow-hidden w-44 lg:w-52">
+                  {/* Phone Notch */}
+                  <div className="bg-foreground/90 mx-auto w-16 h-4 rounded-b-xl" />
+                  {/* Phone Content */}
+                  <div className="p-3 space-y-2 bg-gradient-to-b from-background to-muted/20">
+                    <div className="flex items-center gap-1.5 bg-muted/50 rounded-md px-2 py-1.5">
+                      <Search className="w-3 h-3 text-muted-foreground" />
+                      <span className="text-[9px] text-muted-foreground">ค้นหาโรงงาน...</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <div className="p-1.5 rounded-lg bg-white/5">
-                          <span className="w-4 h-4 text-primary"> ฿ </span>
+                    {[
+                      { name: "Bangkok Premium Box", province: "กรุงเทพฯ", price: "15.00", rating: 4.9 },
+                      { name: "Chonburi Corrugated", province: "ชลบุรี", price: "11.50", rating: 5.0 },
+                      { name: "Chiang Mai BoxCraft", province: "เชียงใหม่", price: "13.50", rating: 4.9 },
+                    ].map((item, idx) => (
+                      <div key={idx} className="bg-card/80 border border-border/30 rounded-lg p-2.5 space-y-1">
+                        <div className="text-[9px] font-semibold text-foreground truncate">
+                          {item.name}
                         </div>
-                        <span className="font-bold text-foreground text-xl">
-                          {quote.price}
-                          <span className="text-[12px] text-muted-foreground/60 ml-1">
-                            {t("home.perPiece")}
-                          </span>
-                        </span>
+                        <div className="flex items-center gap-1 text-[8px] text-muted-foreground">
+                          <MapPin className="w-2 h-2" />
+                          {item.province}
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-[9px] text-primary font-bold">฿{item.price}/ชิ้น</span>
+                          <div className="flex items-center gap-0.5">
+                            <Star className="w-2.5 h-2.5 text-primary fill-primary" />
+                            <span className="text-[8px] font-bold text-primary">{item.rating}</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2 text-muted-foreground font-semibold">
-                        <Truck className="w-5 h-5 text-lavender-deep" />
-                        <span className="italic">{quote.time}</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -99,7 +99,7 @@ const MockupCategoriesV2 = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.25em] mb-6"
+            className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-primary/5 border border-primary/10 text-primary text-xs font-black uppercase tracking-[0.25em] mb-6"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             {t("mockupCategories.title")}
@@ -109,7 +109,7 @@ const MockupCategoriesV2 = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-4xl md:text-6xl font-black text-foreground tracking-tight leading-[1.1] mb-4"
+            className="text-3xl md:text-4xl font-black text-foreground tracking-tight leading-[1.1] mb-4"
           >
             {t("mockupCategories.heading")}{" "}
             <span className="bg-gradient-to-r from-primary via-primary/80 to-accent bg-clip-text text-transparent">
@@ -121,7 +121,7 @@ const MockupCategoriesV2 = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-muted-foreground text-base md:text-lg max-w-md mx-auto"
+            className="text-muted-foreground text-lg md:text-xl max-w-md mx-auto"
           >
             {t("mockupCategories.subtitle")}
           </motion.p>

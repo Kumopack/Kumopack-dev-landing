@@ -39,7 +39,7 @@ const ValueProposition = () => {
             className="space-y-8"
           >
             <div className="space-y-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
                 {t("valueProposition.title")}{" "}
                 <span className="text-primary font-extrabold">
                   {t("valueProposition.highlight")}

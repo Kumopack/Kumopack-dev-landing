@@ -83,7 +83,7 @@ export default function SupplierPage() {
                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 Verified Partners
               </motion.div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground mb-4 tracking-tight">
+              <h1 className="text-3xl md:text-5xl font-black text-foreground mb-4 tracking-tight">
                 {dict.supplier.title.split(" ")[0]}{" "}
                 <span className="text-primary">{dict.supplier.trusted}</span>{" "}
                 {dict.supplier.title.split(" ")[1] || ""}
@@ -109,7 +109,7 @@ export default function SupplierPage() {
             <div className="lg:col-span-3 order-2 lg:order-2">
               <div className="flex justify-between items-center mb-6">
                 <p className="text-sm font-bold text-muted-foreground uppercase tracking-wider">
-                  Showing {supplierList.length} of {totalItems} Suppliers
+                  {dict.supplier.filters?.showing || "Showing"} {supplierList.length} {dict.supplier.filters?.of || "of"} {totalItems} {dict.supplier.filters?.suppliers || "Suppliers"}
                 </p>
                 <div className="flex items-center gap-1 bg-white p-1 rounded-lg border border-neutral-100 shadow-sm">
                   <button

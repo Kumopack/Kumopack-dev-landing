@@ -50,24 +50,27 @@ export default function SupplierCard({
 
   const isVerified = supplier.isVerified;
 
+  const supplierHref = `/supplier/${supplier.slug || supplier.id}`;
+
   return (
+    <Link href={supplierHref} className="block">
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
-      className={`group bg-white rounded-[1.5rem] border ${
+      className={`group bg-white rounded-[1.5rem] border cursor-pointer ${
         isVerified
           ? "border-primary/40 shadow-sm shadow-primary/10"
           : "border-neutral-100"
       } hover:border-primary/50 hover:shadow-xl transition-all duration-500 overflow-hidden flex ${
         isGrid
           ? "flex-col"
-          : "flex-col md:flex-row md:items-stretch md:h-[260px]"
+          : "flex-row items-stretch h-[200px] sm:h-[220px] md:h-[260px]"
       }`}
     >
       <div
         className={`relative overflow-hidden shrink-0 ${
-          isGrid ? "aspect-square w-full" : "h-48 w-full md:h-full md:w-[300px]"
+          isGrid ? "aspect-square w-full" : "h-full w-[120px] sm:w-[180px] md:w-[300px]"
         }`}
       >
         <SafeImage
@@ -170,7 +173,7 @@ export default function SupplierCard({
             {supplier.features.slice(0, 4).map((feature, i) => (
               <Popover key={feature.id || i}>
                 <PopoverTrigger asChild>
-                  <div className="flex items-center justify-center w-8 h-8 shrink-0 rounded-lg bg-neutral-50 border border-neutral-200/50 cursor-pointer hover:bg-neutral-100 hover:scale-105 hover:border-primary/20 transition-all duration-200">
+                  <div onClick={(e) => e.preventDefault()} className="flex items-center justify-center w-8 h-8 shrink-0 rounded-lg bg-neutral-50 border border-neutral-200/50 cursor-pointer hover:bg-neutral-100 hover:scale-105 hover:border-primary/20 transition-all duration-200">
                     <div className="w-4 h-4 flex items-center justify-center">
                       <img
                         src={feature.icon}
@@ -255,14 +258,14 @@ export default function SupplierCard({
               ({supplier.stats.orderAmount})
             </span>
           </div>
-          <Link
-            href={`/supplier/${supplier.slug || supplier.id}`}
-            className="flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary/80 transition-colors"
+          <span
+            className="flex items-center gap-1.5 text-xs font-bold text-primary group-hover:text-primary/80 transition-colors"
           >
             View Profile <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+          </span>
         </div>
       </div>
     </motion.div>
+    </Link>
   );
 }
