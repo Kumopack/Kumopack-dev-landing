@@ -8,7 +8,6 @@ import {
   Share2,
   Eye,
   Loader2,
-  Sparkles,
   ChevronLeft,
   ChevronRight,
   AlertCircle,
@@ -281,7 +280,7 @@ export default function BlogContent({
         }
 
         .blog-content img {
-          max-width: 95%;
+          width: 95%;
           height: auto;
           display: block;
           margin: 0.5rem auto !important;
@@ -297,9 +296,9 @@ export default function BlogContent({
           box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
         }
 
-        @media (min-width: 768px) {
+        @media (max-width: 768px) {
           .blog-content img {
-            max-width: 100%;
+            width: 100%;
             margin: 0 auto !important;
             border-radius: 1.5rem;
           }
