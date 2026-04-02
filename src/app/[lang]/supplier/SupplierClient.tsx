@@ -10,6 +10,7 @@ import { useState, useEffect, useCallback } from "react";
 import SupplierCard from "@/components/SupplierCard";
 import SupplierFilters, { FilterState } from "@/components/SupplierFilters";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Pagination } from "@/components/ui/pagination";
 
 export default function SupplierClient({ dict, lang }: { dict: any; lang: string }) {
   const [supplierList, setSupplierList] = useState<Supplier[]>([]);
@@ -170,45 +171,12 @@ export default function SupplierClient({ dict, lang }: { dict: any; lang: string
                     </div>
 
                     {/* Pagination Controls */}
-                    {totalPages > 1 && (
-                      <div className="flex justify-center items-center gap-2">
-                        <button
-                          disabled={currentPage === 1}
-                          onClick={() =>
-                            setCurrentPage((prev) => Math.max(1, prev - 1))
-                          }
-                          className="px-4 py-2 rounded-xl bg-white border border-neutral-200 text-sm font-bold disabled:opacity-50 hover:bg-neutral-50 transition-colors"
-                        >
-                          Previous
-                        </button>
-                        <div className="flex items-center gap-1">
-                          {[...Array(totalPages)].map((_, i) => (
-                            <button
-                              key={i}
-                              onClick={() => setCurrentPage(i + 1)}
-                              className={`w-10 h-10 rounded-xl text-sm font-bold transition-all ${
-                                currentPage === i + 1
-                                  ? "bg-primary text-white shadow-lg shadow-primary/20 scale-105"
-                                  : "bg-white text-muted-foreground hover:bg-neutral-50 border border-neutral-200"
-                              }`}
-                            >
-                              {i + 1}
-                            </button>
-                          ))}
-                        </div>
-                        <button
-                          disabled={currentPage === totalPages}
-                          onClick={() =>
-                            setCurrentPage((prev) =>
-                              Math.min(totalPages, prev + 1),
-                            )
-                          }
-                          className="px-4 py-2 rounded-xl bg-white border border-neutral-200 text-sm font-bold disabled:opacity-50 hover:bg-neutral-50 transition-colors"
-                        >
-                          Next
-                        </button>
-                      </div>
-                    )}
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      onPageChange={setCurrentPage}
+                      className="mt-6 flex justify-center items-center gap-2"
+                    />
                   </div>
                 </TooltipProvider>
               )}

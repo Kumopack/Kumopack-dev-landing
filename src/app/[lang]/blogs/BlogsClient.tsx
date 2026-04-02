@@ -9,8 +9,6 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
-  ChevronLeft,
-  ChevronRight,
   Loader2,
   LayoutGrid,
   List,
@@ -21,6 +19,7 @@ import PageHeader from "@/components/PageHeader";
 import { blogApi, Article, Category } from "@/lib/blog-api";
 import { Dictionary } from "@/lib/dictionary";
 import BlogCard from "@/components/BlogCard";
+import { Pagination } from "@/components/ui/pagination";
 
 interface BlogsClientProps {
   initialArticles: Article[];
@@ -273,64 +272,12 @@ export default function BlogsClient({
                 </div>
               )}
 
-              {totalPages > 1 && (
-                <div className="mt-10 md:mt-20 flex justify-center items-center gap-2 md:gap-3">
-                  <button
-                    onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                    disabled={currentPage === 1}
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-xl border border-neutral-200 flex items-center justify-center hover:bg-white hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-sm"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-
-                  {(() => {
-                    const pages: (number | string)[] = [];
-                    if (totalPages <= 7) {
-                      for (let i = 1; i <= totalPages; i++) pages.push(i);
-                    } else {
-                      pages.push(1);
-                      if (currentPage > 3) pages.push("...");
-                      const start = Math.max(2, currentPage - 1);
-                      const end = Math.min(totalPages - 1, currentPage + 1);
-                      for (let i = start; i <= end; i++) pages.push(i);
-                      if (currentPage < totalPages - 2) pages.push("...");
-                      pages.push(totalPages);
-                    }
-                    return pages.map((p, idx) =>
-                      typeof p === "string" ? (
-                        <span
-                          key={`ellipsis-${idx}`}
-                          className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-muted-foreground/40 font-bold text-sm select-none"
-                        >
-                          ···
-                        </span>
-                      ) : (
-                        <button
-                          key={p}
-                          onClick={() => handlePageChange(p)}
-                          className={`w-10 h-10 md:w-12 md:h-12 rounded-xl text-sm font-black transition-all duration-300 ${
-                            currentPage === p
-                              ? "bg-primary text-white shadow-glow-sm scale-105"
-                              : "border border-neutral-200 text-muted-foreground/60 hover:border-primary hover:text-primary hover:bg-primary/5"
-                          }`}
-                        >
-                          {p}
-                        </button>
-                      ),
-                    );
-                  })()}
-
-                  <button
-                    onClick={() =>
-                      handlePageChange(Math.min(totalPages, currentPage + 1))
-                    }
-                    disabled={currentPage === totalPages}
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-xl border border-neutral-200 flex items-center justify-center hover:bg-white hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-sm"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
-              )}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                className="mt-10 md:mt-20"
+              />
             </>
           )}
         </div>

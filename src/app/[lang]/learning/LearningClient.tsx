@@ -9,14 +9,9 @@ import {
 } from "@/hooks/useLocalizedRouter";
 import {
   Search,
-  ChevronRight,
-  ChevronLeft,
-  GraduationCap,
   Calendar,
-  Eye,
   Loader2,
   ArrowLeft,
-  Clock,
 } from "lucide-react";
 import Link from "@/components/common/LocalizedLink";
 import Navbar from "@/components/Navbar";
@@ -24,6 +19,7 @@ import Footer from "@/components/Footer";
 import { SafeImage } from "@/components/ui/safe-image";
 import { useLanguageSwitcher } from "@/components/LanguageSwitcher";
 import { learningApi, LearningArticle, Category } from "@/lib/learning-api";
+import { Pagination } from "@/components/ui/pagination";
 import { getSafeSlug } from "@/lib/slug-utils";
 
 function LearningPageContent({ dict, lang }: { dict: any; lang: string }) {
@@ -436,30 +432,15 @@ function LearningPageContent({ dict, lang }: { dict: any; lang: string }) {
                 </AnimatePresence>
               </div>
 
-              {totalPages > 1 && (
-                <div className="mt-20 flex justify-center items-center gap-6">
-                  <button
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    disabled={currentPage === 1}
-                    className="w-10 h-10 rounded-full bg-white border border-neutral-200 flex items-center justify-center hover:bg-neutral-50 disabled:opacity-50 transition-all shadow-sm"
-                  >
-                    <ChevronLeft className="w-5 h-5 text-foreground" />
-                  </button>
-                  <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                    Page <span className="text-primary">{currentPage}</span> /{" "}
-                    {totalPages}
-                  </div>
-                  <button
-                    onClick={() =>
-                      setCurrentPage((p) => Math.min(totalPages, p + 1))
-                    }
-                    disabled={currentPage === totalPages}
-                    className="w-10 h-10 rounded-full bg-white border border-neutral-200 flex items-center justify-center hover:bg-neutral-50 disabled:opacity-50 transition-all shadow-sm"
-                  >
-                    <ChevronRight className="w-5 h-5 text-foreground" />
-                  </button>
-                </div>
-              )}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => {
+                  setCurrentPage(page);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="mt-20"
+              />
             </>
           )}
 

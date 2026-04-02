@@ -85,13 +85,11 @@ export const blogApi = {
     limit = 12,
     category?: string,
   ): Promise<ArticlesResponse> {
-    console.log("category", category);
     try {
       let path = `/articles?page=${page}&limit=${limit}`;
       if (category && category !== "All") {
         path += `&category[]=${encodeURIComponent(category)}`;
       }
-      console.log("path:", path);
       const res = await apiFetch(path, {}, { failoverToProduction: true });
       if (!res.ok) {
         console.error(

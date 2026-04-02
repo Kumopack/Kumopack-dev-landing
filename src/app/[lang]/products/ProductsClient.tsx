@@ -3,12 +3,13 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Box, Layers, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Box, Layers, ArrowUpRight } from "lucide-react";
 import { MinimalTabs } from "@/components/ui/minimal-tabs";
 import NextLink from "@/components/common/LocalizedLink";
 import { SafeImage } from "@/components/ui/safe-image";
 import { useEffect, useState, useCallback } from "react";
 import { Product, ProductLine, productApi } from "@/lib/product-api";
+import { Pagination } from "@/components/ui/pagination";
 
 export default function ProductsClient({ dict, lang }: { dict: any; lang: string }) {
   const language = lang;
@@ -188,63 +189,11 @@ export default function ProductsClient({ dict, lang }: { dict: any; lang: string
                     ))}
                   </div>
 
-                  {/* Pagination Controls */}
-                  {totalPages > 1 && (
-                    <div className="mt-12 flex justify-center items-center gap-2 md:gap-3">
-                      <button
-                        onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                        disabled={currentPage === 1}
-                        className="w-10 h-10 md:w-12 md:h-12 rounded-xl border border-border/50 flex items-center justify-center hover:bg-card hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-sm"
-                      >
-                        <ChevronLeft className="w-5 h-5" />
-                      </button>
-
-                      {(() => {
-                        const pages: (number | string)[] = [];
-                        if (totalPages <= 7) {
-                          for (let i = 1; i <= totalPages; i++) pages.push(i);
-                        } else {
-                          pages.push(1);
-                          if (currentPage > 3) pages.push("...");
-                          const start = Math.max(2, currentPage - 1);
-                          const end = Math.min(totalPages - 1, currentPage + 1);
-                          for (let i = start; i <= end; i++) pages.push(i);
-                          if (currentPage < totalPages - 2) pages.push("...");
-                          pages.push(totalPages);
-                        }
-                        return pages.map((p, idx) =>
-                          typeof p === "string" ? (
-                            <span
-                              key={`ellipsis-${idx}`}
-                              className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-muted-foreground/40 font-bold text-sm select-none"
-                            >
-                              ···
-                            </span>
-                          ) : (
-                            <button
-                              key={p}
-                              onClick={() => handlePageChange(p)}
-                              className={`w-10 h-10 md:w-12 md:h-12 rounded-xl text-sm font-black transition-all duration-300 ${
-                                currentPage === p
-                                  ? "bg-primary text-white shadow-glow scale-105"
-                                  : "border border-border/50 text-muted-foreground hover:border-primary hover:text-primary hover:bg-primary/5"
-                              }`}
-                            >
-                              {p}
-                            </button>
-                          ),
-                        );
-                      })()}
-
-                      <button
-                        onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                        disabled={currentPage === totalPages}
-                        className="w-10 h-10 md:w-12 md:h-12 rounded-xl border border-border/50 flex items-center justify-center hover:bg-card hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-sm"
-                      >
-                        <ChevronRight className="w-5 h-5" />
-                      </button>
-                    </div>
-                  )}
+                  <Pagination 
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
                 </>
               )}
             </div>
