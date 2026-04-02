@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import Link from "@/components/common/LocalizedLink";
 import { SafeImage } from "@/components/ui/safe-image";
-import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { learningApi, LearningArticle, Category } from "@/lib/learning-api";
 import { getSafeSlug } from "@/lib/slug-utils";
 import { useArticles, useAllArticles } from "@/hooks/use-learning-queries";
@@ -37,7 +37,7 @@ export default function LearningPageClient({
   initialFeaturedArticle,
   initialTotalPages,
 }: LearningPageClientProps) {
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage } = useTranslation();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();

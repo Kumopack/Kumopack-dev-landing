@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import { Home, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/context/LanguageContext";
 import Link from "@/components/common/LocalizedLink";
+import { useParams } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function Error({
@@ -14,7 +14,8 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  const { t, language } = useLanguage();
+  const params = useParams();
+  const language = (params?.lang as string) || "th";
   const isTh = language === "th";
 
   return (

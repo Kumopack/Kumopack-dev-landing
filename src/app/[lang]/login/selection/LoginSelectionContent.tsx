@@ -6,7 +6,7 @@ import Link from "@/components/common/LocalizedLink";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Loader2, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useState } from "react";
 import Image from "next/image";
 import Cookies from "js-cookie";
@@ -20,7 +20,7 @@ import { getAssetPath } from "@/lib/utils";
 export default function LoginSelectionContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [role, setRole] = useState<"buyer" | "supplier" | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Box, Printer, Ribbon, ShoppingBag, Cylinder, Mail } from "lucide-react";
 
 const categories = [
@@ -50,7 +50,7 @@ const categories = [
 ];
 
 const CategoriesSection = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
   return (

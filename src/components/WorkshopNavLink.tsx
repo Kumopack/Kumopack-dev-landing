@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { Sparkles, Box, RotateCcw } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const WorkshopNavLink = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [hovered, setHovered] = useState(false);
 
   return (

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Home, Ghost } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import { useLanguage, LanguageProvider } from "@/context/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function NotFound() {
   return (
@@ -16,7 +16,7 @@ export default function NotFound() {
 }
 
 function NotFoundContent() {
-  const { t, language } = useLanguage();
+  const { t, language } = useTranslation();
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4 overflow-hidden relative">

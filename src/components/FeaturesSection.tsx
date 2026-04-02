@@ -1,7 +1,7 @@
 "use client";
 
 import { MapPin, Printer, Award, Zap, Leaf, Clock } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const features = [
   {
@@ -49,7 +49,7 @@ const features = [
 ];
 
 const FeaturesSection = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   return (
     <section id="features" className="py-24 bg-accent/30 scroll-mt-24">
       <div className="container mx-auto px-6">

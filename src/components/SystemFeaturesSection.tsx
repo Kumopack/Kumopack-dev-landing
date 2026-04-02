@@ -20,7 +20,7 @@ import {
   CreditCard,
   Award,
 } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const buyerFeatures = [
   {
@@ -119,7 +119,7 @@ const factoryHighlights = [
 ];
 
 const SystemFeaturesSection = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<"buyer" | "factory">("buyer");
 
   const features = activeTab === "buyer" ? buyerFeatures : factoryFeatures;

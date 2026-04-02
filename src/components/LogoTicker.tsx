@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { getAssetPath } from "@/lib/utils";
 
 const partners = [
@@ -93,7 +93,7 @@ const partners = [
 ];
 
 const LogoTicker = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   const duplicatedPartners = [...partners, ...partners];
 
   return (

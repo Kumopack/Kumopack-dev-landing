@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useLanguage } from "@/context/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import Link from "@/components/common/LocalizedLink";
 import { Button } from "@/components/ui/button";
 import { Play, RotateCcw, Move3D } from "lucide-react";
 import { SafeImage } from "@/components/ui/safe-image";
 
 const DesignerSection = () => {
-  const { t } = useLanguage();
+  const { t } = useTranslation();
   return (
     <section
       id="designer"
