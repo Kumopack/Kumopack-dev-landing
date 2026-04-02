@@ -19,7 +19,7 @@ import {
   useParams,
   useLocalizedRouter as useRouter,
 } from "@/hooks/useLocalizedRouter";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Product, productApi, materialApi } from "@/lib/product-api";
 import { SafeImage } from "@/components/ui/safe-image";
 import { SustainabilityIcon } from "@/components/SustainabilityIcon";
@@ -52,7 +52,19 @@ export default function ProductDetailClient({
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  // Build the full list of images for the lightbox (memoized to prevent re-renders)
+  const allImages: string[] = useMemo(() => {
+    const imgs: string[] = [];
+    if (product?.featurePicturePath) imgs.push(product.featurePicturePath);
+    if (product?.images) {
+      for (const img of product.images) {
+        if (img.path && !imgs.includes(img.path)) imgs.push(img.path);
+      }
+    }
+    return imgs;
+  }, [product]);
 
   const isTh = language === "th";
 
@@ -185,7 +197,7 @@ export default function ProductDetailClient({
             <div
               className="aspect-square relative rounded-[3rem] overflow-hidden bg-muted/20 border border-border/50 shadow-inner cursor-zoom-in"
               onClick={() => {
-                setLightboxImage(mainImageToDisplay);
+                setLightboxIndex(allImages.indexOf(mainImageToDisplay) >= 0 ? allImages.indexOf(mainImageToDisplay) : 0);
                 setLightboxOpen(true);
               }}
             >
@@ -223,7 +235,8 @@ export default function ProductDetailClient({
                   <div
                     key={idx}
                     onClick={() => {
-                      setLightboxImage(img.path);
+                      const imgIndex = allImages.indexOf(img.path);
+                      setLightboxIndex(imgIndex >= 0 ? imgIndex : 0);
                       setLightboxOpen(true);
                     }}
                     className={`aspect-square relative rounded-2xl overflow-hidden bg-muted/20 border cursor-pointer transition-all border-border/50 hover:border-primary/50 hover:shadow-md`}
@@ -242,7 +255,9 @@ export default function ProductDetailClient({
             <ProductImageLightbox
               isOpen={lightboxOpen}
               onClose={() => setLightboxOpen(false)}
-              imageSrc={lightboxImage}
+              images={allImages}
+              currentIndex={lightboxIndex}
+              onIndexChange={setLightboxIndex}
               productName={isTh ? product.nameTh : product.nameEn}
             />
           </div>
