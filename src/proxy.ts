@@ -21,7 +21,10 @@ export function proxy(request: NextRequest) {
   );
 
   if (!pathnameHasLocale) {
-    const locale = defaultLocale;
+    // Read the locale preference from the NEXT_LOCALE cookie set by LanguageSwitcher
+    // Or kumopack_lang if they have an old cookie
+    const cookieLocale = request.cookies.get("NEXT_LOCALE")?.value || request.cookies.get("kumopack_lang")?.value;
+    const locale = cookieLocale && locales.includes(cookieLocale) ? cookieLocale : defaultLocale;
 
     const url = new URL(
       `/${locale}${pathname === "/" ? "" : pathname}`,
@@ -36,6 +39,6 @@ export function proxy(request: NextRequest) {
   }
 }
 
-export const config = {
+export const proxyConfig = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

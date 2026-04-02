@@ -14,12 +14,12 @@ import {
 import { MinimalTabs } from "@/components/ui/minimal-tabs";
 import Link from "@/components/common/LocalizedLink";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/context/LanguageContext";
+import { Dictionary } from "@/lib/dictionary";
 import {
   useParams,
   useLocalizedRouter as useRouter,
 } from "@/hooks/useLocalizedRouter";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { Product, productApi, materialApi } from "@/lib/product-api";
 import { SafeImage } from "@/components/ui/safe-image";
 import { SustainabilityIcon } from "@/components/SustainabilityIcon";
@@ -29,15 +29,19 @@ import { ProductImageLightbox } from "@/components/product/ProductImageLightbox"
 
 export default function ProductDetailClient({
   id: initialId,
+  dict,
+  lang,
 }: {
   id?: string;
+  dict: Dictionary;
+  lang: string;
 }) {
   const params = useParams();
   const rawId = params?.id;
   const paramId = Array.isArray(rawId) ? rawId[0] : rawId;
   const id = initialId || paramId;
 
-  const { dict, language } = useLanguage();
+  const language = lang;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -48,21 +52,20 @@ export default function ProductDetailClient({
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
-  const router = useRouter();
 
   const isTh = language === "th";
 
   const t = (key: string) => {
     const keys = key.split(".");
-    let current: any = dict;
+    let current: unknown = dict;
     for (const k of keys) {
-      if (current && current[k]) {
-        current = current[k];
+      if (current && typeof current === "object" && k in current) {
+        current = (current as Record<string, unknown>)[k];
       } else {
         return key;
       }
     }
-    return current;
+    return typeof current === "string" ? current : key;
   };
 
   useEffect(() => {
@@ -166,7 +169,7 @@ export default function ProductDetailClient({
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <Navbar />
+      <Navbar lang={lang} dict={dict} />
 
       <div className="pt-32 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="mb-8">
@@ -422,7 +425,7 @@ export default function ProductDetailClient({
                     product.sustainability.length > 0 ? (
                       <div className="flex flex-wrap gap-2">
                         {product.sustainability.map((s: any, idx: number) => (
-                          <SustainabilityIcon key={idx} item={s} />
+                          <SustainabilityIcon key={idx} item={s} lang={lang} />
                         ))}
                       </div>
                     ) : (
@@ -481,7 +484,7 @@ export default function ProductDetailClient({
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer dict={dict} />
     </main>
   );
 }

@@ -19,10 +19,9 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
-import { SafeImage } from "@/components/ui/safe-image";
 import { blogApi, Article, Category } from "@/lib/blog-api";
-import { useLanguage } from "@/context/LanguageContext";
 import { getSafeSlug } from "@/lib/slug-utils";
+import { Dictionary } from "@/lib/dictionary";
 import BlogCard from "@/components/BlogCard";
 
 interface BlogsClientProps {
@@ -35,8 +34,10 @@ export default function BlogsClient({
   initialArticles,
   initialTotalItems,
   initialCategories,
-}: BlogsClientProps) {
-  const { language, setLanguage } = useLanguage();
+  lang,
+  dict,
+}: BlogsClientProps & { lang: string; dict: Dictionary }) {
+  const language = lang;
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -91,24 +92,7 @@ export default function BlogsClient({
     fetchArticles();
   }, [currentPage, selectedCategory, limit]);
 
-  useEffect(() => {
-    const urlLang = searchParams?.get("lang");
-    if (
-      urlLang &&
-      (urlLang === "th" || urlLang === "en") &&
-      urlLang !== language
-    ) {
-      setLanguage(urlLang as "th" | "en");
-    }
-  }, [searchParams]);
 
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams?.toString() || "");
-    if (params.get("lang") !== language) {
-      params.set("lang", language);
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    }
-  }, [language, pathname, router]);
 
   const handleCategoryChange = (slug: string) => {
     const params = new URLSearchParams(searchParams?.toString() || "");
@@ -137,7 +121,7 @@ export default function BlogsClient({
 
   return (
     <main className="min-h-screen bg-kumopack-base-white selection:bg-primary/20 selection:text-primary">
-      <Navbar />
+      <Navbar lang={lang} dict={dict} />
 
       <PageHeader
         badgeTh="บรรจุภัณฑ์และนวัตกรรม"
@@ -147,6 +131,7 @@ export default function BlogsClient({
         descriptionTh="เจาะลึกทุกเรื่องราวของบรรจุภัณฑ์ เทรนด์โลก และเทคโนโลยีที่คุณไม่ควรพลาด"
         descriptionEn="Deep dive into packaging stories, global trends, and technologies you shouldn't miss."
         className="pb-2 md:pb-4"
+        lang={lang}
       />
 
       <section className="px-2 pb-6 md:pb-8">
@@ -320,7 +305,7 @@ export default function BlogsClient({
         </div>
       </section>
 
-      <Footer />
+      <Footer dict={dict} />
     </main>
   );
 }

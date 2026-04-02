@@ -1,4 +1,3 @@
-import { useLanguage } from "@/context/LanguageContext";
 import {
   Leaf,
   Recycle,
@@ -20,15 +19,16 @@ interface SustainabilityIconProps {
   item: any;
   className?: string;
   showText?: boolean;
+  lang: string;
 }
 
 export function SustainabilityIcon({
   item,
   className = "",
   showText = true,
+  lang,
 }: SustainabilityIconProps) {
-  const { language } = useLanguage();
-  const isTh = language === "th";
+  const isTh = lang === "th";
 
   const s = item.sustainability || item;
   if (!s) return null;

@@ -3,10 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Package, ArrowRight, Mail, Phone, MapPin } from "lucide-react";
 import Link from "@/components/common/LocalizedLink";
-import { useLanguage } from "@/context/LanguageContext";
 
-const Footer = () => {
-  const { dict } = useLanguage();
+const Footer = ({ dict }: { dict: any }) => {
   return (
     <footer className="mt-16 py-8 bg-foreground text-primary-foreground">
       <div className="container mx-auto px-6">

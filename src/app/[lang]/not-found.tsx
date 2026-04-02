@@ -4,10 +4,11 @@ import Link from "@/components/common/LocalizedLink";
 import { motion } from "framer-motion";
 import { ArrowLeft, Home, Ghost } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/context/LanguageContext";
+import { useParams } from "next/navigation";
 
 export default function LocalNotFound() {
-  const { t, language } = useLanguage();
+  const params = useParams();
+  const language = (params?.lang as string) || "th";
   const isTh = language === "th";
 
   return (
@@ -76,7 +77,7 @@ export default function LocalNotFound() {
           >
             <Link href="/">
               <Home className="w-6 h-6" />
-              {t("common.backToHome")}
+              {isTh ? "หน้าหลัก" : "Back to Home"}
             </Link>
           </Button>
           <Button

@@ -16,16 +16,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Supplier } from "@/data/suppliers";
 import { getBuyerAuth, BUYER_URLS } from "@/lib/auth-buyer";
-import { useLanguage } from "@/context/LanguageContext";
 
 interface SupplierActionCenterProps {
   supplier: Supplier;
+  lang: string;
 }
 
 export const SupplierActionCenter = ({
   supplier,
+  lang,
 }: SupplierActionCenterProps) => {
-  const { language } = useLanguage();
+  const language = lang;
   const [isLiking, setIsLiking] = useState(false);
 
   const handleAction = async (action: "chat" | "like" | "quote") => {

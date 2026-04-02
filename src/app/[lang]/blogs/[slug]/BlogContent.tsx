@@ -18,7 +18,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { blogApi, Article } from "@/lib/blog-api";
 import { SafeImage } from "@/components/ui/safe-image";
-import { useLanguage } from "@/context/LanguageContext";
+import { Dictionary } from "@/lib/dictionary";
 import {
   useSearchParams,
   useLocalizedRouter as useRouter,
@@ -26,30 +26,17 @@ import {
 } from "@/hooks/useLocalizedRouter";
 import { getSafeSlug } from "@/lib/slug-utils";
 
-export default function BlogContent({ blog }: { blog: Article }) {
-  const { language, setLanguage } = useLanguage();
-  const searchParams = useSearchParams();
+export default function BlogContent({ 
+  blog,
+  lang,
+  dict 
+}: { 
+  blog: Article;
+  lang: string;
+  dict: Dictionary;
+}) {
+  const language = lang;
   const router = useRouter();
-  const pathname = usePathname();
-
-  useEffect(() => {
-    const urlLang = searchParams?.get("lang");
-    if (
-      urlLang &&
-      (urlLang === "th" || urlLang === "en") &&
-      urlLang !== language
-    ) {
-      setLanguage(urlLang as "th" | "en");
-    }
-  }, [searchParams]);
-
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams?.toString() || "");
-    if (params.get("lang") !== language) {
-      params.set("lang", language);
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    }
-  }, [language, pathname, router]);
 
   useEffect(() => {
     router.refresh();
@@ -160,7 +147,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
 
   return (
     <main className="min-h-screen bg-kumopack-base-white text-foreground overflow-x-hidden">
-      <Navbar />
+      <Navbar lang={lang} dict={dict} />
 
       <style jsx global>{`
         .blog-content {
@@ -719,7 +706,7 @@ export default function BlogContent({ blog }: { blog: Article }) {
         </section>
       </article>
 
-      <Footer />
+      <Footer dict={dict} />
     </main>
   );
 }

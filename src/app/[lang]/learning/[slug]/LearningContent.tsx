@@ -19,22 +19,22 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { LearningArticle, learningApi } from "@/lib/learning-api";
 import { SafeImage } from "@/components/ui/safe-image";
-import { useLanguage } from "@/context/LanguageContext";
 import { getSafeSlug } from "@/lib/slug-utils";
-import {
-  useSearchParams,
-  useLocalizedRouter as useRouter,
-  usePathname,
-} from "@/hooks/useLocalizedRouter";
+import { useSearchParams } from "@/hooks/useLocalizedRouter";
+import { Dictionary } from "@/lib/dictionary";
 
 export default function LearningContent({
   article: initialArticle,
   audience: initialAudience = "buyer",
   isFallback: initialFallback = false,
+  lang,
+  dict,
 }: {
   article: LearningArticle;
   audience?: "buyer" | "supplier";
   isFallback?: boolean;
+  lang: string;
+  dict: Dictionary;
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentArticle, setCurrentArticle] =
@@ -45,43 +45,24 @@ export default function LearningContent({
     initialAudience,
   );
   const [isFallback, setIsFallback] = useState(initialFallback);
-  const { language, setLanguage } = useLanguage();
+  const language = lang;
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
+
 
   const lastArticleFetchRef = useRef<string | null>(null);
 
   useEffect(() => {
-    const urlLang = searchParams?.get("lang");
     const urlAudience = searchParams?.get("audience") as "buyer" | "supplier";
-
-    if (
-      urlLang &&
-      (urlLang === "th" || urlLang === "en") &&
-      urlLang !== language
-    ) {
-      setLanguage(urlLang as "th" | "en");
-    }
     if (
       urlAudience &&
       (urlAudience === "buyer" || urlAudience === "supplier")
     ) {
       setAudience(urlAudience);
     }
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
-    const urlLang = searchParams?.get("lang");
-    if (urlLang !== undefined && urlLang !== null && urlLang !== language) {
-      const params = new URLSearchParams(searchParams?.toString() || "");
-      params.set("lang", language);
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    }
-  }, [language, pathname, router, searchParams]);
-
-  useEffect(() => {
-    const urlLang = (searchParams?.get("lang") || language) as "th" | "en";
+    const urlLang = language as "th" | "en";
     const urlId = searchParams?.get("articleId") || searchParams?.get("id");
     const fetchKey = `${initialArticle.slug}-${urlLang}-${urlId || "no-id"}`;
 
@@ -165,14 +146,14 @@ export default function LearningContent({
   if (isDynamicLoading) {
     return (
       <main className="min-h-screen bg-kumopack-base-white flex flex-col">
-        <Navbar />
+        <Navbar lang={lang} dict={dict} />
         <div className="flex-1 flex flex-col items-center justify-center gap-8">
           <Loader2 className="w-16 h-16 text-primary animate-spin opacity-20" />
           <p className="text-muted-foreground font-black uppercase tracking-[0.4em] text-[10px] animate-pulse">
             Syncing Content...
           </p>
         </div>
-        <Footer />
+        <Footer dict={dict} />
       </main>
     );
   }
@@ -202,7 +183,7 @@ export default function LearningContent({
 
   return (
     <main className="min-h-screen bg-kumopack-base-white text-foreground">
-      <Navbar />
+      <Navbar lang={lang} dict={dict} />
 
       <style jsx global>{`
         @keyframes shimmer {
@@ -560,7 +541,7 @@ export default function LearningContent({
         </div>
       </article>
 
-      <Footer />
+      <Footer dict={dict} />
     </main>
   );
 }

@@ -4,14 +4,14 @@ import { useState } from "react";
 import { Boxes, ChevronDown, ChevronUp } from "lucide-react";
 import { Supplier } from "@/data/suppliers";
 import { SafeImage } from "@/components/ui/safe-image";
-import { useLanguage } from "@/context/LanguageContext";
 
 interface SupplierPortfolioProps {
   categories: Supplier["categories"];
+  lang: string;
 }
 
-export const SupplierPortfolio = ({ categories }: SupplierPortfolioProps) => {
-  const { language } = useLanguage();
+export const SupplierPortfolio = ({ categories, lang }: SupplierPortfolioProps) => {
+  const language = lang;
   const [isExpanded, setIsExpanded] = useState(false);
 
   const totalItems = categories.reduce((acc, cat) => acc + cat.items.length, 0);

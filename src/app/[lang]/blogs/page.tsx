@@ -3,7 +3,11 @@ import { blogApi } from "@/lib/blog-api";
 import BlogsClient from "./BlogsClient";
 import { Loader2 } from "lucide-react";
 
-export default async function BlogsPage() {
+import { getDictionary, Locale } from "@/lib/dictionary";
+
+export default async function BlogsPage(props: { params: Promise<{ lang: Locale }> }) {
+  const params = await props.params;
+  const dict = await getDictionary(params.lang);
   const category = "All";
 
   console.log("BlogsPage: Fetching initial data...");
@@ -25,6 +29,8 @@ export default async function BlogsPage() {
           initialArticles={articlesRes?.data || []}
           initialTotalItems={articlesRes.totalItems}
           initialCategories={categories}
+          lang={params.lang}
+          dict={dict}
         />
       </Suspense>
     );
@@ -43,6 +49,8 @@ export default async function BlogsPage() {
           initialArticles={[]}
           initialTotalItems={0}
           initialCategories={[]}
+          lang={params.lang}
+          dict={dict}
         />
       </Suspense>
     );

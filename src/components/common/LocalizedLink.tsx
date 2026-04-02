@@ -2,7 +2,7 @@
 
 import Link, { LinkProps } from "next/link";
 export type { LinkProps };
-import { useLanguage } from "@/context/LanguageContext";
+import { useParams } from "next/navigation";
 import React from "react";
 
 interface LocalizedLinkProps extends LinkProps {
@@ -15,7 +15,8 @@ interface LocalizedLinkProps extends LinkProps {
 
 const LocalizedLink = React.forwardRef<HTMLAnchorElement, LocalizedLinkProps>(
   ({ href, children, ...props }, ref) => {
-    const { language } = useLanguage();
+    const params = useParams();
+    const language = (params?.lang as string) || "th";
 
     const getLocalizedHref = (rawHref: string | object) => {
       if (typeof rawHref !== "string") return rawHref;

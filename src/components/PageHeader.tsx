@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useLanguage } from "@/context/LanguageContext";
 
 interface PageHeaderProps {
   badgeTh?: string;
@@ -21,9 +20,9 @@ export default function PageHeader({
   descriptionTh,
   descriptionEn,
   className = "",
-}: PageHeaderProps) {
-  const { language } = useLanguage();
-  const isTh = language === "th";
+  lang,
+}: PageHeaderProps & { lang: string }) {
+  const isTh = lang === "th";
 
   const badge = isTh ? badgeTh : badgeEn;
   const title = isTh ? titleTh : titleEn;

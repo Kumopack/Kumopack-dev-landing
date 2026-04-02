@@ -18,18 +18,18 @@ import {
   X,
 } from "lucide-react";
 import { auth } from "@/lib/auth";
-import { useLanguage } from "@/context/LanguageContext";
-import { Globe, Search } from "lucide-react";
 import { getAssetPath } from "@/lib/utils";
-import { getSafeSlug } from "@/lib/slug-utils";
+import { useLanguageSwitcher } from "./LanguageSwitcher";
 
-const Navbar = () => {
+const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const { t, language, setLanguage } = useLanguage();
+  const { switchLanguage } = useLanguageSwitcher(lang);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const t = (path: string) => path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
 
   useEffect(() => {
     setIsMounted(true);
@@ -346,10 +346,10 @@ const Navbar = () => {
             <div className="lg:hidden flex items-center gap-3">
               <div className="flex p-1 bg-muted/30 rounded-xl">
                 <button
-                  onClick={() => setLanguage(language === "th" ? "en" : "th")}
+                  onClick={() => switchLanguage(lang === "th" ? "en" : "th")}
                   className="px-3 py-1 text-xs font-bold text-primary"
                 >
-                  {language.toUpperCase()}
+                  {lang.toUpperCase()}
                 </button>
               </div>
               <button
@@ -367,14 +367,14 @@ const Navbar = () => {
             <div className="hidden lg:flex items-center gap-3">
               <div className="hidden sm:flex p-1 bg-muted/30 rounded-xl mr-2">
                 <button
-                  onClick={() => setLanguage("th")}
-                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${language === "th" ? "bg-white shadow-soft text-primary" : "text-muted-foreground hover:text-foreground"}`}
+                  onClick={() => switchLanguage("th")}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${lang === "th" ? "bg-white shadow-soft text-primary" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   TH
                 </button>
                 <button
-                  onClick={() => setLanguage("en")}
-                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${language === "en" ? "bg-white shadow-soft text-primary" : "text-muted-foreground hover:text-foreground"}`}
+                  onClick={() => switchLanguage("en")}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${lang === "en" ? "bg-white shadow-soft text-primary" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   EN
                 </button>

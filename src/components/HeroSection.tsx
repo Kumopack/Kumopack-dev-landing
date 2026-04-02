@@ -4,11 +4,10 @@ import { motion, Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "@/components/common/LocalizedLink";
 import { ArrowRight, Factory, DollarSign, Truck } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
 import { SafeImage } from "@/components/ui/safe-image";
 
-const HeroSection = () => {
-  const { t } = useLanguage();
+const HeroSection = ({ dict }: { dict: any }) => {
+  const t = (path: string) => path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },

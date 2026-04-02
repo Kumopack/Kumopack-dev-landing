@@ -21,7 +21,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 
-export default function FAQPage() {
+import { Dictionary } from "@/lib/dictionary";
+
+export default function FAQClient({ lang, dict }: { lang: string; dict: Dictionary }) {
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
   const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"buyer" | "supplier">("buyer");
@@ -45,7 +47,7 @@ export default function FAQPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar lang={lang} dict={dict} />
 
       <main className="min-h-screen bg-[#fafafa] selection:bg-primary/20">
         <PageHeader
@@ -56,6 +58,7 @@ export default function FAQPage() {
           descriptionTh="ศูนย์รวมข้อมูลและคำแนะนำที่ครอบคลุมที่สุด เพื่อยกระดับธุรกิจบรรจุภัณฑ์ของคุณให้ก้าวไกลกว่าใคร"
           descriptionEn="The most comprehensive information and guidance center to elevate your packaging business."
           className="pb-0"
+          lang={lang}
         />
 
         <section className="relative z-10 px-6 pb-12">
@@ -280,7 +283,7 @@ export default function FAQPage() {
         </section>
       </main>
 
-      <Footer />
+      <Footer dict={dict} />
     </>
   );
 }

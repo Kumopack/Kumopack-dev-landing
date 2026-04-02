@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Locale, getDictionary } from "@/lib/dictionary";
 import { ArrowLeft } from "lucide-react";
 import Link from "@/components/common/LocalizedLink";
 import { suppliers, getSupplierData } from "@/data/suppliers";
@@ -19,10 +20,11 @@ export const dynamicParams = false;
 export default async function SupplierDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; lang: string }>;
 }) {
-  const { id } = await params;
+  const { id, lang } = await params;
   const supplier = await getSupplierData(id);
+  const dict = await getDictionary(lang as Locale);
 
   if (!supplier) {
     notFound();
@@ -30,7 +32,7 @@ export default async function SupplierDetailPage({
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <Navbar />
+      <Navbar lang={lang} dict={dict} />
 
       <section className="pt-32 pb-24 overflow-x-hidden">
         <div className="container mx-auto px-4 md:px-8 max-w-7xl">
@@ -48,19 +50,19 @@ export default async function SupplierDetailPage({
 
           <div className="grid lg:grid-cols-12 gap-12 mt-12 md:mt-32">
             <div className="lg:col-span-8 space-y-24">
-              <SupplierOverview supplier={supplier} />
+              <SupplierOverview supplier={supplier} lang={lang} />
               <SupplierStats stats={supplier.stats} />
-              <SupplierCapabilities features={supplier.features} />
-              <SupplierPortfolio categories={supplier.categories} />
+              <SupplierCapabilities features={supplier.features} lang={lang} />
+              <SupplierPortfolio categories={supplier.categories} lang={lang} />
               <SupplierGallery gallery={supplier.gallery} />
             </div>
 
-            <SupplierActionCenter supplier={supplier} />
+            <SupplierActionCenter supplier={supplier} lang={lang} />
           </div>
         </div>
       </section>
 
-      <Footer />
+      <Footer dict={dict} />
     </main>
   );
 }

@@ -19,25 +19,35 @@ const GallerySection = dynamic(() => import("@/components/GallerySection"));
 const BlogSection = dynamic(() => import("@/components/BlogSection"));
 const LogoTicker = dynamic(() => import("@/components/LogoTicker"));
 
-export default async function Home() {
+import { getDictionary } from "@/lib/dictionary";
+import { Locale } from "@/lib/dictionary";
+
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang);
+  
   const articlesResponse = await blogApi.getArticles(1, 3);
   const articles = articlesResponse.data;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <Navbar />
+      <Navbar lang={lang} dict={dict} />
       <PromoPopup />
-      <HeroSection />
+      <HeroSection dict={dict} />
       <GallerySection />
-      <ValueProposition />
-      <HowItWorks />
+      <ValueProposition dict={dict} />
+      <HowItWorks dict={dict} />
       <FeaturesSection />
       <DesignerSection />
       <MarketplaceSection />
       <CategoriesSection />
       <BlogSection articles={articles} />
       <LogoTicker />
-      <Footer />
+      <Footer dict={dict} />
     </main>
   );
 }

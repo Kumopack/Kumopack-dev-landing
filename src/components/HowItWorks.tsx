@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Paintbrush, MessageSquare, Package, Zap } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
 
 const steps = [
   {
@@ -43,8 +42,8 @@ const steps = [
   },
 ];
 
-const HowItWorks = () => {
-  const { t } = useLanguage();
+const HowItWorks = ({ dict }: { dict: any }) => {
+  const t = (path: string) => path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
 
   return (
     <section

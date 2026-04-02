@@ -231,4 +231,29 @@ export const en = {
     step4Desc:
       "Once approved, your packaging goes into production and ships directly to your door.",
   },
+  valueProposition: {
+    titleMain: "Direct Connection to ",
+    titleHighlight: "Manufacturers",
+    subtitle:
+      "Expanding Sales Channels: Bridging Buyers and Producers. We connect you directly with certified manufacturers, eliminating middlemen and ensuring quality at competitive prices.",
+    stats: {
+      projects: {
+        value: "400+",
+        label: "Successful Projects",
+      },
+      savings: {
+        value: "27%",
+        label: "Average Cost Savings",
+      },
+      satisfaction: {
+        value: "94%",
+        label: "User Satisfaction Rate",
+      },
+      manufacturers: {
+        value: "200+",
+        label: "Standard-Certified Manufacturers",
+      },
+    },
+  },
 };
+

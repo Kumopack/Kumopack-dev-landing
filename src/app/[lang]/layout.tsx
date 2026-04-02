@@ -1,5 +1,18 @@
 import type { Metadata } from "next";
-import { LanguageProvider } from "@/context/LanguageContext";
+import { Noto_Sans_Thai, Noto_Sans } from "next/font/google";
+import "@/app/globals.css";
+
+const notoTh = Noto_Sans_Thai({
+  variable: "--font-noto-thai",
+  subsets: ["thai", "latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
+
+const notoEn = Noto_Sans({
+  variable: "--font-noto-en",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Kumopack | The Absolute Packaging Solutions",
@@ -18,9 +31,20 @@ export default async function LocaleLayout({
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
 }) {
-  // We await params even if not currently using lang here,
-  // to avoid Next.js warnings about unwrapped promises in layouts.
-  await params;
+  const { lang } = await params;
 
-  return <LanguageProvider>{children}</LanguageProvider>;
+  return (
+    <html
+      lang={lang}
+      className={`${notoTh.variable} ${notoEn.variable}`}
+      suppressHydrationWarning
+    >
+      <body
+        className="antialiased font-sans overflow-x-hidden"
+        suppressHydrationWarning
+      >
+        {children}
+      </body>
+    </html>
+  );
 }

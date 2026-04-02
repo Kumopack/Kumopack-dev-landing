@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ExternalLink, Megaphone, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/context/LanguageContext";
+import { useParams } from "next/navigation";
 import { SafeImage } from "@/components/ui/safe-image";
 
 const POPUP_STORAGE_KEY = "kumopack_promo_closed_at";
@@ -12,7 +12,8 @@ const POPUP_STORAGE_KEY = "kumopack_promo_closed_at";
 export const PromoPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const { language } = useLanguage();
+  const params = useParams();
+  const language = (params?.lang as string) || "th";
 
   useEffect(() => {
     setIsMounted(true);

@@ -4,6 +4,7 @@ import LearningContent from "./LearningContent";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Loader2 } from "lucide-react";
+import { getDictionary, Locale } from "@/lib/dictionary";
 
 import { getSafeSlug, slugMatches } from "@/lib/slug-utils";
 
@@ -57,11 +58,12 @@ export async function generateStaticParams() {
 export default async function LearningDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; lang: Locale }>;
 }) {
-  const { slug: rawId } = await params;
+  const { slug: rawId, lang } = await params;
+  const dict = await getDictionary(lang);
   const audience = "buyer";
-  const language = "th";
+  const language = lang;
   const slug = String(rawId);
 
   let decodedSlug = slug;
@@ -170,6 +172,8 @@ export default async function LearningDetailPage({
         article={article}
         audience={audience}
         isFallback={isFallback}
+        lang={lang}
+        dict={dict}
       />
     </Suspense>
   );

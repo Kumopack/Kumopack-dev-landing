@@ -2,7 +2,9 @@
 
 import { motion } from "framer-motion";
 
-const ValueProposition = () => {
+const ValueProposition = ({ dict }: { dict: Record<string, any> }) => {
+  const t = (path: string) => path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
+
   return (
     <section
       id="about"
@@ -38,24 +40,22 @@ const ValueProposition = () => {
           >
             <div className="space-y-4">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-                Direct Connection to{" "}
+                {t("valueProposition.titleMain")}
                 <span className="text-primary font-extrabold">
-                  Manufacturers
+                  {t("valueProposition.titleHighlight")}
                 </span>
               </h2>
               <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-                Expanding Sales Channels: Bridging Buyers and Producers. We
-                connect you directly with certified manufacturers, eliminating
-                middlemen and ensuring quality at competitive prices.
+                {t("valueProposition.subtitle")}
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:gap-6">
               {[
-                { value: "400+", label: "Successful Projects" },
-                { value: "27%", label: "Average Cost Savings" },
-                { value: "94%", label: "User Satisfaction Rate" },
-                { value: "200+", label: "Standard-Certified Manufacturers" },
+                { value: t("valueProposition.stats.projects.value"), label: t("valueProposition.stats.projects.label") },
+                { value: t("valueProposition.stats.savings.value"), label: t("valueProposition.stats.savings.label") },
+                { value: t("valueProposition.stats.satisfaction.value"), label: t("valueProposition.stats.satisfaction.label") },
+                { value: t("valueProposition.stats.manufacturers.value"), label: t("valueProposition.stats.manufacturers.label") },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
