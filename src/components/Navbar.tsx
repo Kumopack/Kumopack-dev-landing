@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Link from "@/components/common/LocalizedLink";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -22,24 +22,25 @@ import {
 import { auth } from "@/lib/auth";
 import { getAssetPath } from "@/lib/utils";
 import { useLanguageSwitcher } from "./LanguageSwitcher";
-import { getSafeSlug } from "@/lib/slug-utils";
 import EventsNavCard from "@/components/EventsNavCard";
 import WorkshopNavLink from "@/components/WorkshopNavLink";
 
-const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
+// Subscribe to storage events so auth state stays in sync across tabs
+const subscribeToAuth = (callback: () => void) => {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+};
+const getAuthSnapshot = () => auth.isAuthenticated();
+const getAuthServerSnapshot = (): boolean | null => null;
+
+const Navbar = ({ lang, dict }: { lang: string; dict: unknown }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const isLoggedIn = useSyncExternalStore(subscribeToAuth, getAuthSnapshot, getAuthServerSnapshot);
   const { switchLanguage } = useLanguageSwitcher(lang);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const t = (path: string) => path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
-
-  useEffect(() => {
-    setIsMounted(true);
-    setIsLoggedIn(auth.isAuthenticated());
-  }, []);
+  const t = (path: string) => (path.split('.').reduce((obj: unknown, key) => (obj as Record<string, unknown>)?.[key], dict) as string) || path;
 
   const handleMouseEnter = (menu: string) => {
     if (timeoutId) {
@@ -71,16 +72,6 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
                   className="h-full w-auto object-contain"
                   priority
                 />
-              </div>
-              <div className="hidden md:flex flex-col">
-                <span className="text-[9px] font-bold text-primary/80 tracking-[0.08em] leading-tight">
-                  The Absolute Packaging Solutions
-                </span>
-                <span className="text-[8px] text-muted-foreground/60 leading-tight">
-                  {lang === "th"
-                    ? "ครบ จบ เรื่องบรรจุภัณฑ์"
-                    : "Complete packaging for your business"}
-                </span>
               </div>
             </Link>
 
@@ -372,7 +363,7 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
                 </button>
               </div>
 
-              {isMounted &&
+              {isLoggedIn !== null &&
                 (isLoggedIn ? (
                   <>
                     <Link href="/login/selection">

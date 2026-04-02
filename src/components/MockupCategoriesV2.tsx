@@ -112,7 +112,7 @@ const MockupCategoriesV2 = () => {
             className="text-3xl md:text-4xl font-black text-foreground tracking-tight leading-[1.1] mb-4"
           >
             {t("mockupCategories.heading")}{" "}
-            <span className="bg-gradient-to-r from-primary via-primary/80 to-accent bg-clip-text text-transparent">
+            <span className="text-primary">
               {t("mockupCategories.headingAccent")}
             </span>
           </motion.h2>
@@ -163,8 +163,7 @@ const MockupCategoriesV2 = () => {
                 </div>
               </div>
 
-              {}
-              <div className="absolute right-0 inset-y-0 w-[40%] bg-neutral-50/50 flex items-center justify-center p-3">
+              <div className="absolute right-0 inset-y-0 w-[40%] bg-transparent flex items-center justify-center p-3">
                 <div className="relative w-full h-full">
                   <Image
                     src={category.image}
