@@ -1,4 +1,4 @@
-import { API_BASE_URL, API_IMAGE_URL } from "./api-config";
+import { API_IMAGE_URL } from "./api-config";
 import { apiFetch } from "./api-client";
 
 export interface Category {
@@ -20,6 +20,8 @@ export interface Article {
   shortDescriptionEn: string;
   descriptionTh?: string;
   descriptionEn?: string;
+  contentTh?: string;
+  contentEn?: string;
   conclusionTh?: string;
   conclusionEn?: string;
   featurePicturePath: string;

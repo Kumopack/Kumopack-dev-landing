@@ -13,17 +13,15 @@ import {
   ChevronRight,
   AlertCircle,
   User,
+  LightbulbIcon,
+  ClipboardListIcon,
+  MessageCircle,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { blogApi, Article } from "@/lib/blog-api";
 import { SafeImage } from "@/components/ui/safe-image";
 import { Dictionary } from "@/lib/dictionary";
-import {
-  useSearchParams,
-  useLocalizedRouter as useRouter,
-  usePathname,
-} from "@/hooks/useLocalizedRouter";
 import { getSafeSlug } from "@/lib/slug-utils";
 
 export default function BlogContent({ 
@@ -36,7 +34,6 @@ export default function BlogContent({
   dict: Dictionary;
 }) {
   const language = lang;
-  const router = useRouter();
 
   const [related, setRelated] = useState<Article[]>([]);
   const [loadingRelated, setLoadingRelated] = useState(true);
@@ -50,22 +47,19 @@ export default function BlogContent({
   const name = isTh ? blog.nameTh : blog.nameEn || blog.nameTh;
   const description =
     (isTh
-      ? blog.descriptionTh || (blog as any).contentTh
+      ? blog.descriptionTh || blog.contentTh
       : blog.descriptionEn ||
-        (blog as any).contentEn ||
+        blog.contentEn ||
         blog.descriptionTh ||
-        (blog as any).contentTh) || "";
+        blog.contentTh) || "";
 
   const shortDescription = isTh
     ? blog.shortDescriptionTh
     : blog.shortDescriptionEn || blog.shortDescriptionTh;
 
   const conclusion = isTh
-    ? blog.conclusionTh || (blog as any).conclusionTh
-    : blog.conclusionEn ||
-      (blog as any).conclusionEn ||
-      blog.conclusionTh ||
-      (blog as any).conclusionTh;
+    ? blog.conclusionTh
+    : blog.conclusionEn || blog.conclusionTh;
 
   useEffect(() => {
     const fetchRelated = async () => {
@@ -374,11 +368,8 @@ export default function BlogContent({
               )}
 
               <div className="glass-premium p-8 rounded-[2.5rem] relative overflow-hidden group border border-white/40 shadow-soft">
-                <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                  <Sparkles className="w-12 h-12 text-primary" />
-                </div>
                 <h5 className="text-[14px] font-black text-primary mb-4 flex items-center gap-2 uppercase tracking-widest">
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <LightbulbIcon className="w-6 h-6" />
                   Expert Insight
                 </h5>
                 <p className="text-[16px] font-bold leading-relaxed text-foreground/70 mb-8">
@@ -416,16 +407,16 @@ export default function BlogContent({
               <div className="flex gap-3">
                 <button
                   onClick={() => handleShare("facebook")}
-                  className="flex-1 h-14 rounded-2xl bg-neutral-100/50 hover:bg-primary/10 text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all border border-transparent hover:border-primary/20 text-foreground/60 hover:text-primary group"
+                  className="flex-1 h-14 rounded-2xl bg-neutral-100/50 hover:bg-primary/10 text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all border border-transparent hover:border-primary/20 text-foreground/60 hover:text-primary group cursor-pointer"
                 >
                   <Share2 className="w-4 h-4 group-hover:scale-110 transition-transform" />{" "}
                   FB
                 </button>
                 <button
                   onClick={() => handleShare("line")}
-                  className="flex-1 h-14 rounded-2xl bg-neutral-100/50 hover:bg-primary/10 text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all border border-transparent hover:border-primary/20 text-foreground/60 hover:text-primary group"
+                  className="flex-1 h-14 rounded-2xl bg-neutral-100/50 hover:bg-primary/10 text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-2 transition-all border border-transparent hover:border-primary/20 text-foreground/60 hover:text-primary group cursor-pointer"
                 >
-                  <Sparkles className="w-4 h-4 group-hover:scale-110 transition-transform" />{" "}
+                  <MessageCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />{" "}
                   Line
                 </button>
               </div>
@@ -497,7 +488,7 @@ export default function BlogContent({
                 </div>
               </header>
 
-              <div className="relative w-full aspect-[16/8] rounded-2xl overflow-hidden mb-12 shadow-lg border border-neutral-100/50 group">
+              <div className="relative w-full aspect-16/8 rounded-2xl overflow-hidden mb-12 shadow-lg border border-neutral-100/50 group">
                 <SafeImage
                   src={blogApi.getAssetPath(blog.featurePicturePath)}
                   alt={name}
@@ -507,14 +498,14 @@ export default function BlogContent({
               </div>
 
               {shortDescription && (
-                <div className="mb-8 relative px-2 md:px-4 py-2 md:py-4 bg-neutral-50/50 rounded-3xl border border-neutral-100">
-                  <div className="absolute -top-6 left-6 text-primary/20 text-[60px] md:text-[80px] font-serif leading-none select-none">
+                <div className="mb-8 relative py-8 px-10 bg-neutral-50/50 rounded-3xl border border-neutral-100">
+                  <div className="absolute top-3 left-6 text-primary/20 text-[60px] md:text-[80px] font-serif leading-none select-none">
                     “
                   </div>
-                  <p className="text-xl md:text-2xl font-bold leading-relaxed text-foreground/70 italic text-center relative z-10 px-4">
+                  <p className="text-xl md:text-2xl font-bold leading-relaxed text-foreground/70 italic text-center relative z-10">
                     {shortDescription}
                   </p>
-                  <div className="absolute -bottom-0 right-6 text-primary/20 text-[60px] md:text-[80px] font-serif leading-none select-none rotate-180">
+                  <div className="absolute bottom-3 right-6 text-primary/20 text-[60px] md:text-[80px] font-serif leading-none select-none rotate-180">
                     “
                   </div>
                 </div>
@@ -574,10 +565,10 @@ export default function BlogContent({
                   >
                     <div className="absolute top-0 left-0 w-1 h-full bg-[#b5a4d4] transition-all duration-700"></div>
                     <h4
-                      className="font-black text-2xl md:text-3xl mb-8 flex items-center gap-4"
+                      className="font-black text-2xl md:text-3xl mb-8 flex items-center gap-2"
                       style={{ color: "#b5a4d4" }}
                     >
-                      <Sparkles className="w-8 h-8 opacity-50" />
+                      <ClipboardListIcon className="w-10 h-10 opacity-50" />
                       {isTh ? "บทสรุป" : "Summary"}
                     </h4>
                     <div
@@ -591,14 +582,14 @@ export default function BlogContent({
                   <div className="mt-12 pt-8 border-t border-dashed border-neutral-200">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-sm font-bold text-muted-foreground mr-2">
-                        Tags:
+                        Keywords:
                       </span>
                       {blog.keywords.map((kw, index) => (
                         <div
                           key={`blog-${blog.id}-keyword-${index}`}
                           className="px-3 py-1.5 rounded-lg bg-neutral-100/80 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary transition-colors cursor-default"
                         >
-                          #{kw.keyword}
+                          {kw.keyword}
                         </div>
                       ))}
                     </div>
@@ -653,23 +644,20 @@ export default function BlogContent({
                 const aName = isTh
                   ? article.nameTh
                   : article.nameEn || article.nameTh;
-                const aDesc = isTh
-                  ? article.shortDescriptionTh
-                  : article.shortDescriptionEn || article.shortDescriptionTh;
                 return (
                   <Link
                     key={article.id}
                     href={`/blogs/${getSafeSlug(article.slug)}`}
                     className="group block min-w-[220px] md:min-w-[280px] snap-center"
                   >
-                    <div className="aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-neutral-200/60 relative bg-white shadow-sm hover:shadow-md transition-all duration-500">
+                    <div className="aspect-4/5 rounded-[2.5rem] overflow-hidden border border-neutral-200/60 relative bg-white shadow-sm hover:shadow-md transition-all duration-500">
                       <SafeImage
                         src={blogApi.getAssetPath(article.featurePicturePath)}
                         alt={aName}
                         fill={true}
                         className="object-cover group-hover:scale-105 transition-transform duration-[1.5s]"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent p-5 flex flex-col justify-end">
+                      <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent p-5 flex flex-col justify-end">
                         <div className="flex items-center gap-2 mb-2">
                           <span className="w-1.5 h-1.5 rounded-full bg-primary" />
                           <span className="text-[9px] font-bold text-white/80 uppercase tracking-widest">
@@ -680,7 +668,7 @@ export default function BlogContent({
                           {aName}
                         </h4>
                         <div className="text-[10px] font-medium text-white/60 flex items-center gap-2 mt-2">
-                          <span className="w-5 h-[1px] bg-white/40" />
+                          <span className="w-5 h-px bg-white/40" />
                           {article.createdBy?.name ||
                             article.author ||
                             "KUMOPACK Team"}

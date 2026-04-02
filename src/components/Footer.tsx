@@ -5,8 +5,9 @@ import { ArrowRight, Mail, Phone, MapPin } from "lucide-react";
 import Link from "@/components/common/LocalizedLink";
 import Image from "next/image";
 import { getAssetPath } from "@/lib/utils";
+import { Dictionary } from "@/lib/translation";
 
-const Footer = ({ dict }: { dict: any }) => {
+const Footer = ({ dict }: { dict: Dictionary }) => {
   return (
     <footer className="mt-16 py-8 bg-foreground text-primary-foreground">
       <div className="container mx-auto px-6">
@@ -89,7 +90,7 @@ const Footer = ({ dict }: { dict: any }) => {
             <ul className="space-y-2 text-primary-foreground/60 text-sm">
               <li>
                 <Link
-                  href="/about-us"
+                  href="/contact"
                   className="hover:text-primary-foreground transition-colors"
                 >
                   {dict.nav.contact}
@@ -113,7 +114,7 @@ const Footer = ({ dict }: { dict: any }) => {
               </li>
               <li>
                 <Link
-                  href="/contact"
+                  href="/blogs"
                   className="hover:text-primary-foreground transition-colors"
                 >
                   {dict.nav.blog}
