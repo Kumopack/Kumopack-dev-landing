@@ -232,18 +232,18 @@ export const en = {
       "Once approved, your packaging goes into production and ships directly to your door.",
   },
   valueProposition: {
-    titleMain: "Direct Connection to ",
-    titleHighlight: "Manufacturers",
+    titleMain: "Kumopack ",
+    titleHighlight: "What do we do?",
     subtitle:
-      "Expanding Sales Channels: Bridging Buyers and Producers. We connect you directly with certified manufacturers, eliminating middlemen and ensuring quality at competitive prices.",
+      "We are a platform that makes finding packaging manufacturers easier by bringing together quality factories in one place, so you can search, compare, and connect with manufacturers that match your business needs — conveniently, quickly, and with greater confidence.",
     stats: {
       projects: {
         value: "400+",
-        label: "Successful Projects",
+        label: "Deals Closed",
       },
       savings: {
         value: "27%",
-        label: "Average Cost Savings",
+        label: "Average Cost Reduction",
       },
       satisfaction: {
         value: "94%",
@@ -251,7 +251,7 @@ export const en = {
       },
       manufacturers: {
         value: "200+",
-        label: "Standard-Certified Manufacturers",
+        label: "Vetted Factories",
       },
     },
   },
