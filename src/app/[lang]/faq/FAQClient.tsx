@@ -262,19 +262,19 @@ export default function FAQClient({ lang, dict }: { lang: string; dict: Dictiona
                     <MessageCircle className="w-6 h-6 text-primary" />
                   </div>
                   <div className="text-3xl font-black text-white mb-2">
-                    24/7
+                    FREE DESIGN
                   </div>
                   <div className="text-white/40 font-bold text-sm tracking-widest">
-                    LIVE SOLUTIONS
+                    Idea to Structure
                   </div>
                 </div>
                 <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-[2rem]">
                   <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mb-6">
                     <Sparkles className="w-6 h-6 text-primary" />
                   </div>
-                  <div className="text-3xl font-black text-white mb-2">PRO</div>
+                  <div className="text-3xl font-black text-white mb-2">SMART MATCHING</div>
                   <div className="text-white/40 font-bold text-sm tracking-widest">
-                    EXPERT AUDIT
+                    Idea to Structure
                   </div>
                 </div>
               </div>
