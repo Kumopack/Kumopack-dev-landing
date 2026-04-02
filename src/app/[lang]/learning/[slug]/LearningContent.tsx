@@ -25,12 +25,14 @@ import { Dictionary } from "@/lib/dictionary";
 
 export default function LearningContent({
   article: initialArticle,
+  relatedArticles = [],
   audience: initialAudience = "buyer",
   isFallback: initialFallback = false,
   lang,
   dict,
 }: {
   article: LearningArticle;
+  relatedArticles?: LearningArticle[];
   audience?: "buyer" | "supplier";
   isFallback?: boolean;
   lang: string;
@@ -40,7 +42,6 @@ export default function LearningContent({
   const [currentArticle, setCurrentArticle] =
     useState<LearningArticle>(initialArticle);
   const [isDynamicLoading, setIsDynamicLoading] = useState(false);
-  const [relatedArticles, setRelatedArticles] = useState<LearningArticle[]>([]);
   const [audience, setAudience] = useState<"buyer" | "supplier">(
     initialAudience,
   );
@@ -118,37 +119,13 @@ export default function LearningContent({
 
   const article = currentArticle;
   const isTh = language === "th";
-  const lastFetchedRef = useRef<{ slug: string; lang: string } | null>(null);
-
-  useEffect(() => {
-    if (
-      lastFetchedRef.current?.slug === article.slug &&
-      lastFetchedRef.current?.lang === language
-    ) {
-      return;
-    }
-
-    const fetchRelated = async () => {
-      try {
-        const related = await learningApi.getRelatedArticles(
-          article.slug,
-          language,
-        );
-        setRelatedArticles(related);
-        lastFetchedRef.current = { slug: article.slug, lang: language };
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchRelated();
-  }, [article.slug, language]);
 
   if (isDynamicLoading) {
     return (
       <main className="min-h-screen bg-kumopack-base-white flex flex-col">
         <Navbar lang={lang} dict={dict} />
-        <div className="flex-1 flex flex-col items-center justify-center gap-8">
-          <Loader2 className="w-16 h-16 text-primary animate-spin opacity-20" />
+        <div className="flex-1 flex flex-col items-center justify-center gap-8" role="status" aria-label="Loading content">
+          <Loader2 className="w-16 h-16 text-primary animate-spin opacity-20" aria-hidden="true" />
           <p className="text-muted-foreground font-black uppercase tracking-[0.4em] text-[10px] animate-pulse">
             Syncing Content...
           </p>
@@ -239,9 +216,10 @@ export default function LearningContent({
                       <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-all">
                         <button
                           onClick={() => setIsPlaying(true)}
+                          aria-label={isTh ? "เล่นวิดีโอ" : "Play video"}
                           className="w-24 h-24 rounded-full bg-primary text-white flex items-center justify-center shadow-glow transform transition-all group-hover:scale-110 active:scale-95"
                         >
-                          <Play className="w-10 h-10 fill-current" />
+                          <Play className="w-10 h-10 fill-current" aria-hidden="true" />
                         </button>
                       </div>
                     )}
@@ -265,9 +243,9 @@ export default function LearningContent({
 
               <div className="space-y-6">
                 {isFallback && (
-                  <div className="flex items-center gap-3 px-6 py-4 bg-amber-50 text-amber-700 rounded-3xl text-[12px] font-black uppercase tracking-widest border border-amber-100/50 animate-pulse mb-8 overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
-                    <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                  <div role="alert" className="flex items-center gap-3 px-6 py-4 bg-amber-50 text-amber-700 rounded-3xl text-[12px] font-black uppercase tracking-widest border border-amber-100/50 animate-pulse mb-8 overflow-hidden relative">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" aria-hidden="true" />
+                    <AlertCircle className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
                     {isTh
                       ? "การแสดงผลนี้ใช้ภาษาเริ่มต้น เนื่องจากยังไม่รองรับภาษาที่คุณเลือก"
                       : "Showing default language as the selected language is currently unavailable"}
@@ -288,16 +266,20 @@ export default function LearningContent({
                 </div>
                 <div className="flex flex-wrap items-center gap-8 py-8 border-y border-neutral-100">
                   <div className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-muted-foreground/60">
-                    <Calendar className="w-4 h-4 text-primary" />
-                    {article.publishedAt || article.date
-                      ? new Date(
+                    <Calendar className="w-4 h-4 text-primary" aria-hidden="true" />
+                    {article.publishedAt || article.date ? (
+                      <time dateTime={new Date(article.publishedAt || article.date).toISOString()}>
+                        {new Date(
                           article.publishedAt || article.date,
                         ).toLocaleDateString(isTh ? "th-TH" : "en-US", {
                           year: "numeric",
                           month: "long",
                           day: "numeric",
-                        })
-                      : "Recent"}
+                        })}
+                      </time>
+                    ) : (
+                      <span>Recent</span>
+                    )}
                   </div>
                   <div className="flex items-center gap-3 text-xs font-black uppercase tracking-widest text-muted-foreground/60">
                     <Eye className="w-4 h-4 text-primary" />
@@ -314,9 +296,10 @@ export default function LearningContent({
                   </div>
                   <button
                     onClick={handleShare}
+                    aria-label={isTh ? "แชร์บทความนี้" : "Share this article"}
                     className="ml-auto flex items-center gap-3 px-6 py-3 rounded-2xl bg-neutral-50 text-xs font-black uppercase tracking-widest text-primary hover:bg-primary hover:text-white transition-all shadow-sm"
                   >
-                    <Share2 className="w-4 h-4" />
+                    <Share2 className="w-4 h-4" aria-hidden="true" />
                     {isTh ? "แชร์บทความ" : "Share"}
                   </button>
                 </div>
@@ -354,7 +337,7 @@ export default function LearningContent({
                   {article.tags?.map((tag) => (
                     <span
                       key={tag.id}
-                      className="px-5 py-2.5 rounded-2xl bg-neutral-50 border border-neutral-100 text-xs font-black text-muted-foreground/60 hover:text-primary hover:border-primary/20 cursor-pointer transition-all"
+                      className="px-5 py-2.5 rounded-2xl bg-neutral-50 border border-neutral-100 text-xs font-black text-muted-foreground/60 transition-all"
                     >
                       #{tag.name}
                     </span>
@@ -363,7 +346,7 @@ export default function LearningContent({
               </div>
             </div>
 
-            <aside className="space-y-12">
+            <aside className="space-y-12" aria-label={isTh ? "ข้อมูลบทความ" : "Article information"}>
               <div className="sticky top-32 space-y-12">
                 <div className="p-10 rounded-[3rem] bg-white border border-neutral-100 shadow-float space-y-8">
                   <div className="space-y-6">
@@ -429,12 +412,10 @@ export default function LearningContent({
                           href={article.tutorialUrl || article.tutorial?.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block pt-2"
+                          className="block pt-2 w-full py-4 rounded-xl bg-primary text-white font-black text-xs uppercase tracking-[0.2em] shadow-glow hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
                         >
-                          <button className="w-full py-4 rounded-xl bg-primary text-white font-black text-xs uppercase tracking-[0.2em] shadow-glow hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
-                            {isTh ? "ลองทำเลย!" : "Get Started!"}
-                            <ArrowLeft className="w-4 h-4 rotate-180" />
-                          </button>
+                          {isTh ? "ลองทำเลย!" : "Get Started!"}
+                          <ArrowLeft className="w-4 h-4 rotate-180" aria-hidden="true" />
                         </a>
                       </div>
                     </div>
@@ -452,10 +433,11 @@ export default function LearningContent({
                             ? "ยกระดับธุรกิจของคุณด้วยคำแนะนำจากผู้เชี่ยวชาญแบบ 1-ต่อ-1"
                             : "Optimize your packaging strategy with our 1-on-1 expert sessions."}
                         </p>
-                        <Link href="/pricing" className="block pt-2">
-                          <button className="w-full py-4 rounded-xl bg-white border border-neutral-200 text-foreground font-black text-xs uppercase tracking-[0.2em] hover:bg-neutral-50 transition-all">
-                            {isTh ? "ดูแผนราคา" : "Explore Plans"}
-                          </button>
+                        <Link
+                          href="/pricing"
+                          className="block pt-2 w-full py-4 rounded-xl bg-white border border-neutral-200 text-foreground font-black text-xs uppercase tracking-[0.2em] hover:bg-neutral-50 transition-all text-center"
+                        >
+                          {isTh ? "ดูแผนราคา" : "Explore Plans"}
                         </Link>
                       </div>
                     </div>

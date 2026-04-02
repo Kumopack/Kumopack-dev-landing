@@ -120,20 +120,17 @@ export default function ProductDetailClient({
   useEffect(() => {
     if (!product || !product.slug) return;
 
-    const expectedPath = `/products/${product.slug}`;
     const expectedQuery = `?lang=${language}`;
+    const decodedCurrentPath = decodeURIComponent(window.location.pathname);
+    const expectedEnd = `/products/${product.slug}`;
 
-    const currentPath = window.location.pathname;
-    const currentSearch = window.location.search;
-
-    const isPathMismatch =
-      decodeURIComponent(currentPath) !== decodeURIComponent(expectedPath);
-    const isQueryMismatch = currentSearch !== expectedQuery;
+    const isPathMismatch = !decodedCurrentPath.endsWith(expectedEnd);
+    const isQueryMismatch = window.location.search !== expectedQuery;
 
     if (isPathMismatch || isQueryMismatch) {
-      window.history.replaceState(null, "", `${expectedPath}${expectedQuery}`);
+      router.replace(`/products/${product.slug}${expectedQuery}`, { scroll: false });
     }
-  }, [product, language]);
+  }, [product, language, router]);
 
   if (loading) {
     return (
@@ -295,7 +292,6 @@ export default function ProductDetailClient({
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-6"
                 >
-                  {/* Short Description */}
                   {shortDesc && (
                     <p className="text-xl font-medium text-foreground/80 leading-relaxed">
                       {shortDesc}

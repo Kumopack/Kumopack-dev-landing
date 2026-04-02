@@ -1,7 +1,7 @@
 "use client";
 
 import { Award } from "lucide-react";
-import { Supplier } from "@/data/suppliers";
+import { Supplier } from "@/types/supplier";
 import { SafeImage } from "@/components/ui/safe-image";
 import {
   Popover,
@@ -71,21 +71,26 @@ const FeatureItem = ({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="w-16 h-16 rounded-2xl bg-white shadow-sm border border-border/50 p-3 cursor-pointer hover:scale-110 hover:shadow-lg hover:border-primary/30 transition-all duration-300 flex items-center justify-center group relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-white to-accent/30 opacity-0 group-hover:opacity-100 transition-opacity" />
-          <div className="relative w-full h-full">
-            <SafeImage
-              src={feature.icon}
-              alt={title}
-              className="object-contain p-1"
-            />
+        <div className="flex flex-col items-center gap-2 cursor-pointer group w-[88px]">
+          <div className="w-20 h-20 rounded-2xl bg-white shadow-sm border border-border/50 p-3 group-hover:scale-110 group-hover:shadow-lg group-hover:border-primary/30 transition-all duration-300 flex items-center justify-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white to-accent/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="relative w-full h-full">
+              <SafeImage
+                src={feature.icon}
+                alt={title}
+                className="object-contain p-0.5"
+              />
+            </div>
           </div>
+          <span className="text-[11px] font-medium text-muted-foreground text-center leading-tight line-clamp-2 group-hover:text-foreground transition-colors">
+            {title}
+          </span>
         </div>
       </PopoverTrigger>
       <PopoverContent className="w-72 p-4 rounded-xl shadow-xl border-border/50 bg-white/95 backdrop-blur-md">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-accent/20 p-1.5 border border-border/20 shrink-0">
+            <div className="w-10 h-10 rounded-lg bg-accent/20 p-1.5 border border-border/20 shrink-0">
               <SafeImage
                 src={feature.icon}
                 alt={title}
@@ -97,7 +102,7 @@ const FeatureItem = ({
             </h4>
           </div>
           {description && (
-            <p className="text-xs text-muted-foreground leading-relaxed pl-11">
+            <p className="text-xs text-muted-foreground leading-relaxed pl-[52px]">
               {description}
             </p>
           )}

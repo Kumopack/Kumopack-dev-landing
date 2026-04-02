@@ -53,7 +53,7 @@ export default function PageHeader({
           )}
 
           <div className="flex flex-col items-center gap-2 md:gap-3">
-            <h1 className="text-3xl md:text-6xl font-black tracking-tight text-foreground leading-[1.2]">
+            <h1 className="text-3xl md:text-5xl font-black tracking-tight text-foreground leading-[1.2]">
               {title}
             </h1>
 

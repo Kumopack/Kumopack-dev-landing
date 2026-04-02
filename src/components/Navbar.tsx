@@ -16,10 +16,15 @@ import {
   GraduationCap,
   Menu,
   X,
+  Info,
+  CreditCard,
 } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { getAssetPath } from "@/lib/utils";
 import { useLanguageSwitcher } from "./LanguageSwitcher";
+import { getSafeSlug } from "@/lib/slug-utils";
+import EventsNavCard from "@/components/EventsNavCard";
+import WorkshopNavLink from "@/components/WorkshopNavLink";
 
 const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -53,8 +58,8 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
-      <div className="mx-4 mt-4">
-        <div className="container mx-auto px-6 py-3 rounded-3xl bg-[hsl(var(--glass))] backdrop-blur-xl border border-[hsl(var(--glass-border))] shadow-float">
+      <div className="mx-2 md:mx-4 mt-3 md:mt-4">
+        <div className="container mx-auto px-3 md:px-6 py-3 rounded-3xl bg-[hsl(var(--glass))] backdrop-blur-xl border border-[hsl(var(--glass-border))] shadow-float">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3 group shrink-0">
               <div className="h-10 w-auto group-hover:scale-105 transition-transform flex items-center">
@@ -66,6 +71,16 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
                   className="h-full w-auto object-contain"
                   priority
                 />
+              </div>
+              <div className="hidden md:flex flex-col">
+                <span className="text-[9px] font-bold text-primary/80 tracking-[0.08em] leading-tight">
+                  The Absolute Packaging Solutions
+                </span>
+                <span className="text-[8px] text-muted-foreground/60 leading-tight">
+                  {lang === "th"
+                    ? "ครบ จบ เรื่องบรรจุภัณฑ์"
+                    : "Complete packaging for your business"}
+                </span>
               </div>
             </Link>
 
@@ -96,7 +111,7 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
                           {t("nav.products")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Build your packaging
+                          {t("nav.desc.products")}
                         </div>
                       </div>
                     </Link>
@@ -110,10 +125,10 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">
-                          Get Quotes
+                          {t("nav.getQuotes")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Compare factory prices
+                          {t("nav.desc.getQuotes")}
                         </div>
                       </div>
                     </Link>
@@ -130,7 +145,7 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
                           {t("nav.learning")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Guides for buyers
+                          {t("nav.desc.learningBuyer")}
                         </div>
                       </div>
                     </Link>
@@ -149,7 +164,7 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
                           {t("pricing.title")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Check pricing plans
+                          {t("nav.desc.pricing")}
                         </div>
                       </div>
                     </Link>
@@ -180,27 +195,10 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">
-                          Join Network
+                          {t("nav.joinNetwork")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Become a partner
-                        </div>
-                      </div>
-                    </Link>
-                    <Link
-                      href="/supplier"
-                      prefetch={false}
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-sky/20 transition-colors"
-                    >
-                      <div className="w-8 h-8 rounded-xl bg-sky/30 flex items-center justify-center">
-                        <Layers className="w-4 h-4 text-sky-foreground" />
-                      </div>
-                      <div>
-                        <div className="font-medium text-foreground">
-                          Supplier Portal
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          Manage your listings
+                          {t("nav.desc.joinNetwork")}
                         </div>
                       </div>
                     </Link>
@@ -217,7 +215,7 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
                           {t("nav.learning")}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Guides for suppliers
+                          {t("nav.desc.learningSupplier")}
                         </div>
                       </div>
                     </Link>
@@ -233,10 +231,12 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">
-                          {t("pricing.title")}
+                          {lang === "th"
+                            ? "แพ็กเกจราคา"
+                            : "Pricing Packages"}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Check pricing plans
+                          {t("nav.desc.pricingSupplier")}
                         </div>
                       </div>
                     </Link>
@@ -253,17 +253,7 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
               </Link>
               */}
 
-              <a
-                href={
-                  process.env.NEXT_PUBLIC_MOCKUP_SITE_URL ||
-                  "https://mockup.kumopack.com"
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-2xl text-muted-foreground hover:text-foreground hover:bg-lavender transition-all duration-200"
-              >
-                {t("nav.workshop")}
-              </a>
+              <WorkshopNavLink />
 
               <div
                 className="relative"
@@ -278,63 +268,65 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
                 </button>
                 {activeDropdown === "etc" && (
                   <div className="absolute top-full right-0 mt-2 w-[480px] rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float p-6 animate-fade-in">
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="col-span-2 mb-4">
                       <ETCCard
                         icon={BookOpen}
                         title={t("nav.blog")}
-                        description="Tips, trends, and packaging insights"
+                        description={t("nav.desc.blog")}
                         color="mint"
                         href="/blogs"
-                      />
-                      <ETCCard
-                        icon={GraduationCap}
-                        title={t("nav.learning")}
-                        description="Step-by-step guides for everyone"
-                        color="lavender"
-                        href="/learning"
-                      />
+                      />{" "}
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
                       <ETCCard
                         icon={Layers}
                         title={t("nav.materials")}
-                        description="Kraft paper, Corrugated, and Films"
+                        description={t("nav.desc.materials")}
                         color="sky"
                         href="/materials"
                       />
                       <ETCCard
                         icon={Box}
                         title={t("nav.products")}
-                        description="Deep dive into specifications"
-                        color="coral"
+                        description={t("nav.desc.productsDetail")}
+                        color="amber"
                         href="/products"
                       />
                       <ETCCard
                         icon={Shield}
                         title={t("nav.policy")}
-                        description="Terms, shipping, and returns"
-                        color="lavender"
+                        description={t("nav.desc.policy")}
+                        color="rose"
                         href="/policy"
                       />
                       <ETCCard
                         icon={Package}
-                        title="FAQ"
-                        description="คำถามที่พบบ่อย"
-                        color="mint"
+                        title={t("nav.faq")}
+                        description={t("nav.desc.faq")}
+                        color="teal"
                         href="/faq"
                       />
-                      <div className="col-span-2 grid grid-cols-2 gap-4">
+                      <div className="col-span-2 grid grid-cols-2 grid-rows-2 gap-4">
                         <ETCCard
                           icon={MessageCircle}
                           title={t("nav.contact")}
-                          description="Get in touch with our team"
+                          description={t("nav.desc.contact")}
                           color="purple"
                           href="/contact"
                         />
+                        <div className="row-span-2">
+                          <EventsNavCard />
+                        </div>
                         <ETCCard
-                          icon={Sparkles}
-                          title={t("nav.events")}
-                          description="Exciting activities and rewards"
-                          color="coral"
-                          href="/events"
+                          icon={Info}
+                          title={t("nav.aboutUs") || "About Us"}
+                          description={
+                            t("nav.desc.aboutUs") ||
+                            "Learn about our story and team"
+                          }
+                          color="lavender"
+                          href="/about-us"
                         />
                       </div>
                     </div>
@@ -424,79 +416,208 @@ const Navbar = ({ lang, dict }: { lang: string; dict: any }) => {
         </div>
 
         {isMenuOpen && (
-          <div className="lg:hidden mt-2 p-4 rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float animate-in slide-in-from-top-4 duration-300 overflow-y-auto max-h-[80vh]">
+          <div className="lg:hidden mt-2 p-5 rounded-3xl bg-card/95 backdrop-blur-xl border border-border/50 shadow-float animate-in slide-in-from-top-4 duration-300 overflow-y-auto max-h-[80vh]">
             <div className="flex flex-col gap-1">
-              <div className="px-4 py-2 text-[9px] font-black text-primary tracking-widest uppercase opacity-70">
-                For Buyer
+              {}
+              <a
+                href={
+                  process.env.NEXT_PUBLIC_MOCKUP_SITE_URL ||
+                  "https://mockup.kumopack.com"
+                }
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMenuOpen(false)}
+                className="relative flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-amber-400/15 via-orange-400/10 to-pink-400/15 border border-amber-300/30 mb-3"
+              >
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="font-bold text-sm">{t("nav.workshop")}</div>
+                  <div className="text-[11px] text-muted-foreground">
+                    {t("nav.desc.workshop") || "ออกแบบกล่อง 3D แบบเรียลไทม์"}
+                  </div>
+                </div>
+                <span className="flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-amber-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+                </span>
+              </a>
+
+              {}
+              <div className="px-3 py-2 text-[10px] font-black text-primary tracking-widest uppercase opacity-60">
+                {t("nav.forBuyer")}
               </div>
               <Link
                 href="/products"
                 onClick={() => setIsMenuOpen(false)}
-                className="p-3 rounded-2xl hover:bg-mint/10 transition-colors font-bold flex items-center gap-3 text-sm"
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
               >
-                <div className="w-8 h-8 rounded-xl bg-mint/20 flex items-center justify-center">
-                  <Box className="w-4 h-4 text-mint-foreground" />
+                <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center">
+                  <Box className="w-4 h-4 text-amber-600" />
                 </div>
-                {t("nav.products")}
+                <div className="flex-1">
+                  <div className="font-semibold text-sm">
+                    {t("nav.products")}
+                  </div>
+                </div>
               </Link>
               <Link
                 href="/supplier"
                 onClick={() => setIsMenuOpen(false)}
-                className="p-3 rounded-2xl hover:bg-mint/10 transition-colors font-bold flex items-center gap-3 text-sm"
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
               >
-                <div className="w-8 h-8 rounded-xl bg-mint/20 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-mint/30 flex items-center justify-center">
                   <Sparkles className="w-4 h-4 text-mint-foreground" />
                 </div>
-                Get Quotes
+                <div className="flex-1">
+                  <div className="font-semibold text-sm">
+                    {t("nav.getQuotes")}
+                  </div>
+                </div>
+              </Link>
+              <Link
+                href="/pricing"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+              >
+                <div className="w-9 h-9 rounded-xl bg-blue-100 flex items-center justify-center">
+                  <CreditCard className="w-4 h-4 text-blue-600" />
+                </div>
+                <div className="flex-1">
+                  <div className="font-semibold text-sm">
+                    {t("nav.pricing")}
+                  </div>
+                </div>
               </Link>
 
-              <div className="px-4 py-2 mt-2 text-[9px] font-black text-primary tracking-widest uppercase opacity-70">
-                For Supplier
+              {}
+              <div className="px-3 py-2 mt-2 text-[10px] font-black text-primary tracking-widest uppercase opacity-60">
+                {t("nav.forSupplier")}
               </div>
               <Link
                 href="/contact"
                 onClick={() => setIsMenuOpen(false)}
-                className="p-3 rounded-2xl hover:bg-sky/10 transition-colors font-bold flex items-center gap-3 text-sm"
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
               >
-                <div className="w-8 h-8 rounded-xl bg-sky/20 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-sky/30 flex items-center justify-center">
                   <Package className="w-4 h-4 text-sky-foreground" />
                 </div>
-                Join Network
+                <div className="flex-1">
+                  <div className="font-semibold text-sm">
+                    {t("nav.joinNetwork")}
+                  </div>
+                </div>
               </Link>
               <Link
-                href="/supplier"
+                href="/learning?audience=supplier"
                 onClick={() => setIsMenuOpen(false)}
-                className="p-3 rounded-2xl hover:bg-sky/10 transition-colors font-bold flex items-center gap-3 text-sm"
+                className="flex items-center gap-3 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
               >
-                <div className="w-8 h-8 rounded-xl bg-sky/20 flex items-center justify-center">
-                  <Layers className="w-4 h-4 text-sky-foreground" />
+                <div className="w-9 h-9 rounded-xl bg-purple-100 flex items-center justify-center">
+                  <GraduationCap className="w-4 h-4 text-purple-600" />
                 </div>
-                Supplier Portal
+                <div className="flex-1">
+                  <div className="font-semibold text-sm">
+                    {t("nav.learning")}
+                  </div>
+                </div>
               </Link>
 
+              {}
+              <div className="px-3 py-2 mt-2 text-[10px] font-black text-muted-foreground tracking-widest uppercase opacity-60">
+                {t("nav.etc")}
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <Link
+                  href="/blogs"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center">
+                    <BookOpen className="w-3.5 h-3.5 text-emerald-600" />
+                  </div>
+                  <span className="font-semibold text-sm">{t("nav.blog")}</span>
+                </Link>
+                <Link
+                  href="/materials"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center">
+                    <Layers className="w-3.5 h-3.5 text-sky-600" />
+                  </div>
+                  <span className="font-semibold text-sm">
+                    {t("nav.materials")}
+                  </span>
+                </Link>
+                <Link
+                  href="/faq"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-teal-100 flex items-center justify-center">
+                    <Package className="w-3.5 h-3.5 text-teal-600" />
+                  </div>
+                  <span className="font-semibold text-sm">{t("nav.faq")}</span>
+                </Link>
+                <Link
+                  href="/contact"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
+                    <MessageCircle className="w-3.5 h-3.5 text-purple-600" />
+                  </div>
+                  <span className="font-semibold text-sm">
+                    {t("nav.contact")}
+                  </span>
+                </Link>
+                <Link
+                  href="/policy"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-rose-100 flex items-center justify-center">
+                    <Shield className="w-3.5 h-3.5 text-rose-600" />
+                  </div>
+                  <span className="font-semibold text-sm">
+                    {t("nav.policy")}
+                  </span>
+                </Link>
+                <Link
+                  href="/about-us"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2.5 p-3 rounded-2xl hover:bg-accent/50 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-indigo-100 flex items-center justify-center">
+                    <Info className="w-3.5 h-3.5 text-indigo-600" />
+                  </div>
+                  <span className="font-semibold text-sm">
+                    {t("nav.aboutUs") || "About Us"}
+                  </span>
+                </Link>
+              </div>
+
+              {}
               <Link
-                href="/learning?audience=buyer"
+                href="/events"
                 onClick={() => setIsMenuOpen(false)}
-                className="p-3 rounded-2xl hover:bg-purple/10 transition-colors font-bold flex items-center gap-3 text-sm"
+                className="mt-3 flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-orange-400/15 via-pink-400/10 to-purple-400/15 border border-coral/20"
               >
-                <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <GraduationCap className="w-4 h-4 text-primary" />
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-white" />
                 </div>
-                {t("nav.learning")}
-              </Link>
-              <Link
-                href="/materials"
-                onClick={() => setIsMenuOpen(false)}
-                className="p-3 rounded-2xl hover:bg-purple/10 transition-colors font-bold flex items-center gap-3 text-sm"
-              >
-                <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <Layers className="w-4 h-4 text-primary" />
+                <div className="flex-1">
+                  <div className="font-bold text-sm">{t("nav.events")}</div>
+                  <div className="text-[11px] text-muted-foreground">
+                    {t("nav.desc.events")}
+                  </div>
                 </div>
-                {t("nav.materials")}
               </Link>
 
-              <hr className="border-border/50 my-4" />
-              <div className="grid grid-cols-2 gap-3 p-2">
+              {}
+              <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-border/30">
                 <Link
                   href="/login/selection"
                   onClick={() => setIsMenuOpen(false)}
@@ -534,9 +655,18 @@ interface ETCCardProps {
   icon: React.ElementType;
   title: string;
   description: string;
-  color: "mint" | "sky" | "coral" | "lavender" | "purple";
+  color:
+    | "mint"
+    | "sky"
+    | "coral"
+    | "lavender"
+    | "purple"
+    | "amber"
+    | "rose"
+    | "teal";
   fullWidth?: boolean;
   href: string;
+  className?: string;
 }
 
 const ETCCard = ({
@@ -546,6 +676,7 @@ const ETCCard = ({
   color,
   fullWidth,
   href,
+  className,
 }: ETCCardProps) => {
   const colorClasses = {
     mint: "bg-mint/30 text-mint-foreground hover:bg-mint/40",
@@ -553,6 +684,9 @@ const ETCCard = ({
     coral: "bg-coral/30 text-coral-foreground hover:bg-coral/40",
     lavender: "bg-lavender/50 text-foreground hover:bg-lavender/70",
     purple: "bg-primary/20 text-primary hover:bg-primary/30",
+    amber: "bg-amber-100/60 text-amber-800 hover:bg-amber-100/80",
+    rose: "bg-rose-100/60 text-rose-700 hover:bg-rose-100/80",
+    teal: "bg-teal-100/60 text-teal-700 hover:bg-teal-100/80",
   };
 
   const iconBgClasses = {
@@ -561,12 +695,15 @@ const ETCCard = ({
     coral: "bg-coral/50",
     lavender: "bg-lavender-deep/30",
     purple: "bg-primary/30",
+    amber: "bg-amber-200/60",
+    rose: "bg-rose-200/60",
+    teal: "bg-teal-200/60",
   };
 
   return (
     <Link
       href={href}
-      className={`group flex items-start gap-4 p-4 rounded-2xl transition-all duration-200 ${colorClasses[color]} ${fullWidth ? "" : ""}`}
+      className={`group flex items-start gap-4 p-4 rounded-2xl transition-all duration-200 ${colorClasses[color]} ${fullWidth ? "" : ""} ${className || ""}`}
     >
       <div
         className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${iconBgClasses[color]}`}

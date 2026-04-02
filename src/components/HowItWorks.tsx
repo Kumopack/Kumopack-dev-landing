@@ -1,44 +1,44 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Paintbrush, MessageSquare, Package, Zap } from "lucide-react";
+import { Lightbulb, Handshake, PackageCheck, Truck } from "lucide-react";
 
 const steps = [
   {
-    icon: <Paintbrush className="w-8 h-8" />,
-    titleKey: "howItWorks.step1Title",
-    descKey: "howItWorks.step1Desc",
-    defaultTitle: "Design Your Vision",
-    defaultDesc:
-      "Choose your box style and upload your artwork using our intuitive 3D editor.",
-    color: "bg-primary/20 text-primary",
+    icon: <Lightbulb className="w-7 h-7" />,
+    labelKey: "howItWorks.steps.design.label",
+    titleKey: "howItWorks.steps.design.title",
+    descKey: "howItWorks.steps.design.desc",
+    gradient: "from-amber-400 to-orange-500",
+    bg: "bg-amber-50",
+    iconColor: "text-amber-600",
   },
   {
-    icon: <MessageSquare className="w-8 h-8" />,
-    titleKey: "howItWorks.step2Title",
-    descKey: "howItWorks.step2Desc",
-    defaultTitle: "Get Instant Quotes",
-    defaultDesc:
-      "Receive competitive bids from our network of certified manufacturers in real-time.",
-    color: "bg-mint/20 text-mint-foreground",
+    icon: <Handshake className="w-7 h-7" />,
+    labelKey: "howItWorks.steps.quote.label",
+    titleKey: "howItWorks.steps.quote.title",
+    descKey: "howItWorks.steps.quote.desc",
+    gradient: "from-blue-400 to-indigo-500",
+    bg: "bg-blue-50",
+    iconColor: "text-blue-600",
   },
   {
-    icon: <Zap className="w-8 h-8" />,
-    titleKey: "howItWorks.step3Title",
-    descKey: "howItWorks.step3Desc",
-    defaultTitle: "Order Samples",
-    defaultDesc:
-      "Test the quality with a physical sample before committing to a full production run.",
-    color: "bg-coral/20 text-coral-foreground",
+    icon: <PackageCheck className="w-7 h-7" />,
+    labelKey: "howItWorks.steps.order.label",
+    titleKey: "howItWorks.steps.order.title",
+    descKey: "howItWorks.steps.order.desc",
+    gradient: "from-emerald-400 to-teal-500",
+    bg: "bg-emerald-50",
+    iconColor: "text-emerald-600",
   },
   {
-    icon: <Package className="w-8 h-8" />,
-    titleKey: "howItWorks.step4Title",
-    descKey: "howItWorks.step4Desc",
-    defaultTitle: "Scale Production",
-    defaultDesc:
-      "Once approved, your packaging goes into production and ships directly to your door.",
-    color: "bg-sky/20 text-sky-foreground",
+    icon: <Truck className="w-7 h-7" />,
+    labelKey: "howItWorks.steps.scale.label",
+    titleKey: "howItWorks.steps.scale.title",
+    descKey: "howItWorks.steps.scale.desc",
+    gradient: "from-purple-400 to-pink-500",
+    bg: "bg-purple-50",
+    iconColor: "text-purple-600",
   },
 ];
 
@@ -53,29 +53,33 @@ const HowItWorks = ({ dict }: { dict: any }) => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] -z-10" />
 
       <div className="container mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-20">
+        <div className="text-center max-w-4xl mx-auto mb-20">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-3xl md:text-5xl font-black text-foreground mb-6"
+            className="text-3xl md:text-4xl font-black text-foreground mb-6"
           >
-            {t("howItWorks.title") || "Streamlined from Idea to Unboxing"}
+            {t("howItWorks.title")}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-xl text-muted-foreground font-medium"
+            className="text-lg text-muted-foreground font-medium leading-relaxed"
           >
-            {t("howItWorks.subtitle") ||
-              "We've simplified the complex world of packaging sourcing into four simple steps."}
+            {t("howItWorks.subtitle")}
           </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="relative grid md:grid-cols-2 lg:grid-cols-4 gap-0">
+          {}
+          <div className="hidden lg:block absolute top-[52px] left-[12%] right-[12%] h-[2px]">
+            <div className="w-full h-full bg-gradient-to-r from-amber-300 via-blue-300 via-emerald-300 to-purple-300 rounded-full opacity-40" />
+          </div>
+
           {steps.map((step, index) => (
             <motion.div
               key={index}
@@ -83,38 +87,49 @@ const HowItWorks = ({ dict }: { dict: any }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="group relative p-8 rounded-[2.5rem] bg-card border border-border/50 hover:border-primary/40 hover:shadow-float transition-all duration-500"
+              className="relative flex flex-col items-center text-center px-6 py-8"
             >
-              <div className="absolute top-6 right-8 text-4xl font-black text-muted/20 group-hover:text-primary/10 transition-colors">
-                0{index + 1}
+              {}
+              <div className="relative mb-6">
+                <div
+                  className={`w-[104px] h-[104px] rounded-3xl ${step.bg} flex items-center justify-center relative z-10 border border-white shadow-lg`}
+                >
+                  <div className={step.iconColor}>{step.icon}</div>
+                </div>
+                {}
+                <div
+                  className={`absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center text-white text-sm font-bold shadow-md z-20`}
+                >
+                  {index + 1}
+                </div>
               </div>
 
-              <div
-                className={`w-16 h-16 rounded-2xl ${step.color} flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500`}
+              {}
+              <span
+                className={`inline-block text-[11px] font-bold uppercase tracking-widest mb-2 bg-gradient-to-r ${step.gradient} bg-clip-text text-transparent`}
               >
-                {step.icon}
-              </div>
+                {t(step.labelKey)}
+              </span>
 
-              <h3 className="text-2xl font-bold text-foreground mb-4">
-                {t(step.titleKey) !== step.titleKey
-                  ? t(step.titleKey)
-                  : step.defaultTitle}
+              {}
+              <h3 className="text-lg font-bold text-foreground mb-3 leading-snug">
+                {t(step.titleKey)}
               </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {t(step.descKey) !== step.descKey
-                  ? t(step.descKey)
-                  : step.defaultDesc}
+
+              {}
+              <p className="text-sm text-muted-foreground leading-relaxed max-w-[280px]">
+                {t(step.descKey)}
               </p>
 
+              {}
               {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-4 translate-x-full -translate-y-1/2 text-muted/30">
+                <div className="lg:hidden flex justify-center my-4">
                   <svg
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
                     fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-8 h-8"
+                    className="text-muted-foreground/30 rotate-90"
                   >
                     <path
                       d="M5 12H19M19 12L13 6M19 12L13 18"

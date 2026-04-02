@@ -5,15 +5,26 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Home, Ghost } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { getDictionary, Locale } from "@/lib/dictionary";
 
 export default function LocalNotFound() {
   const params = useParams();
   const language = (params?.lang as string) || "th";
   const isTh = language === "th";
+  const [dict, setDict] = useState<Record<string, any> | null>(null);
+
+  useEffect(() => {
+    getDictionary(language as Locale).then(setDict);
+  }, [language]);
+
+  const t = (path: string) => {
+    if (!dict) return path;
+    return path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
+  };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4 overflow-hidden relative">
-      {/* Abstract Background Decorations */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full animate-pulse" />
         <div
@@ -54,12 +65,10 @@ export default function LocalNotFound() {
           className="space-y-4"
         >
           <h1 className="text-4xl md:text-5xl font-black text-foreground">
-            {isTh ? "ไม่พบหน้านี้" : "Page Not Found"}
+            {t("notFound.title")}
           </h1>
           <p className="text-xl text-muted-foreground font-medium max-w-lg mx-auto leading-relaxed">
-            {isTh
-              ? "ขออภัย เราไม่พบหน้าที่คุณกำลังมองหา อาจเป็นเพราะหน้านี้ถูกย้ายหรือไม่มีอยู่จริง"
-              : "Oops! We couldn't find the page you're looking for. It might have been moved or doesn't exist."}
+            {t("notFound.description")}
           </p>
         </motion.div>
 
@@ -87,7 +96,7 @@ export default function LocalNotFound() {
             onClick={() => window.history.back()}
           >
             <ArrowLeft className="w-6 h-6" />
-            {isTh ? "ย้อนกลับ" : "Go Back"}
+            {t("notFound.goBack")}
           </Button>
         </motion.div>
 

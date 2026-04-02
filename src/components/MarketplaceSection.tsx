@@ -1,18 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Package, Check } from "lucide-react";
 import { SafeImage } from "@/components/ui/safe-image";
 
 const benefits = [
-  "No minimum orders",
-  "Ready-to-ship packaging",
-  "Premium quality materials",
-  "Fast 2-3 day delivery",
+  "marketplace.benefits.noMin",
+  "marketplace.benefits.ready",
+  "marketplace.benefits.premium",
+  "marketplace.benefits.fast",
 ];
 
 const MarketplaceSection = () => {
+  const { t } = useLanguage();
   return (
     <section
       id="marketplace"
@@ -47,10 +49,10 @@ const MarketplaceSection = () => {
                 </div>
                 <div>
                   <p className="text-lg font-bold text-foreground">
-                    10,000+ Products
+                    {t("marketplace.statValue")}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Premium readiness
+                    {t("marketplace.statLabel")}
                   </p>
                 </div>
               </motion.div>
@@ -67,18 +69,19 @@ const MarketplaceSection = () => {
             className="space-y-8 order-1 lg:order-2"
           >
             <span className="inline-block px-4 py-2 rounded-full glass-premium text-purple-soft text-sm font-bold tracking-wide uppercase">
-              Retail Marketplace
+              {t("marketplace.badge")}
             </span>
 
             <h2 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
-              No minimums?
-              <span className="text-primary italic"> Zero stress.</span>
+              {t("marketplace.title")}
+              <span className="text-primary italic">
+                {" "}
+                {t("marketplace.highlight")}
+              </span>
             </h2>
 
             <p className="text-xl text-muted-foreground max-w-lg leading-relaxed">
-              Shop our retail marketplace for ready-to-use packaging. Perfect
-              for small businesses scaling up, startups, and anyone who demands
-              quality without limits.
+              {t("marketplace.description")}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -94,7 +97,7 @@ const MarketplaceSection = () => {
                     <Check className="w-4 h-4 text-primary" />
                   </div>
                   <span className="font-medium text-foreground text-sm">
-                    {benefit}
+                    {t(benefit)}
                   </span>
                 </motion.div>
               ))}
@@ -102,7 +105,7 @@ const MarketplaceSection = () => {
 
             <Button variant="hero" size="xl" className="shadow-glow group">
               <Package className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-              Explore the Marketplace
+              {t("marketplace.cta")}
             </Button>
           </motion.div>
         </div>

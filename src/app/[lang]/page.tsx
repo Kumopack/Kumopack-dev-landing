@@ -16,8 +16,15 @@ const CategoriesSection = dynamic(
   () => import("@/components/CategoriesSection"),
 );
 const GallerySection = dynamic(() => import("@/components/GallerySection"));
+const SystemFeaturesSection = dynamic(
+  () => import("@/components/SystemFeaturesSection"),
+);
+const SystemFeaturesV2 = dynamic(() => import("@/components/SystemFeaturesV2"));
 const BlogSection = dynamic(() => import("@/components/BlogSection"));
 const LogoTicker = dynamic(() => import("@/components/LogoTicker"));
+const MockupCategoriesV2 = dynamic(
+  () => import("@/components/MockupCategoriesV2"),
+);
 
 import { getDictionary } from "@/lib/dictionary";
 import { Locale } from "@/lib/dictionary";
@@ -38,12 +45,12 @@ export default async function Home({
       <Navbar lang={lang} dict={dict} />
       <PromoPopup />
       <HeroSection dict={dict} />
+      <MockupCategoriesV2 />
+      <SystemFeaturesSection />
       <GallerySection />
       <ValueProposition dict={dict} />
       <HowItWorks dict={dict} />
       <FeaturesSection />
-      <DesignerSection />
-      <MarketplaceSection />
       <CategoriesSection />
       <BlogSection articles={articles} />
       <LogoTicker />

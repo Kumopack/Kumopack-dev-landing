@@ -13,7 +13,7 @@ import { SupplierGallery } from "@/components/supplier/SupplierGallery";
 import { SupplierActionCenter } from "@/components/supplier/SupplierActionCenter";
 
 import { notFound } from "next/navigation";
-import { Supplier } from "@/data/suppliers";
+import { Supplier } from "@/types/supplier";
 
 export const dynamicParams = false;
 

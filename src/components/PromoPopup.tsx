@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Megaphone, Sparkles } from "lucide-react";
+import { X, ExternalLink, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { SafeImage } from "@/components/ui/safe-image";
+import { getDictionary, Locale } from "@/lib/dictionary";
 
 const POPUP_STORAGE_KEY = "kumopack_promo_closed_at";
 
@@ -14,9 +15,16 @@ export const PromoPopup = () => {
   const [isMounted, setIsMounted] = useState(false);
   const params = useParams();
   const language = (params?.lang as string) || "th";
+  const [dict, setDict] = useState<Record<string, any> | null>(null);
+
+  const t = (path: string) => {
+    if (!dict) return path;
+    return path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
+  };
 
   useEffect(() => {
     setIsMounted(true);
+    getDictionary(language as Locale).then(setDict);
     const lastClosedAt = localStorage.getItem(POPUP_STORAGE_KEY);
     const now = new Date().getTime();
     const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
@@ -25,7 +33,7 @@ export const PromoPopup = () => {
       const timer = setTimeout(() => setIsOpen(true), 1500);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [language]);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -77,18 +85,14 @@ export const PromoPopup = () => {
                 </div>
 
                 <h3 className="text-2xl font-bold mb-2 leading-tight">
-                  {language === "en"
-                    ? "CNY Special Offer!"
-                    : "โปรโมชั่นฉลองตรุษจีน!"}
+                  {t("promo.title")}
                   <span className="text-red-600 block mt-1">
-                    {language === "en" ? "Red Packets" : "แจกอั่งเปา!"}
+                    {t("promo.highlight")}
                   </span>
                 </h3>
 
                 <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-                  {language === "en"
-                    ? "Register today and get a FREE 200 THB discount coupon. Exclusive for new members only!"
-                    : "สมัครสมาชิกกับเราภายในวันนี้ รับคูปองส่วนลดฟรี 200 บาท สำหรับสมาชิกใหม่เท่านั้น!"}
+                  {t("promo.subtitle")}
                 </p>
 
                 <div className="flex flex-col gap-3">
@@ -96,18 +100,14 @@ export const PromoPopup = () => {
                     onClick={handleAction}
                     className="w-full py-6 rounded-xl text-base font-bold shadow-md bg-red-600 hover:bg-red-700 text-white border-none"
                   >
-                    <span>
-                      {language === "en"
-                        ? "Claim Your 200 THB Now"
-                        : "รับส่วนลด 200 บาทตอนนี้"}
-                    </span>
+                    <span>{t("promo.cta")}</span>
                     <ExternalLink className="ml-2 w-4 h-4" />
                   </Button>
                   <button
                     onClick={handleClose}
                     className="text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors py-2"
                   >
-                    {language === "en" ? "Maybe later" : "ไว้คราวหน้า"}
+                    {t("promo.close")}
                   </button>
                 </div>
               </div>

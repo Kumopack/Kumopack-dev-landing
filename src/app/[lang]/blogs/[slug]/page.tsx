@@ -8,8 +8,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { getDictionary, Locale } from "@/lib/dictionary";
 
-export const dynamicParams = false;
-export const revalidate = 0;
+
 
 export async function generateStaticParams() {
   if (process.env.NODE_ENV === "development") {

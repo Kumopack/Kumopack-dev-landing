@@ -1,54 +1,56 @@
 "use client";
 
 import { useState } from "react";
-import { Package, Box, Film, Tag, Layers, Archive } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { Box, Printer, Ribbon, ShoppingBag, Cylinder, Mail } from "lucide-react";
 
 const categories = [
   {
     icon: Box,
-    name: "Corrugated Boxes",
-    description: "Durable shipping & retail boxes",
+    nameKey: "categories.items.corrugated.name",
+    descriptionKey: "categories.items.corrugated.desc",
     specs: ["Flexo Print", "Digital UV", "Custom Die-Cut"],
     color: "from-amber-100 to-orange-100",
   },
   {
-    icon: Film,
-    name: "Film Pouches",
-    description: "Flexible packaging for food & products",
-    specs: ["Matte/Gloss Finish", "Resealable Zippers", "Stand-up Design"],
-    color: "from-emerald-100 to-teal-100",
+    icon: Printer,
+    nameKey: "categories.items.offset.name",
+    descriptionKey: "categories.items.offset.desc",
+    specs: ["Offset 4 Color", "Spot UV", "Embossing & Foil"],
+    color: "from-violet-100 to-purple-100",
   },
   {
-    icon: Tag,
-    name: "Custom Labels",
-    description: "Branded stickers & product labels",
-    specs: ["Vinyl & Paper", "Waterproof Options", "Die-Cut Shapes"],
-    color: "from-lavender to-purple-100",
-  },
-  {
-    icon: Layers,
-    name: "Branded Tape",
-    description: "Custom printed packing tape",
+    icon: Ribbon,
+    nameKey: "categories.items.tape.name",
+    descriptionKey: "categories.items.tape.desc",
     specs: ["1-3 Color Print", "Strong Adhesive", "Custom Widths"],
     color: "from-blue-100 to-indigo-100",
   },
   {
-    icon: Package,
-    name: "Mailer Bags",
-    description: "Poly mailers for e-commerce",
-    specs: ["Self-Seal", "Tamper Evident", "Eco-Friendly Options"],
+    icon: ShoppingBag,
+    nameKey: "categories.items.film.name",
+    descriptionKey: "categories.items.film.desc",
+    specs: ["Matte/Gloss Finish", "Resealable Zippers", "Stand-up Design"],
+    color: "from-emerald-100 to-teal-100",
+  },
+  {
+    icon: Cylinder,
+    nameKey: "categories.items.tube.name",
+    descriptionKey: "categories.items.tube.desc",
+    specs: ["Custom Size", "Premium Finish", "Eco-Friendly"],
     color: "from-rose-100 to-pink-100",
   },
   {
-    icon: Archive,
-    name: "Gift Boxes",
-    description: "Premium presentation packaging",
-    specs: ["Rigid & Folding", "Magnetic Closure", "Embossing Available"],
-    color: "from-violet-100 to-purple-100",
+    icon: Mail,
+    nameKey: "categories.items.mailer.name",
+    descriptionKey: "categories.items.mailer.desc",
+    specs: ["Bubble Lined", "Self-Seal", "Custom Print"],
+    color: "from-sky-100 to-cyan-100",
   },
 ];
 
 const CategoriesSection = () => {
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
   return (
@@ -56,13 +58,13 @@ const CategoriesSection = () => {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 animate-fade-up">
           <span className="inline-block px-4 py-2 rounded-full bg-lavender text-purple-soft text-sm font-medium mb-4">
-            Product Categories
+            {t("categories.badge")}
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Packaging for every need
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            {t("categories.title")}
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Explore our comprehensive range of custom packaging solutions
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+            {t("categories.subtitle")}
           </p>
         </div>
 
@@ -76,7 +78,7 @@ const CategoriesSection = () => {
             >
               <div
                 className={`
-                  p-6 rounded-3xl border border-border/50 bg-card text-center
+                  p-6 rounded-3xl border border-border/50 bg-card text-center h-full
                   transition-all duration-500 hover:shadow-float hover:-translate-y-2
                   ${activeCategory === index ? "shadow-float -translate-y-2" : ""}
                 `}
@@ -86,11 +88,11 @@ const CategoriesSection = () => {
                 >
                   <category.icon className="w-8 h-8 text-foreground/70" />
                 </div>
-                <h3 className="font-semibold text-foreground mb-1 text-sm">
-                  {category.name}
+                <h3 className="font-semibold text-foreground mb-1 text-sm min-h-[2.5rem] flex items-center justify-center">
+                  {t(category.nameKey)}
                 </h3>
-                <p className="text-xs text-muted-foreground">
-                  {category.description}
+                <p className="text-xs text-muted-foreground line-clamp-2">
+                  {t(category.descriptionKey)}
                 </p>
               </div>
 
@@ -101,20 +103,19 @@ const CategoriesSection = () => {
                   ${activeCategory === index ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"}
                 `}
               >
-                <p className="text-sm font-medium text-foreground mb-3">
-                  Printing & Specs
-                </p>
-                <div className="space-y-2">
-                  {category.specs.map((spec, specIndex) => (
-                    <div
-                      key={specIndex}
-                      className="flex items-center gap-2 text-sm text-muted-foreground"
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                      {spec}
-                    </div>
-                  ))}
+                <div className="flex items-center gap-3 mb-2">
+                  <div
+                    className={`w-10 h-10 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center shrink-0`}
+                  >
+                    <category.icon className="w-5 h-5 text-foreground/70" />
+                  </div>
+                  <h4 className="font-bold text-sm text-foreground leading-tight">
+                    {t(category.nameKey)}
+                  </h4>
                 </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {t(category.descriptionKey)}
+                </p>
               </div>
             </div>
           ))}

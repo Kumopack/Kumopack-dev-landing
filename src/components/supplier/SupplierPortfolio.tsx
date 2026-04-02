@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Boxes, ChevronDown, ChevronUp } from "lucide-react";
-import { Supplier } from "@/data/suppliers";
+import { Supplier } from "@/types/supplier";
 import { SafeImage } from "@/components/ui/safe-image";
 
 interface SupplierPortfolioProps {
@@ -62,7 +62,7 @@ export const SupplierPortfolio = ({ categories, lang }: SupplierPortfolioProps) 
                       fill={true}
                       className="object-cover transition-transform duration-700 group-hover/prod:scale-110"
                     />
-                    {/* Hover Overlay */}
+
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/prod:opacity-100 transition-opacity duration-300 flex items-center justify-center p-3">
                       <p className="text-xs font-bold text-white text-center leading-tight">
                         {item.name}
@@ -75,7 +75,6 @@ export const SupplierPortfolio = ({ categories, lang }: SupplierPortfolioProps) 
           ))}
         </div>
 
-        {/* Gradient Overlay & Toggle Button */}
         {showToggle && (
           <div
             className={`absolute bottom-0 left-0 right-0 flex justify-center pt-24 pb-0 ${

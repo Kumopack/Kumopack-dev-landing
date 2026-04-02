@@ -38,10 +38,6 @@ export default function BlogContent({
   const language = lang;
   const router = useRouter();
 
-  useEffect(() => {
-    router.refresh();
-  }, [router]);
-
   const [related, setRelated] = useState<Article[]>([]);
   const [loadingRelated, setLoadingRelated] = useState(true);
   const [anchors, setAnchors] = useState<{ id: string; text: string }[]>([]);
@@ -232,7 +228,6 @@ export default function BlogContent({
           text-align: justify;
         }
 
-        /* Text Formatting */
         .blog-content strong,
         .blog-content b {
           font-weight: 700;
@@ -248,7 +243,6 @@ export default function BlogContent({
           text-decoration: line-through;
         }
 
-        /* Font Sizes */
         .blog-content .ql-size-small {
           font-size: 0.75em;
         }
@@ -259,7 +253,6 @@ export default function BlogContent({
           font-size: 2.5em;
         }
 
-        /* Code Block */
         .blog-content pre,
         .blog-content code {
           background: hsl(var(--muted));
@@ -274,7 +267,6 @@ export default function BlogContent({
           margin: 2rem 0;
         }
 
-        /* Subscript & Superscript */
         .blog-content sub {
           vertical-align: sub;
           font-size: 0.75em;
@@ -284,7 +276,6 @@ export default function BlogContent({
           font-size: 0.75em;
         }
 
-        /* Video */
         .blog-content iframe,
         .blog-content video {
           max-width: 100%;
@@ -320,7 +311,6 @@ export default function BlogContent({
           }
         }
 
-        /* Spacing adjustment for content paragraphs that just wrap an image */
         .blog-content p:has(img) {
           margin-bottom: 0px !important;
         }
@@ -507,12 +497,12 @@ export default function BlogContent({
                 </div>
               </header>
 
-              <div className="relative w-full aspect-[16/16] md:aspect-[16/16] rounded-[2.5rem] overflow-hidden mb-16 shadow-2xl border border-neutral-100/50 group">
+              <div className="relative w-full aspect-[16/8] rounded-2xl overflow-hidden mb-12 shadow-lg border border-neutral-100/50 group">
                 <SafeImage
                   src={blogApi.getAssetPath(blog.featurePicturePath)}
                   alt={name}
                   fill={true}
-                  className="object-cover group-hover:scale-105 transition-transform duration-1000"
+                  className="object-cover group-hover:scale-[1.02] transition-transform duration-1000"
                 />
               </div>
 
@@ -603,9 +593,9 @@ export default function BlogContent({
                       <span className="text-sm font-bold text-muted-foreground mr-2">
                         Tags:
                       </span>
-                      {blog.keywords.map((kw) => (
+                      {blog.keywords.map((kw, index) => (
                         <div
-                          key={kw.id}
+                          key={`blog-${blog.id}-keyword-${index}`}
                           className="px-3 py-1.5 rounded-lg bg-neutral-100/80 text-xs font-medium text-foreground/70 hover:bg-primary/10 hover:text-primary transition-colors cursor-default"
                         >
                           #{kw.keyword}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Thai, Noto_Sans } from "next/font/google";
 import "@/app/globals.css";
+import QueryProvider from "@/providers/QueryProvider";
 
 const notoTh = Noto_Sans_Thai({
   variable: "--font-noto-thai",
@@ -43,7 +44,7 @@ export default async function LocaleLayout({
         className="antialiased font-sans overflow-x-hidden"
         suppressHydrationWarning
       >
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

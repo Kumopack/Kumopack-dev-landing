@@ -58,7 +58,7 @@ const ValueProposition = ({ dict }: { dict: Record<string, any> }) => {
                 { value: t("valueProposition.stats.manufacturers.value"), label: t("valueProposition.stats.manufacturers.label") },
               ].map((stat, index) => (
                 <motion.div
-                  key={stat.label}
+                  key={index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}

@@ -22,6 +22,7 @@ export default function MaterialDetailClient({
   lang: string;
 }) {
   const params = useParams();
+  const router = useRouter();
   const rawId = params?.id;
   const paramId = Array.isArray(rawId) ? rawId[0] : rawId;
 
@@ -97,19 +98,17 @@ export default function MaterialDetailClient({
   useEffect(() => {
     if (!material || !material.slug) return;
 
-    const expectedPath = `/materials/${material.slug}`;
     const expectedQuery = `?lang=${language}`;
-    const currentPath = window.location.pathname;
-    const currentSearch = window.location.search;
+    const decodedCurrentPath = decodeURIComponent(window.location.pathname);
+    const expectedEnd = `/materials/${material.slug}`;
 
-    const isPathMismatch =
-      decodeURIComponent(currentPath) !== decodeURIComponent(expectedPath);
-    const isQueryMismatch = currentSearch !== expectedQuery;
+    const isPathMismatch = !decodedCurrentPath.endsWith(expectedEnd);
+    const isQueryMismatch = window.location.search !== expectedQuery;
 
     if (isPathMismatch || isQueryMismatch) {
-      window.history.replaceState(null, "", `${expectedPath}${expectedQuery}`);
+      router.replace(`/materials/${material.slug}${expectedQuery}`, { scroll: false });
     }
-  }, [material, language]);
+  }, [material, language, router]);
 
   if (loading) {
     return (
@@ -180,14 +179,12 @@ export default function MaterialDetailClient({
                 {isTh ? material.nameTh : material.nameEn}
               </h1>
 
-              {/* Short Description */}
               {shortDesc && (
                 <p className="text-xl md:text-2xl font-medium text-muted-foreground mb-8 leading-relaxed">
                   {shortDesc}
                 </p>
               )}
 
-              {/* Long Description */}
               <div className="prose prose-lg dark:prose-invert text-muted-foreground leading-relaxed">
                 {longDesc ? (
                   <div dangerouslySetInnerHTML={{ __html: longDesc }} />
@@ -217,7 +214,6 @@ export default function MaterialDetailClient({
           </motion.div>
         </div>
 
-        {/* Products Section - Full Width Bottom */}
         {material.products && material.products.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

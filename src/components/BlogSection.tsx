@@ -2,6 +2,7 @@
 
 import Link from "@/components/common/LocalizedLink";
 import { MoveRight } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Article } from "@/lib/blog-api";
 import BlogCard from "@/components/BlogCard";
@@ -11,22 +12,24 @@ interface BlogSectionProps {
 }
 
 const BlogSection = ({ articles = [] }: BlogSectionProps) => {
+  const { t } = useLanguage();
   return (
     <section id="blogs" className="px-4 md:px-8 py-16 md:py-24 scroll-mt-24">
       <div className="container mx-auto max-w-6xl">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              Latest <span className="text-primary">Packaging</span> Insights
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              {t("blog.title")}{" "}
+              <span className="text-primary">{t("blog.highlight")}</span>
+              {t("blog.titleEnd")}
             </h2>
-            <p className="text-lg text-muted-foreground">
-              Stay updated with the latest trends, materials, and tips in the
-              world of custom packaging.
+            <p className="text-base md:text-lg text-muted-foreground">
+              {t("blog.subtitle")}
             </p>
           </div>
           <Link href="/blogs">
             <Button variant="outline" className="rounded-2xl group">
-              View All Articles
+              {t("blog.cta")}
               <MoveRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>

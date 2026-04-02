@@ -5,7 +5,8 @@ import Image, { ImageProps } from "next/image";
 import { ImageOff } from "lucide-react";
 import { getAssetPath } from "@/lib/utils";
 
-interface SafeImageProps extends Omit<ImageProps, "onError"> {
+interface SafeImageProps extends Omit<ImageProps, "src" | "onError"> {
+  src?: string | null;
   fallbackSrc?: string;
 }
 

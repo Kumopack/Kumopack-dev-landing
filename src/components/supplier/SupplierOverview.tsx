@@ -1,7 +1,7 @@
 "use client";
 
 import { Factory, MapPin } from "lucide-react";
-import { Supplier } from "@/data/suppliers";
+import { Supplier } from "@/types/supplier";
 
 interface SupplierOverviewProps {
   supplier: Supplier;
@@ -40,7 +40,6 @@ export const SupplierOverview = ({ supplier, lang }: SupplierOverviewProps) => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          {/* Address Info */}
           <div className="lg:col-span-2 flex flex-col justify-center gap-4 p-6 rounded-[2rem] bg-accent/30 border border-border/20 hover:shadow-float transition-all group/loc">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-[hsl(var(--glass))] backdrop-blur-md border border-[hsl(var(--glass-border))] flex items-center justify-center shrink-0 shadow-soft group-hover/loc:scale-110 transition-transform">
@@ -60,7 +59,6 @@ export const SupplierOverview = ({ supplier, lang }: SupplierOverviewProps) => {
             </div>
           </div>
 
-          {/* Google Map */}
           <div className="lg:col-span-3 h-[250px] lg:h-auto min-h-[200px] rounded-[2rem] overflow-hidden border border-border/20 shadow-sm relative bg-neutral-100">
             <iframe
               width="100%"

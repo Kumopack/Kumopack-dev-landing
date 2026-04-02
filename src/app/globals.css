@@ -5,7 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-noto-thai), var(--font-noto-en), ui-sans-serif, system-ui;
+  --font-sans:
+    var(--font-noto-thai), var(--font-noto-en), ui-sans-serif, system-ui;
   --font-noto-thai: var(--font-noto-thai);
   --font-noto-en: var(--font-noto-en);
 
@@ -42,6 +43,9 @@
   --radius-sm: calc(var(--radius) - 4px);
 
   /* Custom Kumopack tokens */
+  --color-brand-purple: #b15fce;
+  --color-brand-cyan: #76b3cf;
+  --color-brand-magenta: #ac67ed;
   --color-lavender: hsl(var(--lavender));
   --color-lavender-deep: hsl(var(--lavender-deep));
   --color-lavender-muted: hsl(var(--lavender-muted));
@@ -176,6 +180,12 @@
   body {
     font-family: var(--font-noto-thai), var(--font-noto-en), sans-serif;
     @apply bg-background text-foreground antialiased;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  html {
+    overflow-x: hidden;
   }
 
   h1,
@@ -204,11 +214,19 @@
 
 @layer utilities {
   .gradient-primary {
-    background: linear-gradient(135deg, hsl(var(--purple-gradient-start)), hsl(var(--purple-gradient-end)));
+    background: linear-gradient(
+      135deg,
+      hsl(var(--purple-gradient-start)),
+      hsl(var(--purple-gradient-end))
+    );
   }
 
   .gradient-lavender {
-    background: linear-gradient(180deg, hsl(var(--lavender)), hsl(var(--warm-white)));
+    background: linear-gradient(
+      180deg,
+      hsl(var(--lavender)),
+      hsl(var(--warm-white))
+    );
   }
 
   .shadow-soft {
@@ -225,6 +243,13 @@
 
   .backdrop-blur-soft {
     backdrop-filter: blur(20px);
+  }
+
+  .text-gradient {
+    background: linear-gradient(90deg, #7a14a2, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
   }
 }
 
@@ -263,7 +288,6 @@
 
 /* Animations */
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0px);
@@ -297,7 +321,6 @@
 }
 
 @keyframes pulse-soft {
-
   0%,
   100% {
     opacity: 1;
@@ -411,7 +434,10 @@
   border-radius: 0.75rem;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   border: 1px solid #e5e7eb;
-  transition: border 0.25s ease-in-out, box-shadow 0.25s ease-in-out, transform 0.3s ease;
+  transition:
+    border 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out,
+    transform 0.3s ease;
   padding: 1.5rem;
   background: white;
 
@@ -543,4 +569,38 @@
       text-decoration: underline;
     }
   }
+}
+
+/* Custom scrollbar for mockup factory list */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.2);
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.4);
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.2) transparent;
+}
+
+/* Animated gradient for hero heading */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  animation: gradient-shift 4s ease infinite;
 }

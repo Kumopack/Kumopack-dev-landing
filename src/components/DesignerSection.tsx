@@ -1,12 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 import Link from "@/components/common/LocalizedLink";
 import { Button } from "@/components/ui/button";
 import { Play, RotateCcw, Move3D } from "lucide-react";
 import { SafeImage } from "@/components/ui/safe-image";
 
 const DesignerSection = () => {
+  const { t } = useLanguage();
   return (
     <section
       id="designer"
@@ -31,20 +33,19 @@ const DesignerSection = () => {
                 transition={{ delay: 0.2 }}
                 className="inline-block px-6 py-2.5 rounded-full glass-premium text-primary text-xs font-black tracking-[0.2em] uppercase border border-primary/20 shadow-sm"
               >
-                Immersive 3D Studio
+                {t("designer.badge")}
               </motion.span>
 
-              <h2 className="text-5xl md:text-6xl font-black text-foreground leading-[1.1] tracking-tighter">
-                Your vision,
+              <h2 className="text-4xl md:text-5xl font-black text-foreground leading-[1.1] tracking-tighter">
+                {t("designer.title")}
                 <br />
                 <span className="bg-gradient-to-r from-primary to-primary text-transparent bg-clip-text italic">
-                  perfectly realized.
+                  {t("designer.highlight")}
                 </span>
               </h2>
 
               <p className="text-2xl text-muted-foreground/80 max-w-lg leading-relaxed font-medium">
-                Bring your packaging ideas to life with our effortless online
-                designer. Visualize every detail with photorealistic accuracy.
+                {t("designer.description")}
               </p>
             </div>
 
@@ -52,13 +53,13 @@ const DesignerSection = () => {
               {[
                 {
                   icon: Move3D,
-                  title: "Real-time 3D",
-                  desc: "Rotate, zoom, and explore every angle",
+                  titleKey: "designer.features.realtime.title",
+                  descKey: "designer.features.realtime.desc",
                 },
                 {
                   icon: RotateCcw,
-                  title: "Instant Revisions",
-                  desc: "See changes update in photorealistic quality",
+                  titleKey: "designer.features.revisions.title",
+                  descKey: "designer.features.revisions.desc",
                 },
               ].map((item, i) => (
                 <motion.div
@@ -72,10 +73,10 @@ const DesignerSection = () => {
                     <item.icon className="w-8 h-8 text-primary" />
                   </div>
                   <h4 className="font-black text-xl text-foreground mb-2">
-                    {item.title}
+                    {t(item.titleKey)}
                   </h4>
                   <p className="text-muted-foreground/80 leading-snug font-medium">
-                    {item.desc}
+                    {t(item.descKey)}
                   </p>
                 </motion.div>
               ))}
@@ -88,7 +89,7 @@ const DesignerSection = () => {
                 className="shadow-glow group px-10 py-8 text-xl"
               >
                 <Play className="w-6 h-6 fill-current group-hover:scale-110 transition-transform mr-2" />
-                Launch 3D Designer
+                {t("designer.cta")}
               </Button>
             </Link>
           </motion.div>

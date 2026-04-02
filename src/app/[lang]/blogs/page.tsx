@@ -10,10 +10,9 @@ export default async function BlogsPage(props: { params: Promise<{ lang: Locale 
   const dict = await getDictionary(params.lang);
   const category = "All";
 
-  console.log("BlogsPage: Fetching initial data...");
   try {
     const [articlesRes, categories] = await Promise.all([
-      blogApi.getArticles(1, 6, category),
+      blogApi.getArticles(1, 12, category),
       blogApi.getCategories(),
     ]);
 

@@ -32,7 +32,6 @@ const BlogCard = ({ blog, index = 0, layout = "grid" }: BlogCardProps) => {
           isList ? "flex-row items-stretch" : "flex-col"
         }`}
       >
-        {/* Image Container */}
         <div
           className={`relative overflow-hidden bg-neutral-100 shrink-0 ${
             isList ? "w-[250px] aspect-square" : "w-full aspect-[16/16]"
@@ -46,7 +45,6 @@ const BlogCard = ({ blog, index = 0, layout = "grid" }: BlogCardProps) => {
             className="object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out"
           />
 
-          {/* View Count Badge */}
           <div
             className={`absolute flex items-center gap-1.5 px-2 py-1 bg-white/90 backdrop-blur-md rounded-md text-[9px] font-black tracking-wider text-primary shadow-sm border border-white/50 ${
               isList
@@ -59,7 +57,6 @@ const BlogCard = ({ blog, index = 0, layout = "grid" }: BlogCardProps) => {
           </div>
         </div>
 
-        {/* Content Container */}
         <div
           className={`flex flex-col flex-1 min-w-0 ${isList ? "p-4 md:p-5" : "p-6 md:p-8"}`}
         >
@@ -93,7 +90,6 @@ const BlogCard = ({ blog, index = 0, layout = "grid" }: BlogCardProps) => {
               isList ? "pt-3" : "pt-6"
             }`}
           >
-            {/* Author */}
             <div className="flex items-center gap-3">
               <div
                 className={`rounded-full bg-neutral-100 border border-neutral-200 overflow-hidden shrink-0 flex items-center justify-center ${
@@ -130,7 +126,6 @@ const BlogCard = ({ blog, index = 0, layout = "grid" }: BlogCardProps) => {
               </div>
             </div>
 
-            {/* Arrow Button */}
             <div
               className={`rounded-full bg-primary/5 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-300 transform ${
                 isList
