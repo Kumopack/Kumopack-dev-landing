@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslation } from "@/hooks/useTranslation";
+import { createTranslator, Dictionary } from "@/lib/translation";
 import { Box, Printer, Ribbon, ShoppingBag, Cylinder, Mail } from "lucide-react";
 
 const categories = [
@@ -49,8 +49,8 @@ const categories = [
   },
 ];
 
-const CategoriesSection = () => {
-  const { t } = useTranslation();
+const CategoriesSection = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
   return (

@@ -5,8 +5,9 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Home, Ghost } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
 import { getDictionary, Locale } from "@/lib/dictionary";
+import { createTranslator } from "@/lib/translation";
+import { useState, useEffect } from "react";
 
 export default function LocalNotFound() {
   const params = useParams();
@@ -18,10 +19,7 @@ export default function LocalNotFound() {
     getDictionary(language as Locale).then(setDict);
   }, [language]);
 
-  const t = (path: string) => {
-    if (!dict) return path;
-    return path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
-  };
+  const t = createTranslator(dict);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4 overflow-hidden relative">

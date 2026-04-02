@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, MoveRight } from "lucide-react";
 import Image from "next/image";
-import { useTranslation } from "@/hooks/useTranslation";
+import { createTranslator, Dictionary } from "@/lib/translation";
 import { getAssetPath } from "@/lib/utils";
 
 const categories = [
@@ -81,8 +81,8 @@ const categories = [
   },
 ];
 
-const MockupCategoriesV2 = () => {
-  const { t } = useTranslation();
+const MockupCategoriesV2 = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
 
   return (
     <section className="py-28 relative overflow-hidden bg-gradient-to-b from-white via-primary/[0.02] to-white">

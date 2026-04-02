@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useTranslation } from "@/hooks/useTranslation";
+import { createTranslator, Dictionary } from "@/lib/translation";
 import Link from "@/components/common/LocalizedLink";
 import { Button } from "@/components/ui/button";
 import { Play, RotateCcw, Move3D } from "lucide-react";
 import { SafeImage } from "@/components/ui/safe-image";
 
-const DesignerSection = () => {
-  const { t } = useTranslation();
+const DesignerSection = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
   return (
     <section
       id="designer"

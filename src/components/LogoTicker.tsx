@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useTranslation } from "@/hooks/useTranslation";
+import { createTranslator, Dictionary } from "@/lib/translation";
 import { getAssetPath } from "@/lib/utils";
 
 const partners = [
@@ -92,8 +92,8 @@ const partners = [
   },
 ];
 
-const LogoTicker = () => {
-  const { t } = useTranslation();
+const LogoTicker = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
   const duplicatedPartners = [...partners, ...partners];
 
   return (

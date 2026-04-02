@@ -25,6 +25,8 @@ import { useLanguageSwitcher } from "./LanguageSwitcher";
 import EventsNavCard from "@/components/EventsNavCard";
 import WorkshopNavLink from "@/components/WorkshopNavLink";
 
+import { createTranslator, Dictionary } from "@/lib/translation";
+
 // Subscribe to storage events so auth state stays in sync across tabs
 const subscribeToAuth = (callback: () => void) => {
   window.addEventListener("storage", callback);
@@ -33,14 +35,14 @@ const subscribeToAuth = (callback: () => void) => {
 const getAuthSnapshot = () => auth.isAuthenticated();
 const getAuthServerSnapshot = (): boolean | null => null;
 
-const Navbar = ({ lang, dict }: { lang: string; dict: unknown }) => {
+const Navbar = ({ lang, dict }: { lang: string; dict: Dictionary }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const isLoggedIn = useSyncExternalStore(subscribeToAuth, getAuthSnapshot, getAuthServerSnapshot);
   const { switchLanguage } = useLanguageSwitcher(lang);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const t = (path: string) => (path.split('.').reduce((obj: unknown, key) => (obj as Record<string, unknown>)?.[key], dict) as string) || path;
+  const t = createTranslator(dict);
 
   const handleMouseEnter = (menu: string) => {
     if (timeoutId) {
@@ -244,7 +246,7 @@ const Navbar = ({ lang, dict }: { lang: string; dict: unknown }) => {
               </Link>
               */}
 
-              <WorkshopNavLink />
+              <WorkshopNavLink dict={dict} />
 
               <div
                 className="relative"
@@ -307,7 +309,7 @@ const Navbar = ({ lang, dict }: { lang: string; dict: unknown }) => {
                           href="/contact"
                         />
                         <div className="row-span-2">
-                          <EventsNavCard />
+                          <EventsNavCard dict={dict} />
                         </div>
                         <ETCCard
                           icon={Info}

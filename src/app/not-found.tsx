@@ -4,19 +4,21 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, Home, Ghost } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-import { useTranslation } from "@/hooks/useTranslation";
+import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { getDictionary, Locale } from "@/lib/dictionary";
+import { createTranslator } from "@/lib/translation";
 
 export default function NotFound() {
-  return (
-    <LanguageProvider>
-      <NotFoundContent />
-    </LanguageProvider>
-  );
-}
+  const params = useParams();
+  const language = (params?.lang as string) || "th";
+  const [dict, setDict] = useState<Record<string, any> | null>(null);
 
-function NotFoundContent() {
-  const { t, language } = useTranslation();
+  useEffect(() => {
+    getDictionary(language as Locale).then(setDict);
+  }, [language]);
+
+  const t = createTranslator(dict);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4 overflow-hidden relative">

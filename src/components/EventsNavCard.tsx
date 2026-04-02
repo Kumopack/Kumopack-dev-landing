@@ -2,10 +2,10 @@
 
 import Link from "@/components/common/LocalizedLink";
 import { Sparkles, Gift, PartyPopper, Star, Zap } from "lucide-react";
-import { useTranslation } from "@/hooks/useTranslation";
+import { createTranslator, Dictionary } from "@/lib/translation";
 
-const EventsNavCard = () => {
-  const { t } = useTranslation();
+const EventsNavCard = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
 
   return (
     <Link

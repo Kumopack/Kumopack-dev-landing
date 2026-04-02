@@ -102,6 +102,7 @@ export default function SupplierClient({ dict, lang }: { dict: any; lang: string
               <SupplierFilters
                 onSearch={() => {}}
                 onFilterChange={handleFilterChange}
+                dict={dict}
               />
             </div>
 

@@ -2,6 +2,7 @@
 
 import { useLocalizedRouter as useRouter } from "@/hooks/useLocalizedRouter";
 import { useSearchParams } from "@/hooks/useLocalizedRouter";
+import { createTranslator, Dictionary } from "@/lib/translation";
 import Link from "@/components/common/LocalizedLink";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Loader2, Eye, EyeOff } from "lucide-react";
@@ -14,10 +15,10 @@ import Cookies from "js-cookie";
 const API_ENDPOINT =
   process.env.NEXT_PUBLIC_API_ENDPOINT || "https://api.kumopack.com/v1";
 
-function LoginSelectionContent({ dict, lang }: { dict: any; lang: string }) {
+function LoginSelectionContent({ dict, lang }: { dict: Dictionary; lang: string }) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const t = (path: string) => path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
+  const t = createTranslator(dict);
   const [isMounted, setIsMounted] = useState(false);
   const [role, setRole] = useState<"buyer" | "supplier" | null>(null);
   const [isLoading, setIsLoading] = useState(false);

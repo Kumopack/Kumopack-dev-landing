@@ -20,11 +20,12 @@ import {
 } from "@/components/ui/select";
 import { getProvinces, Province } from "@/data/geo";
 import { getCategories, getFeatures, TaxonomyOption } from "@/data/taxonomy";
-import { useTranslation } from "@/hooks/useTranslation";
+import { createTranslator, Dictionary } from "@/lib/translation";
 
 interface SupplierFiltersProps {
   onSearch: (query: string) => void;
   onFilterChange: (filters: FilterState) => void;
+  dict?: Dictionary;
 }
 
 export interface FilterState {
@@ -37,8 +38,9 @@ export interface FilterState {
 export default function SupplierFilters({
   onSearch,
   onFilterChange,
+  dict = {},
 }: SupplierFiltersProps) {
-  const { t } = useTranslation();
+  const t = createTranslator(dict);
   const [filters, setFilters] = useState<FilterState>({
     search: "",
     categories: [],

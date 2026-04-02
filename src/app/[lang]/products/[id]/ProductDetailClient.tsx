@@ -37,6 +37,7 @@ export default function ProductDetailClient({
   lang: string;
 }) {
   const params = useParams();
+  const router = useRouter();
   const rawId = params?.id;
   const paramId = Array.isArray(rawId) ? rawId[0] : rawId;
   const id = initialId || paramId;

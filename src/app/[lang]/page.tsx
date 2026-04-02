@@ -45,15 +45,15 @@ export default async function Home({
       <Navbar lang={lang} dict={dict} />
       <PromoPopup />
       <HeroSection dict={dict} />
-      <MockupCategoriesV2 />
-      <SystemFeaturesSection />
-      <GallerySection />
+      <MockupCategoriesV2 dict={dict} />
+      <SystemFeaturesSection dict={dict} />
+      <GallerySection dict={dict} />
       <ValueProposition dict={dict} />
       <HowItWorks dict={dict} />
-      <FeaturesSection />
-      <CategoriesSection />
-      <BlogSection articles={articles} />
-      <LogoTicker />
+      <FeaturesSection dict={dict} />
+      <CategoriesSection dict={dict} />
+      <BlogSection articles={articles} dict={dict} />
+      <LogoTicker dict={dict} />
       <Footer dict={dict} />
     </main>
   );

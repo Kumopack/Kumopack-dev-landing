@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createTranslator, Dictionary } from "@/lib/translation";
 import { motion, Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "@/components/common/LocalizedLink";
@@ -98,8 +99,8 @@ const allFactories = [
   },
 ];
 
-const HeroSection = ({ dict }: { dict: unknown }) => {
-  const t = (path: string) => path.split('.').reduce((obj: unknown, key: string) => (obj as Record<string, unknown>)?.[key], dict) as string || path;
+const HeroSection = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredFactories = allFactories.filter(

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { SafeImage } from "@/components/ui/safe-image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useTranslation } from "@/hooks/useTranslation";
+import { createTranslator, Dictionary } from "@/lib/translation";
 
 const galleryItems = [
   {
@@ -70,8 +70,8 @@ const galleryItems = [
 
 const VISIBLE_COUNT = 5;
 
-const GallerySection = () => {
-  const { t } = useTranslation();
+const GallerySection = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
   const [activeIndex, setActiveIndex] = useState(0);
   const total = galleryItems.length;
 

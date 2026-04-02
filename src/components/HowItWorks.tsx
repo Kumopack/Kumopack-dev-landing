@@ -76,7 +76,7 @@ const HowItWorks = ({ dict }: { dict: any }) => {
 
         <div className="relative grid md:grid-cols-2 lg:grid-cols-4 gap-0">
           {}
-          <div className="hidden lg:block absolute top-[52px] left-[12%] right-[12%] h-[2px]">
+          <div className="hidden lg:block absolute top-[80px] left-[12%] right-[12%] h-[2px]">
             <div className="w-full h-full bg-gradient-to-r from-amber-300 via-blue-300 via-emerald-300 to-purple-300 rounded-full opacity-40" />
           </div>
 
