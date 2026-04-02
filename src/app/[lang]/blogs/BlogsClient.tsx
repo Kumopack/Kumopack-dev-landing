@@ -19,7 +19,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import { blogApi, Article, Category } from "@/lib/blog-api";
-import { getSafeSlug } from "@/lib/slug-utils";
 import { Dictionary } from "@/lib/dictionary";
 import BlogCard from "@/components/BlogCard";
 
@@ -27,12 +26,14 @@ interface BlogsClientProps {
   initialArticles: Article[];
   initialTotalItems: number;
   initialCategories: Category[];
+  initialPage: number;
 }
 
 export default function BlogsClient({
   initialArticles,
   initialTotalItems,
   initialCategories,
+  initialPage,
   lang,
   dict,
 }: BlogsClientProps & { lang: string; dict: Dictionary }) {
@@ -46,26 +47,23 @@ export default function BlogsClient({
   const [articles, setArticles] = useState<Article[]>(initialArticles || []);
   const [categories, setCategories] = useState<Category[]>(initialCategories);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalItems, setTotalItems] = useState(initialTotalItems);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const selectedCategory = searchParams?.get("category") || "All";
   const limit = 12;
 
+  // Sync state when server-side props change (e.g. URL navigation)
   useEffect(() => {
     setArticles(initialArticles || []);
     setTotalItems(initialTotalItems);
     setCategories(initialCategories);
-    setCurrentPage(1);
-    console.log("BlogsClient: Props updated", {
-      initialArticlesCount: initialArticles?.length,
-    });
-  }, [initialArticles, initialTotalItems, initialCategories]);
+    setCurrentPage(initialPage);
+  }, [initialArticles, initialTotalItems, initialCategories, initialPage]);
 
+  // Fetch articles when category or page changes client-side
   useEffect(() => {
-    if (currentPage === 1) return;
-
     const fetchArticles = async () => {
       setLoading(true);
       try {
@@ -75,7 +73,7 @@ export default function BlogsClient({
           selectedCategory || "All",
         );
         setArticles(response.data || []);
-        setTotalItems(response.totalItems);
+        setTotalItems(response.pagination.total);
       } catch (err) {
         console.error(err);
       } finally {
@@ -84,20 +82,27 @@ export default function BlogsClient({
     };
 
     fetchArticles();
-  }, [currentPage, selectedCategory, limit]);
+
+  }, [currentPage, selectedCategory]);
 
 
 
 
   const handleCategoryChange = (slug: string) => {
-    const params = new URLSearchParams(searchParams?.toString() || "");
-    if (slug === "All") {
-      params.delete("category");
-    } else {
+    const params = new URLSearchParams();
+    if (slug !== "All") {
       params.set("category", slug);
     }
+    // Reset to page 1 on category change
     setCurrentPage(1);
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    const qs = params.toString();
+    router.push(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    // Scroll to top of the article grid
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const filteredArticles = (articles || []).filter((article) => {
@@ -169,7 +174,7 @@ export default function BlogsClient({
                 <button
                   key={cat.id}
                   onClick={() => handleCategoryChange(cat.slug)}
-                  className={`relative px-5 md:px-7 py-2.5 md:py-3 text-[11px] md:text-xs font-black uppercase tracking-[0.2em] transition-colors duration-300 whitespace-nowrap ${
+                  className={`cursor-pointer relative px-5 md:px-7 py-2.5 md:py-3 text-[11px] md:text-xs font-black uppercase tracking-[0.2em] transition-colors duration-300 whitespace-nowrap ${
                     isSelected
                       ? "text-white"
                       : "text-muted-foreground/40 hover:text-primary"
@@ -269,29 +274,60 @@ export default function BlogsClient({
               )}
 
               {totalPages > 1 && (
-                <div className="mt-20 md:mt-40 flex justify-center items-center gap-4 md:gap-8">
+                <div className="mt-10 md:mt-20 flex justify-center items-center gap-2 md:gap-3">
                   <button
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
-                    className="w-10 h-10 md:w-14 md:h-14 rounded-none border border-neutral-200 flex items-center justify-center hover:bg-white hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-sm"
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-xl border border-neutral-200 flex items-center justify-center hover:bg-white hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-sm"
                   >
-                    <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+                    <ChevronLeft className="w-5 h-5" />
                   </button>
-                  <div className="text-[10px] md:text-[12px] font-black text-muted-foreground uppercase tracking-[0.4em]">
-                    <span className="hidden sm:inline">Page </span>
-                    <span className="text-primary italic">
-                      {currentPage}
-                    </span>{" "}
-                    of {totalPages}
-                  </div>
+
+                  {(() => {
+                    const pages: (number | string)[] = [];
+                    if (totalPages <= 7) {
+                      for (let i = 1; i <= totalPages; i++) pages.push(i);
+                    } else {
+                      pages.push(1);
+                      if (currentPage > 3) pages.push("...");
+                      const start = Math.max(2, currentPage - 1);
+                      const end = Math.min(totalPages - 1, currentPage + 1);
+                      for (let i = start; i <= end; i++) pages.push(i);
+                      if (currentPage < totalPages - 2) pages.push("...");
+                      pages.push(totalPages);
+                    }
+                    return pages.map((p, idx) =>
+                      typeof p === "string" ? (
+                        <span
+                          key={`ellipsis-${idx}`}
+                          className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-muted-foreground/40 font-bold text-sm select-none"
+                        >
+                          ···
+                        </span>
+                      ) : (
+                        <button
+                          key={p}
+                          onClick={() => handlePageChange(p)}
+                          className={`w-10 h-10 md:w-12 md:h-12 rounded-xl text-sm font-black transition-all duration-300 ${
+                            currentPage === p
+                              ? "bg-primary text-white shadow-glow-sm scale-105"
+                              : "border border-neutral-200 text-muted-foreground/60 hover:border-primary hover:text-primary hover:bg-primary/5"
+                          }`}
+                        >
+                          {p}
+                        </button>
+                      ),
+                    );
+                  })()}
+
                   <button
                     onClick={() =>
-                      setCurrentPage((p) => Math.min(totalPages, p + 1))
+                      handlePageChange(Math.min(totalPages, currentPage + 1))
                     }
                     disabled={currentPage === totalPages}
-                    className="w-10 h-10 md:w-14 md:h-14 rounded-none border border-neutral-200 flex items-center justify-center hover:bg-white hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-sm"
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-xl border border-neutral-200 flex items-center justify-center hover:bg-white hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-sm"
                   >
-                    <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                    <ChevronRight className="w-5 h-5" />
                   </button>
                 </div>
               )}

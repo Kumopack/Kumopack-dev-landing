@@ -53,9 +53,12 @@ export interface Article {
 
 export interface ArticlesResponse {
   data: Article[];
-  totalItems: number;
-  currentPage: number;
-  pageSize: number;
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 }
 
 export const blogApi = {
@@ -82,11 +85,13 @@ export const blogApi = {
     limit = 12,
     category?: string,
   ): Promise<ArticlesResponse> {
+    console.log("category", category);
     try {
       let path = `/articles?page=${page}&limit=${limit}`;
       if (category && category !== "All") {
         path += `&category[]=${encodeURIComponent(category)}`;
       }
+      console.log("path:", path);
       const res = await apiFetch(path, {}, { failoverToProduction: true });
       if (!res.ok) {
         console.error(
@@ -99,7 +104,10 @@ export const blogApi = {
       return data;
     } catch (error) {
       console.error("Error fetching articles:", error);
-      return { data: [], totalItems: 0, currentPage: 1, pageSize: 12 };
+      return {
+        data: [],
+        pagination: { total: 0, page: 1, limit: 12, totalPages: 1 },
+      };
     }
   },
 

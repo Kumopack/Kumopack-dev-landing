@@ -5,14 +5,19 @@ import { Loader2 } from "lucide-react";
 
 import { getDictionary, Locale } from "@/lib/dictionary";
 
-export default async function BlogsPage(props: { params: Promise<{ lang: Locale }> }) {
+export default async function BlogsPage(props: {
+  params: Promise<{ lang: Locale }>;
+  searchParams: Promise<{ category?: string; page?: string }>;
+}) {
   const params = await props.params;
+  const searchParams = await props.searchParams;
   const dict = await getDictionary(params.lang);
-  const category = "All";
+  const category = searchParams?.category || "All";
+  const page = Number(searchParams?.page) || 1;
 
   try {
     const [articlesRes, categories] = await Promise.all([
-      blogApi.getArticles(1, 12, category),
+      blogApi.getArticles(page, 12, category),
       blogApi.getCategories(),
     ]);
 
@@ -26,8 +31,9 @@ export default async function BlogsPage(props: { params: Promise<{ lang: Locale 
       >
         <BlogsClient
           initialArticles={articlesRes?.data || []}
-          initialTotalItems={articlesRes.totalItems}
+          initialTotalItems={articlesRes.pagination.total}
           initialCategories={categories}
+          initialPage={page}
           lang={params.lang}
           dict={dict}
         />
@@ -48,6 +54,7 @@ export default async function BlogsPage(props: { params: Promise<{ lang: Locale 
           initialArticles={[]}
           initialTotalItems={0}
           initialCategories={[]}
+          initialPage={1}
           lang={params.lang}
           dict={dict}
         />
