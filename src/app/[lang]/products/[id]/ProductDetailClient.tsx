@@ -325,7 +325,16 @@ export default function ProductDetailClient({
                         ? "ติดต่อเราเพื่อรับใบเสนอราคาและคำปรึกษาฟรี"
                         : "Contact us for a quote and free consultation on your custom packaging."}
                     </p>
-                    <Button className="w-full rounded-xl font-bold translate-y-0 hover:-translate-y-1 transition-transform shadow-lg shadow-primary/20">
+                    <Button
+                      onClick={() =>
+                        window.open(
+                          process.env.NEXT_PUBLIC_MOCKUP_SITE_URL ||
+                            "https://mockup.kumopack.com",
+                          "_blank",
+                        )
+                      }
+                      className="cursor-pointer w-full rounded-xl font-bold translate-y-0 hover:-translate-y-1 transition-transform shadow-lg shadow-primary/20"
+                    >
                       {t("products.startDesigning")}
                     </Button>
                   </div>
