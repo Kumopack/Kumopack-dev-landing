@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Lightbulb, Handshake, PackageCheck, Truck } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
 
 const steps = [
   {
@@ -43,8 +42,8 @@ const steps = [
   },
 ];
 
-const HowItWorks = () => {
-  const { t } = useLanguage();
+const HowItWorks = ({ dict }: { dict: any }) => {
+  const t = (path: string) => path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
 
   return (
     <section
@@ -77,7 +76,7 @@ const HowItWorks = () => {
 
         <div className="relative grid md:grid-cols-2 lg:grid-cols-4 gap-0">
           {}
-          <div className="hidden lg:block absolute top-[52px] left-[12%] right-[12%] h-[2px]">
+          <div className="hidden lg:block absolute top-[80px] left-[12%] right-[12%] h-[2px]">
             <div className="w-full h-full bg-gradient-to-r from-amber-300 via-blue-300 via-emerald-300 to-purple-300 rounded-full opacity-40" />
           </div>
 

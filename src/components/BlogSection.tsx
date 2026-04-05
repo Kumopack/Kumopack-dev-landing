@@ -2,17 +2,18 @@
 
 import Link from "@/components/common/LocalizedLink";
 import { MoveRight } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
+import { createTranslator, Dictionary } from "@/lib/translation";
 import { Button } from "@/components/ui/button";
 import { Article } from "@/lib/blog-api";
 import BlogCard from "@/components/BlogCard";
 
 interface BlogSectionProps {
   articles: Article[];
+  dict?: Dictionary;
 }
 
-const BlogSection = ({ articles = [] }: BlogSectionProps) => {
-  const { t } = useLanguage();
+const BlogSection = ({ articles = [], dict = {} }: BlogSectionProps) => {
+  const t = createTranslator(dict);
   return (
     <section id="blogs" className="px-4 md:px-8 py-16 md:py-24 scroll-mt-24">
       <div className="container mx-auto max-w-6xl">

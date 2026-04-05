@@ -10,7 +10,7 @@ interface SafeImageProps extends Omit<ImageProps, "src" | "onError"> {
   fallbackSrc?: string;
 }
 
-export const SafeImage = ({
+export const SafeImage = React.memo(({
   src,
   alt,
   fallbackSrc,
@@ -20,12 +20,15 @@ export const SafeImage = ({
   fill,
   ...props
 }: SafeImageProps) => {
+  const [lastSrc, setLastSrc] = useState<string | null | undefined>(src);
   const [error, setError] = useState(false);
-  const safeSrc = getAssetPath(src as string);
 
-  useEffect(() => {
+  if (src !== lastSrc) {
+    setLastSrc(src);
     setError(false);
-  }, [src]);
+  }
+
+  const safeSrc = getAssetPath(src as string);
 
   const finalSrc = error && fallbackSrc ? fallbackSrc : safeSrc;
 
@@ -66,4 +69,5 @@ export const SafeImage = ({
       />
     </div>
   );
-};
+});
+SafeImage.displayName = "SafeImage";

@@ -4,10 +4,22 @@ import Link from "@/components/common/LocalizedLink";
 import { motion } from "framer-motion";
 import { ArrowLeft, Home, Ghost } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/context/LanguageContext";
+import { useParams } from "next/navigation";
+import { getDictionary, Locale } from "@/lib/dictionary";
+import { createTranslator } from "@/lib/translation";
+import { useState, useEffect } from "react";
 
 export default function LocalNotFound() {
-  const { t, language } = useLanguage();
+  const params = useParams();
+  const language = (params?.lang as string) || "th";
+  const isTh = language === "th";
+  const [dict, setDict] = useState<Record<string, any> | null>(null);
+
+  useEffect(() => {
+    getDictionary(language as Locale).then(setDict);
+  }, [language]);
+
+  const t = createTranslator(dict);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4 overflow-hidden relative">
@@ -72,7 +84,7 @@ export default function LocalNotFound() {
           >
             <Link href="/">
               <Home className="w-6 h-6" />
-              {t("notFound.backHome")}
+              {isTh ? "หน้าหลัก" : "Back to Home"}
             </Link>
           </Button>
           <Button

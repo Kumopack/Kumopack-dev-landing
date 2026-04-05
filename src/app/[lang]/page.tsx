@@ -26,25 +26,35 @@ const MockupCategoriesV2 = dynamic(
   () => import("@/components/MockupCategoriesV2"),
 );
 
-export default async function Home() {
+import { getDictionary } from "@/lib/dictionary";
+import { Locale } from "@/lib/dictionary";
+
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang);
+  
   const articlesResponse = await blogApi.getArticles(1, 3);
   const articles = articlesResponse.data;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <Navbar />
+      <Navbar lang={lang} dict={dict} />
       <PromoPopup />
-      <HeroSection />
-      <MockupCategoriesV2 />
-      <SystemFeaturesSection />
-
-      <ValueProposition />
-      <HowItWorks />
-      <FeaturesSection />
-      <CategoriesSection />
-      <BlogSection articles={articles} />
-      <LogoTicker />
-      <Footer />
+      <HeroSection dict={dict} />
+      <MockupCategoriesV2 dict={dict} />
+      <SystemFeaturesSection dict={dict} />
+      <GallerySection dict={dict} />
+      <ValueProposition dict={dict} />
+      <HowItWorks dict={dict} />
+      <FeaturesSection dict={dict} />
+      <CategoriesSection dict={dict} />
+      <BlogSection articles={articles} dict={dict} />
+      <LogoTicker dict={dict} />
+      <Footer dict={dict} />
     </main>
   );
 }

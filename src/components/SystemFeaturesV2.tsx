@@ -12,10 +12,10 @@ import {
   Monitor,
   Smartphone,
 } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
+import { createTranslator, Dictionary } from "@/lib/translation";
 
-const SystemFeaturesV2 = () => {
-  const { t } = useLanguage();
+const SystemFeaturesV2 = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
   const [activeTab, setActiveTab] = useState<"buyers" | "manufacturers">(
     "buyers",
   );

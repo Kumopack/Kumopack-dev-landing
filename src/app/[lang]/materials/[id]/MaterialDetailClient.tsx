@@ -4,21 +4,22 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ArrowLeft } from "lucide-react";
 import Link from "@/components/common/LocalizedLink";
-import { useLanguage } from "@/context/LanguageContext";
-import {
-  useParams,
-  useLocalizedRouter as useRouter,
-} from "@/hooks/useLocalizedRouter";
+import { useParams, useLocalizedRouter as useRouter } from "@/hooks/useLocalizedRouter";
 import { useState, useEffect } from "react";
 import { Material, materialApi, productApi } from "@/lib/product-api";
 import { SustainabilityIcon } from "@/components/SustainabilityIcon";
 import { SafeImage } from "@/components/ui/safe-image";
+import { Dictionary } from "@/lib/dictionary";
 import { motion } from "framer-motion";
 
 export default function MaterialDetailClient({
   id: initialId,
+  dict,
+  lang,
 }: {
   id?: string;
+  dict: Dictionary;
+  lang: string;
 }) {
   const params = useParams();
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function MaterialDetailClient({
 
   const id = initialId || paramId;
 
-  const { dict, language } = useLanguage();
+  const language = lang;
 
   const [material, setMaterial] = useState<Material | null>(null);
   const [loading, setLoading] = useState(true);
@@ -36,15 +37,15 @@ export default function MaterialDetailClient({
 
   const t = (key: string) => {
     const keys = key.split(".");
-    let current: any = dict;
+    let current: unknown = dict;
     for (const k of keys) {
-      if (current && current[k]) {
-        current = current[k];
+      if (current && typeof current === "object" && k in current) {
+        current = (current as Record<string, unknown>)[k];
       } else {
         return key;
       }
     }
-    return current;
+    return typeof current === "string" ? current : key;
   };
 
   useEffect(() => {
@@ -138,7 +139,7 @@ export default function MaterialDetailClient({
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <Navbar />
+      <Navbar lang={lang} dict={dict} />
 
       <section className="pt-32 px-4 md:px-8 max-w-7xl mx-auto pb-24">
         <div className="mb-12">
@@ -205,7 +206,7 @@ export default function MaterialDetailClient({
                 </h3>
                 <div className="flex flex-wrap gap-3">
                   {material.sustainability.map((item: any, idx: number) => (
-                    <SustainabilityIcon key={idx} item={item} />
+                    <SustainabilityIcon key={idx} item={item} lang={lang} />
                   ))}
                 </div>
               </div>
@@ -260,7 +261,7 @@ export default function MaterialDetailClient({
           </motion.div>
         )}
       </section>
-      <Footer />
+      <Footer dict={dict} />
     </main>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   useSearchParams,
@@ -9,64 +9,51 @@ import {
 } from "@/hooks/useLocalizedRouter";
 import {
   Search,
-  ChevronRight,
-  ChevronLeft,
   Calendar,
   Loader2,
   ArrowLeft,
-  Clock,
-  Eye,
 } from "lucide-react";
 import Link from "@/components/common/LocalizedLink";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { SafeImage } from "@/components/ui/safe-image";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguageSwitcher } from "@/components/LanguageSwitcher";
 import { learningApi, LearningArticle, Category } from "@/lib/learning-api";
+import { Pagination } from "@/components/ui/pagination";
 import { getSafeSlug } from "@/lib/slug-utils";
-import { useArticles, useAllArticles } from "@/hooks/use-learning-queries";
 
-interface LearningPageClientProps {
-  initialArticles: LearningArticle[];
-  initialCategories: Category[];
-  initialFeaturedArticle: LearningArticle | null;
-  initialTotalPages: number;
-}
-
-export default function LearningPageClient({
-  initialArticles,
-  initialCategories,
-  initialFeaturedArticle,
-  initialTotalPages,
-}: LearningPageClientProps) {
-  const { language, setLanguage } = useLanguage();
+function LearningPageContent({ dict, lang }: { dict: any; lang: string }) {
+  const language = lang;
+  const { switchLanguage: setLanguage } = useLanguageSwitcher(lang);
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const isTh = language === "th";
 
+  const [search, setSearch] = useState("");
+  const [selectedCategorySlug, setSelectedCategorySlug] = useState("all");
+  const [articles, setArticles] = useState<LearningArticle[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [featuredArticle, setFeaturedArticle] =
+    useState<LearningArticle | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 12;
+
   const initialAudience =
     (searchParams?.get("audience") as "buyer" | "supplier") || "buyer";
-  const initialSearch = searchParams?.get("q") || "";
-  const initialCategorySlug = searchParams?.get("categorySlug") || "all";
-  const initialPage = Number(searchParams?.get("page")) || 1;
-
   const [currentAudience, setCurrentAudience] = useState<"buyer" | "supplier">(
     initialAudience,
   );
-  const [search, setSearch] = useState(initialSearch);
-  const [debouncedSearch, setDebouncedSearch] = useState(initialSearch);
-  const [selectedCategorySlug, setSelectedCategorySlug] =
-    useState(initialCategorySlug);
-  const [currentPage, setCurrentPage] = useState(initialPage);
 
-  // Debounce search input
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [search]);
+    const aud = searchParams?.get("audience") as "buyer" | "supplier";
+    if (aud && aud !== currentAudience) {
+      setCurrentAudience(aud);
+    }
+  }, [searchParams]);
 
-  // Language sync effects
   useEffect(() => {
     const urlLang = searchParams?.get("lang");
     if (
@@ -81,80 +68,96 @@ export default function LearningPageClient({
   useEffect(() => {
     const urlLang = searchParams?.get("lang");
     if (urlLang !== language) {
-      updateUrlParams({ lang: language });
+      const params = new URLSearchParams(searchParams?.toString());
+      params.set("lang", language);
+      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     }
   }, [language, pathname, router, searchParams]);
 
-  // Sync audience from URL (e.g. browser back button)
   useEffect(() => {
-    const aud = searchParams?.get("audience") as "buyer" | "supplier";
-    if (aud && aud !== currentAudience) setCurrentAudience(aud);
-  }, [searchParams]);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        let articlesRes;
+        if (search) {
+          articlesRes = await learningApi.searchArticles({
+            q: search,
+            targetAudience: currentAudience,
+            lang: language as "th" | "en",
+            category:
+              selectedCategorySlug === "all" ? undefined : selectedCategorySlug,
+            page: currentPage,
+            limit: limit,
+          });
+          const data = Array.isArray(articlesRes) ? articlesRes : [];
+          setArticles(data);
+          setTotalPages(1);
+        } else {
+          articlesRes = await learningApi.getArticles({
+            targetAudience: currentAudience,
+            lang: language as "th" | "en",
+            category:
+              selectedCategorySlug === "all" ? undefined : selectedCategorySlug,
+            page: currentPage,
+            limit: limit,
+          });
+          setArticles(articlesRes.data);
+          setTotalPages(articlesRes.pagination.totalPages);
+        }
 
-  // -----------------------------------------------------------------------
-  // TanStack Query: Articles (paginated + search/filter)
-  // -----------------------------------------------------------------------
-  const {
-    data: articlesData,
-    isLoading: articlesLoading,
-    isFetching: articlesFetching,
-  } = useArticles(
-    {
-      audience: currentAudience,
-      lang: language as "th" | "en",
-      category: selectedCategorySlug,
-      page: currentPage,
-      search: debouncedSearch,
-    },
-    { data: initialArticles, totalPages: initialTotalPages },
-  );
+        const allArticlesRes = await learningApi.getArticles({
+          targetAudience: currentAudience,
+          lang: language as "th" | "en",
+          limit: 100,
+        });
 
-  const articles = articlesData?.data ?? initialArticles;
-  const totalPages = articlesData?.totalPages ?? initialTotalPages;
+        const pinned =
+          allArticlesRes.data.find((a) => a.isPinned && a.pinnedOrder === 1) ||
+          allArticlesRes.data.find((a) => a.isPinned) ||
+          allArticlesRes.data[0];
+        setFeaturedArticle(pinned || null);
 
-  // -----------------------------------------------------------------------
-  // TanStack Query: All articles (for categories + featured)
-  // -----------------------------------------------------------------------
-  const { data: allData } = useAllArticles(
-    currentAudience,
-    language as "th" | "en",
-    { categories: initialCategories, featured: initialFeaturedArticle },
-  );
+        const derivedCategories = Array.from(
+          new Map(
+            allArticlesRes.data
+              .map((a) => {
+                const cat =
+                  typeof a.category === "object" && a.category
+                    ? a.category
+                    : {
+                        id: "misc",
+                        name: String(a.category || "General"),
+                        slug: String(a.category || "general").toLowerCase(),
+                      };
+                return [cat.slug, cat];
+              })
+              .filter(([slug]) => slug) as [string, Category][],
+          ).values(),
+        );
 
-  const categories = allData?.categories ?? initialCategories;
-  const featuredArticle = allData?.featured ?? initialFeaturedArticle;
+        setCategories(derivedCategories);
+      } catch (error) {
+        console.error("Error fetching learning data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  // Show loading only on initial load, not on background refetches
-  const isLoading = articlesLoading;
-
-  // Utility to update URL
-  const updateUrlParams = (updates: Record<string, string | undefined>) => {
-    const params = new URLSearchParams(searchParams?.toString());
-    Object.entries(updates).forEach(([key, value]) => {
-      if (value) params.set(key, value);
-      else params.delete(key);
-    });
-    router.push(`${pathname}?${params.toString()}`);
-  };
+    fetchData();
+  }, [currentAudience, language, search, selectedCategorySlug, currentPage]);
 
   const handleAudienceChange = (newAudience: "buyer" | "supplier") => {
     setCurrentAudience(newAudience);
     setSelectedCategorySlug("all");
     setCurrentPage(1);
-    updateUrlParams({
-      audience: newAudience,
-      categorySlug: undefined,
-      page: undefined,
-    });
+    const params = new URLSearchParams(searchParams?.toString());
+    params.set("audience", newAudience);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const handleCategoryChange = (slug: string) => {
     setSelectedCategorySlug(slug);
     setCurrentPage(1);
-    updateUrlParams({
-      categorySlug: slug === "all" ? undefined : slug,
-      page: "1",
-    });
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -162,8 +165,12 @@ export default function LearningPageClient({
     setCurrentPage(1);
   };
 
+  const displayCategories = ["All", ...categories.map((c) => c.name)];
+
   return (
-    <>
+    <main className="min-h-screen bg-kumopack-base-white text-foreground overflow-x-hidden">
+      <Navbar lang={lang} dict={dict} />
+
       <section className="relative pt-32 pb-16 px-4 overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 -z-10" />
 
@@ -323,14 +330,6 @@ export default function LearningPageClient({
             </div>
           ) : (
             <>
-              {articlesFetching && !isLoading && (
-                <div className="flex justify-center mb-4">
-                  <div className="h-0.5 w-32 bg-primary/20 rounded-full overflow-hidden">
-                    <div className="h-full w-1/2 bg-primary rounded-full animate-pulse" />
-                  </div>
-                </div>
-              )}
-
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
                 <AnimatePresence mode="popLayout">
                   {articles.map((article, index) => {
@@ -433,36 +432,15 @@ export default function LearningPageClient({
                 </AnimatePresence>
               </div>
 
-              {totalPages > 1 && (
-                <div className="mt-20 flex justify-center items-center gap-6">
-                  <button
-                    onClick={() => {
-                      const newPage = Math.max(1, currentPage - 1);
-                      setCurrentPage(newPage);
-                      updateUrlParams({ page: String(newPage) });
-                    }}
-                    disabled={currentPage === 1}
-                    className="w-10 h-10 rounded-full bg-white border border-neutral-200 flex items-center justify-center hover:bg-neutral-50 disabled:opacity-50 transition-all shadow-sm"
-                  >
-                    <ChevronLeft className="w-5 h-5 text-foreground" />
-                  </button>
-                  <div className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                    Page <span className="text-primary">{currentPage}</span> /{" "}
-                    {totalPages}
-                  </div>
-                  <button
-                    onClick={() => {
-                      const newPage = Math.min(totalPages, currentPage + 1);
-                      setCurrentPage(newPage);
-                      updateUrlParams({ page: String(newPage) });
-                    }}
-                    disabled={currentPage === totalPages}
-                    className="w-10 h-10 rounded-full bg-white border border-neutral-200 flex items-center justify-center hover:bg-neutral-50 disabled:opacity-50 transition-all shadow-sm"
-                  >
-                    <ChevronRight className="w-5 h-5 text-foreground" />
-                  </button>
-                </div>
-              )}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => {
+                  setCurrentPage(page);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="mt-20"
+              />
             </>
           )}
 
@@ -481,6 +459,22 @@ export default function LearningPageClient({
           )}
         </div>
       </section>
-    </>
+
+      <Footer dict={dict} />
+    </main>
+  );
+}
+
+export default function LearningClient({ dict, lang }: { dict: any; lang: string }) {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-kumopack-base-white">
+          <Loader2 className="w-12 h-12 text-primary animate-spin opacity-20" />
+        </div>
+      }
+    >
+      <LearningPageContent dict={dict} lang={lang} />
+    </Suspense>
   );
 }

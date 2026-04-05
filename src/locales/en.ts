@@ -109,18 +109,6 @@ export const en = {
       apparel: "Apparel",
     },
   },
-  valueProposition: {
-    title: "Direct Connection to",
-    highlight: "Manufacturers",
-    description:
-      "Expanding Sales Channels: Bridging Buyers and Producers. We connect you directly with certified manufacturers, eliminating middlemen and ensuring quality at competitive prices.",
-    stats: {
-      projects: "Successful Projects",
-      savings: "Average Cost Savings",
-      satisfaction: "User Satisfaction Rate",
-      certified: "Standard-Certified Manufacturers",
-    },
-  },
   features: {
     badge: "Smart Features",
     title: "Curated factories ready for every need",
@@ -491,7 +479,8 @@ export const en = {
       of: "of",
       suppliers: "Suppliers",
       whyKumopack: "Why Kumopack?",
-      whyDesc: "We verify every supplier to ensure high-quality production standards and reliability for your business.",
+      whyDesc:
+        "We verify every supplier to ensure high-quality production standards and reliability for your business.",
       verifiedManufacturers: "Verified Manufacturers",
       qualityControl: "Quality Control (QC)",
       securePayments: "Secure Payments",
@@ -786,6 +775,30 @@ export const en = {
       paperBag: "Paper Bag Mockups",
       pizza: "Pizza Packaging Mockups",
       supplement: "Supplement Bottle Mockups",
+    },
+  },
+  valueProposition: {
+    titleMain: "Kumopack ",
+    titleHighlight: "What do we do?",
+    subtitle:
+      "We are a platform that makes finding packaging manufacturers easier by bringing together quality factories in one place, so you can search, compare, and connect with manufacturers that match your business needs — conveniently, quickly, and with greater confidence.",
+    stats: {
+      projects: {
+        value: "400+",
+        label: "Deals Closed",
+      },
+      savings: {
+        value: "27%",
+        label: "Average Cost Reduction",
+      },
+      satisfaction: {
+        value: "94%",
+        label: "User Satisfaction Rate",
+      },
+      manufacturers: {
+        value: "200+",
+        label: "Vetted Factories",
+      },
     },
   },
 };

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, MoveRight } from "lucide-react";
 import Image from "next/image";
-import { useLanguage } from "@/context/LanguageContext";
+import { createTranslator, Dictionary } from "@/lib/translation";
 import { getAssetPath } from "@/lib/utils";
 
 const categories = [
@@ -81,8 +81,8 @@ const categories = [
   },
 ];
 
-const MockupCategoriesV2 = () => {
-  const { t } = useLanguage();
+const MockupCategoriesV2 = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
 
   return (
     <section className="py-28 relative overflow-hidden bg-gradient-to-b from-white via-primary/[0.02] to-white">
@@ -112,7 +112,7 @@ const MockupCategoriesV2 = () => {
             className="text-3xl md:text-4xl font-black text-foreground tracking-tight leading-[1.1] mb-4"
           >
             {t("mockupCategories.heading")}{" "}
-            <span className="bg-gradient-to-r from-primary via-primary/80 to-accent bg-clip-text text-transparent">
+            <span className="text-primary">
               {t("mockupCategories.headingAccent")}
             </span>
           </motion.h2>
@@ -163,8 +163,7 @@ const MockupCategoriesV2 = () => {
                 </div>
               </div>
 
-              {}
-              <div className="absolute right-0 inset-y-0 w-[40%] bg-neutral-50/50 flex items-center justify-center p-3">
+              <div className="absolute right-0 inset-y-0 w-[40%] bg-transparent flex items-center justify-center p-3">
                 <div className="relative w-full h-full">
                   <Image
                     src={category.image}

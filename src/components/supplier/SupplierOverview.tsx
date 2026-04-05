@@ -2,14 +2,14 @@
 
 import { Factory, MapPin } from "lucide-react";
 import { Supplier } from "@/types/supplier";
-import { useLanguage } from "@/context/LanguageContext";
 
 interface SupplierOverviewProps {
   supplier: Supplier;
+  lang: string;
 }
 
-export const SupplierOverview = ({ supplier }: SupplierOverviewProps) => {
-  const { language } = useLanguage();
+export const SupplierOverview = ({ supplier, lang }: SupplierOverviewProps) => {
+  const language = lang;
 
   return (
     <section className="space-y-6 animate-fade-up">

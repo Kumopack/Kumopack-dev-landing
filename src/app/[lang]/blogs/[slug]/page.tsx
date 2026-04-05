@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 import { getSafeSlug, slugMatches } from "@/lib/slug-utils";
 import { Metadata } from "next";
 import { Suspense } from "react";
+import { getDictionary, Locale } from "@/lib/dictionary";
 
 
 
@@ -29,7 +30,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; lang: Locale }>;
 }): Promise<Metadata> {
   const { slug: rawSlug } = await params;
   const slug = String(rawSlug);
@@ -80,9 +81,10 @@ export async function generateMetadata({
 export default async function BlogDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; lang: Locale }>;
 }) {
-  const { slug: rawSlug } = await params;
+  const { slug: rawSlug, lang } = await params;
+  const dict = await getDictionary(lang);
   const slug = String(rawSlug);
 
   let decodedSlug = slug;
@@ -133,7 +135,7 @@ export default async function BlogDetailPage({
         </div>
       }
     >
-      <BlogContent blog={blog} />
+      <BlogContent blog={blog} dict={dict} lang={lang} />
     </Suspense>
   );
 }

@@ -10,15 +10,24 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Image from "next/image";
 import Link from "@/components/common/LocalizedLink";
-import { useLanguage } from "@/context/LanguageContext";
 import { API_BASE_URL } from "@/lib/api-config";
 import { getAssetPath } from "@/lib/utils";
 import { industrialData } from "./data/industrialData";
 
-export default function RegisterContent() {
+export default function RegisterContent({
+  lang,
+  dict,
+}: {
+  lang: string;
+  dict: Record<string, any>;
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { t, language } = useLanguage();
+  
+  const t = (path: string) =>
+    path.split(".").reduce((obj: any, key) => obj?.[key], dict) || path;
+
+  const language = lang;
 
   const [role, setRole] = useState<"buyer" | "supplier" | null>(null);
   const [loading, setLoading] = useState(false);

@@ -3,7 +3,6 @@
 import { Award } from "lucide-react";
 import { Supplier } from "@/types/supplier";
 import { SafeImage } from "@/components/ui/safe-image";
-import { useLanguage } from "@/context/LanguageContext";
 import {
   Popover,
   PopoverContent,
@@ -12,12 +11,14 @@ import {
 
 interface SupplierCapabilitiesProps {
   features: Supplier["features"];
+  lang: string;
 }
 
 export const SupplierCapabilities = ({
   features,
+  lang,
 }: SupplierCapabilitiesProps) => {
-  const { language } = useLanguage();
+  const language = lang;
 
   return (
     <section className="space-y-6">

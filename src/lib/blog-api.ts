@@ -1,4 +1,4 @@
-import { API_BASE_URL, API_IMAGE_URL } from "./api-config";
+import { API_IMAGE_URL } from "./api-config";
 import { apiFetch } from "./api-client";
 
 export interface Category {
@@ -20,6 +20,8 @@ export interface Article {
   shortDescriptionEn: string;
   descriptionTh?: string;
   descriptionEn?: string;
+  contentTh?: string;
+  contentEn?: string;
   conclusionTh?: string;
   conclusionEn?: string;
   featurePicturePath: string;
@@ -51,9 +53,12 @@ export interface Article {
 
 export interface ArticlesResponse {
   data: Article[];
-  totalItems: number;
-  currentPage: number;
-  pageSize: number;
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
 }
 
 export const blogApi = {
@@ -97,7 +102,10 @@ export const blogApi = {
       return data;
     } catch (error) {
       console.error("Error fetching articles:", error);
-      return { data: [], totalItems: 0, currentPage: 1, pageSize: 12 };
+      return {
+        data: [],
+        pagination: { total: 0, page: 1, limit: 12, totalPages: 1 },
+      };
     }
   },
 

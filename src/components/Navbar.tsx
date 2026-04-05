@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Link from "@/components/common/LocalizedLink";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -20,25 +20,29 @@ import {
   CreditCard,
 } from "lucide-react";
 import { auth } from "@/lib/auth";
-import { useLanguage } from "@/context/LanguageContext";
-import { Globe, Search } from "lucide-react";
 import { getAssetPath } from "@/lib/utils";
-import { getSafeSlug } from "@/lib/slug-utils";
+import { useLanguageSwitcher } from "./LanguageSwitcher";
 import EventsNavCard from "@/components/EventsNavCard";
 import WorkshopNavLink from "@/components/WorkshopNavLink";
 
-const Navbar = () => {
+import { createTranslator, Dictionary } from "@/lib/translation";
+
+// Subscribe to storage events so auth state stays in sync across tabs
+const subscribeToAuth = (callback: () => void) => {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+};
+const getAuthSnapshot = () => auth.isAuthenticated();
+const getAuthServerSnapshot = (): boolean | null => null;
+
+const Navbar = ({ lang, dict }: { lang: string; dict: Dictionary }) => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const { t, language, setLanguage } = useLanguage();
+  const isLoggedIn = useSyncExternalStore(subscribeToAuth, getAuthSnapshot, getAuthServerSnapshot);
+  const { switchLanguage } = useLanguageSwitcher(lang);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-    setIsLoggedIn(auth.isAuthenticated());
-  }, []);
+  const t = createTranslator(dict);
 
   const handleMouseEnter = (menu: string) => {
     if (timeoutId) {
@@ -70,16 +74,6 @@ const Navbar = () => {
                   className="h-full w-auto object-contain"
                   priority
                 />
-              </div>
-              <div className="hidden md:flex flex-col">
-                <span className="text-[9px] font-bold text-primary/80 tracking-[0.08em] leading-tight">
-                  The Absolute Packaging Solutions
-                </span>
-                <span className="text-[8px] text-muted-foreground/60 leading-tight">
-                  {language === "th"
-                    ? "ครบ จบ เรื่องบรรจุภัณฑ์"
-                    : "Complete packaging for your business"}
-                </span>
               </div>
             </Link>
 
@@ -230,7 +224,7 @@ const Navbar = () => {
                       </div>
                       <div>
                         <div className="font-medium text-foreground">
-                          {language === "th"
+                          {lang === "th"
                             ? "แพ็กเกจราคา"
                             : "Pricing Packages"}
                         </div>
@@ -252,7 +246,7 @@ const Navbar = () => {
               </Link>
               */}
 
-              <WorkshopNavLink />
+              <WorkshopNavLink dict={dict} />
 
               <div
                 className="relative"
@@ -315,7 +309,7 @@ const Navbar = () => {
                           href="/contact"
                         />
                         <div className="row-span-2">
-                          <EventsNavCard />
+                          <EventsNavCard dict={dict} />
                         </div>
                         <ETCCard
                           icon={Info}
@@ -337,10 +331,10 @@ const Navbar = () => {
             <div className="lg:hidden flex items-center gap-3">
               <div className="flex p-1 bg-muted/30 rounded-xl">
                 <button
-                  onClick={() => setLanguage(language === "th" ? "en" : "th")}
+                  onClick={() => switchLanguage(lang === "th" ? "en" : "th")}
                   className="px-3 py-1 text-xs font-bold text-primary"
                 >
-                  {language.toUpperCase()}
+                  {lang.toUpperCase()}
                 </button>
               </div>
               <button
@@ -358,20 +352,20 @@ const Navbar = () => {
             <div className="hidden lg:flex items-center gap-3">
               <div className="hidden sm:flex p-1 bg-muted/30 rounded-xl mr-2">
                 <button
-                  onClick={() => setLanguage("th")}
-                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${language === "th" ? "bg-white shadow-soft text-primary" : "text-muted-foreground hover:text-foreground"}`}
+                  onClick={() => switchLanguage("th")}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${lang === "th" ? "bg-white shadow-soft text-primary" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   TH
                 </button>
                 <button
-                  onClick={() => setLanguage("en")}
-                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${language === "en" ? "bg-white shadow-soft text-primary" : "text-muted-foreground hover:text-foreground"}`}
+                  onClick={() => switchLanguage("en")}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${lang === "en" ? "bg-white shadow-soft text-primary" : "text-muted-foreground hover:text-foreground"}`}
                 >
                   EN
                 </button>
               </div>
 
-              {isMounted &&
+              {isLoggedIn !== null &&
                 (isLoggedIn ? (
                   <>
                     <Link href="/login/selection">

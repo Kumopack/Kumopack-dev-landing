@@ -2,20 +2,29 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Megaphone, Sparkles } from "lucide-react";
+import { X, ExternalLink, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/context/LanguageContext";
+import { useParams } from "next/navigation";
 import { SafeImage } from "@/components/ui/safe-image";
+import { getDictionary, Locale } from "@/lib/dictionary";
 
 const POPUP_STORAGE_KEY = "kumopack_promo_closed_at";
 
 export const PromoPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const { t } = useLanguage();
+  const params = useParams();
+  const language = (params?.lang as string) || "th";
+  const [dict, setDict] = useState<Record<string, any> | null>(null);
+
+  const t = (path: string) => {
+    if (!dict) return path;
+    return path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
+  };
 
   useEffect(() => {
     setIsMounted(true);
+    getDictionary(language as Locale).then(setDict);
     const lastClosedAt = localStorage.getItem(POPUP_STORAGE_KEY);
     const now = new Date().getTime();
     const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
@@ -24,7 +33,7 @@ export const PromoPopup = () => {
       const timer = setTimeout(() => setIsOpen(true), 1500);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [language]);
 
   const handleClose = () => {
     setIsOpen(false);

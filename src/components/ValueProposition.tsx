@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useLanguage } from "@/context/LanguageContext";
 
-const ValueProposition = () => {
-  const { t } = useLanguage();
+const ValueProposition = ({ dict }: { dict: Record<string, any> }) => {
+  const t = (path: string) => path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
+
   return (
     <section
       id="about"
@@ -39,26 +39,23 @@ const ValueProposition = () => {
             className="space-y-8"
           >
             <div className="space-y-4">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-                {t("valueProposition.title")}{" "}
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+                {t("valueProposition.titleMain")}
                 <span className="text-primary font-extrabold">
-                  {t("valueProposition.highlight")}
+                  {t("valueProposition.titleHighlight")}
                 </span>
               </h2>
               <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
-                {t("valueProposition.description")}
+                {t("valueProposition.subtitle")}
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:gap-6">
               {[
-                { value: "400+", labelKey: "valueProposition.stats.projects" },
-                { value: "27%", labelKey: "valueProposition.stats.savings" },
-                {
-                  value: "94%",
-                  labelKey: "valueProposition.stats.satisfaction",
-                },
-                { value: "200+", labelKey: "valueProposition.stats.certified" },
+                { value: t("valueProposition.stats.projects.value"), label: t("valueProposition.stats.projects.label") },
+                { value: t("valueProposition.stats.savings.value"), label: t("valueProposition.stats.savings.label") },
+                { value: t("valueProposition.stats.satisfaction.value"), label: t("valueProposition.stats.satisfaction.label") },
+                { value: t("valueProposition.stats.manufacturers.value"), label: t("valueProposition.stats.manufacturers.label") },
               ].map((stat, index) => (
                 <motion.div
                   key={index}
@@ -72,7 +69,7 @@ const ValueProposition = () => {
                     {stat.value}
                   </div>
                   <div className="text-xs md:text-sm text-muted-foreground">
-                    {t(stat.labelKey)}
+                    {stat.label}
                   </div>
                 </motion.div>
               ))}

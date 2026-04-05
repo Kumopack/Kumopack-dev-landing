@@ -3,8 +3,8 @@
 import {
   useRouter as useNextRouter,
   usePathname as useNextPathname,
+  useParams as useNextParams,
 } from "next/navigation";
-import { useLanguage } from "@/context/LanguageContext";
 
 export {
   useSearchParams,
@@ -16,7 +16,8 @@ export {
 
 export function useLocalizedRouter() {
   const router = useNextRouter();
-  const { language } = useLanguage();
+  const params = useNextParams();
+  const language = (params?.lang as string) || "th";
 
   const localizePath = (path: string) => {
     if (

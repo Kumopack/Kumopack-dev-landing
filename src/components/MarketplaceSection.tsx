@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useLanguage } from "@/context/LanguageContext";
+import { createTranslator, Dictionary } from "@/lib/translation";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Package, Check } from "lucide-react";
 import { SafeImage } from "@/components/ui/safe-image";
@@ -13,8 +13,8 @@ const benefits = [
   "marketplace.benefits.fast",
 ];
 
-const MarketplaceSection = () => {
-  const { t } = useLanguage();
+const MarketplaceSection = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
   return (
     <section
       id="marketplace"

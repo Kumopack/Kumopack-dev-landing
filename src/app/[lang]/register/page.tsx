@@ -2,8 +2,15 @@ import { Suspense } from "react";
 import { Loader2 } from "lucide-react";
 import { GoogleTagManager } from "@next/third-parties/google";
 import RegisterContent from "./RegisterContent";
+import { getDictionary, Locale } from "@/lib/dictionary";
 
-export default function RegisterPage() {
+export default async function RegisterPage(props: {
+  params: Promise<{ lang: Locale }>;
+}) {
+  const params = await props.params;
+  const lang = params.lang;
+  const dict = await getDictionary(lang);
+
   return (
     <main
       className="min-h-screen w-full flex items-center justify-center bg-gray-50 p-4 relative"
@@ -23,7 +30,7 @@ export default function RegisterPage() {
             </div>
           }
         >
-          <RegisterContent />
+          <RegisterContent lang={lang} dict={dict} />
         </Suspense>
       </div>
     </main>

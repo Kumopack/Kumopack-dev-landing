@@ -9,8 +9,6 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
-  ChevronLeft,
-  ChevronRight,
   Loader2,
   LayoutGrid,
   List,
@@ -18,24 +16,27 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
-import { SafeImage } from "@/components/ui/safe-image";
 import { blogApi, Article, Category } from "@/lib/blog-api";
-import { useLanguage } from "@/context/LanguageContext";
-import { getSafeSlug } from "@/lib/slug-utils";
+import { Dictionary } from "@/lib/dictionary";
 import BlogCard from "@/components/BlogCard";
+import { Pagination } from "@/components/ui/pagination";
 
 interface BlogsClientProps {
   initialArticles: Article[];
   initialTotalItems: number;
   initialCategories: Category[];
+  initialPage: number;
 }
 
 export default function BlogsClient({
   initialArticles,
   initialTotalItems,
   initialCategories,
-}: BlogsClientProps) {
-  const { language, setLanguage } = useLanguage();
+  initialPage,
+  lang,
+  dict,
+}: BlogsClientProps & { lang: string; dict: Dictionary }) {
+  const language = lang;
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -45,26 +46,23 @@ export default function BlogsClient({
   const [articles, setArticles] = useState<Article[]>(initialArticles || []);
   const [categories, setCategories] = useState<Category[]>(initialCategories);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalItems, setTotalItems] = useState(initialTotalItems);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const selectedCategory = searchParams?.get("category") || "All";
   const limit = 12;
 
+  // Sync state when server-side props change (e.g. URL navigation)
   useEffect(() => {
     setArticles(initialArticles || []);
     setTotalItems(initialTotalItems);
     setCategories(initialCategories);
-    setCurrentPage(1);
-    console.log("BlogsClient: Props updated", {
-      initialArticlesCount: initialArticles?.length,
-    });
-  }, [initialArticles, initialTotalItems, initialCategories]);
+    setCurrentPage(initialPage);
+  }, [initialArticles, initialTotalItems, initialCategories, initialPage]);
 
+  // Fetch articles when category or page changes client-side
   useEffect(() => {
-    if (currentPage === 1) return;
-
     const fetchArticles = async () => {
       setLoading(true);
       try {
@@ -74,7 +72,7 @@ export default function BlogsClient({
           selectedCategory || "All",
         );
         setArticles(response.data || []);
-        setTotalItems(response.totalItems);
+        setTotalItems(response.pagination.total);
       } catch (err) {
         console.error(err);
       } finally {
@@ -83,36 +81,27 @@ export default function BlogsClient({
     };
 
     fetchArticles();
-  }, [currentPage, selectedCategory, limit]);
 
-  useEffect(() => {
-    const urlLang = searchParams?.get("lang");
-    if (
-      urlLang &&
-      (urlLang === "th" || urlLang === "en") &&
-      urlLang !== language
-    ) {
-      setLanguage(urlLang as "th" | "en");
-    }
-  }, [searchParams, language]);
+  }, [currentPage, selectedCategory]);
 
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams?.toString() || "");
-    if (params.get("lang") !== language) {
-      params.set("lang", language);
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    }
-  }, [language, pathname, router]);
+
+
 
   const handleCategoryChange = (slug: string) => {
-    const params = new URLSearchParams(searchParams?.toString() || "");
-    if (slug === "All") {
-      params.delete("category");
-    } else {
+    const params = new URLSearchParams();
+    if (slug !== "All") {
       params.set("category", slug);
     }
+    // Reset to page 1 on category change
     setCurrentPage(1);
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    const qs = params.toString();
+    router.push(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    // Scroll to top of the article grid
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const filteredArticles = (articles || []).filter((article) => {
@@ -131,7 +120,7 @@ export default function BlogsClient({
 
   return (
     <main className="min-h-screen bg-kumopack-base-white selection:bg-primary/20 selection:text-primary">
-      <Navbar />
+      <Navbar lang={lang} dict={dict} />
 
       <PageHeader
         badgeTh="บรรจุภัณฑ์และนวัตกรรม"
@@ -141,6 +130,7 @@ export default function BlogsClient({
         descriptionTh="เจาะลึกทุกเรื่องราวของบรรจุภัณฑ์ เทรนด์โลก และเทคโนโลยีที่คุณไม่ควรพลาด"
         descriptionEn="Deep dive into packaging stories, global trends, and technologies you shouldn't miss."
         className="pb-2 md:pb-4"
+        lang={lang}
       />
 
       <section className="px-4 pb-6 md:pb-8">
@@ -183,7 +173,7 @@ export default function BlogsClient({
                 <button
                   key={cat.id}
                   onClick={() => handleCategoryChange(cat.slug)}
-                  className={`relative px-5 md:px-7 py-2.5 md:py-3 text-[11px] md:text-xs font-black uppercase tracking-[0.2em] transition-colors duration-300 whitespace-nowrap ${
+                  className={`cursor-pointer relative px-5 md:px-7 py-2.5 md:py-3 text-[11px] md:text-xs font-black uppercase tracking-[0.2em] transition-colors duration-300 whitespace-nowrap ${
                     isSelected
                       ? "text-white"
                       : "text-muted-foreground/40 hover:text-primary"
@@ -282,39 +272,18 @@ export default function BlogsClient({
                 </div>
               )}
 
-              {totalPages > 1 && (
-                <div className="mt-20 md:mt-40 flex justify-center items-center gap-4 md:gap-8">
-                  <button
-                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                    disabled={currentPage === 1}
-                    className="w-10 h-10 md:w-14 md:h-14 rounded-none border border-neutral-200 flex items-center justify-center hover:bg-white hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-sm"
-                  >
-                    <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
-                  </button>
-                  <div className="text-[10px] md:text-[12px] font-black text-muted-foreground uppercase tracking-[0.4em]">
-                    <span className="hidden sm:inline">Page </span>
-                    <span className="text-primary italic">
-                      {currentPage}
-                    </span>{" "}
-                    of {totalPages}
-                  </div>
-                  <button
-                    onClick={() =>
-                      setCurrentPage((p) => Math.min(totalPages, p + 1))
-                    }
-                    disabled={currentPage === totalPages}
-                    className="w-10 h-10 md:w-14 md:h-14 rounded-none border border-neutral-200 flex items-center justify-center hover:bg-white hover:border-primary hover:text-primary disabled:opacity-30 transition-all shadow-sm"
-                  >
-                    <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
-                  </button>
-                </div>
-              )}
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                className="mt-10 md:mt-20"
+              />
             </>
           )}
         </div>
       </section>
 
-      <Footer />
+      <Footer dict={dict} />
     </main>
   );
 }

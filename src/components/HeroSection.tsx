@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createTranslator, Dictionary } from "@/lib/translation";
 import { motion, Variants } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "@/components/common/LocalizedLink";
@@ -13,7 +14,6 @@ import {
   MapPin,
   Star,
 } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
 import { SafeImage } from "@/components/ui/safe-image";
 
 const allFactories = [
@@ -99,8 +99,8 @@ const allFactories = [
   },
 ];
 
-const HeroSection = () => {
-  const { t } = useLanguage();
+const HeroSection = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredFactories = allFactories.filter(
@@ -194,7 +194,10 @@ const HeroSection = () => {
               variants={itemVariants}
               className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-primary/5 border border-primary/15 shadow-sm"
             >
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse-soft" />
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+              </span>
               <span className="text-sm font-bold text-primary tracking-wide">
                 {t("home.heroBadge")}
               </span>
@@ -208,19 +211,6 @@ const HeroSection = () => {
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#b15fce] via-[#9b7dd4] to-[#76b3cf] animate-gradient bg-[length:200%_auto] drop-shadow-sm">
                   {t("home.heroTitleHighlight")}
                 </span>
-
-                <motion.span
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{
-                    delay: 1.2,
-                    duration: 0.8,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  className="absolute -bottom-2 left-0 right-0 h-1.5 bg-gradient-to-r from-[#b15fce] via-[#9b7dd4] to-[#76b3cf] rounded-full origin-left"
-                />
-
-                {}
                 <span className="absolute -inset-4 bg-gradient-to-r from-[#b15fce]/15 via-[#9b7dd4]/10 to-[#76b3cf]/15 blur-3xl rounded-full -z-10" />
               </span>
             </motion.h1>
@@ -370,12 +360,9 @@ const HeroSection = () => {
                 </div>
               </div>
 
-              {}
-              <div className="relative -mb-6 hidden md:block">
+              {/* <div className="relative -mb-6 hidden md:block">
                 <div className="bg-card border-2 border-border/50 rounded-3xl shadow-soft overflow-hidden w-44 lg:w-52">
-                  {}
                   <div className="bg-foreground/90 mx-auto w-16 h-4 rounded-b-xl" />
-                  {}
                   <div className="p-3 space-y-2 bg-gradient-to-b from-background to-muted/20">
                     <div className="flex items-center gap-1.5 bg-muted/50 rounded-md px-2 py-1.5">
                       <Search className="w-3 h-3 text-muted-foreground" />
@@ -429,7 +416,7 @@ const HeroSection = () => {
                     ))}
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-primary/30 blur-[120px] -z-10 animate-pulse-soft" />

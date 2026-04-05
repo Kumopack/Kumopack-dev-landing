@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { Sparkles, Box, RotateCcw } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
+import { createTranslator, Dictionary } from "@/lib/translation";
 
-const WorkshopNavLink = () => {
-  const { t } = useLanguage();
+const WorkshopNavLink = ({ dict }: { dict: Dictionary }) => {
+  const t = createTranslator(dict);
   const [hovered, setHovered] = useState(false);
 
   return (

@@ -1,5 +1,6 @@
 import { getAllProductIds } from "@/lib/static-params";
 import ProductDetailClient from "./ProductDetailClient";
+import { getDictionary, Locale } from "@/lib/dictionary";
 import { productApi } from "@/lib/product-api";
 import type { Metadata } from "next";
 
@@ -8,7 +9,7 @@ export async function generateStaticParams() {
 }
 
 type Props = { 
-  params: Promise<{ id: string; lang: string }>;
+  params: Promise<{ id: string; lang: Locale }>;
 };
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
@@ -59,5 +60,6 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Page(props: Props) {
   const params = await props.params;
-  return <ProductDetailClient id={params.id} />;
+  const dict = await getDictionary(params.lang);
+  return <ProductDetailClient id={params.id} lang={params.lang} dict={dict} />;
 }

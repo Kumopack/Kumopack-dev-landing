@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import FAQPage from "./FAQClient";
+import FAQClient from "./FAQClient";
 import { faqSections } from "./faqData";
 
 function generateFAQJsonLd() {
@@ -43,7 +43,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Page() {
+import { Locale, getDictionary } from "@/lib/dictionary";
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang);
+
   return (
     <>
       <script
@@ -52,7 +61,7 @@ export default function Page() {
           __html: JSON.stringify(generateFAQJsonLd()),
         }}
       />
-      <FAQPage />
+      <FAQClient lang={lang} dict={dict} />
     </>
   );
 }

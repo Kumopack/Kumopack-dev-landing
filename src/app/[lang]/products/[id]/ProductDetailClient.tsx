@@ -14,12 +14,12 @@ import {
 import { MinimalTabs } from "@/components/ui/minimal-tabs";
 import Link from "@/components/common/LocalizedLink";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/context/LanguageContext";
+import { Dictionary } from "@/lib/dictionary";
 import {
   useParams,
   useLocalizedRouter as useRouter,
 } from "@/hooks/useLocalizedRouter";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Product, productApi, materialApi } from "@/lib/product-api";
 import { SafeImage } from "@/components/ui/safe-image";
 import { SustainabilityIcon } from "@/components/SustainabilityIcon";
@@ -29,15 +29,20 @@ import { ProductImageLightbox } from "@/components/product/ProductImageLightbox"
 
 export default function ProductDetailClient({
   id: initialId,
+  dict,
+  lang,
 }: {
   id?: string;
+  dict: Dictionary;
+  lang: string;
 }) {
   const params = useParams();
+  const router = useRouter();
   const rawId = params?.id;
   const paramId = Array.isArray(rawId) ? rawId[0] : rawId;
   const id = initialId || paramId;
 
-  const { dict, language } = useLanguage();
+  const language = lang;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -47,22 +52,33 @@ export default function ProductDetailClient({
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
-  const router = useRouter();
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  // Build the full list of images for the lightbox (memoized to prevent re-renders)
+  const allImages: string[] = useMemo(() => {
+    const imgs: string[] = [];
+    if (product?.featurePicturePath) imgs.push(product.featurePicturePath);
+    if (product?.images) {
+      for (const img of product.images) {
+        if (img.path && !imgs.includes(img.path)) imgs.push(img.path);
+      }
+    }
+    return imgs;
+  }, [product]);
 
   const isTh = language === "th";
 
   const t = (key: string) => {
     const keys = key.split(".");
-    let current: any = dict;
+    let current: unknown = dict;
     for (const k of keys) {
-      if (current && current[k]) {
-        current = current[k];
+      if (current && typeof current === "object" && k in current) {
+        current = (current as Record<string, unknown>)[k];
       } else {
         return key;
       }
     }
-    return current;
+    return typeof current === "string" ? current : key;
   };
 
   useEffect(() => {
@@ -163,7 +179,7 @@ export default function ProductDetailClient({
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <Navbar />
+      <Navbar lang={lang} dict={dict} />
 
       <div className="pt-32 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="mb-8">
@@ -181,7 +197,7 @@ export default function ProductDetailClient({
             <div
               className="aspect-square relative rounded-[3rem] overflow-hidden bg-muted/20 border border-border/50 shadow-inner cursor-zoom-in"
               onClick={() => {
-                setLightboxImage(mainImageToDisplay);
+                setLightboxIndex(allImages.indexOf(mainImageToDisplay) >= 0 ? allImages.indexOf(mainImageToDisplay) : 0);
                 setLightboxOpen(true);
               }}
             >
@@ -219,7 +235,8 @@ export default function ProductDetailClient({
                   <div
                     key={idx}
                     onClick={() => {
-                      setLightboxImage(img.path);
+                      const imgIndex = allImages.indexOf(img.path);
+                      setLightboxIndex(imgIndex >= 0 ? imgIndex : 0);
                       setLightboxOpen(true);
                     }}
                     className={`aspect-square relative rounded-2xl overflow-hidden bg-muted/20 border cursor-pointer transition-all border-border/50 hover:border-primary/50 hover:shadow-md`}
@@ -238,7 +255,9 @@ export default function ProductDetailClient({
             <ProductImageLightbox
               isOpen={lightboxOpen}
               onClose={() => setLightboxOpen(false)}
-              imageSrc={lightboxImage}
+              images={allImages}
+              currentIndex={lightboxIndex}
+              onIndexChange={setLightboxIndex}
               productName={isTh ? product.nameTh : product.nameEn}
             />
           </div>
@@ -321,7 +340,16 @@ export default function ProductDetailClient({
                         ? "ติดต่อเราเพื่อรับใบเสนอราคาและคำปรึกษาฟรี"
                         : "Contact us for a quote and free consultation on your custom packaging."}
                     </p>
-                    <Button className="w-full rounded-xl font-bold translate-y-0 hover:-translate-y-1 transition-transform shadow-lg shadow-primary/20">
+                    <Button
+                      onClick={() =>
+                        window.open(
+                          process.env.NEXT_PUBLIC_MOCKUP_SITE_URL ||
+                            "https://mockup.kumopack.com",
+                          "_blank",
+                        )
+                      }
+                      className="cursor-pointer w-full rounded-xl font-bold translate-y-0 hover:-translate-y-1 transition-transform shadow-lg shadow-primary/20"
+                    >
                       {t("products.startDesigning")}
                     </Button>
                   </div>
@@ -418,7 +446,7 @@ export default function ProductDetailClient({
                     product.sustainability.length > 0 ? (
                       <div className="flex flex-wrap gap-2">
                         {product.sustainability.map((s: any, idx: number) => (
-                          <SustainabilityIcon key={idx} item={s} />
+                          <SustainabilityIcon key={idx} item={s} lang={lang} />
                         ))}
                       </div>
                     ) : (
@@ -477,7 +505,7 @@ export default function ProductDetailClient({
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer dict={dict} />
     </main>
   );
 }
