@@ -7,13 +7,13 @@ import { getDictionary, Locale } from "@/lib/dictionary";
 
 export default async function BlogsPage(props: {
   params: Promise<{ lang: Locale }>;
-  searchParams: Promise<{ category?: string; page?: string }>;
 }) {
   const params = await props.params;
-  const searchParams = await props.searchParams;
   const dict = await getDictionary(params.lang);
-  const category = searchParams?.category || "All";
-  const page = Number(searchParams?.page) || 1;
+  
+  // Default values for static generation
+  const category = "All";
+  const page = 1;
 
   try {
     const [articlesRes, categories] = await Promise.all([
