@@ -280,28 +280,12 @@ export default function BlogContent({
         }
 
         .blog-content img {
-          width: 95%;
+          max-width: 100%;
+          width: auto;
           height: auto;
           display: block;
-          margin: 0.5rem auto !important;
-          border-radius: 1.5rem;
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-          border: 1px solid rgba(229, 231, 235, 0.5);
-          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-          cursor: zoom-in;
-        }
-
-        .blog-content img:hover {
-          transform: scale(1.02);
-          box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
-        }
-
-        @media (max-width: 768px) {
-          .blog-content img {
-            width: 100%;
-            margin: 0 auto !important;
-            border-radius: 1.5rem;
-          }
+          margin: 1.5rem auto !important;
+          border-radius: 1rem;
         }
 
         .blog-content p:has(img) {
@@ -487,12 +471,12 @@ export default function BlogContent({
                 </div>
               </header>
 
-              <div className="relative w-full aspect-16/8 rounded-2xl overflow-hidden mb-12 shadow-lg border border-neutral-100/50 group">
-                <SafeImage
+              <div className="w-full flex justify-center mb-12">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={blogApi.getAssetPath(blog.featurePicturePath)}
                   alt={name}
-                  fill={true}
-                  className="object-cover group-hover:scale-[1.02] transition-transform duration-1000"
+                  className="max-w-full h-auto rounded-2xl"
                 />
               </div>
 

@@ -30,8 +30,8 @@ const Footer = ({ dict }: { dict: Dictionary }) => {
           </Link>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-12">
-          <div className="space-y-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+          <div className="space-y-4 col-span-2 md:col-span-3 lg:col-span-1">
             <div className="flex items-center gap-2">
               <Image
                 src={getAssetPath("/logo/logo-icon.png")}
@@ -48,52 +48,14 @@ const Footer = ({ dict }: { dict: Dictionary }) => {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">{dict.footer.products}</h4>
+            <h4 className="font-semibold mb-4">{dict.nav.forBuyer}</h4>
             <ul className="space-y-2 text-primary-foreground/60 text-sm">
               <li>
                 <Link
                   href="/products"
                   className="hover:text-primary-foreground transition-colors"
                 >
-                  {dict.products.mailerBox}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products"
-                  className="hover:text-primary-foreground transition-colors"
-                >
-                  {dict.products.productBox}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products"
-                  className="hover:text-primary-foreground transition-colors"
-                >
-                  {dict.nav.materials}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/products"
-                  className="hover:text-primary-foreground transition-colors"
-                >
-                  {dict.nav.marketplace}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold mb-4">{dict.footer.company}</h4>
-            <ul className="space-y-2 text-primary-foreground/60 text-sm">
-              <li>
-                <Link
-                  href="/contact"
-                  className="hover:text-primary-foreground transition-colors"
-                >
-                  {dict.nav.contact}
+                  {dict.nav.products}
                 </Link>
               </li>
               <li>
@@ -101,7 +63,67 @@ const Footer = ({ dict }: { dict: Dictionary }) => {
                   href="/supplier"
                   className="hover:text-primary-foreground transition-colors"
                 >
-                  {dict.supplier.title}
+                  {dict.nav.getQuotes}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/learning"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.learning}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/pricing"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.pricing || dict.pricing?.title || "Pricing"}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold mb-4">{dict.nav.forSupplier}</h4>
+            <ul className="space-y-2 text-primary-foreground/60 text-sm">
+              <li>
+                <Link
+                  href="/contact"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.joinNetwork}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/learning"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.learning}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/pricing"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.pricing || dict.pricing?.title || "Pricing"}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-semibold mb-4">{dict.nav.etc}</h4>
+            <ul className="space-y-2 text-primary-foreground/60 text-sm">
+              <li>
+                <Link
+                  href="/blogs"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.blog}
                 </Link>
               </li>
               <li>
@@ -114,29 +136,38 @@ const Footer = ({ dict }: { dict: Dictionary }) => {
               </li>
               <li>
                 <Link
-                  href="/blogs"
+                  href="/faq"
                   className="hover:text-primary-foreground transition-colors"
                 >
-                  {dict.nav.blog}
+                  {dict.nav.faq}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about-us"
+                  className="hover:text-primary-foreground transition-colors"
+                >
+                  {dict.nav.aboutUs || "About Us"}
                 </Link>
               </li>
             </ul>
           </div>
 
-          <div>
+          <div className="col-span-2 md:col-span-1 lg:col-span-1">
             <h4 className="font-semibold mb-4">{dict.footer.contact}</h4>
             <ul className="space-y-3 text-primary-foreground/60 text-sm">
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4" />
-                {process.env.NEXT_PUBLIC_CONTACT_EMAIL || "hello@kumopack.com"}
+                {process.env.NEXT_PUBLIC_CONTACT_EMAIL ||
+                  "support@kumopack.com"}
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4" />
                 +66 2 123 4567
               </li>
-              <li className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
-                {dict.footer.address}
+              <li className="flex items-start gap-2">
+                <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
+                <span>{dict.footer.address}</span>
               </li>
             </ul>
           </div>

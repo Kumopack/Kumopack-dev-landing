@@ -3,7 +3,24 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Box, Layers, ArrowUpRight } from "lucide-react";
+import {
+  Box,
+  Layers,
+  ArrowUpRight,
+  Package,
+  Archive,
+  Shirt,
+  ShoppingBag,
+  Cpu,
+  FlaskConical,
+  Wrench,
+  Leaf,
+  BookOpen,
+  Hammer,
+  Truck,
+  Trophy,
+  type LucideIcon,
+} from "lucide-react";
 import { MinimalTabs } from "@/components/ui/minimal-tabs";
 import NextLink from "@/components/common/LocalizedLink";
 import { SafeImage } from "@/components/ui/safe-image";
@@ -83,6 +100,26 @@ export default function ProductsClient({ dict, lang }: { dict: any; lang: string
 
   const isTh = language === "th";
 
+  const getCategoryIcon = (categoryId: number | null): LucideIcon => {
+    if (!categoryId) return Box;
+    const cat = categories.find((c) => c.id === categoryId);
+    if (!cat) return Box;
+    const name = (cat.nameEn + " " + cat.nameTh).toLowerCase();
+    if (name.match(/corrugated|ลูกฟูก|กล่องลูกฟูก/)) return Package;
+    if (name.match(/tape|เทปกาว|เทป/)) return Archive;
+    if (name.match(/plastic|พลาสติก|ถุง|bag/)) return ShoppingBag;
+    if (name.match(/foam|โฟม|ป้องกัน|cushion|bubble/)) return FlaskConical;
+    if (name.match(/paper|กระดาษ|kraft/)) return BookOpen;
+    if (name.match(/wood|ไม้|pallet/)) return Hammer;
+    if (name.match(/metal|เหล็ก|steel|alumin/)) return Wrench;
+    if (name.match(/fabric|ผ้า|textile|cloth/)) return Shirt;
+    if (name.match(/electronic|อิเล็ก|circuit/)) return Cpu;
+    if (name.match(/organic|organic|eco|ธรรมชาติ|green/)) return Leaf;
+    if (name.match(/transport|ขนส่ง|logistics/)) return Truck;
+    if (name.match(/premium|พรีเมียม|luxury|gift/)) return Trophy;
+    return Box;
+  };
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Navbar lang={lang} dict={dict} />
@@ -119,14 +156,19 @@ export default function ProductsClient({ dict, lang }: { dict: any; lang: string
             )}
 
             <div>
-              <h2 className="text-2xl font-bold mb-8 flex items-center gap-2">
-                <Box className="w-6 h-6 text-primary" />
-                {selectedCategory
-                  ? isTh
-                    ? categories.find((c) => c.id === selectedCategory)?.nameTh
-                    : categories.find((c) => c.id === selectedCategory)?.nameEn
-                  : dict.common.all || "All Products"}
-              </h2>
+              {(() => {
+                const CategoryIcon = getCategoryIcon(selectedCategory);
+                return (
+                  <h2 className="text-2xl font-bold mb-8 flex items-center gap-2">
+                    <CategoryIcon className="w-6 h-6 text-primary" />
+                    {selectedCategory
+                      ? isTh
+                        ? categories.find((c) => c.id === selectedCategory)?.nameTh
+                        : categories.find((c) => c.id === selectedCategory)?.nameEn
+                      : dict.common.all || "All Products"}
+                  </h2>
+                );
+              })()}
 
               {isLoading ? (
                 <div className="flex justify-center py-20">
