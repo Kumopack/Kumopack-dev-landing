@@ -83,6 +83,7 @@ export default function ContactClient({
               </div>
             </motion.div>
           </div>
+          </div>
 
           {/* Main Content (Forms and Cards) */}
           <div className="p-8 md:p-12 bg-slate-50/40 relative z-10 flex-1">
@@ -246,6 +247,7 @@ export default function ContactClient({
                 </div>
               </div>
             </motion.div>
+            </div>
           </div>
         </div>
       </section>
