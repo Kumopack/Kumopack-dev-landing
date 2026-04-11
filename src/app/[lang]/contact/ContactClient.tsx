@@ -28,13 +28,14 @@ export default function ContactClient({
     <main className="min-h-screen bg-[#faf8fc] text-foreground">
       <Navbar lang={lang} dict={dict} />
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 px-6 relative overflow-hidden">
+      <section className="pt-32 pb-24 px-4 md:px-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full -z-10 pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full -z-10 pointer-events-none" />
 
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto max-w-6xl bg-white rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-neutral-100 overflow-hidden flex flex-col">
+          {/* Hero Section */}
+          <div className="p-8 md:p-12 border-b border-neutral-100/60 lg:pb-16">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left text */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -82,13 +83,10 @@ export default function ContactClient({
               </div>
             </motion.div>
           </div>
-        </div>
-      </section>
 
-      {/* Main Content (Forms and Cards) */}
-      <section className="py-8 px-6 mb-24 relative z-10">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid lg:grid-cols-12 gap-8 items-stretch">
+          {/* Main Content (Forms and Cards) */}
+          <div className="p-8 md:p-12 bg-slate-50/40 relative z-10 flex-1">
+            <div className="grid lg:grid-cols-12 gap-8 items-stretch">
             {/* Form Section (Takes up 7 or 8 columns) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}

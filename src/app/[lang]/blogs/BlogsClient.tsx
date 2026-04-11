@@ -119,19 +119,21 @@ export default function BlogsClient({
   const totalPages = Math.ceil(totalItems / limit);
 
   return (
-    <main className="min-h-screen bg-kumopack-base-white selection:bg-primary/20 selection:text-primary">
+    <main className="min-h-screen bg-[#faf8fc] selection:bg-primary/20 selection:text-primary transition-colors duration-500 text-foreground">
       <Navbar lang={lang} dict={dict} />
 
-      <PageHeader
-        badgeTh="บรรจุภัณฑ์และนวัตกรรม"
-        badgeEn="Packaging & Innovation"
-        titleTh="บทความจาก KUMOPACK"
-        titleEn="Stories from KUMOPACK"
-        descriptionTh="เจาะลึกทุกเรื่องราวของบรรจุภัณฑ์ เทรนด์โลก และเทคโนโลยีที่คุณไม่ควรพลาด"
-        descriptionEn="Deep dive into packaging stories, global trends, and technologies you shouldn't miss."
-        className="pb-2 md:pb-4"
-        lang={lang}
-      />
+      <section className="pt-28 pb-24 px-4 md:px-8">
+        <div className="container mx-auto max-w-7xl bg-white rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-neutral-100 min-h-[70vh] overflow-hidden flex flex-col pt-4">
+          <PageHeader
+            badgeTh="บรรจุภัณฑ์และนวัตกรรม"
+            badgeEn="Packaging & Innovation"
+            titleTh="บทความจาก KUMOPACK"
+            titleEn="Stories from KUMOPACK"
+            descriptionTh="เจาะลึกทุกเรื่องราวของบรรจุภัณฑ์ เทรนด์โลก และเทคโนโลยีที่คุณไม่ควรพลาด"
+            descriptionEn="Deep dive into packaging stories, global trends, and technologies you shouldn't miss."
+            className="pb-2 md:pb-4"
+            lang={lang}
+          />
 
       <section className="px-4 pb-6 md:pb-8">
         <motion.div
@@ -276,10 +278,12 @@ export default function BlogsClient({
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
-                className="mt-10 md:mt-20"
+                className="mt-10 md:mt-20 pb-10"
               />
             </>
           )}
+        </div>
+      </section>
         </div>
       </section>
 

@@ -121,11 +121,11 @@ export default function ProductsClient({ dict, lang }: { dict: any; lang: string
   };
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="min-h-screen bg-[#faf8fc] text-foreground">
       <Navbar lang={lang} dict={dict} />
 
       <section className="pt-32 pb-24 px-4 md:px-8">
-        <div className="container mx-auto max-w-6xl">
+        <div className="container mx-auto max-w-6xl bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-neutral-100 min-h-[70vh]">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
             {dict.products.title} <span className="text-primary">Packages</span>
           </h1>

@@ -135,7 +135,7 @@ export default function BlogContent({
   };
 
   return (
-    <main className="min-h-screen bg-kumopack-base-white text-foreground overflow-x-hidden">
+    <main className="min-h-screen bg-[#faf8fc] text-foreground overflow-x-hidden">
       <Navbar lang={lang} dict={dict} />
 
       <style jsx global>{`
@@ -318,9 +318,10 @@ export default function BlogContent({
         }
       `}</style>
 
-      <article className="pt-32 pb-24">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
+      <article className="pt-28 pb-24 px-4 md:px-8">
+        <div className="max-w-7xl mx-auto bg-white rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-neutral-100 overflow-hidden flex flex-col">
+          <div className="px-4 md:px-8 py-10">
+            <div className="flex flex-col lg:flex-row gap-8 xl:gap-12 items-start">
             <aside className="w-full lg:w-[280px] shrink-0 lg:sticky lg:top-32 space-y-12 order-2 lg:order-1">
               <Link
                 href="/blogs"
@@ -665,6 +666,7 @@ export default function BlogContent({
             <div className="min-w-[40px] md:min-w-[100px] shrink-0" />
           </div>
         </section>
+        </div>
       </article>
 
       <Footer dict={dict} />
