@@ -137,17 +137,17 @@ export default function PolicyClient({ lang, dict }: { lang: string; dict: Dicti
 
     if (lang === "th") {
         return (
-            <main className="min-h-screen bg-background text-foreground">
+            <main className="min-h-screen bg-[#faf8fc] text-foreground">
                 <Navbar lang={lang} dict={dict} />
                 <section className="pt-32 pb-24 px-4 md:px-8">
-                    <div className="container mx-auto max-w-4xl">
-                        <div className="mb-8">
-                            <h1 className="text-4xl md:text-5xl font-bold mb-4">เงื่อนไขข้อตกลง การใช้บริการของแพลตฟอร์ม</h1>
-                            <p className="text-muted-foreground text-sm font-medium border-b border-border/50 pb-6">Current as of 20 Jan 2022</p>
+                    <div className="container mx-auto max-w-4xl bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-neutral-100 min-h-[70vh]">
+                        <div className="mb-10 text-center">
+                            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-slate-800">เงื่อนไขข้อตกลง การใช้บริการของแพลตฟอร์ม</h1>
+                            <p className="text-muted-foreground text-sm font-medium">Current as of 20 Jan 2022</p>
                         </div>
                         
                         {/* Tabs Navigation */}
-                        <div className="flex gap-6 mb-10 overflow-x-auto custom-scrollbar">
+                        <div className="flex justify-center gap-8 mb-12 border-b border-border/50 pb-1 overflow-x-auto custom-scrollbar">
                             <button 
                                 onClick={() => setActiveTab("terms")}
                                 className={`pb-3 border-b-2 font-bold text-lg whitespace-nowrap transition-colors ${
@@ -235,13 +235,13 @@ export default function PolicyClient({ lang, dict }: { lang: string; dict: Dicti
 
     // English Fallback
     return (
-        <main className="min-h-screen bg-background text-foreground">
+        <main className="min-h-screen bg-[#faf8fc] text-foreground">
             <Navbar lang={lang} dict={dict} />
             <section className="pt-32 pb-24 px-4 md:px-8">
-                <div className="container mx-auto max-w-4xl">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-12">Policies & Terms</h1>
+                <div className="container mx-auto max-w-4xl bg-white rounded-[2.5rem] p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-neutral-100 min-h-[70vh]">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-12 text-center text-slate-800 pb-8 border-b border-border/50">Policies & Terms</h1>
 
-                    <div className="space-y-16">
+                    <div className="space-y-12">
                         {enPolicies.map((policy, idx) => (
                             <div key={idx} className="flex gap-8">
                                 <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">

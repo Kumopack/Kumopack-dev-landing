@@ -249,58 +249,58 @@ const HeroSection = ({ dict }: { dict: Dictionary }) => {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, x: 50 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="relative lg:pl-8"
+            className="relative lg:pl-8 w-full max-w-xl mx-auto"
           >
-            <div className="relative flex items-end justify-center gap-4">
+            <div className="relative flex items-end justify-center gap-4 w-full">
               {}
-              <div className="relative w-full max-w-xl">
-                <div className="bg-card border border-border/50 rounded-2xl shadow-soft overflow-hidden">
+              <div className="relative w-full">
+                <div className="bg-card border border-border/50 rounded-2xl shadow-soft overflow-hidden w-full">
                   {}
-                  <div className="bg-muted/50 px-4 py-2.5 flex items-center gap-2.5 border-b border-border/30">
-                    <div className="flex gap-1.5">
-                      <div className="w-3 h-3 rounded-full bg-destructive/50" />
-                      <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                      <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                  <div className="bg-muted/50 px-3 md:px-4 py-2 flex items-center gap-2 border-b border-border/30">
+                    <div className="flex gap-1">
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-destructive/50" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-500/50" />
+                      <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500/50" />
                     </div>
-                    <div className="flex-1 bg-background/50 rounded-lg px-3 py-1.5 text-xs text-muted-foreground">
+                    <div className="flex-1 bg-background/50 rounded-lg px-2 md:px-3 py-1 md:py-1.5 text-[10px] md:text-xs text-muted-foreground truncate">
                       kumopack.com/quotes
                     </div>
                   </div>
 
                   {}
-                  <div className="p-4 md:p-5 space-y-3 bg-gradient-to-b from-background to-muted/20">
+                  <div className="p-3 md:p-5 space-y-2.5 md:space-y-3 bg-gradient-to-b from-background to-muted/20">
                     {}
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-primary animate-pulse-soft" />
-                        <span className="text-[10px] md:text-xs font-black tracking-wider uppercase text-muted-foreground/60">
+                    <div className="flex items-center justify-between mb-1 gap-1 md:gap-2">
+                      <div className="flex items-center gap-1.5 md:gap-2 min-w-0">
+                        <div className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-primary animate-pulse-soft shrink-0" />
+                        <span className="text-[9px] md:text-xs font-black tracking-wider uppercase text-muted-foreground/60 truncate">
                           {t("home.quoteComparison")}
                         </span>
                       </div>
-                      <div className="px-2 py-1 rounded-md bg-primary/20 text-[8px] md:text-[10px] font-black text-primary italic border border-primary/30 tracking-wider">
+                      <div className="px-1.5 md:px-2 py-0.5 md:py-1 rounded-md bg-primary/20 text-[7px] md:text-[10px] font-black text-primary italic border border-primary/30 tracking-wider shrink-0">
                         {t("home.realTime")}
                       </div>
                     </div>
 
                     {}
-                    <div className="flex items-center gap-2 bg-muted/50 rounded-lg px-3 py-2.5 border border-border/30 focus-within:border-primary/40 transition-colors">
-                      <Search className="w-4 h-4 text-muted-foreground shrink-0" />
+                    <div className="flex items-center gap-1.5 md:gap-2 bg-muted/50 rounded-lg px-2 md:px-3 py-1.5 md:py-2.5 border border-border/30 focus-within:border-primary/40 transition-colors">
+                      <Search className="w-3 h-3 md:w-4 md:h-4 text-muted-foreground shrink-0" />
                       <input
                         type="text"
                         placeholder="ค้นหาโรงงาน หรือจังหวัด..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-transparent text-xs md:text-sm placeholder:text-muted-foreground/50 focus:outline-none text-foreground"
+                        className="w-full bg-transparent text-[10px] md:text-sm placeholder:text-muted-foreground/50 focus:outline-none text-foreground"
                       />
                     </div>
 
                     {}
-                    <div className="max-h-[240px] md:max-h-[280px] overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+                    <div className="max-h-[220px] md:max-h-[280px] overflow-y-auto space-y-1.5 md:space-y-2 pr-1 custom-scrollbar">
                       {filteredFactories.length === 0 ? (
-                        <div className="text-center py-8 text-xs text-muted-foreground">
+                        <div className="text-center py-6 md:py-8 text-xs text-muted-foreground">
                           ไม่พบโรงงานที่ค้นหา
                         </div>
                       ) : (
@@ -310,36 +310,36 @@ const HeroSection = ({ dict }: { dict: Dictionary }) => {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.05 * index, duration: 0.3 }}
-                            className="bg-card/80 border border-border/30 rounded-xl p-3 hover:border-primary/30 hover:shadow-sm transition-all cursor-pointer group/item"
+                            className="bg-card/80 border border-border/30 rounded-xl p-2.5 md:p-3 hover:border-primary/30 hover:shadow-sm transition-all cursor-pointer group/item"
                           >
-                            <div className="flex justify-between items-start mb-2 gap-2">
-                              <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                                <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover/item:bg-primary/20 transition-colors">
-                                  <Factory className="w-4 h-4 text-primary shrink-0" />
+                            <div className="flex justify-between items-start mb-1.5 md:mb-2 gap-2">
+                              <div className="flex items-center gap-2 min-w-0 flex-1">
+                                <div className="w-7 h-7 md:w-9 md:h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover/item:bg-primary/20 transition-colors">
+                                  <Factory className="w-3 h-3 md:w-4 md:h-4 text-primary shrink-0" />
                                 </div>
                                 <div className="min-w-0 flex-1">
-                                  <div className="text-xs md:text-sm font-semibold text-foreground truncate group-hover/item:text-primary transition-colors">
+                                  <div className="text-[10px] md:text-sm font-semibold text-foreground truncate group-hover/item:text-primary transition-colors">
                                     {quote.factory}
                                   </div>
-                                  <div className="flex items-center gap-1 text-[10px] text-muted-foreground mt-0.5">
-                                    <MapPin className="w-2.5 h-2.5" />
+                                  <div className="flex items-center gap-1 text-[8px] md:text-[10px] text-muted-foreground mt-0.5">
+                                    <MapPin className="w-2 h-2 md:w-2.5 md:h-2.5" />
                                     {quote.province}
                                   </div>
                                 </div>
                               </div>
-                              <div className="flex flex-col items-end gap-1 shrink-0 ml-2">
-                                <span className="px-2 py-0.5 rounded-full text-[7px] md:text-[8px] font-black uppercase bg-primary/10 text-primary border border-primary/20">
+                              <div className="flex flex-col items-end gap-0.5 md:gap-1 shrink-0 ml-1 md:ml-2">
+                                <span className="px-1.5 md:px-2 py-[1px] md:py-0.5 rounded-full text-[6px] md:text-[8px] font-black uppercase bg-primary/10 text-primary border border-primary/20">
                                   {quote.badge}
                                 </span>
                                 <div className="flex items-center gap-0.5">
-                                  <Star className="w-3 h-3 text-primary fill-primary" />
-                                  <span className="text-[10px] font-bold text-primary">
+                                  <Star className="w-2.5 h-2.5 md:w-3 md:h-3 text-primary fill-primary" />
+                                  <span className="text-[8px] md:text-[10px] font-bold text-primary">
                                     {quote.rating}
                                   </span>
                                 </div>
                               </div>
                             </div>
-                            <div className="flex items-center justify-between text-[10px] md:text-xs">
+                            <div className="flex items-center justify-between text-[9px] md:text-xs">
                               <div className="flex items-center gap-1 font-bold text-foreground">
                                 <span className="text-primary">฿</span>{" "}
                                 {quote.price}
@@ -348,7 +348,7 @@ const HeroSection = ({ dict }: { dict: Dictionary }) => {
                                 </span>
                               </div>
                               <div className="flex items-center gap-1 text-muted-foreground">
-                                <Truck className="w-3 h-3 text-lavender-deep" />
+                                <Truck className="w-2.5 h-2.5 md:w-3 md:h-3 text-lavender-deep" />
                                 <span>{quote.time}</span>
                               </div>
                             </div>
