@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Sparkles } from "lucide-react";
+import { X, ExternalLink, Droplets } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { SafeImage } from "@/components/ui/safe-image";
@@ -19,7 +19,7 @@ export const PromoPopup = () => {
 
   const t = (path: string) => {
     if (!dict) return path;
-    return path.split('.').reduce((obj: any, key) => obj?.[key], dict) || path;
+    return path.split(".").reduce((obj: any, key) => obj?.[key], dict) || path;
   };
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export const PromoPopup = () => {
             <div className="overflow-y-auto flex-1 overscroll-contain">
               <div className="relative w-full">
                 <SafeImage
-                  src="/asset/promotion-cny.jpg"
+                  src="/asset/promotion-popup-event.png"
                   alt="Promo"
                   className="w-full h-auto max-h-[45vh] object-cover"
                 />
@@ -80,13 +80,13 @@ export const PromoPopup = () => {
               </div>
 
               <div className="p-6 pt-0 relative z-10 text-center -mt-6">
-                <div className="w-16 h-16 rounded-2xl bg-red-600 flex items-center justify-center mx-auto shadow-lg shadow-red-500/30 mb-4">
-                  <Sparkles className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 rounded-2xl bg-cyan-500 flex items-center justify-center mx-auto shadow-lg shadow-cyan-400/30 mb-4">
+                  <Droplets className="w-8 h-8 text-white" />
                 </div>
 
                 <h3 className="text-2xl font-bold mb-2 leading-tight">
                   {t("promo.title")}
-                  <span className="text-red-600 block mt-1">
+                  <span className="text-cyan-500 block mt-1">
                     {t("promo.highlight")}
                   </span>
                 </h3>
@@ -96,13 +96,13 @@ export const PromoPopup = () => {
                 </p>
 
                 <div className="flex flex-col gap-3">
-                  <Button
+                  <button
                     onClick={handleAction}
-                    className="w-full py-6 rounded-xl text-base font-bold shadow-md bg-red-600 hover:bg-red-700 text-white border-none"
+                    className="w-full py-6 rounded-xl text-base font-bold shadow-md bg-cyan-500 hover:bg-cyan-600 text-white flex items-center justify-center transition-colors"
                   >
                     <span>{t("promo.cta")}</span>
                     <ExternalLink className="ml-2 w-4 h-4" />
-                  </Button>
+                  </button>
                   <button
                     onClick={handleClose}
                     className="text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors py-2"

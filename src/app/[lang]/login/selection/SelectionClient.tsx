@@ -34,14 +34,23 @@ function LoginSelectionContent({ dict, lang }: { dict: Dictionary; lang: string 
   if (!isMounted) return null;
 
   const handleRoleSelect = (selectedRole: "buyer" | "supplier") => {
-    setRole(selectedRole);
-    setErrorMsg("");
     if (typeof window !== "undefined" && (window as any).dataLayer) {
       (window as any).dataLayer.push({
         event: "login_role_select",
         role: selectedRole,
       });
     }
+
+    const targetUrl =
+      selectedRole === "buyer"
+        ? process.env.NEXT_PUBLIC_BUYER_URL
+          ? `${process.env.NEXT_PUBLIC_BUYER_URL}/auth`
+          : "https://buyer.kumopack.com/auth"
+        : process.env.NEXT_PUBLIC_SUPPLIER_URL
+          ? `${process.env.NEXT_PUBLIC_SUPPLIER_URL}/auth`
+          : "https://supplier.kumopack.com/auth";
+
+    window.location.href = targetUrl;
   };
 
   const handleLogin = async (e: React.FormEvent) => {

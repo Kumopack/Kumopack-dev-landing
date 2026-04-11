@@ -393,7 +393,7 @@ const Navbar = ({ lang, dict }: { lang: string; dict: Dictionary }) => {
                         {t("common.signIn")}
                       </Button>
                     </Link>
-                    <Link href="/pricing">
+                    <Link href="/login/selection">
                       <Button
                         variant="hero"
                         size="sm"
@@ -624,7 +624,7 @@ const Navbar = ({ lang, dict }: { lang: string; dict: Dictionary }) => {
                   </Button>
                 </Link>
                 <Link
-                  href="/pricing"
+                  href="/login/selection"
                   onClick={() => setIsMenuOpen(false)}
                   className="w-full"
                 >

@@ -225,11 +225,11 @@ export const en = {
     title: "Join over 500 growing companies",
   },
   promo: {
-    title: "CNY Special Offer!",
-    highlight: "Red Packets",
+    title: "Happy Songkran Festival!",
+    highlight: "Thai New Year Special Offer!",
     subtitle:
-      "Register today and get a FREE 200 THB discount coupon. Exclusive for new members only!",
-    cta: "Claim Your 200 THB Now",
+      "Sign up today and get a FREE 200 THB discount coupon. Celebrate Thai New Year with us! For new members only.",
+    cta: "Claim Your 200 THB Now 💧",
     close: "Maybe later",
   },
   systemFeatures: {

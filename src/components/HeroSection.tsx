@@ -133,7 +133,7 @@ const HeroSection = ({ dict }: { dict: Dictionary }) => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <section className="relative min-h-[100svh] flex flex-col justify-center pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden">
       <motion.div
         initial={{ scale: 1.1, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -203,12 +203,12 @@ const HeroSection = ({ dict }: { dict: Dictionary }) => {
               </span>
             </motion.div>
 
-            <motion.h1 variants={itemVariants} className="space-y-3">
-              <span className="block text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-[1.1] tracking-tight">
+            <motion.h1 variants={itemVariants} className="space-y-3 w-full">
+              <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-[1.1] tracking-tight break-words">
                 {t("home.heroTitleMain")}
               </span>
-              <span className="relative block text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#b15fce] via-[#9b7dd4] to-[#76b3cf] animate-gradient bg-[length:200%_auto] drop-shadow-sm">
+              <span className="relative block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight break-words">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#b15fce] via-[#9b7dd4] to-[#76b3cf] animate-gradient bg-[length:200%_auto] drop-shadow-sm pb-1 block">
                   {t("home.heroTitleHighlight")}
                 </span>
                 <span className="absolute -inset-4 bg-gradient-to-r from-[#b15fce]/15 via-[#9b7dd4]/10 to-[#76b3cf]/15 blur-3xl rounded-full -z-10" />
@@ -312,12 +312,12 @@ const HeroSection = ({ dict }: { dict: Dictionary }) => {
                             transition={{ delay: 0.05 * index, duration: 0.3 }}
                             className="bg-card/80 border border-border/30 rounded-xl p-3 hover:border-primary/30 hover:shadow-sm transition-all cursor-pointer group/item"
                           >
-                            <div className="flex justify-between items-start mb-2">
-                              <div className="flex items-center gap-2.5 min-w-0">
+                            <div className="flex justify-between items-start mb-2 gap-2">
+                              <div className="flex items-center gap-2.5 min-w-0 flex-1">
                                 <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0 group-hover/item:bg-primary/20 transition-colors">
-                                  <Factory className="w-4 h-4 text-primary" />
+                                  <Factory className="w-4 h-4 text-primary shrink-0" />
                                 </div>
-                                <div className="min-w-0">
+                                <div className="min-w-0 flex-1">
                                   <div className="text-xs md:text-sm font-semibold text-foreground truncate group-hover/item:text-primary transition-colors">
                                     {quote.factory}
                                   </div>
