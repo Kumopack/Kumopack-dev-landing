@@ -9,6 +9,7 @@ jobs:
   lint-and-typecheck:
     name: Lint and Type Check
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v4
