@@ -76,7 +76,7 @@ function normalizeCategory(name: string): string {
   return CATEGORY_MAP[name.toLowerCase()] || name.toLowerCase();
 }
 
-/* eslint-disable @typescript-eslint/no-explicit-any -- Raw API response shapes are dynamic */
+ 
 interface TaxonomyRef {
   id?: string | number;
   slug?: string;
@@ -148,7 +148,7 @@ interface SupplierListResponse {
   totalItems?: number;
   total?: number;
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
+ 
 
 function checkIsVerified(features: SupplierFeatureRaw[]): boolean {
   if (!features || !Array.isArray(features)) return false;

@@ -27,7 +27,7 @@ export function getSafeSlug(slug: string): string {
   
   if (decoded.length <= 30) return decoded;
 
-  let truncated = [...decoded].slice(0, 30).join("");
+  const truncated = [...decoded].slice(0, 30).join("");
   
   const hash = simpleHash(decoded);
   return `${truncated}-${hash}`;

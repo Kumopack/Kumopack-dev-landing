@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from "@/components/common/LocalizedLink";
 import { useParams } from "next/navigation";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 export default function Error({
   error,
   reset,
