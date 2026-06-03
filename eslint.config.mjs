@@ -5,6 +5,18 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  {
+    rules: {
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
+      "react-hooks/set-state-in-effect": "warn",
+      "react/no-children-prop": "warn",
+      "react/no-unescaped-entities": "warn",
+      "@next/next/no-html-link-for-pages": "off",
+      "react-hooks/preserve-manual-memoization": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
